@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ContactForm from '../../components/ContactForm.astro';
 import { useTranslations } from '../../i18n/utils';
 
 const lang = 'en';
@@ -59,6 +60,21 @@ const t = useTranslations(lang);
           <p class="text-sm sm:text-base text-gray-600">Expert team guiding you every step of the way to success</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-12 sm:py-16 md:py-24 bg-gradient-to-br from-blue-50 to-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8 sm:mb-12">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+          {t('contact.title')}
+        </h2>
+        <p class="text-base sm:text-lg text-gray-600">
+          {t('contact.subtitle')}
+        </p>
+      </div>
+
+      <ContactForm lang={lang} />
     </div>
   </section>
 </Layout>
