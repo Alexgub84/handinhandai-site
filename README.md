@@ -1,43 +1,107 @@
-# Astro Starter Kit: Minimal
+# Hand in Hand AI
 
-```sh
-npm create astro@latest -- --template minimal
+A bilingual (Hebrew/English) marketing website for Hand in Hand AI - an AI solutions consultancy helping businesses grow with customized AI solutions.
+
+**Live site:** https://handinhandai.com
+
+## Tech Stack
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| [Astro](https://astro.build) | 5.16 | Static site framework |
+| [Tailwind CSS](https://tailwindcss.com) | 4.1 | Utility-first CSS framework |
+| [TypeScript](https://www.typescriptlang.org) | - | Type safety |
+| [Cloudflare Pages](https://pages.cloudflare.com) | - | Hosting & CDN |
+| [Make.com](https://make.com) | - | Form submission webhook |
+
+## Features
+
+- **Internationalization (i18n):** Full support for Hebrew (RTL) and English (LTR)
+- **Responsive Design:** Mobile-first design with smooth transitions
+- **Contact Form:** Client-side validation with Make.com webhook integration
+- **SEO Optimized:** Open Graph and Twitter meta tags for social sharing
+- **Performance:** Static site generation for fast load times
+
+## Project Structure
+
 ```
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
 /
+├── .github/
+│   └── workflows/
+│       └── deploy.yml        # Cloudflare Pages deployment
 ├── public/
+│   ├── favicon.ico
+│   ├── favicon.svg
+│   ├── logo.png
+│   ├── og-image.png          # Social sharing image
+│   └── apple-touch-icon.png
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/
+│   │   ├── ContactForm.astro # Contact form with validation
+│   │   ├── Footer.astro
+│   │   ├── Header.astro      # Navigation with mobile menu
+│   │   └── LanguageSwitcher.astro
+│   ├── i18n/
+│   │   ├── ui.ts             # Translation strings (he/en)
+│   │   └── utils.ts          # i18n helper functions
+│   ├── layouts/
+│   │   └── Layout.astro      # Base layout with meta tags
+│   ├── pages/
+│   │   ├── index.astro       # Hebrew homepage (default)
+│   │   ├── contact.astro     # Hebrew contact page
+│   │   └── en/
+│   │       ├── index.astro   # English homepage
+│   │       └── contact.astro # English contact page
+│   └── styles/
+│       └── global.css        # Tailwind imports & base styles
+├── astro.config.mjs
+├── package.json
+└── tsconfig.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Pages
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+| Route | Language | Description |
+|-------|----------|-------------|
+| `/` | Hebrew | Homepage with hero, features, and contact form |
+| `/contact` | Hebrew | Dedicated contact page |
+| `/en/` | English | English homepage |
+| `/en/contact` | English | English contact page |
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Services Offered
 
-## 🧞 Commands
+The contact form allows users to inquire about:
+- AI Consulting
+- Automation
+- Chatbot development
+- Custom AI development
 
-All commands are run from the root of the project, from a terminal:
+## Commands
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+| Command | Action |
+|---------|--------|
+| `npm install` | Install dependencies |
+| `npm run dev` | Start dev server at `localhost:4321` |
+| `npm run build` | Build for production to `./dist/` |
+| `npm run preview` | Preview production build locally |
 
-## 👀 Want to learn more?
+## Deployment
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The site automatically deploys to Cloudflare Pages on push to `main` via GitHub Actions.
+
+**Required GitHub Secrets:**
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+```
