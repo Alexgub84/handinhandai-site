@@ -1,0 +1,38 @@
+import { ui, defaultLang, type Lang } from './ui';
+
+export function getLangFromUrl(url: URL): Lang {
+  const [, lang] = url.pathname.split('/');
+  if (lang in ui) return lang as Lang;
+  return defaultLang;
+}
+
+export function useTranslations(lang: Lang) {
+  return function t(key: keyof (typeof ui)[typeof defaultLang]): string {
+    return ui[lang][key] || ui[defaultLang][key];
+  };
+}
+
+export function getRouteFromUrl(url: URL): string {
+  const pathname = url.pathname;
+  const parts = pathname.split('/').filter(Boolean);
+  
+  if (parts[0] === 'en') {
+    return '/' + parts.slice(1).join('/');
+  }
+  return pathname;
+}
+
+export function getLocalizedPath(path: string, lang: Lang): string {
+  if (lang === defaultLang) {
+    return path;
+  }
+  return `/${lang}${path}`;
+}
+
+export function isRtl(lang: Lang): boolean {
+  return lang === 'he';
+}
+
+export function getDirection(lang: Lang): 'rtl' | 'ltr' {
+  return isRtl(lang) ? 'rtl' : 'ltr';
+}
