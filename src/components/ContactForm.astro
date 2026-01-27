@@ -74,6 +74,44 @@ const t = useTranslations(lang);
       </div>
 
       <div class="sm:col-span-2">
+        <label for="companyType" class="block text-sm font-medium text-gray-700 mb-2">
+          {t('contact.companyType')} <span class="text-red-500">*</span>
+        </label>
+        <select
+          id="companyType"
+          name="company_type"
+          required
+          class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900 bg-white"
+          data-error-message={t('contact.error.companyType')}
+        >
+          <option value="">{t('contact.companyTypePlaceholder')}</option>
+          <option value="Law Firm">{t('contact.companyTypeLawFirm')}</option>
+          <option value="Accounting Firm">{t('contact.companyTypeAccounting')}</option>
+          <option value="Healthcare">{t('contact.companyTypeHealthcare')}</option>
+          <option value="Real Estate">{t('contact.companyTypeRealEstate')}</option>
+          <option value="E-commerce">{t('contact.companyTypeEcommerce')}</option>
+          <option value="Manufacturing">{t('contact.companyTypeManufacturing')}</option>
+          <option value="Financial Services">{t('contact.companyTypeFinancial')}</option>
+          <option value="Other">{t('contact.companyTypeOther')}</option>
+        </select>
+        <p class="error-message mt-1 text-sm text-red-600 hidden"></p>
+      </div>
+
+      <div id="companyTypeOtherWrapper" class="sm:col-span-2 hidden">
+        <label for="companyTypeOther" class="block text-sm font-medium text-gray-700 mb-2">
+          {t('contact.companyTypeOtherPlaceholder')} <span class="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          id="companyTypeOther"
+          name="company_type_other"
+          class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900 placeholder-gray-400"
+          data-error-message={t('contact.error.companyTypeOther')}
+        />
+        <p class="error-message mt-1 text-sm text-red-600 hidden"></p>
+      </div>
+
+      <div class="sm:col-span-2">
         <label for="service" class="block text-sm font-medium text-gray-700 mb-2">
           {t('contact.service')} <span class="text-red-500">*</span>
         </label>
@@ -152,6 +190,23 @@ const t = useTranslations(lang);
   const submitText = document.getElementById('submit-text');
   const submitLoading = document.getElementById('submit-loading');
   const tryAgainButton = document.getElementById('try-again-button');
+  const companyTypeSelect = document.getElementById('companyType') as HTMLSelectElement;
+  const companyTypeOtherWrapper = document.getElementById('companyTypeOtherWrapper');
+  const companyTypeOtherInput = document.getElementById('companyTypeOther') as HTMLInputElement;
+
+  function toggleCompanyTypeOther() {
+    const isOther = companyTypeSelect.value === 'Other';
+    companyTypeOtherWrapper?.classList.toggle('hidden', !isOther);
+    if (isOther) {
+      companyTypeOtherInput.setAttribute('required', 'required');
+    } else {
+      companyTypeOtherInput.removeAttribute('required');
+      companyTypeOtherInput.value = '';
+      clearError(companyTypeOtherInput);
+    }
+  }
+
+  companyTypeSelect.addEventListener('change', toggleCompanyTypeOther);
   
   function validateEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -219,6 +274,8 @@ const t = useTranslations(lang);
     errorMessage?.classList.add('hidden');
     successMessage?.classList.add('hidden');
     form.classList.remove('hidden');
+    companyTypeOtherWrapper?.classList.add('hidden');
+    companyTypeOtherInput.removeAttribute('required');
   }
 
   const inputs = form.querySelectorAll('input, select');
@@ -253,11 +310,14 @@ const t = useTranslations(lang);
     setLoading(true);
 
     const formData = new FormData(form);
+    const companyType = formData.get('company_type');
+    const companyTypeOther = formData.get('company_type_other');
     const data = {
       first_name: formData.get('first_name'),
       last_name: formData.get('last_name'),
       email: formData.get('email'),
       phone: formData.get('phone'),
+      company_type: companyType === 'Other' && companyTypeOther ? companyTypeOther : companyType,
       service_needed: formData.get('service_needed'),
       submitted_at: new Date().toISOString(),
       source_url: window.location.href,
