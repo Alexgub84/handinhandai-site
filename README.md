@@ -84,6 +84,32 @@ The contact form allows users to inquire about:
 | `npm run dev` | Start dev server at `localhost:4321` |
 | `npm run build` | Build for production to `./dist/` |
 | `npm run preview` | Preview production build locally |
+| `npm test` | Run Playwright E2E tests |
+| `npm run test:ui` | Run tests with interactive UI |
+| `npm run test:headed` | Run tests in headed browser |
+
+## Environment Variables
+
+The contact form requires a webhook URL to be configured.
+
+### Local Development
+
+1. Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Edit `.env` with your Make.com webhook URL:
+   ```
+   PUBLIC_WEBHOOK_URL=https://hook.eu1.make.com/your-webhook-id
+   ```
+
+### Production (GitHub Actions)
+
+Set the following in your GitHub repository:
+
+**Settings → Secrets and variables → Actions → Variables:**
+- `PUBLIC_WEBHOOK_URL` - Your Make.com webhook URL
 
 ## Deployment
 
@@ -92,6 +118,24 @@ The site automatically deploys to Cloudflare Pages on push to `main` via GitHub 
 **Required GitHub Secrets:**
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
+
+**Required GitHub Variables:**
+- `PUBLIC_WEBHOOK_URL` - Make.com webhook URL for form submissions
+
+## Testing
+
+The project uses [Playwright](https://playwright.dev) for E2E testing. Tests mock the webhook endpoint so they never hit the real Make.com webhook.
+
+```bash
+# Run all tests
+npm test
+
+# Run tests with UI (for debugging)
+npm run test:ui
+
+# Run tests in headed mode (visible browser)
+npm run test:headed
+```
 
 ## Development
 
@@ -104,4 +148,7 @@ npm run dev
 
 # Build for production
 npm run build
+
+# Run tests
+npm test
 ```

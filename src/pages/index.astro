@@ -1,9 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ContactForm from '../components/ContactForm.astro';
-import { useTranslations } from '../i18n/utils';
+import Layout from '@layouts/Layout.astro';
+import ContactForm from '@components/ContactForm.astro';
+import { useTranslations } from '@i18n/utils';
+import { defaultLang } from '@i18n/ui';
 
-const lang = 'he';
+const lang = defaultLang;
 const t = useTranslations(lang);
 ---
 
@@ -36,8 +37,8 @@ const t = useTranslations(lang);
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2">מהיר ויעיל</h3>
-          <p class="text-sm sm:text-base text-gray-600">פתרונות AI שחוסכים זמן ומשאבים לעסק שלכם</p>
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2">{t('features.fast.title')}</h3>
+          <p class="text-sm sm:text-base text-gray-600">{t('features.fast.description')}</p>
         </div>
 
         <div class="bg-white p-6 sm:p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
@@ -46,8 +47,8 @@ const t = useTranslations(lang);
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
           </div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2">אמין ובטוח</h3>
-          <p class="text-sm sm:text-base text-gray-600">אבטחת מידע ברמה הגבוהה ביותר לשקט נפשי מלא</p>
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2">{t('features.secure.title')}</h3>
+          <p class="text-sm sm:text-base text-gray-600">{t('features.secure.description')}</p>
         </div>
 
         <div class="bg-white p-6 sm:p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow sm:col-span-2 md:col-span-1">
@@ -56,8 +57,8 @@ const t = useTranslations(lang);
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
           </div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2">ליווי אישי</h3>
-          <p class="text-sm sm:text-base text-gray-600">צוות מומחים שמלווה אתכם בכל שלב בדרך להצלחה</p>
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2">{t('features.support.title')}</h3>
+          <p class="text-sm sm:text-base text-gray-600">{t('features.support.description')}</p>
         </div>
       </div>
     </div>

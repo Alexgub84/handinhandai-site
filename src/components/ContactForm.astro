@@ -1,6 +1,6 @@
 ---
-import { type Lang } from '../i18n/ui';
-import { useTranslations } from '../i18n/utils';
+import { type Lang } from '@i18n/ui';
+import { useTranslations } from '@i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -8,9 +8,11 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+const webhookUrl = import.meta.env.PUBLIC_WEBHOOK_URL;
 ---
 
-<div id="contact-form-wrapper">
+<div id="contact-form-wrapper" data-webhook-url={webhookUrl}>
   <form id="contact-form" class="bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-lg border border-gray-100" novalidate>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
       <div>
@@ -182,7 +184,8 @@ const t = useTranslations(lang);
 </div>
 
 <script>
-  const WEBHOOK_URL = 'https://hook.eu1.make.com/ryx722fm14lsa8fddxlrr9yibowo5aga';
+  const wrapper = document.getElementById('contact-form-wrapper');
+  const WEBHOOK_URL = wrapper?.dataset.webhookUrl || '';
   const LOG_ERROR_URL = '/api/log-error';
 
   async function logErrorToServer(errorInfo: {
@@ -216,23 +219,26 @@ const t = useTranslations(lang);
   const submitText = document.getElementById('submit-text');
   const submitLoading = document.getElementById('submit-loading');
   const tryAgainButton = document.getElementById('try-again-button');
-  const companyTypeSelect = document.getElementById('companyType') as HTMLSelectElement;
+  const companyTypeSelect = document.getElementById('companyType') as HTMLSelectElement | null;
   const companyTypeOtherWrapper = document.getElementById('companyTypeOtherWrapper');
-  const companyTypeOtherInput = document.getElementById('companyTypeOther') as HTMLInputElement;
+  const companyTypeOtherInput = document.getElementById('companyTypeOther') as HTMLInputElement | null;
 
   function toggleCompanyTypeOther() {
+    if (!companyTypeSelect) return;
     const isOther = companyTypeSelect.value === 'Other';
     companyTypeOtherWrapper?.classList.toggle('hidden', !isOther);
     if (isOther) {
-      companyTypeOtherInput.setAttribute('required', 'required');
+      companyTypeOtherInput?.setAttribute('required', 'required');
     } else {
-      companyTypeOtherInput.removeAttribute('required');
-      companyTypeOtherInput.value = '';
-      clearError(companyTypeOtherInput);
+      companyTypeOtherInput?.removeAttribute('required');
+      if (companyTypeOtherInput) {
+        companyTypeOtherInput.value = '';
+        clearError(companyTypeOtherInput);
+      }
     }
   }
 
-  companyTypeSelect.addEventListener('change', toggleCompanyTypeOther);
+  companyTypeSelect?.addEventListener('change', toggleCompanyTypeOther);
   
   function validateEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -262,6 +268,12 @@ const t = useTranslations(lang);
   function validateField(input: HTMLInputElement | HTMLSelectElement): boolean {
     const value = input.value.trim();
     const errorMessage = input.dataset.errorMessage || 'This field is required';
+
+    // Skip validation for non-required fields that are empty
+    if (!input.required && !value) {
+      clearError(input);
+      return true;
+    }
 
     if (input.type === 'email') {
       if (!value || !validateEmail(value)) {
@@ -310,7 +322,7 @@ const t = useTranslations(lang);
     successMessage?.classList.add('hidden');
     form.classList.remove('hidden');
     companyTypeOtherWrapper?.classList.add('hidden');
-    companyTypeOtherInput.removeAttribute('required');
+    companyTypeOtherInput?.removeAttribute('required');
     if (errorDetails) {
       errorDetails.textContent = '';
       errorDetails.classList.add('hidden');

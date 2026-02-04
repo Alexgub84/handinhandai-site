@@ -1,16 +1,27 @@
 {
   "name": "handinhandai-site",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "check": "astro check",
+    "astro": "astro",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.15",
     "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@cloudflare/workers-types": "^4.20260203.0",
+    "@playwright/test": "^1.58.1",
+    "@types/node": "^25.2.0",
+    "typescript": "^5.9.3"
   }
 }

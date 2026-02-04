@@ -27,6 +27,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          PUBLIC_WEBHOOK_URL: ${{ vars.PUBLIC_WEBHOOK_URL }}
 
       - name: Copy functions to dist
         run: cp -r functions dist/
