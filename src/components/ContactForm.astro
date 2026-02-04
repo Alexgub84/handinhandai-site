@@ -166,11 +166,12 @@ const t = useTranslations(lang);
       </svg>
     </div>
     <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
-      {lang === 'he' ? 'שגיאה' : 'Error'}
+      {lang === 'he' ? 'אנחנו מצטערים' : "We're Sorry"}
     </h3>
     <p class="text-base sm:text-lg text-gray-600">
-      {lang === 'he' ? 'משהו השתבש. אנא נסו שוב.' : 'Something went wrong. Please try again.'}
+      {lang === 'he' ? 'משהו השתבש. אנחנו נתקן את זה בהקדם האפשרי.' : "Something went wrong. We'll fix it as soon as possible."}
     </p>
+    <p id="error-details" class="mt-2 text-sm text-gray-500 hidden"></p>
     <button
       id="try-again-button"
       class="mt-6 px-6 py-3 text-base font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
@@ -182,10 +183,35 @@ const t = useTranslations(lang);
 
 <script>
   const WEBHOOK_URL = 'https://hook.eu1.make.com/ryx722fm14lsa8fddxlrr9yibowo5aga';
+  const LOG_ERROR_URL = '/api/log-error';
+
+  async function logErrorToServer(errorInfo: {
+    message: string;
+    stack?: string;
+    status?: number;
+    statusText?: string;
+    formData?: Record<string, unknown>;
+  }) {
+    try {
+      await fetch(LOG_ERROR_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...errorInfo,
+          url: window.location.href,
+          timestamp: new Date().toISOString(),
+          userAgent: navigator.userAgent,
+        }),
+      });
+    } catch (logErr) {
+      console.error('Failed to log error to server:', logErr);
+    }
+  }
   
   const form = document.getElementById('contact-form') as HTMLFormElement;
   const successMessage = document.getElementById('success-message');
   const errorMessage = document.getElementById('error-message');
+  const errorDetails = document.getElementById('error-details');
   const submitButton = document.getElementById('submit-button') as HTMLButtonElement;
   const submitText = document.getElementById('submit-text');
   const submitLoading = document.getElementById('submit-loading');
@@ -263,10 +289,19 @@ const t = useTranslations(lang);
     successMessage?.classList.remove('hidden');
   }
 
-  function showErrorState() {
+  function showErrorState(details?: string) {
     form.classList.add('hidden');
     successMessage?.classList.add('hidden');
     errorMessage?.classList.remove('hidden');
+    if (errorDetails) {
+      if (details) {
+        errorDetails.textContent = details;
+        errorDetails.classList.remove('hidden');
+      } else {
+        errorDetails.textContent = '';
+        errorDetails.classList.add('hidden');
+      }
+    }
   }
 
   function resetForm() {
@@ -276,6 +311,10 @@ const t = useTranslations(lang);
     form.classList.remove('hidden');
     companyTypeOtherWrapper?.classList.add('hidden');
     companyTypeOtherInput.removeAttribute('required');
+    if (errorDetails) {
+      errorDetails.textContent = '';
+      errorDetails.classList.add('hidden');
+    }
   }
 
   const inputs = form.querySelectorAll('input, select');
@@ -335,11 +374,27 @@ const t = useTranslations(lang);
       if (response.ok) {
         showSuccessState();
       } else {
-        showErrorState();
+        const responseText = await response.text().catch(() => 'Could not read response body');
+        await logErrorToServer({
+          message: `Webhook returned non-OK status: ${response.status} ${response.statusText}`,
+          status: response.status,
+          statusText: response.statusText + ' - Body: ' + responseText,
+          formData: data,
+        });
+        showErrorState(`Server error: ${response.status}`);
       }
     } catch (error) {
+      const err = error as Error;
+      await logErrorToServer({
+        message: err.message || 'Unknown error during form submission',
+        stack: err.stack,
+        formData: data,
+      });
       console.error('Form submission error:', error);
-      showErrorState();
+      const userMessage = err.message?.includes('fetch') || err.message?.includes('network')
+        ? 'Network error - please check your connection'
+        : 'Connection error - please try again';
+      showErrorState(userMessage);
     } finally {
       setLoading(false);
     }
