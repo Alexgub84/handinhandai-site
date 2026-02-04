@@ -12,7 +12,7 @@ const t = useTranslations(lang);
 const webhookUrl = import.meta.env.PUBLIC_WEBHOOK_URL;
 ---
 
-<div id="contact-form-wrapper" data-webhook-url={webhookUrl}>
+<div id="contact-form-wrapper" data-webhook-url={webhookUrl} data-other-value={t('contact.companyTypeOther')}>
   <form id="contact-form" class="bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-lg border border-gray-100" novalidate>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
       <div>
@@ -87,14 +87,14 @@ const webhookUrl = import.meta.env.PUBLIC_WEBHOOK_URL;
           data-error-message={t('contact.error.companyType')}
         >
           <option value="">{t('contact.companyTypePlaceholder')}</option>
-          <option value="Law Firm">{t('contact.companyTypeLawFirm')}</option>
-          <option value="Accounting Firm">{t('contact.companyTypeAccounting')}</option>
-          <option value="Healthcare">{t('contact.companyTypeHealthcare')}</option>
-          <option value="Real Estate">{t('contact.companyTypeRealEstate')}</option>
-          <option value="E-commerce">{t('contact.companyTypeEcommerce')}</option>
-          <option value="Manufacturing">{t('contact.companyTypeManufacturing')}</option>
-          <option value="Financial Services">{t('contact.companyTypeFinancial')}</option>
-          <option value="Other">{t('contact.companyTypeOther')}</option>
+          <option value={t('contact.companyTypeLawFirm')}>{t('contact.companyTypeLawFirm')}</option>
+          <option value={t('contact.companyTypeAccounting')}>{t('contact.companyTypeAccounting')}</option>
+          <option value={t('contact.companyTypeHealthcare')}>{t('contact.companyTypeHealthcare')}</option>
+          <option value={t('contact.companyTypeRealEstate')}>{t('contact.companyTypeRealEstate')}</option>
+          <option value={t('contact.companyTypeEcommerce')}>{t('contact.companyTypeEcommerce')}</option>
+          <option value={t('contact.companyTypeManufacturing')}>{t('contact.companyTypeManufacturing')}</option>
+          <option value={t('contact.companyTypeFinancial')}>{t('contact.companyTypeFinancial')}</option>
+          <option value={t('contact.companyTypeOther')}>{t('contact.companyTypeOther')}</option>
         </select>
         <p class="error-message mt-1 text-sm text-red-600 hidden"></p>
       </div>
@@ -125,11 +125,11 @@ const webhookUrl = import.meta.env.PUBLIC_WEBHOOK_URL;
           data-error-message={t('contact.error.service')}
         >
           <option value="">{t('contact.servicePlaceholder')}</option>
-          <option value="AI Consulting">{t('contact.serviceConsulting')}</option>
-          <option value="Automation">{t('contact.serviceAutomation')}</option>
-          <option value="Chatbot">{t('contact.serviceChatbot')}</option>
-          <option value="Custom Development">{t('contact.serviceCustom')}</option>
-          <option value="Other">{t('contact.serviceOther')}</option>
+          <option value={t('contact.serviceConsulting')}>{t('contact.serviceConsulting')}</option>
+          <option value={t('contact.serviceAutomation')}>{t('contact.serviceAutomation')}</option>
+          <option value={t('contact.serviceChatbot')}>{t('contact.serviceChatbot')}</option>
+          <option value={t('contact.serviceCustom')}>{t('contact.serviceCustom')}</option>
+          <option value={t('contact.serviceOther')}>{t('contact.serviceOther')}</option>
         </select>
         <p class="error-message mt-1 text-sm text-red-600 hidden"></p>
       </div>
@@ -186,6 +186,7 @@ const webhookUrl = import.meta.env.PUBLIC_WEBHOOK_URL;
 <script>
   const wrapper = document.getElementById('contact-form-wrapper');
   const WEBHOOK_URL = wrapper?.dataset.webhookUrl || '';
+  const OTHER_VALUE = wrapper?.dataset.otherValue || 'אחר';
   const LOG_ERROR_URL = '/api/log-error';
 
   async function logErrorToServer(errorInfo: {
@@ -225,7 +226,7 @@ const webhookUrl = import.meta.env.PUBLIC_WEBHOOK_URL;
 
   function toggleCompanyTypeOther() {
     if (!companyTypeSelect) return;
-    const isOther = companyTypeSelect.value === 'Other';
+    const isOther = companyTypeSelect.value === OTHER_VALUE;
     companyTypeOtherWrapper?.classList.toggle('hidden', !isOther);
     if (isOther) {
       companyTypeOtherInput?.setAttribute('required', 'required');
@@ -368,7 +369,7 @@ const webhookUrl = import.meta.env.PUBLIC_WEBHOOK_URL;
       last_name: formData.get('last_name'),
       email: formData.get('email'),
       phone: formData.get('phone'),
-      company_type: companyType === 'Other' && companyTypeOther ? companyTypeOther : companyType,
+      company_type: companyType === OTHER_VALUE && companyTypeOther ? companyTypeOther : companyType,
       service_needed: formData.get('service_needed'),
       submitted_at: new Date().toISOString(),
       source_url: window.location.href,

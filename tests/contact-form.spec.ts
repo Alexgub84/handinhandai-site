@@ -5,8 +5,8 @@ async function fillValidForm(page: Page) {
   await page.fill('#lastName', 'Doe');
   await page.fill('#email', 'john.doe@example.com');
   await page.fill('#phone', '0501234567');
-  await page.selectOption('#companyType', 'Law Firm');
-  await page.selectOption('#service', 'AI Consulting');
+  await page.selectOption('#companyType', 'משרד עורכי דין');
+  await page.selectOption('#service', 'ייעוץ AI');
 }
 
 test.describe('Contact Form', () => {
@@ -136,17 +136,17 @@ test.describe('Contact Form', () => {
       await page.goto('/contact');
       await expect(page.locator('#companyTypeOtherWrapper')).toBeHidden();
 
-      await page.selectOption('#companyType', 'Other');
+      await page.selectOption('#companyType', 'אחר');
 
       await expect(page.locator('#companyTypeOtherWrapper')).toBeVisible();
     });
 
     test('hides "Other" input when different option is selected', async ({ page }) => {
       await page.goto('/contact');
-      await page.selectOption('#companyType', 'Other');
+      await page.selectOption('#companyType', 'אחר');
       await expect(page.locator('#companyTypeOtherWrapper')).toBeVisible();
 
-      await page.selectOption('#companyType', 'Law Firm');
+      await page.selectOption('#companyType', 'משרד עורכי דין');
 
       await expect(page.locator('#companyTypeOtherWrapper')).toBeHidden();
     });
@@ -157,8 +157,8 @@ test.describe('Contact Form', () => {
       await page.fill('#lastName', 'Doe');
       await page.fill('#email', 'john@example.com');
       await page.fill('#phone', '0501234567');
-      await page.selectOption('#companyType', 'Other');
-      await page.selectOption('#service', 'AI Consulting');
+      await page.selectOption('#companyType', 'אחר');
+      await page.selectOption('#service', 'ייעוץ AI');
 
       await page.click('#submit-button');
 
@@ -168,7 +168,7 @@ test.describe('Contact Form', () => {
     test('submits successfully with Other company type filled', async ({ context, page }) => {
       await context.route('**/hook.eu1.make.com/**', async (route) => {
         const postData = JSON.parse(route.request().postData() || '{}');
-        expect(postData.company_type).toBe('Tech Startup');
+        expect(postData.company_type).toBe('סטארטאפ טכנולוגי');
         await route.fulfill({ status: 200, body: 'OK' });
       });
 
@@ -177,9 +177,9 @@ test.describe('Contact Form', () => {
       await page.fill('#lastName', 'Doe');
       await page.fill('#email', 'john@example.com');
       await page.fill('#phone', '0501234567');
-      await page.selectOption('#companyType', 'Other');
-      await page.fill('#companyTypeOther', 'Tech Startup');
-      await page.selectOption('#service', 'AI Consulting');
+      await page.selectOption('#companyType', 'אחר');
+      await page.fill('#companyTypeOther', 'סטארטאפ טכנולוגי');
+      await page.selectOption('#service', 'ייעוץ AI');
 
       await page.click('#submit-button');
 
