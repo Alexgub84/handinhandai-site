@@ -145,8 +145,8 @@ All Open Graph images (WhatsApp previews, Facebook, Twitter/X, LinkedIn) live in
 ### Image requirements
 
 - **Size:** 1200 × 630 px (2:1 ratio)
-- **Format:** PNG or JPG
-- **File size:** under 1 MB recommended
+- **Format:** JPEG preferred for photos; PNG only for graphics with hard-edged logos/text
+- **File size:** under 300 KB — WhatsApp silently drops previews for larger files
 - **Safe zone:** keep important content within the central 960 × 504 px
 
 ### Per-route configuration

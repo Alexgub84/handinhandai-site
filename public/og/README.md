@@ -6,8 +6,8 @@ This folder contains all Open Graph images used for social media link previews
 ## Requirements
 
 - **Size:** 1200 × 630 px (2:1 ratio)
-- **Format:** PNG or JPG
-- **File size:** under 1 MB recommended
+- **Format:** JPEG preferred for photos (smallest file); PNG for graphics with text/logos
+- **File size:** under 300 KB — required for WhatsApp previews to appear
 - **Text:** Keep important content within the safe zone (960 × 504 px centered)
 
 ## Folder structure

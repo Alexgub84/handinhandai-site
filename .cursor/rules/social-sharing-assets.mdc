@@ -32,8 +32,8 @@ Create a subfolder named after the route slug and put `og.png` inside it.
 ## Image spec
 
 - **Dimensions:** 1200 × 630 px (required — WhatsApp, Facebook, LinkedIn all expect this)
-- **Format:** PNG or JPG
-- **Size:** under 1 MB
+- **Format:** JPEG preferred for photos; PNG only for hard-edged graphics/logos
+- **Size: under 300 KB** — WhatsApp's crawler silently skips previews for larger files
 - **Safe zone:** keep text/logos within 960 × 504 px centered
 
 ## Layout props
@@ -51,7 +51,7 @@ Always pass all three when creating a new route.
 ## Rules
 
 1. **NEVER hardcode a social image path** inside a layout default. The default must always point to `public/og/default.png` or `public/og/<route>.png`.
-2. **NEVER use a page hero image** as the OG image. Hero images are not sized correctly (they are not 1200 × 630). Create a dedicated OG image.
+2. **NEVER use a page hero image** as the OG image. Hero images are not sized correctly (not 1200 × 630) and are typically multi-MB files that will break WhatsApp previews.
 3. **Always use absolute URLs** for `og:image`. Both layouts handle this automatically via `new URL(ogImage, Astro.site)` — do not bypass this logic.
 4. **Update CLAUDE.md** whenever you add a new OG image (the routes table in "Social Sharing / OG Images").
 5. **Update `public/og/README.md`** to add the new route/file to the table.

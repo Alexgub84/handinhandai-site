@@ -7,7 +7,7 @@ WhatsApp, Facebook, LinkedIn, Twitter/X, or iMessage.
 
 ## File to create
 
-**`og.png`** — place it in this folder (`public/og/fitness/og.png`)
+**`og.jpg`** — place it in this folder (`public/og/fitness/og.jpg`)
 
 ---
 
@@ -40,17 +40,17 @@ Suggested content for the fitness landing page:
 
 ## Format
 
-- **PNG** preferred (sharp text), JPG acceptable
-- **File size:** under 1 MB (aim for 200–500 KB)
+- **JPEG preferred** for photos — smallest file size
+- **PNG** only if the image has hard-edged logos or text on solid backgrounds
+- **File size: under 300 KB** — WhatsApp's crawler silently skips previews for larger files
 - **Color space:** sRGB
 
 ---
 
 ## How it is used in code
 
-`src/pages/fitness.astro` passes `ogImage="/og/fitness/og.png"` to the layout.
-The layout resolves it to the full URL `https://handinhandai.com/og/fitness/og.png`
+`src/pages/fitness.astro` passes `ogImage="/og/fitness/og.jpg"` to the layout.
+The layout resolves it to the full URL `https://handinhandai.com/og/fitness/og.jpg`
 and injects it into `og:image` and `twitter:image`.
 
-No code changes are needed — just drop the file here with the exact name `og.png`.
-
+No code changes are needed — just drop the file here with the exact name `og.jpg`.
