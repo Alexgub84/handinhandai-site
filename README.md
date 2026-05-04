@@ -1,154 +1,158 @@
 # Hand in Hand AI
 
-A bilingual (Hebrew/English) marketing website for Hand in Hand AI - an AI solutions consultancy helping businesses grow with customized AI solutions.
+Bilingual (Hebrew default / English) marketing site for Hand in Hand AI, built with Astro 5.
 
 **Live site:** https://handinhandai.com
 
-## Tech Stack
+---
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| [Astro](https://astro.build) | 5.16 | Static site framework |
-| [Tailwind CSS](https://tailwindcss.com) | 4.1 | Utility-first CSS framework |
-| [TypeScript](https://www.typescriptlang.org) | - | Type safety |
-| [Cloudflare Pages](https://pages.cloudflare.com) | - | Hosting & CDN |
-| [Make.com](https://make.com) | - | Form submission webhook |
+## How to run locally
 
-## Features
+### Requirements
 
-- **Internationalization (i18n):** Full support for Hebrew (RTL) and English (LTR)
-- **Responsive Design:** Mobile-first design with smooth transitions
-- **Contact Form:** Client-side validation with Make.com webhook integration
-- **SEO Optimized:** Open Graph and Twitter meta tags for social sharing
-- **Performance:** Static site generation for fast load times
+- **Node.js 20+**
+- A **GitHub personal access token** with the `read:packages` scope. The dependency `@alexgub84/whatsapp-chat-mock` is installed from GitHub Packages (see `.npmrc`).
 
-## Project Structure
+### Setup
 
-```
-/
-├── .github/
-│   └── workflows/
-│       └── deploy.yml        # Cloudflare Pages deployment
-├── public/
-│   ├── favicon.ico
-│   ├── favicon.svg
-│   ├── logo.png
-│   ├── og-image.png          # Social sharing image
-│   └── apple-touch-icon.png
-├── src/
-│   ├── components/
-│   │   ├── ContactForm.astro # Contact form with validation
-│   │   ├── Footer.astro
-│   │   ├── Header.astro      # Navigation with mobile menu
-│   │   └── LanguageSwitcher.astro
-│   ├── i18n/
-│   │   ├── ui.ts             # Translation strings (he/en)
-│   │   └── utils.ts          # i18n helper functions
-│   ├── layouts/
-│   │   └── Layout.astro      # Base layout with meta tags
-│   ├── pages/
-│   │   ├── index.astro       # Hebrew homepage (default)
-│   │   ├── contact.astro     # Hebrew contact page
-│   │   └── en/
-│   │       ├── index.astro   # English homepage
-│   │       └── contact.astro # English contact page
-│   └── styles/
-│       └── global.css        # Tailwind imports & base styles
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
+1. **Clone the repo** and enter the project directory.
 
-## Pages
+2. **Expose the token** so npm can authenticate (example for zsh/bash):
 
-| Route | Language | Description |
-|-------|----------|-------------|
-| `/` | Hebrew | Homepage with hero, features, and contact form |
-| `/contact` | Hebrew | Dedicated contact page |
-| `/en/` | English | English homepage |
-| `/en/contact` | English | English contact page |
+   ```bash
+   export GITHUB_TOKEN=ghp_your_token_here
+   ```
 
-## Services Offered
+   Add the same export to your shell profile if you install often. For **Cloudflare Pages** builds, add `GITHUB_TOKEN` under **Settings → Environment variables** so `npm ci` succeeds.
 
-The contact form allows users to inquire about:
-- AI Consulting
-- Automation
-- Chatbot development
-- Custom AI development
+3. **Install dependencies:**
 
-## Commands
+   ```bash
+   npm install
+   ```
 
-| Command | Action |
-|---------|--------|
-| `npm install` | Install dependencies |
-| `npm run dev` | Start dev server at `localhost:4321` |
-| `npm run build` | Build for production to `./dist/` |
-| `npm run preview` | Preview production build locally |
-| `npm test` | Run Playwright E2E tests |
-| `npm run test:ui` | Run tests with interactive UI |
-| `npm run test:headed` | Run tests in headed browser |
+4. **Environment file for the contact form** — copy the example and set your Make.com webhook (never commit real URLs):
 
-## Environment Variables
-
-The contact form requires a webhook URL to be configured.
-
-### Local Development
-
-1. Copy `.env.example` to `.env`:
    ```bash
    cp .env.example .env
    ```
 
-2. Edit `.env` with your Make.com webhook URL:
+   Edit `.env`:
+
    ```
    PUBLIC_WEBHOOK_URL=https://hook.eu1.make.com/your-webhook-id
    ```
 
-### Production (GitHub Actions)
+5. **Start the dev server:**
 
-Set the following in your GitHub repository:
+   ```bash
+   npm run dev
+   ```
 
-**Settings → Secrets and variables → Actions → Variables:**
-- `PUBLIC_WEBHOOK_URL` - Your Make.com webhook URL
+   Open **http://localhost:4321**.
 
-## Deployment
+### Commands
 
-The site automatically deploys to Cloudflare Pages on push to `main` via GitHub Actions.
+| Command | Purpose |
+|---------|---------|
+| `npm run dev` | Dev server (default port 4321) |
+| `npm run build` | Typecheck (`astro check`) + production build → `dist/` |
+| `npm run preview` | Serve `dist/` locally |
+| `npm run check` | Astro/TS diagnostics only |
+| `npm test` | Playwright E2E (contact form; webhook is mocked) |
+| `npm run test:ui` | Playwright with UI |
+| `npm run test:headed` | Playwright in a visible browser |
 
-**Required GitHub Secrets:**
-- `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
+---
 
-**Required GitHub Variables:**
-- `PUBLIC_WEBHOOK_URL` - Make.com webhook URL for form submissions
+## Where to change things
 
-## Testing
+| What | Where |
+|------|--------|
+| Copy / translations (UI strings) | `src/i18n/ui.ts` |
+| **Phone & email in footers** (main site + fitness) | `src/data/site-contact.ts` — single source of truth |
+| Main site chrome (nav, footer, meta) | `src/layouts/Layout.astro`, `src/components/Header.astro`, `src/components/Footer.astro` |
+| Contact form + webhook wiring | `src/components/ContactForm.astro` |
+| Fitness landing (standalone layout, no shared Header) | `src/pages/fitness.astro`, `src/pages/[lang]/fitness.astro`, `src/layouts/FitnessLayout.astro`, `src/styles/fitness.css` |
+| WhatsApp demo chats on fitness page | `src/components/whatsapp-mock/` |
 
-The project uses [Playwright](https://playwright.dev) for E2E testing. Tests mock the webhook endpoint so they never hit the real Make.com webhook.
+Fitness copy lives under the `fitness.*` keys in `src/i18n/ui.ts`. Fitness images: `public/fitness/`.
 
-```bash
-# Run all tests
-npm test
+---
 
-# Run tests with UI (for debugging)
-npm run test:ui
+## Routes
 
-# Run tests in headed mode (visible browser)
-npm run test:headed
+| URL | Notes |
+|-----|--------|
+| `/` | Homepage (Hebrew, default language) |
+| `/contact` | Contact (Hebrew) |
+| `/he/`, `/en/` | Homepage per locale |
+| `/he/contact`, `/en/contact` | Contact per locale |
+| `/fitness` | Fitness landing (Hebrew) |
+| `/he/fitness`, `/en/fitness` | Fitness landing per locale |
+
+---
+
+## Project layout (essentials)
+
+```
+src/
+├── components/       # Header, Footer, ContactForm, whatsapp-mock, …
+├── data/
+│   └── site-contact.ts   # Shared phone + email for footers
+├── i18n/             # ui.ts (strings), utils.ts
+├── layouts/          # Layout.astro (main), FitnessLayout.astro
+├── pages/
+│   ├── index.astro
+│   ├── contact.astro
+│   ├── fitness.astro
+│   └── [lang]/       # /he/*, /en/* (index, contact, fitness)
+├── styles/           # global.css, hiha-tokens.css, fitness.css
+functions/api/        # Cloudflare Pages Functions (e.g. error logging)
+public/               # Static assets
 ```
 
-## Development
+There is also a **`hand-in-hand-agents-design-system/`** folder with reference HTML/CSS/JSX — not imported by the Astro app at runtime.
+
+---
+
+## Tech stack
+
+| Piece | Role |
+|-------|------|
+| Astro 5 | Static pages, islands |
+| React | Interactive pieces (e.g. WhatsApp mock) via `@astrojs/react` |
+| Tailwind CSS 4 | Main marketing pages |
+| TypeScript | Strict typing |
+| Playwright | E2E tests |
+| Make.com | Contact form webhook (`PUBLIC_WEBHOOK_URL`) |
+| Cloudflare Pages | Hosting (see below) |
+
+---
+
+## Deployment & env vars
+
+**Hosting:** The production site is deployed with **Cloudflare Pages connected to this Git repository**. Pushes to the connected branch trigger a build on Cloudflare — you do **not** deploy via a separate GitHub Actions deploy workflow.
+
+Configure in **Cloudflare → Pages → Project → Settings → Environment variables** (per environment):
+
+- `PUBLIC_WEBHOOK_URL` — Make.com custom webhook URL for the contact form
+- `GITHUB_TOKEN` — PAT with `read:packages` so the build can install `@alexgub84/*`
+
+---
+
+## CI (GitHub Actions)
+
+Pull requests against `main` run **`.github/workflows/test.yml`**: install → build → Playwright. If `npm ci` fails on private packages, ensure the workflow has access to a token with package read permissions (same idea as local `GITHUB_TOKEN`).
+
+---
+
+## Before you push (team convention)
+
+Bump the patch version so deployed HTML can be traced to a release:
 
 ```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Run tests
-npm test
+npm version patch --no-git-tag-version
 ```
+
+Commit the updated `package.json` with your changes.

@@ -1,0 +1,348 @@
+/* fitness/landing.css — page styles for the studio-owner landing page.
+   Re-uses HIHA tokens (../colors_and_type.css) but introduces a calmer,
+   warmer fitness-focused surface palette. RTL-first. */
+
+:root {
+  --fs-bg: #FAF7F2;          /* warm sand */
+  --fs-bg-alt: #F2EDE4;      /* deeper sand for section bands */
+  --fs-ink: #1A2842;         /* navy ink, same as HIHA fg-strong */
+  --fs-ink-muted: #4F5A70;
+  --fs-ink-soft: #7A8194;
+  --fs-line: #E5DFD3;
+  --fs-card: #FFFFFF;
+  --fs-accent: var(--hiha-green);             /* WhatsApp leaf-green */
+  --fs-accent-strong: #6FB133;
+  --fs-cta: var(--hiha-cta-gradient);
+
+  --fs-radius-card: 20px;
+  --fs-radius-pill: 999px;
+  --fs-shadow-soft: 0 1px 2px rgba(26,40,66,.04), 0 8px 28px rgba(26,40,66,.06);
+  --fs-shadow-mock: 0 2px 4px rgba(26,40,66,.06), 0 28px 60px rgba(26,40,66,.16);
+
+  /* Type scale — calibrated mobile-first, RTL-friendly */
+  --fs-h1-mob: 700 40px/1.12 var(--hiha-font-display);
+  --fs-h1-desk: 700 68px/1.06 var(--hiha-font-display);
+  --fs-h2-mob: 700 26px/1.2 var(--hiha-font-display);
+  --fs-h2-desk: 700 44px/1.1 var(--hiha-font-display);
+  --fs-h3: 600 19px/1.3 var(--hiha-font-display);
+  --fs-body-lg: 400 17px/1.55 var(--hiha-font-body);
+  --fs-body: 400 15px/1.55 var(--hiha-font-body);
+  --fs-small: 500 12px/1.5 var(--hiha-font-body);
+  --fs-eyebrow: 600 11px/1 var(--hiha-font-body);
+}
+
+[dir="rtl"] body, .fs-rtl { font-family: var(--hiha-font-body); }
+
+/* ── Reset surfaces ─────────────────────────────────────── */
+.fs-page {
+  direction: rtl;
+  text-align: right;
+  background: var(--fs-bg);
+  color: var(--fs-ink);
+  font: var(--fs-body);
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  overflow: visible;
+  position: relative;
+}
+.fs-page * { box-sizing: border-box; }
+
+/* ── Top bar ────────────────────────────────────────────── */
+.fs-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px;
+}
+.fs-brand { display: flex; align-items: center; gap: 10px; font: 600 16px/1 var(--hiha-font-display); color: var(--fs-ink); }
+.fs-brand-mark { width: 30px; height: 30px; border-radius: 50%; background: var(--fs-accent); display: inline-flex; align-items: center; justify-content: center; }
+.fs-brand-mark svg { width: 18px; height: 18px; }
+.fs-topbar-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: var(--fs-radius-pill);
+  background: var(--fs-accent); color: #fff; font: 600 13px/1 var(--hiha-font-body);
+  text-decoration: none;
+}
+.fs-topbar-cta svg { width: 14px; height: 14px; }
+
+/* ── Section frame ──────────────────────────────────────── */
+.fs-section { padding: 48px 24px; position: relative; }
+.fs-section-band { background: var(--fs-bg-alt); }
+.fs-section-dark { background: var(--fs-ink); color: #F4F2EC; }
+.fs-section-dark .fs-eyebrow { color: rgba(255,255,255,.55); }
+.fs-section-dark h2, .fs-section-dark h3 { color: #fff; }
+.fs-section-dark .fs-muted { color: rgba(255,255,255,.65); }
+
+.fs-eyebrow {
+  font: var(--fs-eyebrow);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--fs-accent-strong);
+  margin: 0 0 14px;
+}
+
+.fs-h1 { font: var(--fs-h1-mob); letter-spacing: -0.02em; margin: 0 0 14px; color: var(--fs-ink); text-wrap: balance; }
+.fs-h2 { font: var(--fs-h2-mob); letter-spacing: -0.015em; margin: 0 0 12px; text-wrap: balance; }
+.fs-h3 { font: var(--fs-h3); margin: 0 0 6px; }
+.fs-lede { font: var(--fs-body-lg); color: var(--fs-ink-muted); margin: 0 0 22px; max-width: 36ch; }
+.fs-muted { color: var(--fs-ink-muted); }
+.fs-tiny  { font: var(--fs-small); color: var(--fs-ink-soft); }
+
+/* ── Buttons ────────────────────────────────────────────── */
+.fs-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 14px 24px; border-radius: var(--fs-radius-pill);
+  font: 600 16px/1 var(--hiha-font-body);
+  text-decoration: none; cursor: pointer; border: 0;
+  letter-spacing: -0.005em;
+  transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+.fs-btn svg { width: 20px; height: 20px; flex: 0 0 20px; }
+.fs-btn-primary { background: var(--fs-accent); color: #fff; box-shadow: 0 8px 24px rgba(120,180,60,.35); }
+.fs-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 30px rgba(120,180,60,.45); }
+.fs-btn-primary:active { transform: translateY(0); opacity: .9; }
+.fs-btn-ghost { background: transparent; color: var(--fs-ink); border: 1px solid var(--fs-line); }
+.fs-trust { display: block; margin-top: 12px; font: var(--fs-small); color: var(--fs-ink-soft); }
+
+/* ── Hero ───────────────────────────────────────────────── */
+.fs-hero { padding: 0 0 48px; }
+.fs-hero-stage { display: flex; flex-direction: column; gap: 0; }
+.fs-hero-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background-size: cover; background-position: center 30%;
+  background-color: #1A2030;
+  overflow: hidden;
+}
+.fs-hero-image::after {
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,.45) 100%);
+}
+.fs-hero-image-tag {
+  position: absolute; bottom: 16px; right: 16px; z-index: 1;
+  padding: 6px 12px; border-radius: 999px;
+  background: rgba(255,255,255,.85); color: var(--fs-ink);
+  font: 500 12px/1 var(--hiha-font-body);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.fs-hero-copy { padding: 28px 24px 0; }
+.fs-hero-mock-row { margin: 36px 0 0; padding: 0 24px; display: flex; flex-direction: column; gap: 20px; }
+.fs-hero-mock-aside { color: var(--fs-ink-muted); }
+.fs-hero-mock-aside .fs-h3 { color: var(--fs-ink); margin-bottom: 6px; }
+
+/* ── Mock slot — unstyled passthrough ───────────── */
+/* Sizing is handled by the scale prop on WhatsAppChat directly. */
+.fs-mock-slot {
+  position: relative;
+  margin: 0 auto;
+}
+.fs-mock-slot.is-dashed {
+  background: repeating-linear-gradient(135deg, #fafaf6 0 12px, #f3eee5 12px 24px);
+  border: 1.5px dashed #c9c1b0;
+}
+.fs-mock-slot-header {
+  height: 60px; flex: 0 0 60px;
+  background: #075E54;
+  display: flex; align-items: center; gap: 10px; padding: 0 14px;
+}
+.fs-mock-slot-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #25D366; display: flex; align-items: center; justify-content: center;
+}
+.fs-mock-slot-avatar svg { width: 18px; height: 18px; }
+.fs-mock-slot-title { font: 600 13px/1.2 var(--hiha-font-body); color: #fff; }
+.fs-mock-slot-sub   { font: 400 11px/1.2 var(--hiha-font-body); color: rgba(255,255,255,.7); }
+.fs-mock-slot-body {
+  flex: 1; position: relative;
+  background: #ECE5DD;
+  display: flex; align-items: center; justify-content: center;
+  color: #6c6356;
+}
+.fs-mock-slot-label {
+  background: rgba(255,255,255,.85);
+  border: 1px solid rgba(0,0,0,.08);
+  padding: 12px 16px;
+  border-radius: 10px;
+  font: 600 13px/1.4 var(--hiha-font-body);
+  color: var(--fs-ink-muted);
+  text-align: center;
+  max-width: 80%;
+}
+.fs-mock-slot-label small { display:block; margin-top:4px; font-weight:400; color: var(--fs-ink-soft); }
+
+/* ── Scenario grid — mobile: single column ──────────────── */
+.fs-scenario-grid { display: flex; flex-direction: column; gap: 32px; }
+
+/* ── Pain point cards (problem) ─────────────────────────── */
+.fs-pain-list { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.fs-pain-list li {
+  background: var(--fs-card);
+  border: 1px solid var(--fs-line);
+  border-radius: 14px;
+  padding: 16px 18px;
+  font: 500 15px/1.5 var(--hiha-font-body);
+  color: var(--fs-ink);
+}
+.fs-pain-list li::before {
+  content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--fs-accent); margin-inline-end: 10px; vertical-align: middle;
+}
+
+/* ── Capability cards ───────────────────────────────────── */
+.fs-cap-grid { display: grid; gap: 10px; }
+.fs-cap-card {
+  background: var(--fs-card); border: 1px solid var(--fs-line);
+  border-radius: 16px; padding: 18px 18px 20px;
+}
+.fs-cap-icon {
+  width: 40px; height: 40px; border-radius: 11px;
+  background: #E8F2D5; color: var(--fs-accent-strong);
+  display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;
+}
+.fs-cap-icon svg { width: 20px; height: 20px; }
+
+/* ── Process steps ──────────────────────────────────────── */
+.fs-step-list { counter-reset: fsstep; display: grid; gap: 12px; margin:0; padding:0; list-style:none; }
+.fs-step-list li {
+  position: relative; padding: 18px 60px 18px 18px;
+  background: var(--fs-card); border-radius: 16px; border: 1px solid var(--fs-line);
+}
+.fs-step-num {
+  position: absolute; right: 16px; top: 18px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--fs-accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font: 700 15px/1 var(--hiha-font-display);
+}
+
+/* ── About ──────────────────────────────────────────────── */
+.fs-about { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+.fs-about-photo {
+  width: 120px; height: 120px; border-radius: 28px;
+  background: var(--fs-line) center/cover no-repeat;
+  flex-shrink: 0;
+}
+
+/* ── FAQ ────────────────────────────────────────────────── */
+.fs-faq { display: grid; gap: 10px; }
+.fs-faq-item {
+  background: var(--fs-card); border: 1px solid var(--fs-line);
+  border-radius: 14px; overflow: hidden;
+}
+.fs-faq-q {
+  width: 100%; text-align: right; background: transparent; border: 0; cursor: pointer;
+  padding: 16px 18px; font: 600 15px/1.4 var(--hiha-font-body);
+  display: flex; justify-content: space-between; align-items: center; gap: 14px; color: var(--fs-ink);
+}
+.fs-faq-q span:last-child { color: var(--fs-ink-soft); transition: transform .2s ease; }
+.fs-faq-item[data-open="true"] .fs-faq-q span:last-child { transform: rotate(45deg); }
+.fs-faq-a {
+  padding: 0 20px 18px; font: var(--fs-body); color: var(--fs-ink-muted);
+  display: none;
+}
+.fs-faq-item[data-open="true"] .fs-faq-a { display: block; }
+
+/* ── Footer ─────────────────────────────────────────────── */
+.fs-footer { padding: 28px 22px 36px; color: var(--fs-ink-soft); font: var(--fs-small); border-top: 1px solid var(--fs-line); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.fs-footer a { color: var(--fs-ink); text-decoration: none; }
+
+/* ── Layout helpers ─────────────────────────────────────── */
+.fs-stack-lg > * + * { margin-top: 28px; }
+.fs-takeaway { margin: 18px 0 0; font: 500 15px/1.5 var(--hiha-font-body); color: var(--fs-ink-muted); text-align:center; max-width: 38ch; margin-inline: auto; }
+.fs-caption  { font: var(--fs-body); color: var(--fs-ink-muted); margin: 0 0 22px; max-width: 40ch; }
+
+/* ══════════════════════════════════════════════════════════
+   Tablet  (≥ 768px)
+   ══════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .fs-section { padding: 64px 48px; }
+  .fs-hero { padding: 0 0 64px; }
+  .fs-hero-copy { padding: 36px 48px 0; }
+  .fs-hero-mock-row { padding: 0 48px; margin-top: 48px; }
+  .fs-topbar { padding: 20px 48px; }
+  .fs-footer { padding: 32px 48px 40px; }
+
+  .fs-cap-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Desktop  (≥ 1024px)
+   ══════════════════════════════════════════════════════════ */
+@media (min-width: 1024px) {
+  .fs-section { padding: 96px 120px; }
+  .fs-hero { padding: 0 0 96px; }
+  .fs-topbar { padding: 22px 120px; }
+  .fs-footer { padding: 36px 120px 48px; }
+
+  .fs-h1 { font: var(--fs-h1-desk); }
+  .fs-h2 { font: var(--fs-h2-desk); }
+
+  /* Hero */
+  .fs-hero-stage { display: block; }
+  .fs-hero-image { aspect-ratio: 21/9; min-height: 520px; background-position: center 25%; }
+  .fs-hero-copy {
+    padding: 56px 120px 0;
+    max-width: 880px; margin: 0 auto;
+    text-align: center;
+  }
+  .fs-hero-mock-row {
+    margin-top: 64px; padding: 0 120px;
+    display: grid; grid-template-columns: auto 1fr; gap: 64px;
+    align-items: center;
+  }
+
+  /* Desktop font scale */
+  .fs-h3      { font: 600 24px/1.3 var(--hiha-font-display); }
+  .fs-lede    { font: 400 19px/1.6 var(--hiha-font-body); }
+  .fs-page    { font: 400 16px/1.6 var(--hiha-font-body); }
+  .fs-eyebrow { font-size: 12px; }
+
+  /* Scenario grids */
+  .fs-scenario-grid {
+    display: grid; grid-template-columns: auto 1fr;
+    gap: 60px; align-items: center;
+  }
+  .fs-scenario-grid.is-flipped { grid-template-columns: 1fr auto; }
+
+  /* Capability cards */
+  .fs-cap-grid { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+
+  /* Process steps */
+  .fs-step-list { grid-template-columns: repeat(3,1fr); }
+  .fs-step-list li { padding: 84px 24px 24px; }
+  .fs-step-num { right: 24px; top: 24px; }
+
+  /* About */
+  .fs-about { flex-direction: row; align-items: center; gap: 36px; }
+  .fs-about-photo { width: 180px; height: 180px; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Variant B — warm-dark / editorial  (.is-bold)
+   ══════════════════════════════════════════════════════════ */
+.fs-page.is-bold { background: #232A36; color: #F4F2EC; }
+.fs-page.is-bold .fs-section-band { background: #2C3340; }
+.fs-page.is-bold .fs-section-dark { background: #1A2030; }
+.fs-page.is-bold .fs-h1, .fs-page.is-bold .fs-h2, .fs-page.is-bold .fs-h3 { color: #fff; }
+.fs-page.is-bold .fs-lede, .fs-page.is-bold .fs-muted, .fs-page.is-bold .fs-caption { color: rgba(244,242,236,.72); }
+.fs-page.is-bold .fs-tiny, .fs-page.is-bold .fs-trust { color: rgba(244,242,236,.55); }
+.fs-page.is-bold .fs-eyebrow { color: var(--fs-accent); }
+.fs-page.is-bold .fs-pain-list li,
+.fs-page.is-bold .fs-cap-card,
+.fs-page.is-bold .fs-step-list li,
+.fs-page.is-bold .fs-faq-item {
+  background: #2F3744; border-color: #3A4252; color: #F4F2EC;
+}
+.fs-page.is-bold .fs-cap-icon { background: rgba(147,200,62,.18); color: var(--fs-accent); }
+.fs-page.is-bold .fs-faq-q { color: #F4F2EC; }
+.fs-page.is-bold .fs-faq-a { color: rgba(244,242,236,.7); }
+.fs-page.is-bold .fs-footer { border-color: #3A4252; color: rgba(244,242,236,.5); }
+.fs-page.is-bold .fs-footer a { color: #F4F2EC; }
+.fs-page.is-bold .fs-mock-slot { background: transparent; }
+.fs-page.is-bold .fs-topbar-cta { background: var(--fs-accent); color: #1A2030; }
+.fs-page.is-bold .fs-brand { color: #F4F2EC; }
+.fs-page.is-bold .fs-btn-ghost { color: #F4F2EC; border-color: rgba(255,255,255,.18); }
+.fs-page.is-bold .fs-h1 strong { color: var(--fs-accent); font-weight: inherit; }
+
+/* ── WhatsApp mock zoom wrapper — unused, scale prop handles sizing ── */
+.fs-mock-zoom-wrapper { }

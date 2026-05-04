@@ -1,0 +1,47 @@
+export const followupMessages = [
+  {
+    id: "f1",
+    sender: "outgoing" as const,
+    text: "היי נועה! אני אדרי מהסטודיו 😊\nאיך היה שיעור הניסיון אתמול?",
+    timestamp: "10:03",
+    status: "read" as const,
+    delayBeforeMs: 600,
+  },
+  {
+    id: "f2",
+    sender: "incoming" as const,
+    text: "ממש אהבתי! המאמנת מדהימה",
+    timestamp: "10:11",
+    delayBeforeMs: 2000,
+  },
+  {
+    id: "f3",
+    sender: "outgoing" as const,
+    text: "שמחה לשמוע! 🙌\nיש לנו מסלול חודשי שמתאים לך — רוצה שאשלח פרטים?",
+    timestamp: "10:11",
+    status: "read" as const,
+    delayBeforeMs: 1000,
+  },
+  {
+    id: "f4",
+    sender: "incoming" as const,
+    text: "כן, שלחי בבקשה",
+    timestamp: "10:14",
+    delayBeforeMs: 1800,
+  },
+  {
+    id: "f5",
+    sender: "outgoing" as const,
+    text: "מעולה!\n\nאני מעבירה אותך לדנה, בעלת הסטודיו — היא תשמח לדבר איתך ישירות 🤝",
+    timestamp: "10:14",
+    status: "read" as const,
+    delayBeforeMs: 1100,
+  },
+  {
+    id: "f6",
+    sender: "incoming" as const,
+    text: "תודה רבה!",
+    timestamp: "10:15",
+    delayBeforeMs: 1500,
+  },
+];

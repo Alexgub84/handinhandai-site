@@ -1,0 +1,209 @@
+---
+description: Dev lessons learned from Astro + Make.com webhook integration project
+alwaysApply: true
+---
+
+# Astro + Make.com Integration Lessons
+
+## CRITICAL: Cloudflare Pages Deployment (NOT GitHub Actions)
+
+**Cloudflare Pages has its own Git integration** - it automatically deploys when you push to the connected branch. You do NOT need a separate GitHub Actions workflow for deployment.
+
+- Cloudflare Pages watches your repo and builds/deploys automatically
+- Environment variables and secrets are configured in **Cloudflare Dashboard** → Pages → Settings → Environment variables
+- Do NOT create `.github/workflows/deploy.yml` for Cloudflare Pages projects - it's redundant
+- If you see deployment issues, check Cloudflare Dashboard, not GitHub Actions
+
+## CRITICAL: Make.com Webhook Setup
+
+The webhook URL must be:
+1. Created in Make.com scenario with "Webhooks" → "Custom webhook" module
+2. Copied and stored in Cloudflare Pages environment variables as `PUBLIC_WEBHOOK_URL`
+3. NOT hardcoded in the codebase
+4. For local dev, add to `.env` file: `PUBLIC_WEBHOOK_URL=https://hook.eu1.make.com/xxx`
+
+**Common mistake**: Trying to pass webhook URL through GitHub Actions secrets when Cloudflare Pages handles deployment separately.
+
+---
+
+## 1. Environment Variables in Astro (Client-Side)
+
+Astro client-side scripts cannot directly access `import.meta.env`. Pass env vars via data attributes:
+
+```astro
+---
+const webhookUrl = import.meta.env.PUBLIC_WEBHOOK_URL;
+---
+<div id="wrapper" data-webhook-url={webhookUrl}>
+  <!-- form here -->
+</div>
+
+<script>
+  // Access in client script
+  const wrapper = document.getElementById('wrapper');
+  const WEBHOOK_URL = wrapper?.dataset.webhookUrl || '';
+</script>
+```
+
+Use `PUBLIC_` prefix for any env var needed client-side.
+
+## 2. Cloudflare Pages Functions
+
+Structure serverless functions in `functions/api/` directory:
+
+```
+functions/
+  api/
+    log-error.ts    → /api/log-error endpoint
+```
+
+Export `onRequestPost` and `onRequestOptions` (for CORS):
+
+```typescript
+export const onRequestPost: PagesFunction<Env> = async (context) => {
+  // Handle POST
+};
+
+export const onRequestOptions: PagesFunction<Env> = async () => {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+};
+```
+
+Requires `wrangler.toml` with `pages_build_output_dir = "dist"`.
+
+## 3. Astro i18n with Dynamic Routes
+
+Use `[lang]` parameter instead of duplicating pages per language:
+
+```
+src/pages/
+  [lang]/
+    index.astro      → /he/, /en/
+    contact.astro    → /he/contact, /en/contact
+  index.astro        → / (default language redirect/page)
+  contact.astro      → /contact (default language)
+```
+
+In dynamic route pages:
+
+```astro
+---
+import { languages, type Lang } from '@i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+---
+```
+
+## 4. Playwright Testing Cross-Origin Requests (Make.com)
+
+For Make.com webhooks, use `context.route()` not `page.route()`:
+
+```typescript
+// ❌ WRONG - won't intercept cross-origin
+await page.route('**/hook.eu1.make.com/**', ...);
+
+// ✅ CORRECT - intercepts cross-origin requests
+await context.route('**/hook.eu1.make.com/**', async (route) => {
+  await route.fulfill({ status: 200, body: 'Accepted' });
+});
+```
+
+## 5. Server-Side Error Logging
+
+Always add server-side error logging for form submissions:
+
+```typescript
+async function logErrorToServer(errorInfo: {
+  message: string;
+  stack?: string;
+  status?: number;
+  formData?: Record<string, unknown>;
+}) {
+  try {
+    await fetch('/api/log-error', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...errorInfo,
+        url: window.location.href,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+      }),
+    });
+  } catch (logErr) {
+    console.error('Failed to log error:', logErr);
+  }
+}
+```
+
+## 6. Deployment Verification
+
+Add version and build timestamp to HTML for verifying deployments:
+
+```astro
+<!-- In Layout.astro -->
+<body data-version={import.meta.env.npm_package_version}>
+<!-- Build: v{version} | {new Date().toISOString()} -->
+```
+
+Bump version before push: `npm version patch --no-git-tag-version`
+
+## 7. Form Submission Best Practices
+
+- Use `novalidate` on form, implement custom JS validation
+- Show inline errors with `data-error-message` attributes for i18n
+- Handle loading states (disable button, show spinner)
+- Provide "Try Again" functionality on error
+- Include metadata: `submitted_at`, `source_url` in payload
+
+## 8. Make.com Webhook Format
+
+Send JSON with flat structure:
+
+```typescript
+const data = {
+  first_name: formData.get('first_name'),
+  email: formData.get('email'),
+  // ... other fields
+  submitted_at: new Date().toISOString(),
+  source_url: window.location.href,
+};
+
+await fetch(WEBHOOK_URL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data),
+});
+```
+
+## 9. Common Pitfalls
+
+1. **DEPLOYMENT SOURCE CONFUSION**: Cloudflare Pages deploys automatically via Git integration. Don't create GitHub Actions workflows for deployment - they're separate systems. Check Cloudflare Dashboard for deployment logs, not GitHub Actions.
+
+2. **WEBHOOK URL CONFIGURATION**: The Make.com webhook URL goes in Cloudflare Pages environment variables (Dashboard → Pages → Settings → Environment variables), NOT in GitHub secrets. Name it `PUBLIC_WEBHOOK_URL`.
+
+3. **Secrets vs Environment Variables**: Cloudflare Pages uses "Environment variables" for both public and secret values. The `PUBLIC_` prefix in the variable name makes it available client-side in Astro.
+
+4. **Functions deployment**: Ensure `wrangler.toml` exists at root with `pages_build_output_dir = "dist"` for Cloudflare Functions to work.
+
+5. **RTL Support**: Pass `lang` prop to Layout, use `getDirection(lang)` for `dir` attribute.
+
+## 10. Debugging Deployment Issues
+
+1. **Where to check**: Cloudflare Dashboard → Pages → your project → Deployments
+2. **Environment variables not working?**: They're set per-environment (Production/Preview) in Cloudflare Dashboard
+3. **Functions not deploying?**: Check `wrangler.toml` exists and `functions/` directory is at project root
+4. **Webhook returning errors?**: Check Make.com scenario is active and webhook URL matches exactly

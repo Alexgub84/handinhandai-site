@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>HIHA Web — UI Kit Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="Buttons.jsx"></script>
+<script type="text/babel" src="ShadeBlob.jsx"></script>
+<script type="text/babel" src="Header.jsx"></script>
+<script type="text/babel" src="Hero.jsx"></script>
+<script type="text/babel" src="PainPoints.jsx"></script>
+<script type="text/babel" src="ProcessStep.jsx"></script>
+<script type="text/babel" src="Cards.jsx"></script>
+<script type="text/babel" src="CTABlock.jsx"></script>
+
+<script type="text/babel">
+function HomePage() {
+  return (
+    <>
+      <ShadeBlob top={-380} left={88} size={1267} opacity={0.85} />
+      <Hero
+        eyebrow={'AI that works "Hand in Hand"'}
+        title={"Your Team Member\nThat Never Sleeps"}
+        sub={"One more team member that does all repetitive, time-consuming work for your business — fast, reliable, and on demand."}
+        primary="Talk to Us"
+        secondary="Schedule a Call"
+      />
+
+      <section className="hiha-section" data-screen-label="Solution / Customer Interactions" style={{textAlign:"center", paddingTop: 60}}>
+        <SolutionPill>Customer Interactions</SolutionPill>
+        <div style={{height: 32}} />
+        <PainPointGrid rows={[
+          ["Responding to customer inquiries","Sending follow-up messages","Qualifying leads automatically"],
+          ["Booking appointments","Answering FAQs 24/7","Handling refund + return requests"],
+          ["Routing complex cases to a human","Translating conversations live"],
+        ]} />
+      </section>
+
+      <section className="hiha-section" data-screen-label="Process steps">
+        <div className="hiha-section-title-row">
+          <h2 style={{font:"var(--hiha-h2)", letterSpacing:"var(--hiha-letter-tight)", color:"var(--hiha-fg-strong)"}}>How we work</h2>
+        </div>
+        <div className="hiha-grid-2">
+          <ProcessStep n={1} title="Getting to know your Business" />
+          <ProcessStep n={2} title="Design your AI Teammate" />
+          <ProcessStep n={3} title="Train + integrate with your stack" />
+          <ProcessStep n={4} title="Hand-off + ongoing tuning" />
+        </div>
+        <div style={{display:"flex", gap:16, marginTop:32, justifyContent:"center"}}>
+          <ToolChip>Automate CRM</ToolChip>
+          <ToolChip>Generate Reports</ToolChip>
+          <ToolChip>Auto Replies</ToolChip>
+        </div>
+      </section>
+
+      <section className="hiha-section" data-screen-label="Testimonials">
+        <div className="hiha-grid-2">
+          <Testimonial quote="He really understands our business and our problems." name="Simon Clark · Director, North Star" />
+          <Testimonial quote="Cut our reply time from hours to minutes — without losing the human touch." name="Maya Reyes · Ops, Bloom Studio" />
+        </div>
+      </section>
+
+      <CTABlock
+        title={"Always here.\nAlways available."}
+        sub={"We are building your team an effective Teammate."}
+      />
+    </>
+  );
+}
+
+function ServicesPage() {
+  return (
+    <>
+      <ShadeBlob top={-380} left={88} size={1267} opacity={0.7} />
+      <Hero
+        eyebrow="What we ship"
+        title={"Services + Products"}
+        sub={"Pick a pain. We'll hand you back the hours."}
+      />
+      <section className="hiha-section" data-screen-label="User pain cards">
+        <div className="hiha-grid-2">
+          <UserPainCard title="Missed Inquiries" body="AI chatbot that talks to customers on WhatsApp, Instagram or your website — 24/7." />
+          <UserPainCard title="Slow Follow-Ups" body="Automatic, personalized follow-ups that turn cold leads into booked calls." />
+          <UserPainCard title="Repetitive CRM Updates" body="Hands-off CRM hygiene — every conversation logged, tagged, summarised." />
+          <UserPainCard title="Manual Reporting" body="Daily and weekly reports generated from your real data — straight into your inbox." />
+        </div>
+      </section>
+      <CTABlock title={"Find the right teammate\nfor your team."} />
+    </>
+  );
+}
+
+function AboutPage() {
+  return (
+    <>
+      <ShadeBlob top={-380} left={88} size={1267} opacity={0.6} />
+      <Hero eyebrow="About" title={"Meet Alex,\nfounder of Hand in Hand"} />
+      <section className="hiha-section" data-screen-label="Founder">
+        <div style={{display:"flex", gap:40, alignItems:"center", justifyContent:"center"}}>
+          <div className="hiha-founder-disc" />
+          <div style={{maxWidth: 540, display:"flex", flexDirection:"column", gap:16}}>
+            <div style={{font:"var(--hiha-h4)", color:"var(--hiha-fg-strong)"}}>"AI shouldn't replace your team — it should join them."</div>
+            <p style={{font:"var(--hiha-p-lg)", color:"var(--hiha-fg-subtle)"}}>
+              Hand in Hand pairs each business with a tailored AI teammate — designed, trained, and tuned around the way you actually work.
+            </p>
+          </div>
+        </div>
+      </section>
+      <CTABlock title={"Let's build your\nfirst AI teammate."} />
+    </>
+  );
+}
+
+function CTAPage() {
+  return (
+    <>
+      <ShadeBlob top={-200} left={88} size={1267} opacity={0.7} />
+      <CTABlock
+        title={"Always here and available\nfor any questions"}
+        sub={"We are building your team an effective Teammate."}
+      />
+    </>
+  );
+}
+
+function App() {
+  const [route, setRoute] = React.useState("home");
+  const Page = { home: HomePage, services: ServicesPage, about: AboutPage, cta: CTAPage }[route] || HomePage;
+  React.useEffect(() => { document.title = `HIHA · ${route}`; }, [route]);
+  return (
+    <div className="hiha-app" data-screen-label={`HIHA / ${route}`}>
+      <Header route={route} setRoute={setRoute} />
+      <main className="hiha-page"><Page /></main>
+      <Footer />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

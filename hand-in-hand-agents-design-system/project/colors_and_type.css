@@ -1,0 +1,163 @@
+/* ──────────────────────────────────────────────────────────────────
+   Hand in Hand Agents — Colors + Type tokens
+   Sourced from the Hand in Hand Agents.fig design file.
+   ────────────────────────────────────────────────────────────────── */
+
+/* Brand-supplied font: Heebo (variable, weight 100–900). Latin body fonts
+   stay on the Google CDN for now — Poppins + Outfit aren't in the brand drop. */
+@font-face {
+  font-family: "Heebo";
+  src: url("./fonts/Heebo-VariableFont_wght.ttf") format("truetype-variations"),
+       url("./fonts/Heebo-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Outfit:wght@400;500;600&display=swap");
+
+:root {
+  /* ─── Brand / Accent ─────────────────────────────────── */
+  --hiha-green:       rgb(147, 200, 62);   /* primary brand — "the warm green" */
+  --hiha-green-soft:  rgb(217, 238, 218);  /* soft mint for chip backgrounds, card borders */
+  --hiha-green-mid:   rgb(180, 224, 185);  /* shade-blob green */
+  --hiha-green-glow:  rgba(66, 255, 0, 0.5);
+
+  --hiha-orange:      rgb(255, 153, 0);    /* secondary brand — pairs w/ green in CTA gradient */
+  --hiha-orange-soft: rgb(243, 199, 154);  /* shade-blob warm */
+
+  --hiha-blue:        rgb(0, 107, 255);    /* tertiary accent — used in profile fallback / illustration */
+  --hiha-blue-soft:   rgb(95, 168, 255);   /* shade-blob cool */
+
+  /* The signature CTA gradient (always green → orange, top→bottom) */
+  --hiha-cta-gradient: linear-gradient(180deg, var(--hiha-green) 0%, var(--hiha-orange) 100%);
+
+  /* The ambient "shade" gradient — a giant 1267px diffuse blob behind hero sections */
+  --hiha-shade-gradient: linear-gradient(
+    180deg,
+    rgba(180, 224, 185, 0.25) 0%,
+    rgba(95, 168, 255, 0.25) 50%,
+    rgba(243, 199, 154, 0.25) 100%
+  );
+
+  /* ─── Foreground / Text ──────────────────────────────── */
+  --hiha-fg-strong:   rgb(26, 40, 66);     /* H-tags, body emphasis (deep navy) */
+  --hiha-fg:          rgb(32, 41, 57);     /* hero headlines (slightly different navy) */
+  --hiha-fg-muted:    rgb(54, 65, 82);     /* button text on white */
+  --hiha-fg-subtle:   rgb(105, 117, 134);  /* paragraph copy / muted */
+  --hiha-fg-faint:    rgb(133, 144, 162);  /* eyebrow, "AI that works hand in hand" */
+  --hiha-fg-fade:     rgb(147, 169, 183);  /* placeholder, line dividers */
+
+  /* ─── Background / Surface ───────────────────────────── */
+  --hiha-bg:          rgb(255, 255, 255);
+  --hiha-bg-footer:   rgb(18, 18, 18);     /* footer dark plate */
+  --hiha-surface-dim: rgb(217, 217, 217);  /* breakpoint / placeholder grey */
+  --hiha-surface-2:   rgb(196, 196, 196);
+
+  /* ─── Borders & dividers ─────────────────────────────── */
+  --hiha-border:           rgba(32, 41, 57, 0.16);   /* default 1px hairline */
+  --hiha-border-strong:    rgb(26, 40, 66);
+  --hiha-card-mint-border: rgb(217, 238, 218);       /* the 8px "framed" mint border */
+
+  /* ─── Shadows ────────────────────────────────────────── */
+  --hiha-shadow-sm: 0 2px 4px -2px rgba(0,0,0,0.06), 0 4px 8px -2px rgba(0,0,0,0.10);
+  --hiha-shadow-card: 4px 4px 4px 0 rgba(32, 41, 57, 0.10);
+
+  /* ─── Radii ──────────────────────────────────────────── */
+  --hiha-radius-xs: 4px;
+  --hiha-radius-sm: 8px;
+  --hiha-radius-md: 16px;
+  --hiha-radius-lg: 24px;
+  --hiha-radius-pill: 32px;     /* small pill (buttons, chips) */
+  --hiha-radius-pill-lg: 64px;  /* big pill (chip rows, hero capsule) */
+
+  /* ─── Spacing scale (used across cards/sections) ─────── */
+  --hiha-space-1: 4px;
+  --hiha-space-2: 8px;
+  --hiha-space-3: 16px;
+  --hiha-space-4: 18px;
+  --hiha-space-5: 24px;
+  --hiha-space-6: 32px;
+  --hiha-space-7: 40px;
+  --hiha-space-8: 54px;
+  --hiha-space-9: 64px;
+
+  /* ─── Layout ─────────────────────────────────────────── */
+  --hiha-container-max: 1064px;   /* max content width inside the 1440 design */
+  --hiha-page-pad-x: 188px;       /* desktop side gutter at 1440 */
+  --hiha-bp-mobile: 430px;
+  --hiha-bp-tablet: 990px;
+  --hiha-bp-desktop: 1064px;
+
+  /* ─── Type families ──────────────────────────────────── */
+  --hiha-font-display: "Heebo", system-ui, -apple-system, sans-serif;    /* H1-H6 (brand) */
+  --hiha-font-body:    "Heebo", "Poppins", system-ui, -apple-system, sans-serif;  /* body, UI — Heebo first for Hebrew */
+  --hiha-font-ui:      "Heebo", "Outfit",  system-ui, -apple-system, sans-serif;  /* nav, micro-labels */
+  --hiha-font-body-latin: "Poppins", system-ui, sans-serif;              /* opt-in: pure Latin body */
+
+  /* ─── Type scale (Heebo display) ─────────────────────── */
+  --hiha-h1-hero:   700 64px/76.8px var(--hiha-font-display);   /* hero only */
+  --hiha-h1-large:  700 62px/74px   var(--hiha-font-display);
+  --hiha-h1:        700 48px/58px   var(--hiha-font-display);
+  --hiha-h2:        700 40px/48px   var(--hiha-font-display);
+  --hiha-h3:        700 32px/38px   var(--hiha-font-display);
+  --hiha-h4:        700 25px/30px   var(--hiha-font-display);
+  --hiha-h5:        600 20px/24px   var(--hiha-font-display);
+  --hiha-h6:        700 18px/22px   var(--hiha-font-display);
+
+  /* ─── Type scale (Heebo body — Latin Poppins fallback) ─ */
+  --hiha-p-xl:      400 20px/24px   var(--hiha-font-body);
+  --hiha-p-lg:      400 18px/28px   var(--hiha-font-body);
+  --hiha-p:         400 16px/19px   var(--hiha-font-body);
+  --hiha-p-sm:      400 13px/18px   var(--hiha-font-body);
+  --hiha-p-xs:      500 10px/16px   var(--hiha-font-body);   /* "USER PAIN" pills */
+
+  --hiha-letter-tight: -0.02em;     /* applied to display headings */
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   Semantic element styles — drop colors_and_type.css in any HTML
+   page and you get HIHA-correct defaults for free.
+   ────────────────────────────────────────────────────────────────── */
+
+body {
+  font: var(--hiha-p-lg);
+  color: var(--hiha-fg-subtle);
+  background: var(--hiha-bg);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--hiha-font-display);
+  color: var(--hiha-fg);
+  letter-spacing: var(--hiha-letter-tight);
+  margin: 0;
+}
+
+h1 { font: var(--hiha-h1);  letter-spacing: var(--hiha-letter-tight); }
+h2 { font: var(--hiha-h2);  letter-spacing: var(--hiha-letter-tight); }
+h3 { font: var(--hiha-h3);  letter-spacing: var(--hiha-letter-tight); }
+h4 { font: var(--hiha-h4); }
+h5 { font: var(--hiha-h5); }
+h6 { font: var(--hiha-h6); }
+
+p {
+  font: var(--hiha-p-lg);
+  color: var(--hiha-fg-subtle);
+  margin: 0;
+}
+
+small { font: var(--hiha-p-sm); color: var(--hiha-fg-subtle); }
+
+a { color: inherit; text-decoration: none; }
+
+/* Eyebrow / pre-headline — always Manrope-bold faint navy */
+.hiha-eyebrow {
+  font-family: var(--hiha-font-display);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: var(--hiha-letter-tight);
+  color: var(--hiha-fg-faint);
+}

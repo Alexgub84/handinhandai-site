@@ -1,0 +1,98 @@
+/* Hand in Hand Agents — CSS custom property tokens.
+   Sourced from the design system. Consumed by fitness.css and any other
+   sub-brand page that needs HIHA brand tokens. */
+
+:root {
+  /* ─── Brand / Accent ─────────────────────────────────── */
+  --hiha-green:       rgb(147, 200, 62);
+  --hiha-green-soft:  rgb(217, 238, 218);
+  --hiha-green-mid:   rgb(180, 224, 185);
+  --hiha-green-glow:  rgba(66, 255, 0, 0.5);
+
+  --hiha-orange:      rgb(255, 153, 0);
+  --hiha-orange-soft: rgb(243, 199, 154);
+
+  --hiha-blue:        rgb(0, 107, 255);
+  --hiha-blue-soft:   rgb(95, 168, 255);
+
+  --hiha-cta-gradient: linear-gradient(180deg, rgb(147, 200, 62) 0%, rgb(255, 153, 0) 100%);
+
+  --hiha-shade-gradient: linear-gradient(
+    180deg,
+    rgba(180, 224, 185, 0.25) 0%,
+    rgba(95, 168, 255, 0.25) 50%,
+    rgba(243, 199, 154, 0.25) 100%
+  );
+
+  /* ─── Foreground / Text ──────────────────────────────── */
+  --hiha-fg-strong:   rgb(26, 40, 66);
+  --hiha-fg:          rgb(32, 41, 57);
+  --hiha-fg-muted:    rgb(54, 65, 82);
+  --hiha-fg-subtle:   rgb(105, 117, 134);
+  --hiha-fg-faint:    rgb(133, 144, 162);
+  --hiha-fg-fade:     rgb(147, 169, 183);
+
+  /* ─── Background / Surface ───────────────────────────── */
+  --hiha-bg:          rgb(255, 255, 255);
+  --hiha-bg-footer:   rgb(18, 18, 18);
+  --hiha-surface-dim: rgb(217, 217, 217);
+  --hiha-surface-2:   rgb(196, 196, 196);
+
+  /* ─── Borders ────────────────────────────────────────── */
+  --hiha-border:           rgba(32, 41, 57, 0.16);
+  --hiha-border-strong:    rgb(26, 40, 66);
+  --hiha-card-mint-border: rgb(217, 238, 218);
+
+  /* ─── Shadows ────────────────────────────────────────── */
+  --hiha-shadow-sm:   0 2px 4px -2px rgba(0,0,0,0.06), 0 4px 8px -2px rgba(0,0,0,0.10);
+  --hiha-shadow-card: 4px 4px 4px 0 rgba(32, 41, 57, 0.10);
+
+  /* ─── Radii ──────────────────────────────────────────── */
+  --hiha-radius-xs:      4px;
+  --hiha-radius-sm:      8px;
+  --hiha-radius-md:      16px;
+  --hiha-radius-lg:      24px;
+  --hiha-radius-pill:    32px;
+  --hiha-radius-pill-lg: 64px;
+
+  /* ─── Spacing ────────────────────────────────────────── */
+  --hiha-space-1: 4px;
+  --hiha-space-2: 8px;
+  --hiha-space-3: 16px;
+  --hiha-space-4: 18px;
+  --hiha-space-5: 24px;
+  --hiha-space-6: 32px;
+  --hiha-space-7: 40px;
+  --hiha-space-8: 54px;
+  --hiha-space-9: 64px;
+
+  /* ─── Layout ─────────────────────────────────────────── */
+  --hiha-container-max: 1064px;
+  --hiha-page-pad-x:    188px;
+  --hiha-bp-mobile:     430px;
+  --hiha-bp-tablet:     990px;
+  --hiha-bp-desktop:    1064px;
+
+  /* ─── Type families ──────────────────────────────────── */
+  --hiha-font-display:      "Heebo", system-ui, -apple-system, sans-serif;
+  --hiha-font-body:         "Heebo", "Poppins", system-ui, -apple-system, sans-serif;
+  --hiha-font-ui:           "Heebo", "Outfit",  system-ui, -apple-system, sans-serif;
+  --hiha-font-body-latin:   "Poppins", system-ui, sans-serif;
+
+  /* ─── Type scale ─────────────────────────────────────── */
+  --hiha-h1-hero:   700 64px/76.8px var(--hiha-font-display);
+  --hiha-h1-large:  700 62px/74px   var(--hiha-font-display);
+  --hiha-h1:        700 48px/58px   var(--hiha-font-display);
+  --hiha-h2:        700 40px/48px   var(--hiha-font-display);
+  --hiha-h3:        700 32px/38px   var(--hiha-font-display);
+  --hiha-h4:        700 25px/30px   var(--hiha-font-display);
+  --hiha-h5:        600 20px/24px   var(--hiha-font-display);
+  --hiha-h6:        700 18px/22px   var(--hiha-font-display);
+  --hiha-p-xl:      400 20px/24px   var(--hiha-font-body);
+  --hiha-p-lg:      400 18px/28px   var(--hiha-font-body);
+  --hiha-p:         400 16px/19px   var(--hiha-font-body);
+  --hiha-p-sm:      400 13px/18px   var(--hiha-font-body);
+  --hiha-p-xs:      500 10px/16px   var(--hiha-font-body);
+
+  --hiha-letter-tight: -0.02em;
+}

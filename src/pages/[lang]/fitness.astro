@@ -1,0 +1,313 @@
+---
+import FitnessLayout from '@layouts/FitnessLayout.astro';
+import { siteContact } from '@/data/site-contact';
+import { useTranslations, getDirection } from '@i18n/utils';
+import { languages, type Lang } from '@i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+const dir = getDirection(lang);
+---
+
+<FitnessLayout lang={lang} title={t('fitness.page.title')}>
+  <div class="fs-page" dir={dir} lang={lang}>
+
+    <!-- TopBar -->
+    <div class="fs-topbar">
+      <div class="fs-brand">
+        <span class="fs-brand-mark">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+            <path d="M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0 19.05 4.91Zm-7 15.42a8.32 8.32 0 0 1-4.24-1.16l-.3-.18-2.46.92.92-2.4-.2-.31a8.34 8.34 0 1 1 6.28 3.13Zm4.57-6.24c-.25-.13-1.48-.73-1.71-.81s-.4-.13-.56.13-.65.81-.79.97-.29.2-.54.07a6.85 6.85 0 0 1-2.01-1.24 7.55 7.55 0 0 1-1.4-1.74c-.15-.25 0-.39.11-.51.11-.11.25-.29.37-.43a1.7 1.7 0 0 0 .25-.41.46.46 0 0 0 0-.43c-.07-.13-.56-1.36-.77-1.86s-.41-.43-.56-.43h-.48a.91.91 0 0 0-.66.31 2.78 2.78 0 0 0-.87 2.07 4.83 4.83 0 0 0 1 2.55 11.06 11.06 0 0 0 4.23 3.74 14.32 14.32 0 0 0 1.41.52 3.39 3.39 0 0 0 1.56.1 2.55 2.55 0 0 0 1.67-1.18 2.07 2.07 0 0 0 .14-1.18c-.06-.13-.23-.2-.48-.33Z" />
+          </svg>
+        </span>
+        <span>{t('fitness.topbar.brand')}</span>
+      </div>
+      <a class="fs-topbar-cta" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="14" height="14">
+          <path d="M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0 19.05 4.91Zm-7 15.42a8.32 8.32 0 0 1-4.24-1.16l-.3-.18-2.46.92.92-2.4-.2-.31a8.34 8.34 0 1 1 6.28 3.13Zm4.57-6.24c-.25-.13-1.48-.73-1.71-.81s-.4-.13-.56.13-.65.81-.79.97-.29.2-.54.07a6.85 6.85 0 0 1-2.01-1.24 7.55 7.55 0 0 1-1.4-1.74c-.15-.25 0-.39.11-.51.11-.11.25-.29.37-.43a1.7 1.7 0 0 0 .25-.41.46.46 0 0 0 0-.43c-.07-.13-.56-1.36-.77-1.86s-.41-.43-.56-.43h-.48a.91.91 0 0 0-.66.31 2.78 2.78 0 0 0-.87 2.07 4.83 4.83 0 0 0 1 2.55 11.06 11.06 0 0 0 4.23 3.74 14.32 14.32 0 0 0 1.41.52 3.39 3.39 0 0 0 1.56.1 2.55 2.55 0 0 0 1.67-1.18 2.07 2.07 0 0 0 .14-1.18c-.06-.13-.23-.2-.48-.33Z" />
+        </svg>
+        <span>{t('fitness.topbar.cta')}</span>
+      </a>
+    </div>
+
+    <!-- Hero -->
+    <section class="fs-section fs-hero">
+      <div class="fs-hero-stage">
+        <div class="fs-hero-image" style={`background-image: url(/fitness/hero.png)`}>
+          <span class="fs-hero-image-tag">{t('fitness.hero.image.tag')}</span>
+        </div>
+        <div class="fs-hero-copy">
+          <p class="fs-eyebrow">{t('fitness.hero.eyebrow')}</p>
+          <h1 class="fs-h1" style="white-space: pre-line">{t('fitness.hero.title')}</h1>
+          <p class="fs-lede">{t('fitness.hero.lede')}</p>
+          <div>
+            <a class="fs-btn fs-btn-primary" href="#">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+                <path d="M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0 19.05 4.91Zm-7 15.42a8.32 8.32 0 0 1-4.24-1.16l-.3-.18-2.46.92.92-2.4-.2-.31a8.34 8.34 0 1 1 6.28 3.13Zm4.57-6.24c-.25-.13-1.48-.73-1.71-.81s-.4-.13-.56.13-.65.81-.79.97-.29.2-.54.07a6.85 6.85 0 0 1-2.01-1.24 7.55 7.55 0 0 1-1.4-1.74c-.15-.25 0-.39.11-.51.11-.11.25-.29.37-.43a1.7 1.7 0 0 0 .25-.41.46.46 0 0 0 0-.43c-.07-.13-.56-1.36-.77-1.86s-.41-.43-.56-.43h-.48a.91.91 0 0 0-.66.31 2.78 2.78 0 0 0-.87 2.07 4.83 4.83 0 0 0 1 2.55 11.06 11.06 0 0 0 4.23 3.74 14.32 14.32 0 0 0 1.41.52 3.39 3.39 0 0 0 1.56.1 2.55 2.55 0 0 0 1.67-1.18 2.07 2.07 0 0 0 .14-1.18c-.06-.13-.23-.2-.48-.33Z" />
+              </svg>
+              <span>{t('fitness.hero.cta')}</span>
+            </a>
+            <span class="fs-trust">{t('fitness.hero.trust')}</span>
+          </div>
+        </div>
+      </div>
+      <div class="fs-hero-mock-row">
+        <div class="fs-hero-mock-slot">
+          <div class="fs-mock-slot is-dashed" style="height: 560px" role="img" aria-label={`Mock #1: ${t('fitness.hero.mock1.scenario')}`}>
+            <div class="fs-mock-slot-header">
+              <div class="fs-mock-slot-avatar">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                  <path d="M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0 19.05 4.91Zm-7 15.42a8.32 8.32 0 0 1-4.24-1.16l-.3-.18-2.46.92.92-2.4-.2-.31a8.34 8.34 0 1 1 6.28 3.13Zm4.57-6.24c-.25-.13-1.48-.73-1.71-.81s-.4-.13-.56.13-.65.81-.79.97-.29.2-.54.07a6.85 6.85 0 0 1-2.01-1.24 7.55 7.55 0 0 1-1.4-1.74c-.15-.25 0-.39.11-.51.11-.11.25-.29.37-.43a1.7 1.7 0 0 0 .25-.41.46.46 0 0 0 0-.43c-.07-.13-.56-1.36-.77-1.86s-.41-.43-.56-.43h-.48a.91.91 0 0 0-.66.31 2.78 2.78 0 0 0-.87 2.07 4.83 4.83 0 0 0 1 2.55 11.06 11.06 0 0 0 4.23 3.74 14.32 14.32 0 0 0 1.41.52 3.39 3.39 0 0 0 1.56.1 2.55 2.55 0 0 0 1.67-1.18 2.07 2.07 0 0 0 .14-1.18c-.06-.13-.23-.2-.48-.33Z" />
+                </svg>
+              </div>
+              <div>
+                <div class="fs-mock-slot-title">{t('fitness.hero.mock.title')}</div>
+                <div class="fs-mock-slot-sub">{t('fitness.hero.mock.status')}</div>
+              </div>
+            </div>
+            <div class="fs-mock-slot-body">
+              <div class="fs-mock-slot-label">
+                Mock #1
+                <small>{t('fitness.hero.mock1.scenario')}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fs-hero-mock-aside">
+          <p class="fs-eyebrow">{t('fitness.hero.mock.aside.eyebrow')}</p>
+          <h3 class="fs-h3">{t('fitness.hero.mock.aside.title')}</h3>
+          <p class="fs-muted">{t('fitness.hero.mock.aside.body')}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problem -->
+    <section class="fs-section fs-section-band">
+      <p class="fs-eyebrow">{t('fitness.problem.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness.problem.title')}</h2>
+      <ul class="fs-pain-list">
+        <li>{t('fitness.problem.pain1')}</li>
+        <li>{t('fitness.problem.pain2')}</li>
+        <li>{t('fitness.problem.pain3')}</li>
+      </ul>
+    </section>
+
+    <!-- Scenario: Reminder -->
+    <section class="fs-section">
+      <div class="fs-scenario-grid">
+        <div class="fs-mock-slot is-dashed" style="height: 560px" role="img" aria-label={`Mock #2: ${t('fitness.reminder.mock.scenario')}`}>
+          <div class="fs-mock-slot-header">
+            <div class="fs-mock-slot-avatar">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                <path d="M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0 19.05 4.91Zm-7 15.42a8.32 8.32 0 0 1-4.24-1.16l-.3-.18-2.46.92.92-2.4-.2-.31a8.34 8.34 0 1 1 6.28 3.13Zm4.57-6.24c-.25-.13-1.48-.73-1.71-.81s-.4-.13-.56.13-.65.81-.79.97-.29.2-.54.07a6.85 6.85 0 0 1-2.01-1.24 7.55 7.55 0 0 1-1.4-1.74c-.15-.25 0-.39.11-.51.11-.11.25-.29.37-.43a1.7 1.7 0 0 0 .25-.41.46.46 0 0 0 0-.43c-.07-.13-.56-1.36-.77-1.86s-.41-.43-.56-.43h-.48a.91.91 0 0 0-.66.31 2.78 2.78 0 0 0-.87 2.07 4.83 4.83 0 0 0 1 2.55 11.06 11.06 0 0 0 4.23 3.74 14.32 14.32 0 0 0 1.41.52 3.39 3.39 0 0 0 1.56.1 2.55 2.55 0 0 0 1.67-1.18 2.07 2.07 0 0 0 .14-1.18c-.06-.13-.23-.2-.48-.33Z" />
+              </svg>
+            </div>
+            <div>
+              <div class="fs-mock-slot-title">{t('fitness.hero.mock.title')}</div>
+              <div class="fs-mock-slot-sub">{t('fitness.hero.mock.status')}</div>
+            </div>
+          </div>
+          <div class="fs-mock-slot-body">
+            <div class="fs-mock-slot-label">
+              Mock #2
+              <small>{t('fitness.reminder.mock.scenario')}</small>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="fs-eyebrow">{t('fitness.reminder.eyebrow')}</p>
+          <h2 class="fs-h2">{t('fitness.reminder.title')}</h2>
+          <p class="fs-caption">{t('fitness.reminder.caption')}</p>
+          <p class="fs-tiny">{t('fitness.reminder.tiny')}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Capabilities -->
+    <section class="fs-section fs-section-band">
+      <p class="fs-eyebrow">{t('fitness.capabilities.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness.capabilities.title')}</h2>
+      <div class="fs-cap-grid">
+        <div class="fs-cap-card">
+          <span class="fs-cap-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+              <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>
+            </svg>
+          </span>
+          <h3 class="fs-h3">{t('fitness.cap1.title')}</h3>
+          <p class="fs-muted" style="margin:0">{t('fitness.cap1.body')}</p>
+        </div>
+        <div class="fs-cap-card">
+          <span class="fs-cap-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/>
+            </svg>
+          </span>
+          <h3 class="fs-h3">{t('fitness.cap2.title')}</h3>
+          <p class="fs-muted" style="margin:0">{t('fitness.cap2.body')}</p>
+        </div>
+        <div class="fs-cap-card">
+          <span class="fs-cap-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+              <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/>
+            </svg>
+          </span>
+          <h3 class="fs-h3">{t('fitness.cap3.title')}</h3>
+          <p class="fs-muted" style="margin:0">{t('fitness.cap3.body')}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scenario: Follow-up -->
+    <section class="fs-section">
+      <div class="fs-scenario-grid is-flipped">
+        <div>
+          <p class="fs-eyebrow">{t('fitness.followup.eyebrow')}</p>
+          <h2 class="fs-h2">{t('fitness.followup.title')}</h2>
+          <p class="fs-caption">{t('fitness.followup.caption')}</p>
+          <p class="fs-tiny">{t('fitness.followup.tiny')}</p>
+        </div>
+        <div class="fs-mock-slot is-dashed" style="height: 560px" role="img" aria-label={`Mock #3: ${t('fitness.followup.mock.scenario')}`}>
+          <div class="fs-mock-slot-header">
+            <div class="fs-mock-slot-avatar">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                <path d="M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0 19.05 4.91Zm-7 15.42a8.32 8.32 0 0 1-4.24-1.16l-.3-.18-2.46.92.92-2.4-.2-.31a8.34 8.34 0 1 1 6.28 3.13Zm4.57-6.24c-.25-.13-1.48-.73-1.71-.81s-.4-.13-.56.13-.65.81-.79.97-.29.2-.54.07a6.85 6.85 0 0 1-2.01-1.24 7.55 7.55 0 0 1-1.4-1.74c-.15-.25 0-.39.11-.51.11-.11.25-.29.37-.43a1.7 1.7 0 0 0 .25-.41.46.46 0 0 0 0-.43c-.07-.13-.56-1.36-.77-1.86s-.41-.43-.56-.43h-.48a.91.91 0 0 0-.66.31 2.78 2.78 0 0 0-.87 2.07 4.83 4.83 0 0 0 1 2.55 11.06 11.06 0 0 0 4.23 3.74 14.32 14.32 0 0 0 1.41.52 3.39 3.39 0 0 0 1.56.1 2.55 2.55 0 0 0 1.67-1.18 2.07 2.07 0 0 0 .14-1.18c-.06-.13-.23-.2-.48-.33Z" />
+              </svg>
+            </div>
+            <div>
+              <div class="fs-mock-slot-title">{t('fitness.hero.mock.title')}</div>
+              <div class="fs-mock-slot-sub">{t('fitness.hero.mock.status')}</div>
+            </div>
+          </div>
+          <div class="fs-mock-slot-body">
+            <div class="fs-mock-slot-label">
+              Mock #3
+              <small>{t('fitness.followup.mock.scenario')}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mid CTA -->
+    <section class="fs-section fs-section-dark">
+      <h2 class="fs-h2">{t('fitness.midcta.title')}</h2>
+      <p class="fs-lede" style="max-width: 42ch">{t('fitness.midcta.lede')}</p>
+      <a class="fs-btn fs-btn-primary" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+          <path d="M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0 19.05 4.91Zm-7 15.42a8.32 8.32 0 0 1-4.24-1.16l-.3-.18-2.46.92.92-2.4-.2-.31a8.34 8.34 0 1 1 6.28 3.13Zm4.57-6.24c-.25-.13-1.48-.73-1.71-.81s-.4-.13-.56.13-.65.81-.79.97-.29.2-.54.07a6.85 6.85 0 0 1-2.01-1.24 7.55 7.55 0 0 1-1.4-1.74c-.15-.25 0-.39.11-.51.11-.11.25-.29.37-.43a1.7 1.7 0 0 0 .25-.41.46.46 0 0 0 0-.43c-.07-.13-.56-1.36-.77-1.86s-.41-.43-.56-.43h-.48a.91.91 0 0 0-.66.31 2.78 2.78 0 0 0-.87 2.07 4.83 4.83 0 0 0 1 2.55 11.06 11.06 0 0 0 4.23 3.74 14.32 14.32 0 0 0 1.41.52 3.39 3.39 0 0 0 1.56.1 2.55 2.55 0 0 0 1.67-1.18 2.07 2.07 0 0 0 .14-1.18c-.06-.13-.23-.2-.48-.33Z" />
+        </svg>
+        <span>{t('fitness.midcta.cta')}</span>
+      </a>
+    </section>
+
+    <!-- How It Works -->
+    <section class="fs-section fs-section-band">
+      <p class="fs-eyebrow">{t('fitness.how.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness.how.title')}</h2>
+      <ol class="fs-step-list">
+        <li>
+          <span class="fs-step-num">1</span>
+          <h3 class="fs-h3">{t('fitness.step1.title')}</h3>
+          <p class="fs-muted" style="margin:0">{t('fitness.step1.body')}</p>
+        </li>
+        <li>
+          <span class="fs-step-num">2</span>
+          <h3 class="fs-h3">{t('fitness.step2.title')}</h3>
+          <p class="fs-muted" style="margin:0">{t('fitness.step2.body')}</p>
+        </li>
+        <li>
+          <span class="fs-step-num">3</span>
+          <h3 class="fs-h3">{t('fitness.step3.title')}</h3>
+          <p class="fs-muted" style="margin:0">{t('fitness.step3.body')}</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- About -->
+    <section class="fs-section">
+      <p class="fs-eyebrow">{t('fitness.about.eyebrow')}</p>
+      <div class="fs-about">
+        <div class="fs-about-photo" style={`background-image: url(/fitness/hero.png); background-position: center 20%`}></div>
+        <div>
+          <h2 class="fs-h2" style="margin-bottom: 8px">{t('fitness.about.title')}</h2>
+          <p class="fs-muted" style="margin:0; max-width: 54ch">
+            {t('fitness.about.body')} <strong>{t('fitness.about.studio')}</strong> {t('fitness.about.body2')}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="fs-section fs-section-dark">
+      <h2 class="fs-h2">{t('fitness.finalcta.title')}</h2>
+      <p class="fs-lede" style="max-width: 40ch">{t('fitness.finalcta.lede')}</p>
+      <a class="fs-btn fs-btn-primary" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+          <path d="M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0 19.05 4.91Zm-7 15.42a8.32 8.32 0 0 1-4.24-1.16l-.3-.18-2.46.92.92-2.4-.2-.31a8.34 8.34 0 1 1 6.28 3.13Zm4.57-6.24c-.25-.13-1.48-.73-1.71-.81s-.4-.13-.56.13-.65.81-.79.97-.29.2-.54.07a6.85 6.85 0 0 1-2.01-1.24 7.55 7.55 0 0 1-1.4-1.74c-.15-.25 0-.39.11-.51.11-.11.25-.29.37-.43a1.7 1.7 0 0 0 .25-.41.46.46 0 0 0 0-.43c-.07-.13-.56-1.36-.77-1.86s-.41-.43-.56-.43h-.48a.91.91 0 0 0-.66.31 2.78 2.78 0 0 0-.87 2.07 4.83 4.83 0 0 0 1 2.55 11.06 11.06 0 0 0 4.23 3.74 14.32 14.32 0 0 0 1.41.52 3.39 3.39 0 0 0 1.56.1 2.55 2.55 0 0 0 1.67-1.18 2.07 2.07 0 0 0 .14-1.18c-.06-.13-.23-.2-.48-.33Z" />
+        </svg>
+        <span>{t('fitness.finalcta.cta')}</span>
+      </a>
+    </section>
+
+    <!-- FAQ -->
+    <section class="fs-section">
+      <p class="fs-eyebrow">{t('fitness.faq.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness.faq.title')}</h2>
+      <div class="fs-faq">
+        <div class="fs-faq-item" data-open="false">
+          <button class="fs-faq-q">
+            <span>{t('fitness.faq.q1')}</span><span>+</span>
+          </button>
+          <div class="fs-faq-a">{t('fitness.faq.a1')}</div>
+        </div>
+        <div class="fs-faq-item" data-open="false">
+          <button class="fs-faq-q">
+            <span>{t('fitness.faq.q2')}</span><span>+</span>
+          </button>
+          <div class="fs-faq-a">{t('fitness.faq.a2')}</div>
+        </div>
+        <div class="fs-faq-item" data-open="false">
+          <button class="fs-faq-q">
+            <span>{t('fitness.faq.q3')}</span><span>+</span>
+          </button>
+          <div class="fs-faq-a">{t('fitness.faq.a3')}</div>
+        </div>
+        <div class="fs-faq-item" data-open="false">
+          <button class="fs-faq-q">
+            <span>{t('fitness.faq.q4')}</span><span>+</span>
+          </button>
+          <div class="fs-faq-a">{t('fitness.faq.a4')}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="fs-footer">
+      <div>{t('fitness.footer.copyright')}</div>
+      <div style="display:flex; gap:18px">
+        <a href={`tel:${siteContact.phoneTel}`}>{siteContact.phoneDisplay}</a>
+        <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a>
+      </div>
+    </footer>
+
+  </div>
+</FitnessLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.fs-faq-item').forEach((item) => {
+    item.querySelector('.fs-faq-q')?.addEventListener('click', () => {
+      const isOpen = item.dataset.open === 'true';
+      document.querySelectorAll<HTMLElement>('.fs-faq-item').forEach((el) => {
+        el.dataset.open = 'false';
+      });
+      item.dataset.open = isOpen ? 'false' : 'true';
+    });
+  });
+</script>
