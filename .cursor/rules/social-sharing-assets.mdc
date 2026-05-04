@@ -1,0 +1,65 @@
+---
+description: Rules for managing social sharing OG images and meta tags per route
+globs:
+  - "src/layouts/*.astro"
+  - "src/pages/**/*.astro"
+  - "public/og/**"
+alwaysApply: false
+---
+
+# Social Sharing Assets
+
+## Folder structure
+
+All OG images live in `public/og/`. Never put social sharing images anywhere else.
+Each route gets its own subfolder. The image inside is always named `og.png`.
+
+```
+public/
+  og/
+    default.png        ← site-wide fallback (Layout.astro)
+    fitness/
+      og.png           ← /fitness route
+    contact/
+      og.png           ← /contact route
+```
+
+## Naming convention
+
+Create a subfolder named after the route slug and put `og.png` inside it.
+`/fitness` → `fitness/og.png`. Nested routes mirror the URL path: `/services/chatbot` → `services/chatbot/og.png`.
+
+## Image spec
+
+- **Dimensions:** 1200 × 630 px (required — WhatsApp, Facebook, LinkedIn all expect this)
+- **Format:** PNG or JPG
+- **Size:** under 1 MB
+- **Safe zone:** keep text/logos within 960 × 504 px centered
+
+## Layout props
+
+Both `Layout.astro` and `FitnessLayout.astro` accept:
+
+| Prop | Type | Default | What it controls |
+|---|---|---|---|
+| `title` | `string` | Site/page default | `<title>`, `og:title`, `twitter:title` |
+| `description` | `string` | i18n site description | `og:description`, `twitter:description`, `<meta name="description">` |
+| `ogImage` | `string` | `/og/default.png` | `og:image`, `twitter:image` |
+
+Always pass all three when creating a new route.
+
+## Rules
+
+1. **NEVER hardcode a social image path** inside a layout default. The default must always point to `public/og/default.png` or `public/og/<route>.png`.
+2. **NEVER use a page hero image** as the OG image. Hero images are not sized correctly (they are not 1200 × 630). Create a dedicated OG image.
+3. **Always use absolute URLs** for `og:image`. Both layouts handle this automatically via `new URL(ogImage, Astro.site)` — do not bypass this logic.
+4. **Update CLAUDE.md** whenever you add a new OG image (the routes table in "Social Sharing / OG Images").
+5. **Update `public/og/README.md`** to add the new route/file to the table.
+
+## Adding a new route — checklist
+
+- [ ] Create `public/og/<slug>/og.png` at 1200 × 630 px
+- [ ] Pass `ogImage="/og/<slug>/og.png"` to the layout in the page file
+- [ ] Pass a meaningful `description` (150–160 characters) — this is what appears in WhatsApp/iMessage previews
+- [ ] Update the table in `CLAUDE.md` → Social Sharing section
+- [ ] Update the table in `public/og/README.md`

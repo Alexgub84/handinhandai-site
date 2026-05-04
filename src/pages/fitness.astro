@@ -10,9 +10,16 @@ import { followupMessages } from '@components/whatsapp-mock/scenarios/followup';
 
 const lang = defaultLang;
 const t = useTranslations(lang);
+
+const pageDescription = t('fitness.hero.lede');
 ---
 
-<FitnessLayout lang={lang} title={t('fitness.page.title')}>
+<FitnessLayout 
+  lang={lang} 
+  title={t('fitness.page.title')}
+  description={pageDescription}
+  ogImage="/og/fitness/og.png"
+>
   <div class="fs-page" dir="rtl" lang="he">
 
     <!-- TopBar -->

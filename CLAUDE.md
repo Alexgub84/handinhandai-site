@@ -131,3 +131,43 @@ GitHub Actions workflow at `.github/workflows/test.yml` runs on every PR to `mai
 ## Fonts
 
 Only Heebo is used on the fitness page (Hebrew-first). Poppins and Outfit are loaded in `FitnessLayout.astro` but unused — remove them if performance is a concern.
+
+## Social Sharing / OG Images
+
+All Open Graph images (WhatsApp previews, Facebook, Twitter/X, LinkedIn) live in `public/og/`.
+
+| Route | Image | Notes |
+|---|---|---|
+| Site default | `public/og/default.png` | Used by `Layout.astro` when no `ogImage` is passed |
+| `/fitness` | `public/og/fitness/og.png` | Fitness studio landing page |
+| `/contact` | `public/og/contact/og.png` | Optional; falls back to default |
+
+### Image requirements
+
+- **Size:** 1200 × 630 px (2:1 ratio)
+- **Format:** PNG or JPG
+- **File size:** under 1 MB recommended
+- **Safe zone:** keep important content within the central 960 × 504 px
+
+### Per-route configuration
+
+Pass `ogImage` and `description` props to any layout to customise what appears in social previews:
+
+```astro
+<FitnessLayout 
+  lang={lang} 
+  title="Hand in Hand Agents — עוזר AI לסטודיו"
+  description="עוזר חכם בוואטסאפ שעונה ללקוחות, קובע שיעורי ניסיון ומזכיר על אימונים"
+  ogImage="/og/fitness/og.png"
+/>
+```
+
+Both `Layout.astro` and `FitnessLayout.astro` accept the same three props: `title`, `description`, `ogImage`. If omitted they fall back to sensible defaults.
+
+### Adding an OG image for a new route
+
+1. Create a subfolder `public/og/<slug>/`
+2. Save the image as `og.png` inside it (1200 × 630 px)
+3. Pass `ogImage="/og/<slug>/og.png"` to the layout in the page file
+4. Update the table above
+5. See `public/og/README.md` for the full specification
