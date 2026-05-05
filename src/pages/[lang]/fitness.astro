@@ -13,9 +13,14 @@ export function getStaticPaths() {
 const { lang } = Astro.params as { lang: Lang };
 const t = useTranslations(lang);
 const dir = getDirection(lang);
+const pageDescription = t('fitness.hero.lede');
 ---
 
-<FitnessLayout lang={lang} title={t('fitness.page.title')}>
+<FitnessLayout
+  lang={lang}
+  title={t('fitness.page.title')}
+  description={pageDescription}
+>
   <div class="fs-page" dir={dir} lang={lang}>
 
     <!-- TopBar -->

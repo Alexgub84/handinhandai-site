@@ -15,12 +15,13 @@ interface Props {
 
 const { 
   lang, 
-  title = 'Hand in Hand Agents — סטודיו',
-  description = 'עוזר חכם בוואטסאפ לסטודיו שלכם — עונה ללקוחות, קובע שיעורי ניסיון ומזכיר על אימונים',
+  title = 'צ׳טבוט חכם לסטודיו',
+  description = 'צ׳טבוט חכם בוואטסאפ לסטודיו שלכם — עונה ללקוחות, קובע שיעורי ניסיון ומזכיר על אימונים',
   ogImage = '/og/fitness/og.jpg',
   canonicalUrl,
 } = Astro.props;
 const dir = getDirection(lang);
+const ogSiteName = lang === 'he' ? 'צ׳טבוט חכם לסטודיו' : 'Smart chatbot for studios';
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://handinhandai.com';
 const fullUrl = canonicalUrl || new URL(Astro.url.pathname, Astro.site).toString();
 const fullImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astro.site).toString();
@@ -45,7 +46,7 @@ const fullImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Ast
     <meta property="og:image" content={fullImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="Hand in Hand AI" />
+    <meta property="og:site_name" content={ogSiteName} />
     <meta property="og:locale" content={lang === 'he' ? 'he_IL' : 'en_US'} />
     
     <!-- Twitter -->
