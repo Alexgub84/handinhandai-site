@@ -11,21 +11,21 @@ const base = 'http://localhost:4321';
 
 const routes = [
   {
-    label: 'Main — /',
+    label: 'Main · /',
     url: `${base}/`,
     title: t('site.title'),
     description: t('site.description'),
     image: `${base}/og/default.png`,
   },
   {
-    label: 'Fitness — /fitness',
+    label: 'Fitness · /fitness',
     url: `${base}/fitness`,
     title: t('fitness.page.title'),
     description: t('fitness.hero.lede'),
     image: `${base}/og/fitness/og.png`,
   },
   {
-    label: 'Contact — /contact',
+    label: 'Contact · /contact',
     url: `${base}/contact`,
     title: t('site.title'),
     description: t('site.description'),
@@ -39,7 +39,7 @@ const routes = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OG Preview — Dev Only</title>
+    <title>OG Preview (dev only)</title>
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -252,7 +252,7 @@ const routes = [
   </head>
   <body>
     <h1>OG / Social Preview</h1>
-    <p class="subtitle">Dev only — shows how link previews appear on each platform when this URL is shared.</p>
+    <p class="subtitle">Dev only: preview how links look on each platform when shared.</p>
 
     {routes.map((route) => (
       <div class="route-block">

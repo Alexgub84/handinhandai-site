@@ -24,7 +24,7 @@ function MockSlot({ id, scenario, height = 560 }) {
         <div className="fs-mock-slot-avatar">{FS_ICONS.whatsapp}</div>
         <div>
           <div className="fs-mock-slot-title">סטודיו שלך · בוט</div>
-          <div className="fs-mock-slot-sub">מקוון</div>
+          <div className="fs-mock-slot-sub">מחובר</div>
         </div>
       </div>
       <div className="fs-mock-slot-body">

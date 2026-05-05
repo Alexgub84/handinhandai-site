@@ -14,7 +14,13 @@ function estimateDuration(messages: Message[]): number {
   return messages.reduce((sum, m) => sum + (m.delayBeforeMs ?? 800), 0) + 4000;
 }
 
-export default function WhatsAppMock({ messages, headerName, avatarUrl, scale = 0.82, loopDelayMs }: Props) {
+export default function WhatsAppMock({
+  messages,
+  headerName,
+  avatarUrl,
+  scale = 0.82,
+  loopDelayMs,
+}: Props) {
   const [instanceKey, setInstanceKey] = useState(0);
   const duration = loopDelayMs ?? estimateDuration(messages);
 
@@ -26,7 +32,7 @@ export default function WhatsAppMock({ messages, headerName, avatarUrl, scale = 
   return (
     <WhatsAppChat
       key={instanceKey}
-      header={{ name: headerName, avatarUrl, subtitle: "מקוון" }}
+      header={{ name: headerName, avatarUrl, subtitle: "מחובר" }}
       messages={messages}
       direction="rtl"
       autoplay={true}
