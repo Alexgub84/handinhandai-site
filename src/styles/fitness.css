@@ -317,6 +317,35 @@
   .fs-about-photo { width: 180px; height: 180px; }
 }
 
+/* ── AI Explainer checklist ── */
+.fs-check-list {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0;
+}
+.fs-check-list li {
+  margin-bottom: 14px;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+/* ── MMA alert card ── */
+.fs-alert-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid #E5E1DA;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 20px;
+  max-width: 320px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.fs-alert-icon { font-size: 1.25rem; line-height: 1.4; flex-shrink: 0; }
+.fs-alert-title { font-weight: 700; margin: 0 0 4px; font-size: 0.85rem; letter-spacing: 0.01em; }
+.fs-alert-body { margin: 0; font-size: 0.9rem; color: #5A6272; line-height: 1.4; }
+
 /* ══════════════════════════════════════════════════════════
    Variant B — warm-dark / editorial  (.is-bold)
    ══════════════════════════════════════════════════════════ */
