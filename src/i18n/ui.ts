@@ -73,7 +73,6 @@ export const ui = {
       "צ׳טבוט חכם בוואטסאפ שעונה ללקוחות, קובע שיעורי ניסיון ומזכיר על אימונים. הכול בעברית, בקול שלכם.",
     "fitness.hero.cta": "דברו איתי בוואטסאפ",
     "fitness.hero.trust": "ללא טפסים. ללא התקנה. תגובה בדרך כלל באותו יום.",
-    "fitness.hero.image.tag": "הדגמה",
     "fitness.hero.mock.title": "סטודיו שלך · בוט",
     "fitness.hero.mock.status": "מחובר",
     "fitness.hero.mock1.scenario": "הזמנת שיעור ניסיון אחרי שעות הפעילות",
@@ -227,7 +226,6 @@ export const ui = {
     "fitness.hero.cta": "Talk to me on WhatsApp",
     "fitness.hero.trust":
       "No forms. No installation. Response usually the same day.",
-    "fitness.hero.image.tag": "Demo",
     "fitness.hero.mock.title": "Your Studio · Bot",
     "fitness.hero.mock.status": "Online",
     "fitness.hero.mock1.scenario": "Booking a trial class after business hours",
