@@ -1,0 +1,48 @@
+export const loyaltyMessages = [
+  {
+    id: "l1",
+    sender: "outgoing" as const,
+    text: "היי דנה! שמנו לב שבאת 3 פעמים השבוע — שבוע מעולה 💪",
+    timestamp: "18:00",
+    status: "read" as const,
+    delayBeforeMs: 600,
+  },
+  {
+    id: "l2",
+    sender: "incoming" as const,
+    text: "תודה!! הרגשתי שסוף סוף אני בקצב",
+    timestamp: "18:04",
+    delayBeforeMs: 2000,
+  },
+  {
+    id: "l3",
+    sender: "outgoing" as const,
+    text: "ממש. הגוף מגיב כשמגיעים בסדירות. המשיכי ככה.",
+    timestamp: "18:04",
+    status: "read" as const,
+    delayBeforeMs: 1000,
+  },
+  {
+    id: "l4",
+    sender: "outgoing" as const,
+    text: "יש לנו שיעור חדש ביום שלישי בבוקר שחושבים שיתאים לך — רוצה שאשריין לך מקום?",
+    timestamp: "18:04",
+    status: "read" as const,
+    delayBeforeMs: 1200,
+  },
+  {
+    id: "l5",
+    sender: "incoming" as const,
+    text: "אוה כן, בבקשה!",
+    timestamp: "18:06",
+    delayBeforeMs: 2200,
+  },
+  {
+    id: "l6",
+    sender: "outgoing" as const,
+    text: "שריינתי ✓ נתראה שלישי!",
+    timestamp: "18:06",
+    status: "read" as const,
+    delayBeforeMs: 900,
+  },
+];
