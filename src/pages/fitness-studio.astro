@@ -11,7 +11,7 @@ import { noShowMessages } from '@components/whatsapp-mock/scenarios/no-show';
 const lang = defaultLang;
 const t = useTranslations(lang);
 
-const pageDescription = t('fitness.hero.lede');
+const pageDescription = t('fitness-studio.hero.lede');
 const waPhone = siteContact.phoneTel.replace('+', '');
 const waMessage = encodeURIComponent('היי אלכס, ראיתי את הדף עם הבוטים לסטודיואים, רוצה לדבר.');
 const waLink = `https://wa.me/${waPhone}?text=${waMessage}`;
@@ -21,9 +21,9 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
 
 <FitnessLayout
   lang={lang}
-  title={t('fitness.page.title')}
+  title={t('fitness-studio.page.title')}
   description={pageDescription}
-  ogImage="/og/fitness/og.jpg"
+  ogImage="/og/fitness-studio/og.jpg"
 >
   <div class="fs-page" dir="rtl" lang="he">
 
@@ -35,32 +35,32 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
             <path d={waIconPath} />
           </svg>
         </span>
-        <span>{t('fitness.topbar.brand')}</span>
+        <span>{t('fitness-studio.topbar.brand')}</span>
       </div>
       <a class="fs-topbar-cta" href={waLink}>
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="14" height="14">
           <path d={waIconPath} />
         </svg>
-        <span>{t('fitness.topbar.cta')}</span>
+        <span>{t('fitness-studio.topbar.cta')}</span>
       </a>
     </div>
 
     <!-- Hero -->
     <section class="fs-section fs-hero">
       <div class="fs-hero-stage">
-        <div class="fs-hero-image" style={`background-image: url(/fitness/hero.png)`}></div>
+        <div class="fs-hero-image" style={`background-image: url(/fitness-studio/hero.png)`}></div>
         <div class="fs-hero-copy">
-          <p class="fs-eyebrow">{t('fitness.hero.eyebrow')}</p>
-          <h1 class="fs-h1" style="white-space: pre-line">{t('fitness.hero.title')}</h1>
-          <p class="fs-lede">{t('fitness.hero.lede')}</p>
+          <p class="fs-eyebrow">{t('fitness-studio.hero.eyebrow')}</p>
+          <h1 class="fs-h1" style="white-space: pre-line">{t('fitness-studio.hero.title')}</h1>
+          <p class="fs-lede">{t('fitness-studio.hero.lede')}</p>
           <div>
             <a class="fs-btn fs-btn-primary" href={waLink}>
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
                 <path d={waIconPath} />
               </svg>
-              <span>{t('fitness.hero.cta')}</span>
+              <span>{t('fitness-studio.hero.cta')}</span>
             </a>
-            <span class="fs-trust">{t('fitness.hero.trust')}</span>
+            <span class="fs-trust">{t('fitness-studio.hero.trust')}</span>
           </div>
         </div>
       </div>
@@ -74,39 +74,39 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
           />
         </div>
         <div class="fs-hero-mock-aside">
-          <p class="fs-eyebrow">{t('fitness.hero.mock.aside.eyebrow')}</p>
-          <h3 class="fs-h3">{t('fitness.hero.mock.aside.title')}</h3>
-          <p class="fs-muted">{t('fitness.hero.mock.aside.body')}</p>
+          <p class="fs-eyebrow">{t('fitness-studio.hero.mock.aside.eyebrow')}</p>
+          <h3 class="fs-h3">{t('fitness-studio.hero.mock.aside.title')}</h3>
+          <p class="fs-muted">{t('fitness-studio.hero.mock.aside.body')}</p>
         </div>
       </div>
     </section>
 
     <!-- Core Promise -->
     <section class="fs-section fs-section-band">
-      <p class="fs-eyebrow">{t('fitness.promise.eyebrow')}</p>
-      <h2 class="fs-h2">{t('fitness.promise.title')}</h2>
-      <p class="fs-lede" style="max-width: 52ch; margin-top: 12px">{t('fitness.promise.body')}</p>
+      <p class="fs-eyebrow">{t('fitness-studio.promise.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness-studio.promise.title')}</h2>
+      <p class="fs-lede" style="max-width: 52ch; margin-top: 12px">{t('fitness-studio.promise.body')}</p>
     </section>
 
     <!-- Three Jobs -->
     <section class="fs-section">
-      <p class="fs-eyebrow">{t('fitness.jobs.eyebrow')}</p>
-      <h2 class="fs-h2">{t('fitness.jobs.title')}</h2>
+      <p class="fs-eyebrow">{t('fitness-studio.jobs.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness-studio.jobs.title')}</h2>
       <div class="fs-cap-grid" style="margin-top: 32px">
         <div class="fs-cap-card">
           <div class="fs-cap-icon">📥</div>
-          <h3 class="fs-h3">{t('fitness.job1.title')}</h3>
-          <p class="fs-caption" style="margin:0">{t('fitness.job1.body')}</p>
+          <h3 class="fs-h3">{t('fitness-studio.job1.title')}</h3>
+          <p class="fs-caption" style="margin:0">{t('fitness-studio.job1.body')}</p>
         </div>
         <div class="fs-cap-card">
           <div class="fs-cap-icon">💪</div>
-          <h3 class="fs-h3">{t('fitness.job2.title')}</h3>
-          <p class="fs-caption" style="margin:0">{t('fitness.job2.body')}</p>
+          <h3 class="fs-h3">{t('fitness-studio.job2.title')}</h3>
+          <p class="fs-caption" style="margin:0">{t('fitness-studio.job2.body')}</p>
         </div>
         <div class="fs-cap-card">
           <div class="fs-cap-icon">🔄</div>
-          <h3 class="fs-h3">{t('fitness.job3.title')}</h3>
-          <p class="fs-caption" style="margin:0">{t('fitness.job3.body')}</p>
+          <h3 class="fs-h3">{t('fitness-studio.job3.title')}</h3>
+          <p class="fs-caption" style="margin:0">{t('fitness-studio.job3.body')}</p>
         </div>
       </div>
     </section>
@@ -123,9 +123,9 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
           />
         </div>
         <div>
-          <p class="fs-eyebrow">{t('fitness.scenario2.label')}</p>
-          <h2 class="fs-h2">{t('fitness.scenario2.heading')}</h2>
-          <p class="fs-caption">{t('fitness.scenario2.desc')}</p>
+          <p class="fs-eyebrow">{t('fitness-studio.scenario2.label')}</p>
+          <h2 class="fs-h2">{t('fitness-studio.scenario2.heading')}</h2>
+          <p class="fs-caption">{t('fitness-studio.scenario2.desc')}</p>
         </div>
       </div>
     </section>
@@ -134,9 +134,9 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
     <section class="fs-section">
       <div class="fs-scenario-grid is-flipped">
         <div>
-          <p class="fs-eyebrow">{t('fitness.scenario3.label')}</p>
-          <h2 class="fs-h2">{t('fitness.scenario3.heading')}</h2>
-          <p class="fs-caption">{t('fitness.scenario3.desc')}</p>
+          <p class="fs-eyebrow">{t('fitness-studio.scenario3.label')}</p>
+          <h2 class="fs-h2">{t('fitness-studio.scenario3.heading')}</h2>
+          <p class="fs-caption">{t('fitness-studio.scenario3.desc')}</p>
           <div class="fs-alert-card">
             <span class="fs-alert-icon">🔔</span>
             <div>
@@ -158,57 +158,57 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
 
     <!-- Channel Options -->
     <section class="fs-section fs-section-band">
-      <p class="fs-eyebrow">{t('fitness.channels.eyebrow')}</p>
-      <h2 class="fs-h2">{t('fitness.channels.title')}</h2>
+      <p class="fs-eyebrow">{t('fitness-studio.channels.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness-studio.channels.title')}</h2>
       <div class="fs-cap-grid" style="margin-top: 32px">
         <div class="fs-cap-card">
           <div class="fs-cap-icon">💬</div>
-          <h3 class="fs-h3">{t('fitness.channel1.title')}</h3>
-          <p class="fs-caption" style="margin:0">{t('fitness.channel1.body')}</p>
+          <h3 class="fs-h3">{t('fitness-studio.channel1.title')}</h3>
+          <p class="fs-caption" style="margin:0">{t('fitness-studio.channel1.body')}</p>
         </div>
         <div class="fs-cap-card">
           <div class="fs-cap-icon">📸</div>
-          <h3 class="fs-h3">{t('fitness.channel2.title')}</h3>
-          <p class="fs-caption" style="margin:0">{t('fitness.channel2.body')}</p>
+          <h3 class="fs-h3">{t('fitness-studio.channel2.title')}</h3>
+          <p class="fs-caption" style="margin:0">{t('fitness-studio.channel2.body')}</p>
         </div>
         <div class="fs-cap-card">
           <div class="fs-cap-icon">👥</div>
-          <h3 class="fs-h3">{t('fitness.channel3.title')}</h3>
-          <p class="fs-caption" style="margin:0">{t('fitness.channel3.body')}</p>
+          <h3 class="fs-h3">{t('fitness-studio.channel3.title')}</h3>
+          <p class="fs-caption" style="margin:0">{t('fitness-studio.channel3.body')}</p>
         </div>
       </div>
     </section>
 
     <!-- How It Works -->
     <section class="fs-section fs-section-band">
-      <p class="fs-eyebrow">{t('fitness.how.eyebrow')}</p>
-      <h2 class="fs-h2">{t('fitness.how.title')}</h2>
+      <p class="fs-eyebrow">{t('fitness-studio.how.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness-studio.how.title')}</h2>
       <ol class="fs-step-list">
         <li>
           <span class="fs-step-num">1</span>
-          <h3 class="fs-h3">{t('fitness.step1.title')}</h3>
-          <p class="fs-muted" style="margin:0">{t('fitness.step1.body')}</p>
+          <h3 class="fs-h3">{t('fitness-studio.step1.title')}</h3>
+          <p class="fs-muted" style="margin:0">{t('fitness-studio.step1.body')}</p>
         </li>
         <li>
           <span class="fs-step-num">2</span>
-          <h3 class="fs-h3">{t('fitness.step2.title')}</h3>
-          <p class="fs-muted" style="margin:0">{t('fitness.step2.body')}</p>
+          <h3 class="fs-h3">{t('fitness-studio.step2.title')}</h3>
+          <p class="fs-muted" style="margin:0">{t('fitness-studio.step2.body')}</p>
         </li>
         <li>
           <span class="fs-step-num">3</span>
-          <h3 class="fs-h3">{t('fitness.step3.title')}</h3>
-          <p class="fs-muted" style="margin:0">{t('fitness.step3.body')}</p>
+          <h3 class="fs-h3">{t('fitness-studio.step3.title')}</h3>
+          <p class="fs-muted" style="margin:0">{t('fitness-studio.step3.body')}</p>
         </li>
       </ol>
     </section>
 
     <!-- About -->
     <section class="fs-section">
-      <p class="fs-eyebrow">{t('fitness.about.eyebrow')}</p>
+      <p class="fs-eyebrow">{t('fitness-studio.about.eyebrow')}</p>
       <div class="fs-about">
-        <div class="fs-about-photo" style={`background-image: url(/fitness/hero.png); background-position: center 20%`}></div>
+        <div class="fs-about-photo" style={`background-image: url(/fitness-studio/hero.png); background-position: center 20%`}></div>
         <div>
-          <h2 class="fs-h2" style="margin-bottom: 8px">{t('fitness.about.title')}</h2>
+          <h2 class="fs-h2" style="margin-bottom: 8px">{t('fitness-studio.about.title')}</h2>
           <p class="fs-muted" style="margin:0 0 16px; max-width: 54ch">
             בניתי את הפלטפורמה מאפס: תמיכה בעברית ו-RTL, אינטגרציה ליומנים, מעקב שיחות ומערכת התראות לבעל הסטודיו. כל בוט נבנה אישית — לא תבנית, לא מוצר ארוז.
           </p>
@@ -221,14 +221,14 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
 
     <!-- FAQ -->
     <section class="fs-section">
-      <p class="fs-eyebrow">{t('fitness.faq.eyebrow')}</p>
-      <h2 class="fs-h2">{t('fitness.faq.title')}</h2>
+      <p class="fs-eyebrow">{t('fitness-studio.faq.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness-studio.faq.title')}</h2>
       <div class="fs-faq">
 
         <!-- Q1: Calendar -->
         <div class="fs-faq-item" data-open="false">
           <button class="fs-faq-q">
-            <span>{t('fitness.faq.q1')}</span><span>+</span>
+            <span>{t('fitness-studio.faq.q1')}</span><span>+</span>
           </button>
           <div class="fs-faq-a">
             <p style="margin:0">כן. מתחבר ל-Google Calendar ול-Arbox. אין לך מערכת הזמנות? נבנה לך אחת בתוך תהליך הפיתוח.</p>
@@ -238,7 +238,7 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
         <!-- Q2: Booking system -->
         <div class="fs-faq-item" data-open="false">
           <button class="fs-faq-q">
-            <span>{t('fitness.faq.q2')}</span><span>+</span>
+            <span>{t('fitness-studio.faq.q2')}</span><span>+</span>
           </button>
           <div class="fs-faq-a">
             <p style="margin:0">כן, אם יש לך Arbox — הבוט מתחבר אליה. מערכת אחרת? נבדוק יחד מה אפשרי. אין בכלל? הבוט מנהל את ההזמנות בעצמו.</p>
@@ -248,10 +248,10 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
         <!-- Q3: Timeline -->
         <div class="fs-faq-item" data-open="false">
           <button class="fs-faq-q">
-            <span>{t('fitness.faq.q3')}</span><span>+</span>
+            <span>{t('fitness-studio.faq.q3')}</span><span>+</span>
           </button>
           <div class="fs-faq-a">
-            <p style="margin:0 0 12px">{t('fitness.faq.a3')}</p>
+            <p style="margin:0 0 12px">{t('fitness-studio.faq.a3')}</p>
             <ul style="margin:0; padding-right:18px; line-height:1.7">
               <li><strong>הגדרה:</strong> מגדירים יחד את קול הבוט, מה הוא יודע ואילו שיחות מועברות אליכם.</li>
               <li><strong>פיתוח:</strong> אני בונה ומטמיע. אתם בסטודיו.</li>
@@ -263,7 +263,7 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
         <!-- Q4: Cost -->
         <div class="fs-faq-item" data-open="false">
           <button class="fs-faq-q">
-            <span>{t('fitness.faq.q4')}</span><span>+</span>
+            <span>{t('fitness-studio.faq.q4')}</span><span>+</span>
           </button>
           <div class="fs-faq-a">
             <p style="margin:0 0 12px">שני חלקים, שקופים מההתחלה.</p>
@@ -278,19 +278,19 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
 
     <!-- Final CTA -->
     <section class="fs-section fs-section-dark">
-      <h2 class="fs-h2">{t('fitness.finalcta.title')}</h2>
-      <p class="fs-lede" style="max-width: 40ch">{t('fitness.finalcta.lede')}</p>
+      <h2 class="fs-h2">{t('fitness-studio.finalcta.title')}</h2>
+      <p class="fs-lede" style="max-width: 40ch">{t('fitness-studio.finalcta.lede')}</p>
       <a class="fs-btn fs-btn-primary" href={waLink}>
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
           <path d={waIconPath} />
         </svg>
-        <span>{t('fitness.finalcta.cta')}</span>
+        <span>{t('fitness-studio.finalcta.cta')}</span>
       </a>
     </section>
 
     <!-- Footer -->
     <footer class="fs-footer">
-      <div>{t('fitness.footer.copyright')}</div>
+      <div>{t('fitness-studio.footer.copyright')}</div>
       <div style="display:flex; gap:18px">
         <a href={`tel:${siteContact.phoneTel}`}>{siteContact.phoneDisplay}</a>
         <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a>

@@ -15,6 +15,8 @@ export const ui = {
     "nav.about": "אודות",
     "nav.services": "שירותים",
     "nav.contact": "צור קשר",
+    "nav.fitnessStudio": "סטודיו",
+    "nav.fitnessChain": "רשת",
     "hero.title": "יד ביד עם בינה מלאכותית",
     "hero.subtitle":
       "אנחנו עוזרים לעסקים לצמוח באמצעות פתרונות AI מותאמים אישית",
@@ -63,130 +65,237 @@ export const ui = {
     "features.support.description":
       "צוות מומחים שמלווה אתכם בכל שלב בדרך להצלחה",
 
-    // ── Fitness studio landing page ───────────────────────────────
-    "fitness.page.title": "עוזר חכם בוואטסאפ לסטודיו",
-    "fitness.topbar.brand": "סטודיו · עוזר חכם בוואטסאפ",
-    "fitness.topbar.cta": "וואטסאפ",
-    "fitness.hero.eyebrow": "לבעלי סטודיו",
-    "fitness.hero.title": "מנהל חכם בוואטסאפ.\nאתה מלמד. אנחנו מטפלים בשאר.",
-    "fitness.hero.lede":
+    // ── Fitness Studio landing page ───────────────────────────────
+    "fitness-studio.page.title": "עוזר חכם בוואטסאפ לסטודיו",
+    "fitness-studio.topbar.brand": "סטודיו · עוזר חכם בוואטסאפ",
+    "fitness-studio.topbar.cta": "וואטסאפ",
+    "fitness-studio.hero.eyebrow": "לבעלי סטודיו",
+    "fitness-studio.hero.title": "מנהל חכם בוואטסאפ.\nאתה מלמד. אנחנו מטפלים בשאר.",
+    "fitness-studio.hero.lede":
       "קובע שיעורי ניסיון, מחזק נאמנות ומחזיר מתאמנים שנעלמו. הכול בוואטסאפ, בעברית, בקול שלך.",
-    "fitness.hero.cta": "דברו איתי בוואטסאפ",
-    "fitness.hero.trust": "ללא טפסים. ללא התקנה. תגובה בדרך כלל באותו יום.",
-    "fitness.hero.mock.title": "סטודיו שלך · בוט",
-    "fitness.hero.mock.status": "מחובר",
-    "fitness.hero.mock1.scenario": "הזמנת שיעור ניסיון אחרי שעות הפעילות",
-    "fitness.hero.mock.aside.eyebrow": "תרחיש 1 · לסטודיו יוגה",
-    "fitness.hero.mock.aside.title": "פנייה ב-22:48. בבוקר, השיעור כבר ביומן.",
-    "fitness.hero.mock.aside.body":
+    "fitness-studio.hero.cta": "דברו איתי בוואטסאפ",
+    "fitness-studio.hero.trust": "ללא טפסים. ללא התקנה. תגובה בדרך כלל באותו יום.",
+    "fitness-studio.hero.mock.title": "סטודיו שלך · בוט",
+    "fitness-studio.hero.mock.status": "מחובר",
+    "fitness-studio.hero.mock1.scenario": "הזמנת שיעור ניסיון אחרי שעות הפעילות",
+    "fitness-studio.hero.mock.aside.eyebrow": "תרחיש 1 · לסטודיו יוגה",
+    "fitness-studio.hero.mock.aside.title": "פנייה ב-22:48. בבוקר, השיעור כבר ביומן.",
+    "fitness-studio.hero.mock.aside.body":
       "לקוחה חדשה כותבת אחרי שעות הפעילות. הבוט מציע שני מועדים, עונה על שאלה, ומאשר את ההרשמה. את מתעוררת לפנייה סגורה.",
-    // Core promise
-    "fitness.promise.eyebrow": "מה זה עושה",
-    "fitness.promise.title": "אתה מלמד. אנחנו מטפלים בשאר.",
-    "fitness.promise.body":
+    "fitness-studio.promise.eyebrow": "מה זה עושה",
+    "fitness-studio.promise.title": "אתה מלמד. אנחנו מטפלים בשאר.",
+    "fitness-studio.promise.body":
       "עוזר חכם בוואטסאפ שמנהל את מחזור החיים של המתאמן שלך: מהפנייה הראשונה ועד לנאמן שמגיע כל שבוע.",
-    // Three jobs
-    "fitness.jobs.eyebrow": "שלוש משימות",
-    "fitness.jobs.title": "הדברים שהיית צריך לעשות אחרי כל יום אימון.",
-    "fitness.job1.title": "ממלא שיעורים",
-    "fitness.job1.body": "עונה לפניות, מציע מועדים ומסגר שיעורי ניסיון. גם ב-23:00.",
-    "fitness.job2.title": "בונה נאמנות",
-    "fitness.job2.body":
+    "fitness-studio.jobs.eyebrow": "שלוש משימות",
+    "fitness-studio.jobs.title": "הדברים שהיית צריך לעשות אחרי כל יום אימון.",
+    "fitness-studio.job1.title": "ממלא שיעורים",
+    "fitness-studio.job1.body": "עונה לפניות, מציע מועדים ומסגר שיעורי ניסיון. גם ב-23:00.",
+    "fitness-studio.job2.title": "בונה נאמנות",
+    "fitness-studio.job2.body":
       "שולח מסרים שבועיים לפי נוכחות. מי שבא שלוש פעמים מקבל אחד, מי שבא פעם אחת מקבל אחר.",
-    "fitness.job3.title": "מונע נשירה",
-    "fitness.job3.body":
+    "fitness-studio.job3.title": "מונע נשירה",
+    "fitness-studio.job3.body":
       "מחזיר מתאמנים שנעלמו בגישה אמפתית. כשצריך אותך, מעביר אליך.",
-    // Scenarios
-    "fitness.scenario2.label": "תרחיש 2 · מתאמנת נאמנה",
-    "fitness.scenario2.heading": "באת 3 פעמים השבוע. ידענו. שלחנו לך הודעה.",
-    "fitness.scenario2.desc":
+    "fitness-studio.scenario2.label": "תרחיש 2 · מתאמנת נאמנה",
+    "fitness-studio.scenario2.heading": "באת 3 פעמים השבוע. ידענו. שלחנו לך הודעה.",
+    "fitness-studio.scenario2.desc":
       "עוזר עוקב אחרי נוכחות ושולח הודעה שבועית מותאמת. מי שבא שלוש פעמים מקבל עידוד ומוצע לו שיעור חדש. מי שלא בא מקבל הודעה שונה לגמרי.",
-    "fitness.scenario3.label": "תרחיש 3 · מתאמן שנעלם",
-    "fitness.scenario3.heading": "לא ראינו אותך שבוע. הכל בסדר?",
-    "fitness.scenario3.desc":
+    "fitness-studio.scenario3.label": "תרחיש 3 · מתאמן שנעלם",
+    "fitness-studio.scenario3.heading": "לא ראינו אותך שבוע. הכל בסדר?",
+    "fitness-studio.scenario3.desc":
       "אחרי שבוע היעדרות, העוזר שואל. כשהמתאמן עונה בכנות, העוזר מגיב בהבנה — לא בלחץ. ואם צריך, מציע שבעל הסטודיו יחזור אישית.",
-    // Channel options
-    "fitness.channels.eyebrow": "ערוצים",
-    "fitness.channels.title": "בוחרים איפה לקוחות מוצאים אתכם.",
-    "fitness.channel1.title": "וואטסאפ",
-    "fitness.channel1.body": "הערוץ הכי טבעי בישראל. מספר העסק נשאר אותו מספר.",
-    "fitness.channel2.title": "אינסטגרם",
-    "fitness.channel2.body": "מישהו שלח DM? העוזר עונה ומקבע שיעור ניסיון.",
-    "fitness.channel3.title": "פייסבוק",
-    "fitness.channel3.body": "מסנג׳ר עובד בדיוק כמו וואטסאפ. אותו עוזר, אותה חוויה.",
-    // Mid CTA (kept for structural compatibility, updated wording)
-    "fitness.midcta.title": "דמיינו את הבוקר שלכם בלי 40 הודעות שמחכות.",
-    "fitness.midcta.lede": "שיחה קצרה אחת בוואטסאפ, ונדע אם זה מתאים לכם.",
-    "fitness.midcta.cta": "דברו איתי בוואטסאפ",
-    // How it works
-    "fitness.how.eyebrow": "איך זה עובד",
-    "fitness.how.title": "משיחה ראשונה לאוויר, תוך מספר שבועות.",
-    "fitness.step1.title": "מתחברים לוואטסאפ",
-    "fitness.step1.body": "מספר העסק נשאר אותו מספר. שום אפליקציה חדשה.",
-    "fitness.step2.title": "מתאימים לסטודיו",
-    "fitness.step2.body": "הקול, השיעורים, המחירון והשעות נכנסים לעוזר.",
-    "fitness.step3.title": "עולים לאוויר תוך מספר שבועות",
-    "fitness.step3.body": "פתיחה הדרגתית, אתם רואים כל שיחה לפני שמשחררים.",
-    // About
-    "fitness.about.eyebrow": "מי אני",
-    "fitness.about.title": "אלכס. בניתי את הפלטפורמה הזאת מאפס.",
-    // Final CTA
-    "fitness.finalcta.title": "הצעד הראשון: שיחה אחת.",
-    "fitness.finalcta.lede":
+    "fitness-studio.channels.eyebrow": "ערוצים",
+    "fitness-studio.channels.title": "בוחרים איפה לקוחות מוצאים אתכם.",
+    "fitness-studio.channel1.title": "וואטסאפ",
+    "fitness-studio.channel1.body": "הערוץ הכי טבעי בישראל. מספר העסק נשאר אותו מספר.",
+    "fitness-studio.channel2.title": "אינסטגרם",
+    "fitness-studio.channel2.body": "מישהו שלח DM? העוזר עונה ומקבע שיעור ניסיון.",
+    "fitness-studio.channel3.title": "פייסבוק",
+    "fitness-studio.channel3.body": "מסנג׳ר עובד בדיוק כמו וואטסאפ. אותו עוזר, אותה חוויה.",
+    "fitness-studio.midcta.title": "דמיינו את הבוקר שלכם בלי 40 הודעות שמחכות.",
+    "fitness-studio.midcta.lede": "שיחה קצרה אחת בוואטסאפ, ונדע אם זה מתאים לכם.",
+    "fitness-studio.midcta.cta": "דברו איתי בוואטסאפ",
+    "fitness-studio.how.eyebrow": "איך זה עובד",
+    "fitness-studio.how.title": "משיחה ראשונה לאוויר, תוך מספר שבועות.",
+    "fitness-studio.step1.title": "מתחברים לוואטסאפ",
+    "fitness-studio.step1.body": "מספר העסק נשאר אותו מספר. שום אפליקציה חדשה.",
+    "fitness-studio.step2.title": "מתאימים לסטודיו",
+    "fitness-studio.step2.body": "הקול, השיעורים, המחירון והשעות נכנסים לעוזר.",
+    "fitness-studio.step3.title": "עולים לאוויר תוך מספר שבועות",
+    "fitness-studio.step3.body": "פתיחה הדרגתית, אתם רואים כל שיחה לפני שמשחררים.",
+    "fitness-studio.about.eyebrow": "מי אני",
+    "fitness-studio.about.title": "אלכס. בניתי את הפלטפורמה הזאת מאפס.",
+    "fitness-studio.finalcta.title": "הצעד הראשון: שיחה אחת.",
+    "fitness-studio.finalcta.lede":
       "בלי מצגת, בלי התחייבות. נבין אם זה מתאים לסטודיו שלכם, ונחליט יחד.",
-    "fitness.finalcta.cta": "דברו איתי בוואטסאפ",
-    // FAQ
-    "fitness.faq.eyebrow": "שאלות",
-    "fitness.faq.title": "דברים שבעלי סטודיו שואלים אותי.",
-    "fitness.faq.q1": "האם העוזר מתחבר ליומן שלי?",
-    "fitness.faq.q2": "יש לי כבר מערכת הזמנות — העוזר יעבוד איתה?",
-    "fitness.faq.q3": "כמה זמן עד שזה באוויר?",
-    "fitness.faq.a3": "בין כמה שבועות לחודשיים, תלוי במפרט והיקף הבדיקות.",
-    "fitness.faq.q4": "כמה זה עולה?",
-    "fitness.faq.a4":
+    "fitness-studio.finalcta.cta": "דברו איתי בוואטסאפ",
+    "fitness-studio.faq.eyebrow": "שאלות",
+    "fitness-studio.faq.title": "דברים שבעלי סטודיו שואלים אותי.",
+    "fitness-studio.faq.q1": "האם העוזר מתחבר ליומן שלי?",
+    "fitness-studio.faq.q2": "יש לי כבר מערכת הזמנות — העוזר יעבוד איתה?",
+    "fitness-studio.faq.q3": "כמה זמן עד שזה באוויר?",
+    "fitness-studio.faq.a3": "בין כמה שבועות לחודשיים, תלוי במפרט והיקף הבדיקות.",
+    "fitness-studio.faq.q4": "כמה זה עולה?",
+    "fitness-studio.faq.a4":
       "שני חלקים, שקופים מההתחלה: תשלום חד-פעמי על הפיתוח (נקבע לפי המפרט), ועלויות תפעול חודשיות של מאות שקלים לחודש לשירותים חיצוניים. הסכומים נסגרים בפגישה הראשונה, לפני שמתחילים.",
-    "fitness.footer.copyright": "© 2025 · Hand in Hand",
-    // Orphaned keys kept for [lang]/fitness.astro compatibility
-    "fitness.explainer.title": 'רגע, מה זה בעצם "בוט AI"?',
-    "fitness.explainer.item1":
+    "fitness-studio.footer.copyright": "© 2025 · Hand in Hand",
+    // Orphaned keys for [lang]/fitness-studio.astro compatibility
+    "fitness-studio.explainer.title": 'רגע, מה זה בעצם "בוט AI"?',
+    "fitness-studio.explainer.item1":
       "מתחבר למספר הוואטסאפ העסקי שלך. אותו מספר, בלי אפליקציה חדשה",
-    "fitness.explainer.item2":
+    "fitness-studio.explainer.item2":
       "לומד איך אתם מדברים, את המחירים ואת הלו״ז, ועונה כמוכם",
-    "fitness.explainer.item3":
+    "fitness-studio.explainer.item3":
       "שיחה אנושית, לא תפריט עם כפתורים. וכשצריך אתכם, מעביר אליכם",
-    "fitness.explainer.closing":
+    "fitness-studio.explainer.closing":
       "מתחבר ליומן הסטודיו שלך (Google Calendar, Arbox). אין אפליקציית הזמנות? נבנה לך אחת.",
-    "fitness.problem.eyebrow": "המציאות היומיומית",
-    "fitness.problem.title": "אתם מאמנים כל היום. ובלילה עונים לוואטסאפ.",
-    "fitness.problem.pain1": "פניות שמגיעות אחרי 21:00 ופשוט נשכחות עד הבוקר.",
-    "fitness.problem.pain2":
+    "fitness-studio.problem.eyebrow": "המציאות היומיומית",
+    "fitness-studio.problem.title": "אתם מאמנים כל היום. ובלילה עונים לוואטסאפ.",
+    "fitness-studio.problem.pain1": "פניות שמגיעות אחרי 21:00 ופשוט נשכחות עד הבוקר.",
+    "fitness-studio.problem.pain2":
       "ביטולים של רגע אחרון והמקום נשאר ריק במקום להגיע לרשימת המתנה.",
-    "fitness.problem.pain3":
+    "fitness-studio.problem.pain3":
       "אחרי שיעור ניסיון, אתם זוכרים לחזור רק למחצית מהאנשים.",
-    "fitness.reminder.eyebrow": "תרחיש",
-    "fitness.reminder.title": "הבוט מזכיר. החברה דוחה. המקום עובר הלאה.",
-    "fitness.reminder.caption":
+    "fitness-studio.reminder.eyebrow": "תרחיש",
+    "fitness-studio.reminder.title": "הבוט מזכיר. החברה דוחה. המקום עובר הלאה.",
+    "fitness-studio.reminder.caption":
       "יום לפני האימון יוצאת תזכורת אוטומטית. אם המתאמנת דוחה, המערכת משחררת את המקום ושולחת הצעה למי שנמצאת ראשונה ברשימת ההמתנה.",
-    "fitness.reminder.tiny":
+    "fitness-studio.reminder.tiny":
       "תוצאה: פחות חורים בלוח, בלי שעת עבודה אחת מצידכם.",
-    "fitness.reminder.mock.scenario": "תזכורת 24 שעות + העברה לרשימת המתנה",
-    "fitness.capabilities.eyebrow": "מה זה עושה",
-    "fitness.capabilities.title": "שלוש משימות שכבר לא יחכו לכם בערב.",
-    "fitness.cap1.title": "קביעה והעברה של שיעורים",
-    "fitness.cap1.body":
+    "fitness-studio.reminder.mock.scenario": "תזכורת 24 שעות + העברה לרשימת המתנה",
+    "fitness-studio.capabilities.eyebrow": "מה זה עושה",
+    "fitness-studio.capabilities.title": "שלוש משימות שכבר לא יחכו לכם בערב.",
+    "fitness-studio.cap1.title": "קביעה והעברה של שיעורים",
+    "fitness-studio.cap1.body":
       "ההזמנות, הביטולים והרשימה ממתינים מתחזקים את עצמם בוואטסאפ.",
-    "fitness.cap2.title": "תזכורות וצ'ק-אין",
-    "fitness.cap2.body": "הודעת תזכורת חצי יום מראש. המגיעים מאשרים בלחיצה.",
-    "fitness.cap3.title": "מעקב אישי אחרי ניסיון",
-    "fitness.cap3.body":
+    "fitness-studio.cap2.title": "תזכורות וצ'ק-אין",
+    "fitness-studio.cap2.body": "הודעת תזכורת חצי יום מראש. המגיעים מאשרים בלחיצה.",
+    "fitness-studio.cap3.title": "מעקב אישי אחרי ניסיון",
+    "fitness-studio.cap3.body":
       "פנייה חמה אחרי השיעור, ואתם מקבלים את התשובות מרוכזות.",
-    "fitness.followup.eyebrow": "תרחיש",
-    "fitness.followup.title": "פולואפ אישי, והעברה אליכם ברגע הנכון.",
-    "fitness.followup.caption":
+    "fitness-studio.followup.eyebrow": "תרחיש",
+    "fitness-studio.followup.title": "פולואפ אישי, והעברה אליכם ברגע הנכון.",
+    "fitness-studio.followup.caption":
       "יום אחרי שיעור ניסיון, הבוט שואל איך היה. כשהמתאמנת עונה במשהו אמיתי, הבוט מסמן ושולח לכם התראה כדי שתיכנסו אישית לשיחה.",
-    "fitness.followup.tiny":
+    "fitness-studio.followup.tiny":
       "כל פיסת מידע נשמרת. אתם נכנסים רק כשזה באמת חשוב.",
-    "fitness.followup.mock.scenario": "פולואפ אישי + העברה לבעל הסטודיו",
+    "fitness-studio.followup.mock.scenario": "פולואפ אישי + העברה לבעל הסטודיו",
+
+    // ── Fitness Chain landing page ───────────────────────────────
+    "fitness-chain.page.title": "עוזר חכם בוואטסאפ לסטודיו",
+    "fitness-chain.topbar.brand": "סטודיו · עוזר חכם בוואטסאפ",
+    "fitness-chain.topbar.cta": "וואטסאפ",
+    "fitness-chain.hero.eyebrow": "לבעלי סטודיו",
+    "fitness-chain.hero.title": "מנהל חכם בוואטסאפ.\nאתה מלמד. אנחנו מטפלים בשאר.",
+    "fitness-chain.hero.lede":
+      "קובע שיעורי ניסיון, מחזק נאמנות ומחזיר מתאמנים שנעלמו. הכול בוואטסאפ, בעברית, בקול שלך.",
+    "fitness-chain.hero.cta": "דברו איתי בוואטסאפ",
+    "fitness-chain.hero.trust": "ללא טפסים. ללא התקנה. תגובה בדרך כלל באותו יום.",
+    "fitness-chain.hero.mock.title": "סטודיו שלך · בוט",
+    "fitness-chain.hero.mock.status": "מחובר",
+    "fitness-chain.hero.mock1.scenario": "הזמנת שיעור ניסיון אחרי שעות הפעילות",
+    "fitness-chain.hero.mock.aside.eyebrow": "תרחיש 1 · לסטודיו יוגה",
+    "fitness-chain.hero.mock.aside.title": "פנייה ב-22:48. בבוקר, השיעור כבר ביומן.",
+    "fitness-chain.hero.mock.aside.body":
+      "לקוחה חדשה כותבת אחרי שעות הפעילות. הבוט מציע שני מועדים, עונה על שאלה, ומאשר את ההרשמה. את מתעוררת לפנייה סגורה.",
+    "fitness-chain.promise.eyebrow": "מה זה עושה",
+    "fitness-chain.promise.title": "אתה מלמד. אנחנו מטפלים בשאר.",
+    "fitness-chain.promise.body":
+      "עוזר חכם בוואטסאפ שמנהל את מחזור החיים של המתאמן שלך: מהפנייה הראשונה ועד לנאמן שמגיע כל שבוע.",
+    "fitness-chain.jobs.eyebrow": "שלוש משימות",
+    "fitness-chain.jobs.title": "הדברים שהיית צריך לעשות אחרי כל יום אימון.",
+    "fitness-chain.job1.title": "ממלא שיעורים",
+    "fitness-chain.job1.body": "עונה לפניות, מציע מועדים ומסגר שיעורי ניסיון. גם ב-23:00.",
+    "fitness-chain.job2.title": "בונה נאמנות",
+    "fitness-chain.job2.body":
+      "שולח מסרים שבועיים לפי נוכחות. מי שבא שלוש פעמים מקבל אחד, מי שבא פעם אחת מקבל אחר.",
+    "fitness-chain.job3.title": "מונע נשירה",
+    "fitness-chain.job3.body":
+      "מחזיר מתאמנים שנעלמו בגישה אמפתית. כשצריך אותך, מעביר אליך.",
+    "fitness-chain.scenario2.label": "תרחיש 2 · מתאמנת נאמנה",
+    "fitness-chain.scenario2.heading": "באת 3 פעמים השבוע. ידענו. שלחנו לך הודעה.",
+    "fitness-chain.scenario2.desc":
+      "עוזר עוקב אחרי נוכחות ושולח הודעה שבועית מותאמת. מי שבא שלוש פעמים מקבל עידוד ומוצע לו שיעור חדש. מי שלא בא מקבל הודעה שונה לגמרי.",
+    "fitness-chain.scenario3.label": "תרחיש 3 · מתאמן שנעלם",
+    "fitness-chain.scenario3.heading": "לא ראינו אותך שבוע. הכל בסדר?",
+    "fitness-chain.scenario3.desc":
+      "אחרי שבוע היעדרות, העוזר שואל. כשהמתאמן עונה בכנות, העוזר מגיב בהבנה — לא בלחץ. ואם צריך, מציע שבעל הסטודיו יחזור אישית.",
+    "fitness-chain.channels.eyebrow": "ערוצים",
+    "fitness-chain.channels.title": "בוחרים איפה לקוחות מוצאים אתכם.",
+    "fitness-chain.channel1.title": "וואטסאפ",
+    "fitness-chain.channel1.body": "הערוץ הכי טבעי בישראל. מספר העסק נשאר אותו מספר.",
+    "fitness-chain.channel2.title": "אינסטגרם",
+    "fitness-chain.channel2.body": "מישהו שלח DM? העוזר עונה ומקבע שיעור ניסיון.",
+    "fitness-chain.channel3.title": "פייסבוק",
+    "fitness-chain.channel3.body": "מסנג׳ר עובד בדיוק כמו וואטסאפ. אותו עוזר, אותה חוויה.",
+    "fitness-chain.midcta.title": "דמיינו את הבוקר שלכם בלי 40 הודעות שמחכות.",
+    "fitness-chain.midcta.lede": "שיחה קצרה אחת בוואטסאפ, ונדע אם זה מתאים לכם.",
+    "fitness-chain.midcta.cta": "דברו איתי בוואטסאפ",
+    "fitness-chain.how.eyebrow": "איך זה עובד",
+    "fitness-chain.how.title": "משיחה ראשונה לאוויר, תוך מספר שבועות.",
+    "fitness-chain.step1.title": "מתחברים לוואטסאפ",
+    "fitness-chain.step1.body": "מספר העסק נשאר אותו מספר. שום אפליקציה חדשה.",
+    "fitness-chain.step2.title": "מתאימים לסטודיו",
+    "fitness-chain.step2.body": "הקול, השיעורים, המחירון והשעות נכנסים לעוזר.",
+    "fitness-chain.step3.title": "עולים לאוויר תוך מספר שבועות",
+    "fitness-chain.step3.body": "פתיחה הדרגתית, אתם רואים כל שיחה לפני שמשחררים.",
+    "fitness-chain.about.eyebrow": "מי אני",
+    "fitness-chain.about.title": "אלכס. בניתי את הפלטפורמה הזאת מאפס.",
+    "fitness-chain.finalcta.title": "הצעד הראשון: שיחה אחת.",
+    "fitness-chain.finalcta.lede":
+      "בלי מצגת, בלי התחייבות. נבין אם זה מתאים לסטודיו שלכם, ונחליט יחד.",
+    "fitness-chain.finalcta.cta": "דברו איתי בוואטסאפ",
+    "fitness-chain.faq.eyebrow": "שאלות",
+    "fitness-chain.faq.title": "דברים שבעלי סטודיו שואלים אותי.",
+    "fitness-chain.faq.q1": "האם העוזר מתחבר ליומן שלי?",
+    "fitness-chain.faq.q2": "יש לי כבר מערכת הזמנות — העוזר יעבוד איתה?",
+    "fitness-chain.faq.q3": "כמה זמן עד שזה באוויר?",
+    "fitness-chain.faq.a3": "בין כמה שבועות לחודשיים, תלוי במפרט והיקף הבדיקות.",
+    "fitness-chain.faq.q4": "כמה זה עולה?",
+    "fitness-chain.faq.a4":
+      "שני חלקים, שקופים מההתחלה: תשלום חד-פעמי על הפיתוח (נקבע לפי המפרט), ועלויות תפעול חודשיות של מאות שקלים לחודש לשירותים חיצוניים. הסכומים נסגרים בפגישה הראשונה, לפני שמתחילים.",
+    "fitness-chain.footer.copyright": "© 2025 · Hand in Hand",
+    // Orphaned keys for [lang]/fitness-chain.astro compatibility
+    "fitness-chain.explainer.title": 'רגע, מה זה בעצם "בוט AI"?',
+    "fitness-chain.explainer.item1":
+      "מתחבר למספר הוואטסאפ העסקי שלך. אותו מספר, בלי אפליקציה חדשה",
+    "fitness-chain.explainer.item2":
+      "לומד איך אתם מדברים, את המחירים ואת הלו״ז, ועונה כמוכם",
+    "fitness-chain.explainer.item3":
+      "שיחה אנושית, לא תפריט עם כפתורים. וכשצריך אתכם, מעביר אליכם",
+    "fitness-chain.explainer.closing":
+      "מתחבר ליומן הסטודיו שלך (Google Calendar, Arbox). אין אפליקציית הזמנות? נבנה לך אחת.",
+    "fitness-chain.problem.eyebrow": "המציאות היומיומית",
+    "fitness-chain.problem.title": "אתם מאמנים כל היום. ובלילה עונים לוואטסאפ.",
+    "fitness-chain.problem.pain1": "פניות שמגיעות אחרי 21:00 ופשוט נשכחות עד הבוקר.",
+    "fitness-chain.problem.pain2":
+      "ביטולים של רגע אחרון והמקום נשאר ריק במקום להגיע לרשימת המתנה.",
+    "fitness-chain.problem.pain3":
+      "אחרי שיעור ניסיון, אתם זוכרים לחזור רק למחצית מהאנשים.",
+    "fitness-chain.reminder.eyebrow": "תרחיש",
+    "fitness-chain.reminder.title": "הבוט מזכיר. החברה דוחה. המקום עובר הלאה.",
+    "fitness-chain.reminder.caption":
+      "יום לפני האימון יוצאת תזכורת אוטומטית. אם המתאמנת דוחה, המערכת משחררת את המקום ושולחת הצעה למי שנמצאת ראשונה ברשימת ההמתנה.",
+    "fitness-chain.reminder.tiny":
+      "תוצאה: פחות חורים בלוח, בלי שעת עבודה אחת מצידכם.",
+    "fitness-chain.reminder.mock.scenario": "תזכורת 24 שעות + העברה לרשימת המתנה",
+    "fitness-chain.capabilities.eyebrow": "מה זה עושה",
+    "fitness-chain.capabilities.title": "שלוש משימות שכבר לא יחכו לכם בערב.",
+    "fitness-chain.cap1.title": "קביעה והעברה של שיעורים",
+    "fitness-chain.cap1.body":
+      "ההזמנות, הביטולים והרשימה ממתינים מתחזקים את עצמם בוואטסאפ.",
+    "fitness-chain.cap2.title": "תזכורות וצ'ק-אין",
+    "fitness-chain.cap2.body": "הודעת תזכורת חצי יום מראש. המגיעים מאשרים בלחיצה.",
+    "fitness-chain.cap3.title": "מעקב אישי אחרי ניסיון",
+    "fitness-chain.cap3.body":
+      "פנייה חמה אחרי השיעור, ואתם מקבלים את התשובות מרוכזות.",
+    "fitness-chain.followup.eyebrow": "תרחיש",
+    "fitness-chain.followup.title": "פולואפ אישי, והעברה אליכם ברגע הנכון.",
+    "fitness-chain.followup.caption":
+      "יום אחרי שיעור ניסיון, הבוט שואל איך היה. כשהמתאמנת עונה במשהו אמיתי, הבוט מסמן ושולח לכם התראה כדי שתיכנסו אישית לשיחה.",
+    "fitness-chain.followup.tiny":
+      "כל פיסת מידע נשמרת. אתם נכנסים רק כשזה באמת חשוב.",
+    "fitness-chain.followup.mock.scenario": "פולואפ אישי + העברה לבעל הסטודיו",
   },
   en: {
     "site.title": "Hand in Hand AI",
@@ -195,6 +304,8 @@ export const ui = {
     "nav.about": "About",
     "nav.services": "Services",
     "nav.contact": "Contact",
+    "nav.fitnessStudio": "Studio",
+    "nav.fitnessChain": "Chain",
     "hero.title": "Hand in Hand with AI",
     "hero.subtitle": "We help businesses grow with customized AI solutions",
     "hero.cta": "Let's Talk",
@@ -245,136 +356,258 @@ export const ui = {
     "features.support.description":
       "Expert team guiding you every step of the way to success",
 
-    // ── Fitness studio landing page ───────────────────────────────
-    "fitness.page.title": "Smart studio manager on WhatsApp",
-    "fitness.topbar.brand": "Studio · Smart WhatsApp manager",
-    "fitness.topbar.cta": "WhatsApp",
-    "fitness.hero.eyebrow": "For Studio Owners",
-    "fitness.hero.title": "Smart manager on WhatsApp.\nYou teach. We handle the rest.",
-    "fitness.hero.lede":
+    // ── Fitness Studio landing page ───────────────────────────────
+    "fitness-studio.page.title": "Smart studio manager on WhatsApp",
+    "fitness-studio.topbar.brand": "Studio · Smart WhatsApp manager",
+    "fitness-studio.topbar.cta": "WhatsApp",
+    "fitness-studio.hero.eyebrow": "For Studio Owners",
+    "fitness-studio.hero.title": "Smart manager on WhatsApp.\nYou teach. We handle the rest.",
+    "fitness-studio.hero.lede":
       "Books trial classes, builds loyalty, and re-engages members who disappear. All on WhatsApp, in Hebrew, in your voice.",
-    "fitness.hero.cta": "Talk to me on WhatsApp",
-    "fitness.hero.trust":
+    "fitness-studio.hero.cta": "Talk to me on WhatsApp",
+    "fitness-studio.hero.trust":
       "No forms. No installation. Response usually the same day.",
-    "fitness.hero.mock.title": "Your Studio · Bot",
-    "fitness.hero.mock.status": "Online",
-    "fitness.hero.mock1.scenario": "Booking a trial class after business hours",
-    "fitness.hero.mock.aside.eyebrow": "Scenario 1 · Yoga studio",
-    "fitness.hero.mock.aside.title":
+    "fitness-studio.hero.mock.title": "Your Studio · Bot",
+    "fitness-studio.hero.mock.status": "Online",
+    "fitness-studio.hero.mock1.scenario": "Booking a trial class after business hours",
+    "fitness-studio.hero.mock.aside.eyebrow": "Scenario 1 · Yoga studio",
+    "fitness-studio.hero.mock.aside.title":
       "Message at 22:48. By morning, the class is booked.",
-    "fitness.hero.mock.aside.body":
+    "fitness-studio.hero.mock.aside.body":
       "A new client messages after hours. The assistant offers two time slots, answers a question, and confirms the booking. You wake up to a closed inquiry.",
-    // Core promise
-    "fitness.promise.eyebrow": "What it does",
-    "fitness.promise.title": "You teach. We handle the rest.",
-    "fitness.promise.body":
+    "fitness-studio.promise.eyebrow": "What it does",
+    "fitness-studio.promise.title": "You teach. We handle the rest.",
+    "fitness-studio.promise.body":
       "A smart WhatsApp assistant that manages your member lifecycle: from the first enquiry to the loyal regular who shows up every week.",
-    // Three jobs
-    "fitness.jobs.eyebrow": "Three jobs",
-    "fitness.jobs.title": "The things you used to do after every training day.",
-    "fitness.job1.title": "Fill classes",
-    "fitness.job1.body": "Answers leads, offers time slots, and locks in trial classes. Even at 11 PM.",
-    "fitness.job2.title": "Build loyalty",
-    "fitness.job2.body":
+    "fitness-studio.jobs.eyebrow": "Three jobs",
+    "fitness-studio.jobs.title": "The things you used to do after every training day.",
+    "fitness-studio.job1.title": "Fill classes",
+    "fitness-studio.job1.body": "Answers leads, offers time slots, and locks in trial classes. Even at 11 PM.",
+    "fitness-studio.job2.title": "Build loyalty",
+    "fitness-studio.job2.body":
       "Sends weekly messages based on attendance. Someone who came three times gets one message. Someone who came once gets a different one.",
-    "fitness.job3.title": "Prevent churn",
-    "fitness.job3.body":
+    "fitness-studio.job3.title": "Prevent churn",
+    "fitness-studio.job3.body":
       "Re-engages members who disappear — with empathy, not pressure. When you're needed, it hands off to you.",
-    // Scenarios
-    "fitness.scenario2.label": "Scenario 2 · Loyal member",
-    "fitness.scenario2.heading": "You came 3 times this week. We noticed. We reached out.",
-    "fitness.scenario2.desc":
+    "fitness-studio.scenario2.label": "Scenario 2 · Loyal member",
+    "fitness-studio.scenario2.heading": "You came 3 times this week. We noticed. We reached out.",
+    "fitness-studio.scenario2.desc":
       "The assistant tracks attendance and sends a tailored weekly message. Three visits gets encouragement and a new class suggestion. Zero visits gets a different message entirely.",
-    "fitness.scenario3.label": "Scenario 3 · Member who disappeared",
-    "fitness.scenario3.heading": "We haven't seen you in a week. Everything okay?",
-    "fitness.scenario3.desc":
+    "fitness-studio.scenario3.label": "Scenario 3 · Member who disappeared",
+    "fitness-studio.scenario3.heading": "We haven't seen you in a week. Everything okay?",
+    "fitness-studio.scenario3.desc":
       "After a week away, the assistant checks in. When the member replies honestly, it responds with understanding — not pressure. And if needed, offers an owner callback.",
-    // Channel options
-    "fitness.channels.eyebrow": "Channels",
-    "fitness.channels.title": "Choose where clients find you.",
-    "fitness.channel1.title": "WhatsApp",
-    "fitness.channel1.body": "The most natural channel in Israel. Your business number stays the same.",
-    "fitness.channel2.title": "Instagram",
-    "fitness.channel2.body": "Someone sent a DM? The assistant replies and books a trial class.",
-    "fitness.channel3.title": "Facebook",
-    "fitness.channel3.body": "Messenger works just like WhatsApp. Same assistant, same experience.",
-    // FAQ
-    "fitness.faq.q1": "Does the assistant connect to my calendar?",
-    "fitness.faq.q2": "I already have a booking system — will it work with that?",
-    "fitness.faq.q3": "How long until it's live?",
-    "fitness.faq.q4": "How does payment work?",
-    "fitness.faq.a4":
+    "fitness-studio.channels.eyebrow": "Channels",
+    "fitness-studio.channels.title": "Choose where clients find you.",
+    "fitness-studio.channel1.title": "WhatsApp",
+    "fitness-studio.channel1.body": "The most natural channel in Israel. Your business number stays the same.",
+    "fitness-studio.channel2.title": "Instagram",
+    "fitness-studio.channel2.body": "Someone sent a DM? The assistant replies and books a trial class.",
+    "fitness-studio.channel3.title": "Facebook",
+    "fitness-studio.channel3.body": "Messenger works just like WhatsApp. Same assistant, same experience.",
+    "fitness-studio.faq.q1": "Does the assistant connect to my calendar?",
+    "fitness-studio.faq.q2": "I already have a booking system — will it work with that?",
+    "fitness-studio.faq.q3": "How long until it's live?",
+    "fitness-studio.faq.q4": "How does payment work?",
+    "fitness-studio.faq.a4":
       "Two parts, transparent from the start: a one-time development fee (set at the first meeting based on your spec), and monthly operational costs of a few hundred shekels for external services. No surprises.",
-    // Orphaned — kept for [lang]/fitness.astro compatibility
-    "fitness.explainer.title": 'Wait, what exactly is an "AI bot"?',
-    "fitness.explainer.item1":
+    // Orphaned for [lang]/fitness-studio.astro compatibility
+    "fitness-studio.explainer.title": 'Wait, what exactly is an "AI bot"?',
+    "fitness-studio.explainer.item1":
       "Connects to your business WhatsApp number. Same number, no new app",
-    "fitness.explainer.item2":
+    "fitness-studio.explainer.item2":
       "Learns how you talk, your pricing, and your schedule, and replies in your voice",
-    "fitness.explainer.item3":
+    "fitness-studio.explainer.item3":
       "A real conversation, not a button menu. When you're needed, it hands off to you",
-    "fitness.explainer.closing":
+    "fitness-studio.explainer.closing":
       "Connects to your studio calendar (Google Calendar, Arbox, Boost). No booking app? We'll build you one.",
-    "fitness.problem.eyebrow": "Day-to-day reality",
-    "fitness.problem.title": "You train all day. At night you answer WhatsApp.",
-    "fitness.problem.pain1":
+    "fitness-studio.problem.eyebrow": "Day-to-day reality",
+    "fitness-studio.problem.title": "You train all day. At night you answer WhatsApp.",
+    "fitness-studio.problem.pain1":
       "Enquiries that come in after 9 PM and just get forgotten until morning.",
-    "fitness.problem.pain2":
+    "fitness-studio.problem.pain2":
       "Last-minute cancellations leave the spot empty instead of offering it to the waitlist.",
-    "fitness.problem.pain3":
+    "fitness-studio.problem.pain3":
       "After a trial class, you only remember to follow up with half the people.",
-    "fitness.reminder.eyebrow": "Scenario",
-    "fitness.reminder.title":
+    "fitness-studio.reminder.eyebrow": "Scenario",
+    "fitness-studio.reminder.title":
       "The bot reminds. The client reschedules. The spot moves on.",
-    "fitness.reminder.caption":
+    "fitness-studio.reminder.caption":
       "The day before the class, an automatic reminder goes out. If the client cancels, the system releases the spot and sends an offer to the first person on the waitlist.",
-    "fitness.reminder.tiny":
+    "fitness-studio.reminder.tiny":
       "Result: fewer gaps in the schedule, without a single hour of work on your end.",
-    "fitness.reminder.mock.scenario": "24-hour reminder + waitlist transfer",
-    "fitness.capabilities.eyebrow": "What it does",
-    "fitness.capabilities.title":
+    "fitness-studio.reminder.mock.scenario": "24-hour reminder + waitlist transfer",
+    "fitness-studio.capabilities.eyebrow": "What it does",
+    "fitness-studio.capabilities.title":
       "Three tasks that will no longer wait for you in the evening.",
-    "fitness.cap1.title": "Class booking & transfers",
-    "fitness.cap1.body":
+    "fitness-studio.cap1.title": "Class booking & transfers",
+    "fitness-studio.cap1.body":
       "Bookings, cancellations, and the waitlist manage themselves on WhatsApp.",
-    "fitness.cap2.title": "Reminders & check-in",
-    "fitness.cap2.body":
+    "fitness-studio.cap2.title": "Reminders & check-in",
+    "fitness-studio.cap2.body":
       "A reminder message half a day in advance. Attendees confirm with one tap.",
-    "fitness.cap3.title": "Personal trial follow-up",
-    "fitness.cap3.body":
+    "fitness-studio.cap3.title": "Personal trial follow-up",
+    "fitness-studio.cap3.body":
       "A warm message after the class, and you get the responses in one place.",
-    "fitness.followup.eyebrow": "Scenario",
-    "fitness.followup.title":
+    "fitness-studio.followup.eyebrow": "Scenario",
+    "fitness-studio.followup.title":
       "Personal follow-up, and a handoff to you at exactly the right moment.",
-    "fitness.followup.caption":
+    "fitness-studio.followup.caption":
       "A day after the trial class, the bot asks how it went. When the client replies with something real, the bot flags it and sends you a notification so you can join the conversation personally.",
-    "fitness.followup.tiny":
+    "fitness-studio.followup.tiny":
       "Every piece of information is saved. You step in only when it truly matters.",
-    "fitness.followup.mock.scenario":
+    "fitness-studio.followup.mock.scenario":
       "Personal follow-up + handoff to studio owner",
-    "fitness.midcta.title": "Imagine your morning without 40 messages waiting.",
-    "fitness.midcta.lede":
+    "fitness-studio.midcta.title": "Imagine your morning without 40 messages waiting.",
+    "fitness-studio.midcta.lede":
       "One short WhatsApp conversation, and we'll know if this is right for you.",
-    "fitness.how.eyebrow": "How it works",
-    "fitness.how.title": "From first conversation to live in a few weeks.",
-    "fitness.step1.title": "Connect to WhatsApp",
-    "fitness.step1.body": "Your business number stays the same. No new app.",
-    "fitness.step2.title": "Tailor it to your studio",
-    "fitness.step2.body":
+    "fitness-studio.how.eyebrow": "How it works",
+    "fitness-studio.how.title": "From first conversation to live in a few weeks.",
+    "fitness-studio.step1.title": "Connect to WhatsApp",
+    "fitness-studio.step1.body": "Your business number stays the same. No new app.",
+    "fitness-studio.step2.title": "Tailor it to your studio",
+    "fitness-studio.step2.body":
       "Your voice, classes, pricing, and hours go into the bot.",
-    "fitness.step3.title": "Go live within a few weeks",
-    "fitness.step3.body":
+    "fitness-studio.step3.title": "Go live within a few weeks",
+    "fitness-studio.step3.body":
       "A gradual rollout. You see every conversation before we release it.",
-    "fitness.about.eyebrow": "Who I am",
-    "fitness.about.title": "Alex. I built this platform from scratch.",
-    "fitness.midcta.cta": "Talk to me on WhatsApp",
-    "fitness.finalcta.title": "The first step: one conversation.",
-    "fitness.finalcta.lede":
+    "fitness-studio.about.eyebrow": "Who I am",
+    "fitness-studio.about.title": "Alex. I built this platform from scratch.",
+    "fitness-studio.midcta.cta": "Talk to me on WhatsApp",
+    "fitness-studio.finalcta.title": "The first step: one conversation.",
+    "fitness-studio.finalcta.lede":
       "No presentation, no commitment. We'll figure out if this fits your studio, and decide together.",
-    "fitness.finalcta.cta": "Talk to me on WhatsApp",
-    "fitness.faq.eyebrow": "Questions",
-    "fitness.faq.title": "Things studio owners ask me.",
-    "fitness.faq.a3": "A few weeks to two months, depending on the spec and testing scope.",
-    "fitness.footer.copyright": "© 2025 · Hand in Hand",
+    "fitness-studio.finalcta.cta": "Talk to me on WhatsApp",
+    "fitness-studio.faq.eyebrow": "Questions",
+    "fitness-studio.faq.title": "Things studio owners ask me.",
+    "fitness-studio.faq.a3": "A few weeks to two months, depending on the spec and testing scope.",
+    "fitness-studio.footer.copyright": "© 2025 · Hand in Hand",
+
+    // ── Fitness Chain landing page ───────────────────────────────
+    "fitness-chain.page.title": "Smart studio manager on WhatsApp",
+    "fitness-chain.topbar.brand": "Studio · Smart WhatsApp manager",
+    "fitness-chain.topbar.cta": "WhatsApp",
+    "fitness-chain.hero.eyebrow": "For Studio Owners",
+    "fitness-chain.hero.title": "Smart manager on WhatsApp.\nYou teach. We handle the rest.",
+    "fitness-chain.hero.lede":
+      "Books trial classes, builds loyalty, and re-engages members who disappear. All on WhatsApp, in Hebrew, in your voice.",
+    "fitness-chain.hero.cta": "Talk to me on WhatsApp",
+    "fitness-chain.hero.trust":
+      "No forms. No installation. Response usually the same day.",
+    "fitness-chain.hero.mock.title": "Your Studio · Bot",
+    "fitness-chain.hero.mock.status": "Online",
+    "fitness-chain.hero.mock1.scenario": "Booking a trial class after business hours",
+    "fitness-chain.hero.mock.aside.eyebrow": "Scenario 1 · Yoga studio",
+    "fitness-chain.hero.mock.aside.title":
+      "Message at 22:48. By morning, the class is booked.",
+    "fitness-chain.hero.mock.aside.body":
+      "A new client messages after hours. The assistant offers two time slots, answers a question, and confirms the booking. You wake up to a closed inquiry.",
+    "fitness-chain.promise.eyebrow": "What it does",
+    "fitness-chain.promise.title": "You teach. We handle the rest.",
+    "fitness-chain.promise.body":
+      "A smart WhatsApp assistant that manages your member lifecycle: from the first enquiry to the loyal regular who shows up every week.",
+    "fitness-chain.jobs.eyebrow": "Three jobs",
+    "fitness-chain.jobs.title": "The things you used to do after every training day.",
+    "fitness-chain.job1.title": "Fill classes",
+    "fitness-chain.job1.body": "Answers leads, offers time slots, and locks in trial classes. Even at 11 PM.",
+    "fitness-chain.job2.title": "Build loyalty",
+    "fitness-chain.job2.body":
+      "Sends weekly messages based on attendance. Someone who came three times gets one message. Someone who came once gets a different one.",
+    "fitness-chain.job3.title": "Prevent churn",
+    "fitness-chain.job3.body":
+      "Re-engages members who disappear — with empathy, not pressure. When you're needed, it hands off to you.",
+    "fitness-chain.scenario2.label": "Scenario 2 · Loyal member",
+    "fitness-chain.scenario2.heading": "You came 3 times this week. We noticed. We reached out.",
+    "fitness-chain.scenario2.desc":
+      "The assistant tracks attendance and sends a tailored weekly message. Three visits gets encouragement and a new class suggestion. Zero visits gets a different message entirely.",
+    "fitness-chain.scenario3.label": "Scenario 3 · Member who disappeared",
+    "fitness-chain.scenario3.heading": "We haven't seen you in a week. Everything okay?",
+    "fitness-chain.scenario3.desc":
+      "After a week away, the assistant checks in. When the member replies honestly, it responds with understanding — not pressure. And if needed, offers an owner callback.",
+    "fitness-chain.channels.eyebrow": "Channels",
+    "fitness-chain.channels.title": "Choose where clients find you.",
+    "fitness-chain.channel1.title": "WhatsApp",
+    "fitness-chain.channel1.body": "The most natural channel in Israel. Your business number stays the same.",
+    "fitness-chain.channel2.title": "Instagram",
+    "fitness-chain.channel2.body": "Someone sent a DM? The assistant replies and books a trial class.",
+    "fitness-chain.channel3.title": "Facebook",
+    "fitness-chain.channel3.body": "Messenger works just like WhatsApp. Same assistant, same experience.",
+    "fitness-chain.faq.q1": "Does the assistant connect to my calendar?",
+    "fitness-chain.faq.q2": "I already have a booking system — will it work with that?",
+    "fitness-chain.faq.q3": "How long until it's live?",
+    "fitness-chain.faq.q4": "How does payment work?",
+    "fitness-chain.faq.a4":
+      "Two parts, transparent from the start: a one-time development fee (set at the first meeting based on your spec), and monthly operational costs of a few hundred shekels for external services. No surprises.",
+    // Orphaned for [lang]/fitness-chain.astro compatibility
+    "fitness-chain.explainer.title": 'Wait, what exactly is an "AI bot"?',
+    "fitness-chain.explainer.item1":
+      "Connects to your business WhatsApp number. Same number, no new app",
+    "fitness-chain.explainer.item2":
+      "Learns how you talk, your pricing, and your schedule, and replies in your voice",
+    "fitness-chain.explainer.item3":
+      "A real conversation, not a button menu. When you're needed, it hands off to you",
+    "fitness-chain.explainer.closing":
+      "Connects to your studio calendar (Google Calendar, Arbox, Boost). No booking app? We'll build you one.",
+    "fitness-chain.problem.eyebrow": "Day-to-day reality",
+    "fitness-chain.problem.title": "You train all day. At night you answer WhatsApp.",
+    "fitness-chain.problem.pain1":
+      "Enquiries that come in after 9 PM and just get forgotten until morning.",
+    "fitness-chain.problem.pain2":
+      "Last-minute cancellations leave the spot empty instead of offering it to the waitlist.",
+    "fitness-chain.problem.pain3":
+      "After a trial class, you only remember to follow up with half the people.",
+    "fitness-chain.reminder.eyebrow": "Scenario",
+    "fitness-chain.reminder.title":
+      "The bot reminds. The client reschedules. The spot moves on.",
+    "fitness-chain.reminder.caption":
+      "The day before the class, an automatic reminder goes out. If the client cancels, the system releases the spot and sends an offer to the first person on the waitlist.",
+    "fitness-chain.reminder.tiny":
+      "Result: fewer gaps in the schedule, without a single hour of work on your end.",
+    "fitness-chain.reminder.mock.scenario": "24-hour reminder + waitlist transfer",
+    "fitness-chain.capabilities.eyebrow": "What it does",
+    "fitness-chain.capabilities.title":
+      "Three tasks that will no longer wait for you in the evening.",
+    "fitness-chain.cap1.title": "Class booking & transfers",
+    "fitness-chain.cap1.body":
+      "Bookings, cancellations, and the waitlist manage themselves on WhatsApp.",
+    "fitness-chain.cap2.title": "Reminders & check-in",
+    "fitness-chain.cap2.body":
+      "A reminder message half a day in advance. Attendees confirm with one tap.",
+    "fitness-chain.cap3.title": "Personal trial follow-up",
+    "fitness-chain.cap3.body":
+      "A warm message after the class, and you get the responses in one place.",
+    "fitness-chain.followup.eyebrow": "Scenario",
+    "fitness-chain.followup.title":
+      "Personal follow-up, and a handoff to you at exactly the right moment.",
+    "fitness-chain.followup.caption":
+      "A day after the trial class, the bot asks how it went. When the client replies with something real, the bot flags it and sends you a notification so you can join the conversation personally.",
+    "fitness-chain.followup.tiny":
+      "Every piece of information is saved. You step in only when it truly matters.",
+    "fitness-chain.followup.mock.scenario":
+      "Personal follow-up + handoff to studio owner",
+    "fitness-chain.midcta.title": "Imagine your morning without 40 messages waiting.",
+    "fitness-chain.midcta.lede":
+      "One short WhatsApp conversation, and we'll know if this is right for you.",
+    "fitness-chain.how.eyebrow": "How it works",
+    "fitness-chain.how.title": "From first conversation to live in a few weeks.",
+    "fitness-chain.step1.title": "Connect to WhatsApp",
+    "fitness-chain.step1.body": "Your business number stays the same. No new app.",
+    "fitness-chain.step2.title": "Tailor it to your studio",
+    "fitness-chain.step2.body":
+      "Your voice, classes, pricing, and hours go into the bot.",
+    "fitness-chain.step3.title": "Go live within a few weeks",
+    "fitness-chain.step3.body":
+      "A gradual rollout. You see every conversation before we release it.",
+    "fitness-chain.about.eyebrow": "Who I am",
+    "fitness-chain.about.title": "Alex. I built this platform from scratch.",
+    "fitness-chain.midcta.cta": "Talk to me on WhatsApp",
+    "fitness-chain.finalcta.title": "The first step: one conversation.",
+    "fitness-chain.finalcta.lede":
+      "No presentation, no commitment. We'll figure out if this fits your studio, and decide together.",
+    "fitness-chain.finalcta.cta": "Talk to me on WhatsApp",
+    "fitness-chain.faq.eyebrow": "Questions",
+    "fitness-chain.faq.title": "Things studio owners ask me.",
+    "fitness-chain.faq.a3": "A few weeks to two months, depending on the spec and testing scope.",
+    "fitness-chain.footer.copyright": "© 2025 · Hand in Hand",
   },
 } as const;

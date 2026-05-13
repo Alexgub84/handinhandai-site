@@ -1,0 +1,313 @@
+---
+import FitnessLayout from '@layouts/FitnessLayout.astro';
+import { siteContact } from '@/data/site-contact';
+import { useTranslations } from '@i18n/utils';
+import { defaultLang } from '@i18n/ui';
+import WhatsAppMock from '@components/whatsapp-mock/WhatsAppMock';
+import { trialBookingMessages } from '@components/whatsapp-mock/scenarios/trial-booking';
+import { loyaltyMessages } from '@components/whatsapp-mock/scenarios/loyalty';
+import { noShowMessages } from '@components/whatsapp-mock/scenarios/no-show';
+
+const lang = defaultLang;
+const t = useTranslations(lang);
+
+const pageDescription = t('fitness-chain.hero.lede');
+const waPhone = siteContact.phoneTel.replace('+', '');
+const waMessage = encodeURIComponent('היי אלכס, ראיתי את הדף עם הבוטים לסטודיואים, רוצה לדבר.');
+const waLink = `https://wa.me/${waPhone}?text=${waMessage}`;
+
+const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0 19.05 4.91Zm-7 15.42a8.32 8.32 0 0 1-4.24-1.16l-.3-.18-2.46.92.92-2.4-.2-.31a8.34 8.34 0 1 1 6.28 3.13Zm4.57-6.24c-.25-.13-1.48-.73-1.71-.81s-.4-.13-.56.13-.65.81-.79.97-.29.2-.54.07a6.85 6.85 0 0 1-2.01-1.24 7.55 7.55 0 0 1-1.4-1.74c-.15-.25 0-.39.11-.51.11-.11.25-.29.37-.43a1.7 1.7 0 0 0 .25-.41.46.46 0 0 0 0-.43c-.07-.13-.56-1.36-.77-1.86s-.41-.43-.56-.43h-.48a.91.91 0 0 0-.66.31 2.78 2.78 0 0 0-.87 2.07 4.83 4.83 0 0 0 1 2.55 11.06 11.06 0 0 0 4.23 3.74 14.32 14.32 0 0 0 1.41.52 3.39 3.39 0 0 0 1.56.1 2.55 2.55 0 0 0 1.67-1.18 2.07 2.07 0 0 0 .14-1.18c-.06-.13-.23-.2-.48-.33Z";
+---
+
+<FitnessLayout
+  lang={lang}
+  title={t('fitness-chain.page.title')}
+  description={pageDescription}
+  ogImage="/og/fitness-chain/og.jpg"
+>
+  <div class="fs-page" dir="rtl" lang="he">
+
+    <!-- TopBar -->
+    <div class="fs-topbar">
+      <div class="fs-brand">
+        <span class="fs-brand-mark">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18">
+            <path d={waIconPath} />
+          </svg>
+        </span>
+        <span>{t('fitness-chain.topbar.brand')}</span>
+      </div>
+      <a class="fs-topbar-cta" href={waLink}>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="14" height="14">
+          <path d={waIconPath} />
+        </svg>
+        <span>{t('fitness-chain.topbar.cta')}</span>
+      </a>
+    </div>
+
+    <!-- Hero -->
+    <section class="fs-section fs-hero">
+      <div class="fs-hero-stage">
+        <div class="fs-hero-image" style={`background-image: url(/fitness-chain/hero.png)`}></div>
+        <div class="fs-hero-copy">
+          <p class="fs-eyebrow">{t('fitness-chain.hero.eyebrow')}</p>
+          <h1 class="fs-h1" style="white-space: pre-line">{t('fitness-chain.hero.title')}</h1>
+          <p class="fs-lede">{t('fitness-chain.hero.lede')}</p>
+          <div>
+            <a class="fs-btn fs-btn-primary" href={waLink}>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+                <path d={waIconPath} />
+              </svg>
+              <span>{t('fitness-chain.hero.cta')}</span>
+            </a>
+            <span class="fs-trust">{t('fitness-chain.hero.trust')}</span>
+          </div>
+        </div>
+      </div>
+      <div class="fs-hero-mock-row">
+        <div class="fs-mock-slot">
+          <WhatsAppMock
+            client:load
+            messages={trialBookingMessages}
+            headerName="סטודיו פראנה · יוגי"
+            avatarUrl="/scenarios/avatar.png"
+          />
+        </div>
+        <div class="fs-hero-mock-aside">
+          <p class="fs-eyebrow">{t('fitness-chain.hero.mock.aside.eyebrow')}</p>
+          <h3 class="fs-h3">{t('fitness-chain.hero.mock.aside.title')}</h3>
+          <p class="fs-muted">{t('fitness-chain.hero.mock.aside.body')}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Promise -->
+    <section class="fs-section fs-section-band">
+      <p class="fs-eyebrow">{t('fitness-chain.promise.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness-chain.promise.title')}</h2>
+      <p class="fs-lede" style="max-width: 52ch; margin-top: 12px">{t('fitness-chain.promise.body')}</p>
+    </section>
+
+    <!-- Three Jobs -->
+    <section class="fs-section">
+      <p class="fs-eyebrow">{t('fitness-chain.jobs.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness-chain.jobs.title')}</h2>
+      <div class="fs-cap-grid" style="margin-top: 32px">
+        <div class="fs-cap-card">
+          <div class="fs-cap-icon">📥</div>
+          <h3 class="fs-h3">{t('fitness-chain.job1.title')}</h3>
+          <p class="fs-caption" style="margin:0">{t('fitness-chain.job1.body')}</p>
+        </div>
+        <div class="fs-cap-card">
+          <div class="fs-cap-icon">💪</div>
+          <h3 class="fs-h3">{t('fitness-chain.job2.title')}</h3>
+          <p class="fs-caption" style="margin:0">{t('fitness-chain.job2.body')}</p>
+        </div>
+        <div class="fs-cap-card">
+          <div class="fs-cap-icon">🔄</div>
+          <h3 class="fs-h3">{t('fitness-chain.job3.title')}</h3>
+          <p class="fs-caption" style="margin:0">{t('fitness-chain.job3.body')}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scenario 2: Loyal Attendee -->
+    <section class="fs-section">
+      <div class="fs-scenario-grid">
+        <div class="fs-mock-slot">
+          <WhatsAppMock
+            client:visible
+            messages={loyaltyMessages}
+            headerName="סטודיו שלך · בוט"
+            avatarUrl="/scenarios/avatar.png"
+          />
+        </div>
+        <div>
+          <p class="fs-eyebrow">{t('fitness-chain.scenario2.label')}</p>
+          <h2 class="fs-h2">{t('fitness-chain.scenario2.heading')}</h2>
+          <p class="fs-caption">{t('fitness-chain.scenario2.desc')}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scenario 3: No-Show Re-engagement -->
+    <section class="fs-section">
+      <div class="fs-scenario-grid is-flipped">
+        <div>
+          <p class="fs-eyebrow">{t('fitness-chain.scenario3.label')}</p>
+          <h2 class="fs-h2">{t('fitness-chain.scenario3.heading')}</h2>
+          <p class="fs-caption">{t('fitness-chain.scenario3.desc')}</p>
+          <div class="fs-alert-card">
+            <span class="fs-alert-icon">🔔</span>
+            <div>
+              <p class="fs-alert-title">התראה</p>
+              <p class="fs-alert-body">מיכל — סימנתי לך. חוזר אלייך היום.</p>
+            </div>
+          </div>
+        </div>
+        <div class="fs-mock-slot">
+          <WhatsAppMock
+            client:visible
+            messages={noShowMessages}
+            headerName="סטודיו שלך · בוט"
+            avatarUrl="/scenarios/avatar.png"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Channel Options -->
+    <section class="fs-section fs-section-band">
+      <p class="fs-eyebrow">{t('fitness-chain.channels.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness-chain.channels.title')}</h2>
+      <div class="fs-cap-grid" style="margin-top: 32px">
+        <div class="fs-cap-card">
+          <div class="fs-cap-icon">💬</div>
+          <h3 class="fs-h3">{t('fitness-chain.channel1.title')}</h3>
+          <p class="fs-caption" style="margin:0">{t('fitness-chain.channel1.body')}</p>
+        </div>
+        <div class="fs-cap-card">
+          <div class="fs-cap-icon">📸</div>
+          <h3 class="fs-h3">{t('fitness-chain.channel2.title')}</h3>
+          <p class="fs-caption" style="margin:0">{t('fitness-chain.channel2.body')}</p>
+        </div>
+        <div class="fs-cap-card">
+          <div class="fs-cap-icon">👥</div>
+          <h3 class="fs-h3">{t('fitness-chain.channel3.title')}</h3>
+          <p class="fs-caption" style="margin:0">{t('fitness-chain.channel3.body')}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="fs-section fs-section-band">
+      <p class="fs-eyebrow">{t('fitness-chain.how.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness-chain.how.title')}</h2>
+      <ol class="fs-step-list">
+        <li>
+          <span class="fs-step-num">1</span>
+          <h3 class="fs-h3">{t('fitness-chain.step1.title')}</h3>
+          <p class="fs-muted" style="margin:0">{t('fitness-chain.step1.body')}</p>
+        </li>
+        <li>
+          <span class="fs-step-num">2</span>
+          <h3 class="fs-h3">{t('fitness-chain.step2.title')}</h3>
+          <p class="fs-muted" style="margin:0">{t('fitness-chain.step2.body')}</p>
+        </li>
+        <li>
+          <span class="fs-step-num">3</span>
+          <h3 class="fs-h3">{t('fitness-chain.step3.title')}</h3>
+          <p class="fs-muted" style="margin:0">{t('fitness-chain.step3.body')}</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- About -->
+    <section class="fs-section">
+      <p class="fs-eyebrow">{t('fitness-chain.about.eyebrow')}</p>
+      <div class="fs-about">
+        <div class="fs-about-photo" style={`background-image: url(/fitness-chain/hero.png); background-position: center 20%`}></div>
+        <div>
+          <h2 class="fs-h2" style="margin-bottom: 8px">{t('fitness-chain.about.title')}</h2>
+          <p class="fs-muted" style="margin:0 0 16px; max-width: 54ch">
+            בניתי את הפלטפורמה מאפס: תמיכה בעברית ו-RTL, אינטגרציה ליומנים, מעקב שיחות ומערכת התראות לבעל הסטודיו. כל בוט נבנה אישית — לא תבנית, לא מוצר ארוז.
+          </p>
+          <p class="fs-muted" style="margin:0; max-width: 54ch">
+            אני מביא את זה עכשיו לסטודיואים בישראל. אם את הראשון — זה יתאים לך היטב, ותקבל תשומת לב מלאה.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="fs-section">
+      <p class="fs-eyebrow">{t('fitness-chain.faq.eyebrow')}</p>
+      <h2 class="fs-h2">{t('fitness-chain.faq.title')}</h2>
+      <div class="fs-faq">
+
+        <!-- Q1: Calendar -->
+        <div class="fs-faq-item" data-open="false">
+          <button class="fs-faq-q">
+            <span>{t('fitness-chain.faq.q1')}</span><span>+</span>
+          </button>
+          <div class="fs-faq-a">
+            <p style="margin:0">כן. מתחבר ל-Google Calendar ול-Arbox. אין לך מערכת הזמנות? נבנה לך אחת בתוך תהליך הפיתוח.</p>
+          </div>
+        </div>
+
+        <!-- Q2: Booking system -->
+        <div class="fs-faq-item" data-open="false">
+          <button class="fs-faq-q">
+            <span>{t('fitness-chain.faq.q2')}</span><span>+</span>
+          </button>
+          <div class="fs-faq-a">
+            <p style="margin:0">כן, אם יש לך Arbox — הבוט מתחבר אליה. מערכת אחרת? נבדוק יחד מה אפשרי. אין בכלל? הבוט מנהל את ההזמנות בעצמו.</p>
+          </div>
+        </div>
+
+        <!-- Q3: Timeline -->
+        <div class="fs-faq-item" data-open="false">
+          <button class="fs-faq-q">
+            <span>{t('fitness-chain.faq.q3')}</span><span>+</span>
+          </button>
+          <div class="fs-faq-a">
+            <p style="margin:0 0 12px">{t('fitness-chain.faq.a3')}</p>
+            <ul style="margin:0; padding-right:18px; line-height:1.7">
+              <li><strong>הגדרה:</strong> מגדירים יחד את קול הבוט, מה הוא יודע ואילו שיחות מועברות אליכם.</li>
+              <li><strong>פיתוח:</strong> אני בונה ומטמיע. אתם בסטודיו.</li>
+              <li><strong>הרצה:</strong> עלייה הדרגתית בליווי שלי, עד שהכל עובד חלק.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Q4: Cost -->
+        <div class="fs-faq-item" data-open="false">
+          <button class="fs-faq-q">
+            <span>{t('fitness-chain.faq.q4')}</span><span>+</span>
+          </button>
+          <div class="fs-faq-a">
+            <p style="margin:0 0 12px">שני חלקים, שקופים מההתחלה.</p>
+            <p style="margin:0 0 8px"><strong>1. תשלום חד-פעמי על הפיתוח.</strong><br>נקבע בפגישה הראשונה לפי המפרט. אתם מקבלים את הקוד המלא — <strong>שלכם לתמיד</strong>.</p>
+            <p style="margin:0 0 12px"><strong>2. עלויות תפעול חודשיות.</strong><br>סדר גודל של מאות שקלים בחודש לשירותים חיצוניים (אחסון, AI, חיבור לוואטסאפ). <strong>אתם משלמים עליהם ישירות, לא לי.</strong></p>
+            <p style="margin:0; font-style:italic; opacity:0.75">הסכומים נסגרים לפני שמתחילים. אין הפתעות.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="fs-section fs-section-dark">
+      <h2 class="fs-h2">{t('fitness-chain.finalcta.title')}</h2>
+      <p class="fs-lede" style="max-width: 40ch">{t('fitness-chain.finalcta.lede')}</p>
+      <a class="fs-btn fs-btn-primary" href={waLink}>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+          <path d={waIconPath} />
+        </svg>
+        <span>{t('fitness-chain.finalcta.cta')}</span>
+      </a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="fs-footer">
+      <div>{t('fitness-chain.footer.copyright')}</div>
+      <div style="display:flex; gap:18px">
+        <a href={`tel:${siteContact.phoneTel}`}>{siteContact.phoneDisplay}</a>
+        <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a>
+      </div>
+    </footer>
+
+  </div>
+</FitnessLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.fs-faq-item').forEach((item) => {
+    item.querySelector('.fs-faq-q')?.addEventListener('click', () => {
+      const isOpen = item.dataset.open === 'true';
+      document.querySelectorAll<HTMLElement>('.fs-faq-item').forEach((el) => {
+        el.dataset.open = 'false';
+      });
+      item.dataset.open = isOpen ? 'false' : 'true';
+    });
+  });
+</script>

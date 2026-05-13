@@ -103,9 +103,15 @@ Wrap the `<WhatsAppMock>` in `<div class="fs-mock-slot">` — the slot provides 
 | Path | File | Notes |
 |---|---|---|
 | `/` | `src/pages/index.astro` | Main landing |
-| `/fitness` | `src/pages/fitness.astro` | Fitness studio landing |
+| `/fitness-studio` | `src/pages/fitness-studio.astro` | Fitness Studio landing |
+| `/fitness-chain` | `src/pages/fitness-chain.astro` | Fitness Chain landing |
 | `/contact` | `src/pages/contact.astro` | Contact form |
-| `/[lang]/fitness` | `src/pages/[lang]/fitness.astro` | i18n variant |
+| `/[lang]/fitness-studio` | `src/pages/[lang]/fitness-studio.astro` | i18n variant |
+| `/[lang]/fitness-chain` | `src/pages/[lang]/fitness-chain.astro` | i18n variant |
+
+## Page structure docs
+
+The README has a `## Page structure` section listing every page's sections in render order. **Each time a page is created, deleted, or has sections added/removed/reordered, update that section of the README in the same change.** Section list is purpose-only (one line per section) — copy/translation details stay out.
 
 ## Contact Form
 
@@ -139,7 +145,8 @@ All Open Graph images (WhatsApp previews, Facebook, Twitter/X, LinkedIn) live in
 | Route | Image | Notes |
 |---|---|---|
 | Site default | `public/og/default.png` | Used by `Layout.astro` when no `ogImage` is passed |
-| `/fitness` | `public/og/fitness/og.png` | Fitness studio landing page |
+| `/fitness-studio` | `public/og/fitness-studio/og.jpg` | Fitness Studio landing page |
+| `/fitness-chain` | `public/og/fitness-chain/og.jpg` | Fitness Chain landing page |
 | `/contact` | `public/og/contact/og.png` | Optional; falls back to default |
 
 ### Image requirements
