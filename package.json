@@ -13,7 +13,7 @@
     "test:headed": "playwright test --headed"
   },
   "dependencies": {
-    "@alexgub84/whatsapp-chat-mock": "^1.1.0",
+    "@alexgub84/whatsapp-chat-mock": "1.1.0",
     "@astrojs/react": "^5.0.4",
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^19.2.14",
