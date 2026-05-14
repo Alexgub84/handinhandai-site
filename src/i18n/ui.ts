@@ -182,57 +182,136 @@ export const ui = {
     "fitness-studio.followup.mock.scenario": "פולואפ אישי + העברה לבעל הסטודיו",
 
     // ── Fitness Chain landing page ───────────────────────────────
-    "fitness-chain.page.title": "עוזר חכם בוואטסאפ לסטודיו",
-    "fitness-chain.topbar.brand": "סטודיו · עוזר חכם בוואטסאפ",
+    "fitness-chain.page.title": "סוכן AI לרשתות כושר | בנייה מותאמת אישית לרשת שלכם",
+    "fitness-chain.topbar.brand": "Hand in Hand AI · רשתות כושר",
     "fitness-chain.topbar.cta": "וואטסאפ",
-    "fitness-chain.hero.eyebrow": "לבעלי סטודיו",
-    "fitness-chain.hero.title": "מנהל חכם בוואטסאפ.\nאתה מלמד. אנחנו מטפלים בשאר.",
+
+    // Hero
+    "fitness-chain.hero.eyebrow": "לרשתות כושר",
+    "fitness-chain.hero.title": "סוכן AI לרשת הכושר שלכם",
+    "fitness-chain.hero.tagline": "בונים לכם סוכן AI מותאם אישית לרשת שלכם.",
     "fitness-chain.hero.lede":
-      "קובע שיעורי ניסיון, מחזק נאמנות ומחזיר מתאמנים שנעלמו. הכול בוואטסאפ, בעברית, בקול שלך.",
-    "fitness-chain.hero.cta": "דברו איתי בוואטסאפ",
-    "fitness-chain.hero.trust": "ללא טפסים. ללא התקנה. תגובה בדרך כלל באותו יום.",
+      "בונים סוכן AI שעונה ללקוחות בוואטסאפ, קובע שיעורים בכל סניף ומזהה מתאמנים בסיכון נטישה — מותאם לרשת ולמערכות שלכם.",
+    "fitness-chain.hero.cta": "בואו נדבר",
+    "fitness-chain.hero.trust": "שיחה של 20 דקות. בלי מצגות.",
+
+    // Hero mock aside (churn-recovery scenario)
+    "fitness-chain.hero.mock.aside.eyebrow": "דמו · החזרת מתאמנים",
+    "fitness-chain.hero.mock.aside.title":
+      "מתאמנת שכמעט עזבה — חוזרת לשיעור.",
+    "fitness-chain.hero.mock.aside.body":
+      "הסוכן שם לב לחוסר פעילות, פנה אישית, והחזיר אותה לסטודיו — בלי שאף אחד מהצוות התקשר.",
+
+    // What the agent does (4 capability cards)
+    "fitness-chain.agent.eyebrow": "יום-יום",
+    "fitness-chain.agent.title": "מה הסוכן עושה ביום-יום",
+    "fitness-chain.agent.lede": "ארבעה דברים שהוא מטפל בהם — בלעדיכם.",
+    "fitness-chain.agent.card1.title": "עונה ללידים חדשים תוך שניות",
+    "fitness-chain.agent.card1.body":
+      "24/7. ליד שמגיע ב-23:00 לא נופל בין הכיסאות.",
+    "fitness-chain.agent.card2.title": "קובע שיעורים בכל סניף",
+    "fitness-chain.agent.card2.body":
+      "יודע את לוחות הזמנים בכל סניפי הרשת, ומציע ללקוח את מה שמתאים לו.",
+    "fitness-chain.agent.card3.title":
+      "מזהה מתאמנים שהפסיקו להגיע ומחזיר אותם",
+    "fitness-chain.agent.card3.body":
+      "רואה מי לא מגיע כבר שבועיים-שלושה, פונה לפני שמבטלים מנוי.",
+    "fitness-chain.agent.card4.title":
+      "מעביר אליכם מקרים מורכבים — עם כל הרקע",
+    "fitness-chain.agent.card4.body":
+      "כשנדרשת התערבות אנושית, הצוות מקבל סיכום מלא ולא מתחיל מאפס.",
+
+    // Problem (uses .problems.* to avoid collision with orphan .problem.* used by [lang] variant)
+    "fitness-chain.problems.eyebrow": "המציאות היומיומית",
+    "fitness-chain.problems.title":
+      "כל סניף עונה אחרת. כל פנייה שמפספסים — מתאמן של מתחרה.",
+    "fitness-chain.problems.pain1":
+      "ליד נכנס לסניף בתל אביב ב-22:00. נענה למחרת ב-9:00. כבר נסגר במקום אחר.",
+    "fitness-chain.problems.pain2":
+      "כל סניף נותן מחירים אחרים, מדבר בטון אחר, מבטיח דברים אחרים.",
+    "fitness-chain.problems.pain3":
+      "מתאמנת מפסיקה להגיע. שלושה שבועות אחר כך — מבטלת. אף אחד לא ראה את זה מגיע.",
+    "fitness-chain.problems.pain4":
+      "הצוות שורף שעות על שאלות חוזרות במקום על מכירה ושימור.",
+
+    // How it works (4 steps — bespoke build)
+    "fitness-chain.how.eyebrow": "איך זה עובד",
+    "fitness-chain.how.title":
+      "סוכן AI שנבנה לרשת שלכם — לא כלי מהמדף",
+    "fitness-chain.how.step1.title": "שיחת היכרות",
+    "fitness-chain.how.step1.body":
+      "נבין את הרשת, הסניפים, המערכות שלכם (Arbox / LEAP / מה שלא יהיה), ואיפה הצוות שורף הכי הרבה זמן.",
+    "fitness-chain.how.step2.title": "בנייה מותאמת",
+    "fitness-chain.how.step2.body":
+      "בונים סוכן AI שמכיר את המוצרים, המחירים, לוחות השיעורים והנהלים שלכם — מדבר בטון של הרשת, ויודע להתנהל בעברית טבעית.",
+    "fitness-chain.how.step3.title": "אינטגרציה",
+    "fitness-chain.how.step3.body":
+      "מחברים לסוכן את המערכת שאתם כבר עובדים איתה — היומן, ה-CRM, וואטסאפ. שום דבר אצלכם לא משתנה.",
+    "fitness-chain.how.step4.title": "עלייה לאוויר וליווי",
+    "fitness-chain.how.step4.body":
+      "הסוכן עולה לאוויר בכל הסניפים, ואנחנו ממשיכים לכייל ולשפר על בסיס שיחות אמיתיות מהשטח.",
+
+    // Comparison vs shelf-SaaS
+    "fitness-chain.compare.eyebrow": "השוואה",
+    "fitness-chain.compare.title": "למה לא מערכת AI מהמדף?",
+    "fitness-chain.compare.intro":
+      "יש בשוק כלי SaaS שמתחברים לוואטסאפ. הם זולים יותר. הם גם מרגישים ככה ללקוחות שלכם.",
+    "fitness-chain.compare.col1": "מערכת AI מהמדף",
+    "fitness-chain.compare.col2": "סוכן AI שנבנה לרשת שלכם",
+    "fitness-chain.compare.row1.shelf": "תפריטים גנריים שצריך להתאים אליהם",
+    "fitness-chain.compare.row1.custom": "נבנה סביב התהליכים והנהלים שלכם",
+    "fitness-chain.compare.row2.shelf": "לא מכיר את המערכת שלכם",
+    "fitness-chain.compare.row2.custom":
+      "מחובר למערכת שכבר עובדת אצלכם",
+    "fitness-chain.compare.row3.shelf": "תשובות גנריות בטון של הכלי",
+    "fitness-chain.compare.row3.custom": "מדבר בטון הברנד שלכם",
+    "fitness-chain.compare.row4.shelf": "מנוי לכלי שמשרת אלפי עסקים",
+    "fitness-chain.compare.row4.custom": "פתרון שנבנה לרשת שלכם בלבד",
+    "fitness-chain.compare.row5.shelf": "אתם מסתגלים אליו",
+    "fitness-chain.compare.row5.custom": "הוא נבנה סביבכם",
+
+    // FAQ (6 items)
+    "fitness-chain.faq.eyebrow": "שאלות",
+    "fitness-chain.faq.title": "שאלות נפוצות",
+    "fitness-chain.faq.q1":
+      "אנחנו כבר עובדים עם מערכת משלנו. צריך להחליף משהו?",
+    "fitness-chain.faq.a1":
+      "לא. אנחנו בונים את הסוכן סביב המערכת שכבר יש לכם. שום דבר אצלכם לא משתנה.",
+    "fitness-chain.faq.q2": "מה עם מדיניות מטא החדשה לגבי AI בוואטסאפ?",
+    "fitness-chain.faq.a2":
+      "המדיניות של ינואר 2026 אסרה על צ׳אטבוטים כלליים מסוג ChatGPT בוואטסאפ העסקי, אבל מתירה במפורש סוכני AI ייעודיים לתפעול עסקי — מענה ללקוחות, קביעת תורים, ניהול לידים. בדיוק מה שאנחנו בונים.",
+    "fitness-chain.faq.q3": "כמה זמן לוקח לבנות?",
+    "fitness-chain.faq.a3":
+      "גרסה ראשונה באוויר בתוך 2-4 שבועות, תלוי במורכבות. אחרי זה אנחנו ממשיכים לכייל ולהוסיף יכולות לפי הצורך.",
+    "fitness-chain.faq.q4": "זה מחליף את הצוות?",
+    "fitness-chain.faq.a4":
+      "לא. זה מפנה אותם. במקום לענות \"באיזה שעות אתם פתוחים?\" 200 פעם ביום, הצוות מתעסק במכירה, שימור מתאמנים VIP וטיפול במקרים מורכבים.",
+    "fitness-chain.faq.q5": "מה קורה כשהסוכן לא יודע לענות?",
+    "fitness-chain.faq.a5":
+      "הוא מעביר את השיחה לצוות, עם סיכום מלא של מה הלקוח שאל ומה כבר נענה. הצוות לא מתחיל מאפס.",
+    "fitness-chain.faq.q6": "כמה זה עולה?",
+    "fitness-chain.faq.a6":
+      "תלוי במורכבות — מספר הסניפים, מערכות לאינטגרציה והיקף השימוש. נסכם הצעת מחיר ספציפית אחרי שיחת ההיכרות.",
+
+    // Why I build this
+    "fitness-chain.why.eyebrow": "מי עומד מאחורי זה",
+    "fitness-chain.why.title": "למה אני בונה את זה",
+    "fitness-chain.why.body":
+      "אני אוהב ספורט. החזון שלי הוא לעזור לעסקי כושר ובריאות לתת ללקוחות שלהם שירות באותה רמה כמו המוצר שהם נותנים.",
+
+    // Final CTA
+    "fitness-chain.finalcta.title": "מוכנים לראות איך זה ייראה אצלכם?",
+    "fitness-chain.finalcta.lede":
+      "שיחה של 20 דקות. נבין את הרשת ונראה אם זה מתאים.",
+    "fitness-chain.finalcta.cta": "בואו נדבר",
+
+    "fitness-chain.footer.copyright": "© 2025 · Hand in Hand",
+
+    // Orphaned keys for [lang]/fitness-chain.astro compatibility
+    // (placeholder variant — not used by root /fitness-chain. Retained so [lang] build doesn't break.)
     "fitness-chain.hero.mock.title": "סטודיו שלך · בוט",
     "fitness-chain.hero.mock.status": "מחובר",
     "fitness-chain.hero.mock1.scenario": "הזמנת שיעור ניסיון אחרי שעות הפעילות",
-    "fitness-chain.hero.mock.aside.eyebrow": "תרחיש 1 · לסטודיו יוגה",
-    "fitness-chain.hero.mock.aside.title": "פנייה ב-22:48. בבוקר, השיעור כבר ביומן.",
-    "fitness-chain.hero.mock.aside.body":
-      "לקוחה חדשה כותבת אחרי שעות הפעילות. הבוט מציע שני מועדים, עונה על שאלה, ומאשר את ההרשמה. את מתעוררת לפנייה סגורה.",
-    "fitness-chain.promise.eyebrow": "מה זה עושה",
-    "fitness-chain.promise.title": "אתה מלמד. אנחנו מטפלים בשאר.",
-    "fitness-chain.promise.body":
-      "עוזר חכם בוואטסאפ שמנהל את מחזור החיים של המתאמן שלך: מהפנייה הראשונה ועד לנאמן שמגיע כל שבוע.",
-    "fitness-chain.jobs.eyebrow": "שלוש משימות",
-    "fitness-chain.jobs.title": "הדברים שהיית צריך לעשות אחרי כל יום אימון.",
-    "fitness-chain.job1.title": "ממלא שיעורים",
-    "fitness-chain.job1.body": "עונה לפניות, מציע מועדים ומסגר שיעורי ניסיון. גם ב-23:00.",
-    "fitness-chain.job2.title": "בונה נאמנות",
-    "fitness-chain.job2.body":
-      "שולח מסרים שבועיים לפי נוכחות. מי שבא שלוש פעמים מקבל אחד, מי שבא פעם אחת מקבל אחר.",
-    "fitness-chain.job3.title": "מונע נשירה",
-    "fitness-chain.job3.body":
-      "מחזיר מתאמנים שנעלמו בגישה אמפתית. כשצריך אותך, מעביר אליך.",
-    "fitness-chain.scenario2.label": "תרחיש 2 · מתאמנת נאמנה",
-    "fitness-chain.scenario2.heading": "באת 3 פעמים השבוע. ידענו. שלחנו לך הודעה.",
-    "fitness-chain.scenario2.desc":
-      "עוזר עוקב אחרי נוכחות ושולח הודעה שבועית מותאמת. מי שבא שלוש פעמים מקבל עידוד ומוצע לו שיעור חדש. מי שלא בא מקבל הודעה שונה לגמרי.",
-    "fitness-chain.scenario3.label": "תרחיש 3 · מתאמן שנעלם",
-    "fitness-chain.scenario3.heading": "לא ראינו אותך שבוע. הכל בסדר?",
-    "fitness-chain.scenario3.desc":
-      "אחרי שבוע היעדרות, העוזר שואל. כשהמתאמן עונה בכנות, העוזר מגיב בהבנה — לא בלחץ. ואם צריך, מציע שבעל הסטודיו יחזור אישית.",
-    "fitness-chain.channels.eyebrow": "ערוצים",
-    "fitness-chain.channels.title": "בוחרים איפה לקוחות מוצאים אתכם.",
-    "fitness-chain.channel1.title": "וואטסאפ",
-    "fitness-chain.channel1.body": "הערוץ הכי טבעי בישראל. מספר העסק נשאר אותו מספר.",
-    "fitness-chain.channel2.title": "אינסטגרם",
-    "fitness-chain.channel2.body": "מישהו שלח DM? העוזר עונה ומקבע שיעור ניסיון.",
-    "fitness-chain.channel3.title": "פייסבוק",
-    "fitness-chain.channel3.body": "מסנג׳ר עובד בדיוק כמו וואטסאפ. אותו עוזר, אותה חוויה.",
-    "fitness-chain.midcta.title": "דמיינו את הבוקר שלכם בלי 40 הודעות שמחכות.",
-    "fitness-chain.midcta.lede": "שיחה קצרה אחת בוואטסאפ, ונדע אם זה מתאים לכם.",
-    "fitness-chain.midcta.cta": "דברו איתי בוואטסאפ",
-    "fitness-chain.how.eyebrow": "איך זה עובד",
-    "fitness-chain.how.title": "משיחה ראשונה לאוויר, תוך מספר שבועות.",
     "fitness-chain.step1.title": "מתחברים לוואטסאפ",
     "fitness-chain.step1.body": "מספר העסק נשאר אותו מספר. שום אפליקציה חדשה.",
     "fitness-chain.step2.title": "מתאימים לסטודיו",
@@ -241,21 +320,9 @@ export const ui = {
     "fitness-chain.step3.body": "פתיחה הדרגתית, אתם רואים כל שיחה לפני שמשחררים.",
     "fitness-chain.about.eyebrow": "מי אני",
     "fitness-chain.about.title": "אלכס. בניתי את הפלטפורמה הזאת מאפס.",
-    "fitness-chain.finalcta.title": "הצעד הראשון: שיחה אחת.",
-    "fitness-chain.finalcta.lede":
-      "בלי מצגת, בלי התחייבות. נבין אם זה מתאים לסטודיו שלכם, ונחליט יחד.",
-    "fitness-chain.finalcta.cta": "דברו איתי בוואטסאפ",
-    "fitness-chain.faq.eyebrow": "שאלות",
-    "fitness-chain.faq.title": "דברים שבעלי סטודיו שואלים אותי.",
-    "fitness-chain.faq.q1": "האם העוזר מתחבר ליומן שלי?",
-    "fitness-chain.faq.q2": "יש לי כבר מערכת הזמנות — העוזר יעבוד איתה?",
-    "fitness-chain.faq.q3": "כמה זמן עד שזה באוויר?",
-    "fitness-chain.faq.a3": "בין כמה שבועות לחודשיים, תלוי במפרט והיקף הבדיקות.",
-    "fitness-chain.faq.q4": "כמה זה עולה?",
-    "fitness-chain.faq.a4":
-      "שני חלקים, שקופים מההתחלה: תשלום חד-פעמי על הפיתוח (נקבע לפי המפרט), ועלויות תפעול חודשיות של מאות שקלים לחודש לשירותים חיצוניים. הסכומים נסגרים בפגישה הראשונה, לפני שמתחילים.",
-    "fitness-chain.footer.copyright": "© 2025 · Hand in Hand",
-    // Orphaned keys for [lang]/fitness-chain.astro compatibility
+    "fitness-chain.midcta.title": "דמיינו את הבוקר שלכם בלי 40 הודעות שמחכות.",
+    "fitness-chain.midcta.lede": "שיחה קצרה אחת בוואטסאפ, ונדע אם זה מתאים לכם.",
+    "fitness-chain.midcta.cta": "דברו איתי בוואטסאפ",
     "fitness-chain.explainer.title": 'רגע, מה זה בעצם "בוט AI"?',
     "fitness-chain.explainer.item1":
       "מתחבר למספר הוואטסאפ העסקי שלך. אותו מספר, בלי אפליקציה חדשה",
