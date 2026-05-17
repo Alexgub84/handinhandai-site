@@ -4,3 +4,4 @@ export * from "./scenarios/waitlist";
 export * from "./scenarios/followup";
 export * from "./scenarios/loyalty";
 export * from "./scenarios/no-show";
+export * from "./scenarios/churn-recovery";

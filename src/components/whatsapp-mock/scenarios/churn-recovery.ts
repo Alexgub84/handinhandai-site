@@ -1,0 +1,47 @@
+export const churnRecoveryMessages = [
+  {
+    id: "c1",
+    sender: "outgoing" as const,
+    text: "היי שירה :) שמנו לב שלא ראינו אותך כבר 3 שבועות. הכל בסדר?",
+    timestamp: "14:32",
+    status: "read" as const,
+    delayBeforeMs: 600,
+  },
+  {
+    id: "c2",
+    sender: "incoming" as const,
+    text: "היי, סליחה.. הייתי בעומס בעבודה ופשוט נכבה לי המוטיבציה",
+    timestamp: "14:45",
+    delayBeforeMs: 1800,
+  },
+  {
+    id: "c3",
+    sender: "outgoing" as const,
+    text: "מבינים לחלוטין. רוצה לחזור בקלילות? שיעור חזרה עלינו, ביום שמתאים לך השבוע.",
+    timestamp: "14:46",
+    status: "read" as const,
+    delayBeforeMs: 1100,
+  },
+  {
+    id: "c4",
+    sender: "incoming" as const,
+    text: "ברצינות? נחמד מצידכם.. אולי חמישי בערב?",
+    timestamp: "14:48",
+    delayBeforeMs: 2000,
+  },
+  {
+    id: "c5",
+    sender: "outgoing" as const,
+    text: "חמישי 19:00 פנוי. רשמתי אותך ✓ נשמח לראות אותך שוב 💪",
+    timestamp: "14:48",
+    status: "read" as const,
+    delayBeforeMs: 1000,
+  },
+  {
+    id: "c6",
+    sender: "incoming" as const,
+    text: "תודה, נתראה!",
+    timestamp: "14:49",
+    delayBeforeMs: 1600,
+  },
+];
