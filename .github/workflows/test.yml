@@ -33,5 +33,3 @@ jobs:
 
       - name: Run tests
         run: npm run test
-        env:
-          PUBLIC_WEBHOOK_URL: https://hook.eu1.make.com/test-webhook

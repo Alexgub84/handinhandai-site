@@ -12,7 +12,7 @@ const t = useTranslations(lang);
 const pageDescription =
   'סוכן AI שנבנה במיוחד לרשת שלכם. עונה ללקוחות בוואטסאפ בכל סניף, קובע שיעורים ומזהה מתאמנים בסיכון נטישה. תואם מדיניות מטא 2026.';
 
-const contactPath = '/contact';
+const contactPath = 'https://wa.me/972545053620';
 const waPhone = siteContact.phoneTel.replace('+', '');
 const waMessage = encodeURIComponent(
   'היי אלכס, ראיתי את הדף לרשתות כושר ורוצה לקבוע שיחת היכרות.'
@@ -58,7 +58,7 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
           <p class="fs-hero-tagline">{t('fitness-chain.hero.tagline')}</p>
           <p class="fs-lede">{t('fitness-chain.hero.lede')}</p>
           <div class="fs-hero-cta-row">
-            <a class="fs-btn fs-btn-primary" href={contactPath}>
+            <a class="fs-btn fs-btn-primary" href={contactPath} target="_blank" rel="noopener noreferrer">
               <span>{t('fitness-chain.hero.cta')}</span>
             </a>
             <a class="fs-btn fs-btn-ghost" href="#demo">
@@ -300,7 +300,7 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
     <section class="fs-section fs-section-dark">
       <h2 class="fs-h2">{t('fitness-chain.finalcta.title')}</h2>
       <p class="fs-lede" style="max-width: 44ch">{t('fitness-chain.finalcta.lede')}</p>
-      <a class="fs-btn fs-btn-primary" href={contactPath}>
+      <a class="fs-btn fs-btn-primary" href={contactPath} target="_blank" rel="noopener noreferrer">
         <span>{t('fitness-chain.finalcta.cta')}</span>
       </a>
     </section>
