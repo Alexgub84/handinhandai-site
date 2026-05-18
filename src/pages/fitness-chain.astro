@@ -4,13 +4,13 @@ import { siteContact } from '@/data/site-contact';
 import { useTranslations } from '@i18n/utils';
 import { defaultLang } from '@i18n/ui';
 import WhatsAppMock from '@components/whatsapp-mock/WhatsAppMock';
-import { churnRecoveryMessages } from '@components/whatsapp-mock/scenarios/churn-recovery';
+import { chainChurnMultiBranchMessages } from '@components/whatsapp-mock/scenarios/chain-churn-multi-branch';
 
 const lang = defaultLang;
 const t = useTranslations(lang);
 
 const pageDescription =
-  'סוכן AI שנבנה במיוחד לרשת שלכם. עונה ללקוחות בוואטסאפ בכל סניף, קובע שיעורים ומזהה מתאמנים בסיכון נטישה. תואם מדיניות מטא 2026.';
+  'סוכן AI שנבנה במיוחד לרשת שלכם. עונה ללקוחות בוואטסאפ בכל סניף, קובע שיעורים ומחזיר מתאמנים שהפסיקו להגיע. תואם מדיניות מטא 2026.';
 
 const contactPath = 'https://wa.me/972545053620';
 const waPhone = siteContact.phoneTel.replace('+', '');
@@ -72,7 +72,7 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
         <div class="fs-mock-slot">
           <WhatsAppMock
             client:load
-            messages={churnRecoveryMessages}
+            messages={chainChurnMultiBranchMessages}
             headerName="רשת כושר · סניף ת״א"
             avatarUrl="/scenarios/avatar.png"
           />
