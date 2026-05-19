@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: npm install --no-package-lock
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build
         run: npm run build
