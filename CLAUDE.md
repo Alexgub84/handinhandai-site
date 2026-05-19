@@ -21,7 +21,29 @@ export GITHUB_TOKEN=ghp_...   # needs read:packages scope
 
 After updating `.zshrc`, run `source ~/.zshrc` before `npm install`.
 
-For Cloudflare Pages builds: add `GITHUB_TOKEN` as a build environment variable in the dashboard.
+For Cloudflare Pages builds: add `GITHUB_TOKEN` as a build environment variable in the dashboard. **Do not rename to `NPM_TOKEN` in `.npmrc`** — Cloudflare's env var is `GITHUB_TOKEN` and renaming silently breaks every deploy with a 401 from GitHub Packages. GitHub Actions also uses `${{ secrets.GITHUB_TOKEN }}` (built-in, no PAT to rotate) — see `.github/workflows/test.yml`.
+
+## Short-link redirects (`/wa/*`)
+
+WhatsApp deep-link shortlinks (e.g. `/wa/lac-gel` → `wa.me/972...?text=...`) are served as edge 302s from `public/_redirects`. Astro copies that file verbatim into `dist/_redirects` and Cloudflare Pages honors it before any static asset or SPA fallback. **Never** use an Astro page with `<meta http-equiv="refresh">` for these — static-mode redirects produce a visible blank-page flash. New shortlink = one line in `public/_redirects`:
+
+```
+/wa/<segment>  <wa.me URL with percent-encoded ?text=...>  302
+```
+
+`npm run preview` does NOT honor `_redirects` (static server). Verify in a Cloudflare Pages preview deploy, not locally.
+
+## Cloudflare Pages — Linux native binaries
+
+The lockfile is generated on macOS-arm64, which means npm only resolves darwin-arm64 binary packages. CF Pages runs Linux-x64-gnu and `npm ci` will skip optional binaries that aren't in the lockfile's `packages` section — silently failing at build time with `Cannot find module '../lightningcss.linux-x64-gnu.node'` (or the rollup / oxide variant).
+
+Fix: pin Linux x64 GNU binaries explicitly in `package.json` → `optionalDependencies`. macOS installs ignore them (platform mismatch); Linux CI installs them; lockfile carries the full `node_modules/...` entry. Currently pinned:
+
+- `@rollup/rollup-linux-x64-gnu`
+- `@tailwindcss/oxide-linux-x64-gnu`
+- `lightningcss-linux-x64-gnu`
+
+If any of these packages get bumped (Astro/Vite/Tailwind/Rollup upgrade), bump the matching Linux binary version in `optionalDependencies` to match and regenerate the lockfile.
 
 ## Tech stack
 

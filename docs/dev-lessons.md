@@ -32,3 +32,24 @@ Append-only log. New entries on top of their type section, dated YYYY-MM-DD.
 **Context:** Alex needed a short link on `handinhandai.com` (`/wa/lac-gel`) that, when clicked from an Instagram DM, sends the recipient straight into a WhatsApp chat with the number `+972 54 505 3620` and a pre-filled Hebrew opener. Hard requirement: the user must not see any page on the site — no flash of marketing content.
 **Decision:** Added a single rule to `public/_redirects`. Astro copies the file verbatim to `dist/`, and Cloudflare Pages serves it as a true edge 302. Rejected: an Astro page using `<meta http-equiv="refresh">` + JS. Reason for rejection: in static mode (no SSR adapter installed) there is no server-side `Astro.redirect()` and any HTML-level redirect produces a visible blank-page render before navigation — defeats the "no site flash" requirement.
 **Reuse tip:** For any future paste-into-DM short link (WhatsApp/Telegram/Calendly/etc.), prefer `public/_redirects` over a real page. Same pattern: `/wa/<segment>  <destination-url>  302`. Astro's `npm run preview` does not honor `_redirects` — verify in a Cloudflare Pages preview deploy, not locally.
+
+### [Bug] Cloudflare Pages 401 from GitHub Packages after `.npmrc` env-var rename
+
+**Date:** 2026-05-19
+**Problem:** Every Cloudflare Pages deploy from `main` since the v2 fitness-chain rewrite (commit `b8b54e7`) was silently failing the build with `401 Unauthorized` from `npm.pkg.github.com` for `@alexgub84/whatsapp-chat-mock`. Live site kept serving the previous successful build, so nothing visibly broke — until a later commit (the `/wa/lac-gel` redirect) introduced a file that needed to ship and didn't.
+**Solution:** Root cause: `.npmrc` was changed from `${GITHUB_TOKEN}` to `${NPM_TOKEN}` in that rewrite, but the Cloudflare Pages dashboard env var is `GITHUB_TOKEN`. npm expanded `${NPM_TOKEN}` to an empty string, sent an empty auth header, GH 401'd. Reverted `.npmrc` to `${GITHUB_TOKEN}` and pointed GitHub Actions at the workflow-builtin `secrets.GITHUB_TOKEN` so both CI paths share one env-var name with no PAT to rotate.
+**Prevention:** Any future `.npmrc` change must keep `${GITHUB_TOKEN}` — the project CLAUDE.md now calls this out explicitly. If a build env-var rename is genuinely needed, update the Cloudflare Pages dashboard FIRST, then change `.npmrc` in the same commit. Always check the CF Pages Deployments tab after merging a config change — auth failures are invisible until something on the live site needs to update.
+
+### [Bug] CF Pages build crash from missing Linux native binaries in macOS-generated lockfile
+
+**Date:** 2026-05-19
+**Problem:** After fixing the auth issue, the CF Pages build still failed in `astro build` with `Cannot find module '../lightningcss.linux-x64-gnu.node'`. `npm ci` had installed 416 packages on Linux but skipped the Linux native binary for lightningcss (and would have skipped Tailwind's oxide + Rollup's Linux variant too).
+**Solution:** The lockfile is generated on macOS-arm64 and only carries `node_modules/...` entries for darwin-arm64 binary packages. Optional-platform binaries are listed in transitive `optionalDependencies` blocks but never resolved into the lockfile's `packages` section, so `npm ci` on Linux dutifully skips them. Promoted three packages to root `optionalDependencies` in `package.json`: `@rollup/rollup-linux-x64-gnu`, `@tailwindcss/oxide-linux-x64-gnu`, `lightningcss-linux-x64-gnu`. Regenerated the lockfile — entries now appear in the `packages` section and `npm ci` installs them on Linux. macOS installs ignore them (platform mismatch is a no-op for optional deps).
+**Prevention:** Whenever Astro/Vite/Tailwind/Rollup is upgraded, also bump the matching Linux binary version in root `optionalDependencies`. CF Pages build log is the only place this surfaces — local builds, local previews, and Playwright E2E all run on the developer's macOS and will never reproduce it. Documented the pin list and rationale in the project CLAUDE.md under "Cloudflare Pages — Linux native binaries".
+
+### [Win] Diff the last known-good deploy commit against the broken series to spot config drift
+
+**Date:** 2026-05-19
+**Context:** CF Pages was failing without a clear single-commit culprit — the auth break started at `b8b54e7` but only mattered when a later commit needed to ship.
+**Strategy:** `git diff <last-working-sha>..<current> -- .npmrc package.json package-lock.json wrangler.toml .github/workflows/` surfaced the `.npmrc` env-var rename instantly. Two minutes of targeted diffing against the config files beat hours of guessing about token expiry, dashboard state, or CF Pages misconfiguration.
+**Why it works:** When "it worked before, doesn't now" and the live site is on a managed platform, the first move is to ask what changed in the auth / build / deploy config files specifically — not in the application code. Restrict the diff to those files and the cause usually jumps out.
