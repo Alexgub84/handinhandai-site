@@ -25,3 +25,10 @@ Append-only log. New entries on top of their type section, dated YYYY-MM-DD.
 **Context:** `/fitness-chain` initially used the same `churn-recovery` scenario as the studio page. It worked, but didn't prove "this knows my world has multiple branches" within 5 seconds of landing on the page.
 **Decision:** Hero scenarios should be audience-specific and demonstrate the one capability a single-tier alternative could not — for chain pages that means cross-branch routing. Wrote a new `chain-churn-multi-branch.ts` scenario where the member moves cities and the bot offers a different branch. Rejected: keeping the shared scenario for simplicity. Reason for rejection: the inline mini-WAs in the capability cards already cover multi-branch — the hero needs to lead with the same signal, not lag it.
 **Reuse tip:** When forking a marketing page for a new audience, the hero WhatsApp demo is part of the value prop, not chrome. Replace it before shipping.
+
+### [Decision] WhatsApp deep-link redirects via Cloudflare `_redirects`, not Astro page
+
+**Date:** 2026-05-19
+**Context:** Alex needed a short link on `handinhandai.com` (`/wa/lac-gel`) that, when clicked from an Instagram DM, sends the recipient straight into a WhatsApp chat with the number `+972 54 505 3620` and a pre-filled Hebrew opener. Hard requirement: the user must not see any page on the site — no flash of marketing content.
+**Decision:** Added a single rule to `public/_redirects`. Astro copies the file verbatim to `dist/`, and Cloudflare Pages serves it as a true edge 302. Rejected: an Astro page using `<meta http-equiv="refresh">` + JS. Reason for rejection: in static mode (no SSR adapter installed) there is no server-side `Astro.redirect()` and any HTML-level redirect produces a visible blank-page render before navigation — defeats the "no site flash" requirement.
+**Reuse tip:** For any future paste-into-DM short link (WhatsApp/Telegram/Calendly/etc.), prefer `public/_redirects` over a real page. Same pattern: `/wa/<segment>  <destination-url>  302`. Astro's `npm run preview` does not honor `_redirects` — verify in a Cloudflare Pages preview deploy, not locally.
