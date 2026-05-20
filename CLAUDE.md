@@ -25,13 +25,13 @@ For Cloudflare Pages builds: add `GITHUB_TOKEN` as a build environment variable 
 
 ## Short-link redirects (`/wa/*`)
 
-WhatsApp deep-link shortlinks (e.g. `/wa/lac-gel` → `wa.me/972...?text=...`) are served as edge 302s from `public/_redirects`. Astro copies that file verbatim into `dist/_redirects` and Cloudflare Pages honors it before any static asset or SPA fallback. **Never** use an Astro page with `<meta http-equiv="refresh">` for these — static-mode redirects produce a visible blank-page flash. New shortlink = one line in `public/_redirects`:
+Two paths depending on whether the shortlink needs a branded social-media preview (Instagram DM, WhatsApp link card, etc.):
 
-```
-/wa/<segment>  <wa.me URL with percent-encoded ?text=...>  302
-```
+**With OG preview — Cloudflare Pages Function (`functions/wa/[slug].ts`).** Slug → `{ whatsappUrl, title, description, image }` registry inside the function. Bot UAs (WhatsApp, facebookexternalhit, Twitterbot, Slackbot, LinkedInBot, TelegramBot, Discordbot, etc.) get HTML with Open Graph + Twitter Card meta tags. Human UAs get `Response.redirect(whatsappUrl, 302)` — no flash. New slug needing a preview = add entry to `SHORTLINKS` + drop a 1200×630 JPEG at `public/og/wa/<slug>.jpg`. Do **not** also add the slug to `_redirects` — the function matches first and the duplicate line is noise.
 
-`npm run preview` does NOT honor `_redirects` (static server). Verify in a Cloudflare Pages preview deploy, not locally.
+**Without OG preview — `public/_redirects` line.** Edge 302 with no preview HTML. Use only when you're sure no platform recipient will benefit from a custom link card. Format: `/wa/<segment>  <wa.me URL with percent-encoded ?text=...>  302`. Astro copies `_redirects` verbatim into `dist/`. **Never** use an Astro page with `<meta http-equiv="refresh">` — static-mode HTML redirects produce a visible blank-page flash.
+
+`npm run preview` honors neither path (static server). Verify in a Cloudflare Pages preview deploy. To test the UA-sniff behavior, curl with `-H "User-Agent: WhatsApp/2.23"` (expect 200 + HTML) vs default UA (expect 302 to wa.me).
 
 ## Cloudflare Pages — Linux native binaries
 
