@@ -1,0 +1,244 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { defaultLang } from '@i18n/ui';
+import { siteContact } from '@/data/site-contact';
+
+const lang = defaultLang;
+const lastUpdated = '20.05.2026';
+const lastUpdatedEn = '2026-05-20';
+---
+
+<Layout
+  lang={lang}
+  title="מדיניות פרטיות — סשה | Hand in Hand AI"
+  description="מדיניות הפרטיות עבור סשה, הנציגה הדיגיטלית של Hand in Hand AI בוואטסאפ."
+>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <section dir="rtl" class="policy">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">מדיניות פרטיות — סשה (נציגה דיגיטלית בוואטסאפ)</h1>
+      <p class="text-sm text-gray-500 mb-1"><strong>עודכן לאחרונה:</strong> {lastUpdated}</p>
+      <p class="text-sm text-gray-500 mb-8"><strong>גרסה:</strong> 1.0</p>
+
+      <h2>1. הקדמה</h2>
+      <p>המדיניות הזו מסבירה איזה מידע נאסף, כיצד הוא מעובד, ואילו זכויות עומדות לך, כאשר אתה מתכתב עם סשה — הנציגה הדיגיטלית שלי בוואטסאפ. המדיניות חלה אך ורק על השיחות עם סשה ועל המידע הנובע מהן. שימוש כללי באתר שלי אינו מכוסה במסמך זה.</p>
+
+      <h2>2. מי אני (בעל המידע)</h2>
+      <ul>
+        <li><strong>שם:</strong> אלכס גוברמן</li>
+        <li><strong>מעמד עסקי:</strong> [עוסק פטור / עוסק מורשה / חברה — כולל מספר]</li>
+        <li><strong>כתובת:</strong> [עיר], ישראל</li>
+        <li><strong>אימייל:</strong> <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a></li>
+      </ul>
+      <p>אני בעל המידע (Data Controller) ואחראי באופן אישי על אופן הטיפול בו.</p>
+
+      <h2>3. מהי סשה</h2>
+      <p>סשה היא נציגה דיגיטלית מבוססת בינה מלאכותית (AI) הפועלת בשמי בוואטסאפ. <strong>כל ההתכתבויות עם סשה מנוהלות באופן אוטומטי על ידי מערכת AI ולא על ידי בן אדם בזמן אמת.</strong> אני (אלכס) עשוי לקרוא את תוכן השיחות באופן ידני, בעיקר כאשר השיחה מועברת אליי להמשך טיפול.</p>
+      <p>בתחילת כל שיחה חדשה סשה מזהה את עצמה ככלי דיגיטלי ומפנה לעמוד מדיניות זה. המשך השיחה לאחר הצגת המידע הזה מהווה הסכמתך לעיבוד המתואר במסמך.</p>
+
+      <h2>4. איזה מידע נאסף</h2>
+      <p>במהלך השיחה עם סשה נאסף המידע הבא:</p>
+      <ul>
+        <li><strong>מספר הטלפון</strong> שממנו פנית (מתקבל אוטומטית מוואטסאפ)</li>
+        <li><strong>השם הציבורי שלך בוואטסאפ</strong>, אם הוא מוגדר</li>
+        <li><strong>תוכן ההודעות</strong> ששלחת — טקסט, תמונות, וקבצים</li>
+        <li><strong>הודעות קוליות</strong> — מתועתקות אוטומטית לטקסט באמצעות שירות AI. גם קובץ האודיו וגם התעתיק מעובדים ונשמרים</li>
+        <li><strong>מידע עסקי</strong> שתבחר לחלוק במהלך השיחה (סוג העסק, צרכים, תקציב, מועדים וכו')</li>
+        <li><strong>חותמות זמן</strong> של ההודעות</li>
+      </ul>
+      <p>לא נאסף מידע פיננסי רגיש (פרטי כרטיס אשראי, חשבון בנק, תעודת זהות). אם יידרש תשלום בהמשך הקשר העסקי, הוא יבוצע מחוץ למערכת הזו.</p>
+
+      <h2>5. למה המידע נאסף ומשמש</h2>
+      <p>המידע משמש למטרות הבאות בלבד:</p>
+      <ul>
+        <li>מענה לפניות ושאלות</li>
+        <li>הבנת הצרכים העסקיים שלך וסינון התאמה לשירותים שאני מציע</li>
+        <li>תיאום שיחת ייעוץ ישירה איתי</li>
+        <li>שמירת ההקשר ההיסטורי של השיחה כדי שסשה תוכל להמשיך ממקום שעצרנו</li>
+      </ul>
+      <p>המידע לא נמכר, לא מושכר, ולא מועבר לצדדים שלישיים לצורכי שיווק.</p>
+
+      <h2>6. שרשרת העיבוד הטכנית</h2>
+      <p>לצורך שקיפות, אלה הגורמים שדרכם המידע עובר:</p>
+      <ol>
+        <li><strong>Meta / WhatsApp</strong> — הפלטפורמה שבה השיחה מתבצעת</li>
+        <li><strong>Green API</strong> — שירות צד שלישי המחבר את חשבון הוואטסאפ למערכת שלי</li>
+        <li><strong>השרת שלי</strong> — מערכת Node.js המתארחת ב-Railway, המעבדת ושומרת את היסטוריית השיחות בבסיס נתונים מוצפן</li>
+        <li><strong>ספק עיבוד AI</strong> — תוכן ההודעות שלך נשלח לעיבוד אצל <strong>Anthropic (Claude)</strong> או <strong>OpenAI (GPT)</strong>, בהתאם לנתב הפנימי של המערכת. שני הספקים מתחייבים שלא לאמן את המודלים שלהם על תוכן השיחות שלך.</li>
+      </ol>
+
+      <h2>7. העברת מידע לחו"ל</h2>
+      <p>חלק מהספקים המפורטים לעיל (Anthropic, OpenAI, Railway, Green API) ממוקמים מחוץ לישראל, בעיקר בארצות הברית ובאיחוד האירופי. המשמעות היא שהמידע שלך עובר עיבוד גם בחו"ל. הספקים הללו פועלים תחת תקני אבטחת מידע מקובלים בתעשייה (לרבות SOC 2 או מקבילים).</p>
+
+      <h2>8. אמצעי אבטחה</h2>
+      <p>המידע מוגן באמצעים הבאים:</p>
+      <ul>
+        <li><strong>הצפנה בתעבורה</strong> — כל התקשורת בין הרכיבים מתבצעת על גבי TLS/HTTPS</li>
+        <li><strong>הצפנה במנוחה</strong> — בסיס הנתונים מוצפן ברמת השרת</li>
+        <li><strong>בקרת גישה</strong> — רק אני (אלכס) בעל גישה למידע. אין עובדים, קבלנים או צדדים שלישיים נוספים</li>
+        <li><strong>גיבויים</strong> — מתבצעים באופן מאובטח ומוצפן</li>
+        <li><strong>תגובה לאירועי אבטחה</strong> — במקרה של פגיעה במידע, אנקוט בצעדים הדרושים על פי דין ואיידע את המשתמשים שנפגעו בהתאם לחוק</li>
+      </ul>
+
+      <h2>9. משך שמירת המידע</h2>
+      <p>היסטוריית השיחה נשמרת בבסיס הנתונים שלי <strong>למשך עד 6 חודשים מההודעה האחרונה שהוחלפה איתך</strong>. לאחר תקופה זו, השיחה נמחקת באופן אוטומטי. אם תפנה שוב במהלך התקופה, השעון מתאפס.</p>
+      <p>המידע השמור אצל ספקי צד שלישי (Meta, Green API, Anthropic, OpenAI) כפוף למדיניות השמירה שלהם.</p>
+
+      <h2>10. קטינים</h2>
+      <p>השירות מיועד לבעלי עסקים ואנשי מקצוע בגירים בלבד, ואינו מיועד למשתמשים מתחת לגיל 18. אני לא אוסף ביודעין מידע מקטינים. אם נודע לך שקטין פנה לסשה, אנא צור איתי קשר ואני אמחק את המידע באופן מיידי.</p>
+
+      <h2>11. הזכויות שלך לפי חוק הגנת הפרטיות</h2>
+      <p>על פי חוק הגנת הפרטיות, התשמ"א-1981 (כולל תיקון 13 משנת 2025), עומדות לך הזכויות הבאות:</p>
+      <ul>
+        <li><strong>זכות עיון</strong> — לבקש לראות איזה מידע מוחזק עליך</li>
+        <li><strong>זכות תיקון</strong> — לבקש לתקן מידע לא מדויק</li>
+        <li><strong>זכות מחיקה</strong> — לבקש למחוק את כל המידע המוחזק עליך</li>
+        <li><strong>זכות הסרת הסכמה</strong> — לבקש להפסיק את העיבוד בכל עת</li>
+        <li><strong>זכות תלונה</strong> — להגיש תלונה לרשות להגנת הפרטיות במשרד המשפטים: <a href="https://www.gov.il/he/departments/the_privacy_protection_authority" target="_blank" rel="noopener noreferrer">gov.il/privacy-protection</a></li>
+      </ul>
+
+      <h2>12. איך לממש את הזכויות שלך</h2>
+      <p>ניתן לפנות אליי באחת משתי הדרכים:</p>
+      <ul>
+        <li><strong>אימייל:</strong> <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a></li>
+        <li><strong>בשיחה עם סשה:</strong> אם תבקש למחוק את המידע שלך, להפסיק לקבל הודעות, או להפעיל זכות אחרת — סשה תזהה את הבקשה ותעביר אותה אליי לטיפול אישי. שלחת ההודעה תעצור באופן מיידי הודעות נוספות מסשה עד שאטפל בבקשה.</li>
+      </ul>
+      <p>בפנייה במייל, אנא כלול את מספר הטלפון שממנו התקיימה השיחה עם סשה כדי שאוכל לאתר את המידע. אענה לפנייה <strong>בתוך 30 ימים</strong> מקבלתה.</p>
+
+      <h2>13. שינויים במדיניות</h2>
+      <p>ייתכן שאעדכן את המדיניות הזו מעת לעת. שינויים מהותיים יוצגו בבירור ובמקרים מסוימים תידרש הסכמה מחודשת. שינויים קלים יפורסמו בעמוד הזה עם תאריך עדכון חדש בראש המסמך.</p>
+    </section>
+
+    <hr class="my-12 border-gray-200" />
+
+    <section dir="ltr" class="policy policy-en">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">Privacy Policy — Sasha (WhatsApp Digital Assistant)</h1>
+      <p class="text-sm text-gray-500 mb-1"><strong>Last updated:</strong> {lastUpdatedEn}</p>
+      <p class="text-sm text-gray-500 mb-8"><strong>Version:</strong> 1.0</p>
+
+      <h2>1. Introduction</h2>
+      <p>This policy explains what information is collected, how it is processed, and what rights you have when you interact with Sasha — my WhatsApp digital assistant. This policy applies only to conversations with Sasha and to the information derived from them. General use of my website is not covered by this document.</p>
+
+      <h2>2. Who I Am (Data Controller)</h2>
+      <ul>
+        <li><strong>Name:</strong> Alex Guberman</li>
+        <li><strong>Business status:</strong> [Sole proprietor (Osek Patur / Osek Murshe) / Company — including registration number]</li>
+        <li><strong>Address:</strong> [City], Israel</li>
+        <li><strong>Email:</strong> <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a></li>
+      </ul>
+      <p>I am the Data Controller and am personally responsible for how your data is handled.</p>
+
+      <h2>3. What Sasha Is</h2>
+      <p>Sasha is an AI-powered digital assistant operating on my behalf via WhatsApp. <strong>All conversations with Sasha are handled automatically by an AI system, not by a human in real time.</strong> I (Alex) may manually review conversation content, primarily when a conversation is escalated to me for follow-up.</p>
+      <p>At the start of every new conversation, Sasha identifies herself as a digital tool and links to this policy. Continuing the conversation after this disclosure constitutes your consent to the processing described in this document.</p>
+
+      <h2>4. What Information Is Collected</h2>
+      <p>During your conversation with Sasha, the following information is collected:</p>
+      <ul>
+        <li><strong>Your phone number</strong> (received automatically via WhatsApp)</li>
+        <li><strong>Your public WhatsApp name</strong>, if set</li>
+        <li><strong>Message content</strong> — text, images, and files</li>
+        <li><strong>Voice messages</strong> — automatically transcribed to text by an AI service. Both the audio file and the transcript are processed and stored</li>
+        <li><strong>Business information</strong> you choose to share during the conversation (business type, needs, budget, timing, etc.)</li>
+        <li><strong>Message timestamps</strong></li>
+      </ul>
+      <p>No sensitive financial information (credit card details, bank accounts, ID numbers) is collected. If payment becomes relevant later in our business relationship, it will be handled outside this system.</p>
+
+      <h2>5. Why Information Is Collected</h2>
+      <p>The information is used only for the following purposes:</p>
+      <ul>
+        <li>Responding to your inquiries and questions</li>
+        <li>Understanding your business needs and assessing fit for the services I offer</li>
+        <li>Scheduling a direct consultation call with me</li>
+        <li>Maintaining conversation context so Sasha can pick up where we left off</li>
+      </ul>
+      <p>Information is not sold, rented, or transferred to third parties for marketing purposes.</p>
+
+      <h2>6. Technical Processing Chain</h2>
+      <p>For transparency, these are the parties through which your data passes:</p>
+      <ol>
+        <li><strong>Meta / WhatsApp</strong> — the platform where the conversation takes place</li>
+        <li><strong>Green API</strong> — a third-party service connecting the WhatsApp account to my system</li>
+        <li><strong>My server</strong> — a Node.js system hosted on Railway, which processes and stores conversation history in an encrypted database</li>
+        <li><strong>AI processing provider</strong> — your message content is sent for processing to either <strong>Anthropic (Claude)</strong> or <strong>OpenAI (GPT)</strong>, depending on my system's internal routing. Both providers commit to not training their models on your conversation content.</li>
+      </ol>
+
+      <h2>7. International Data Transfer</h2>
+      <p>Some of the providers listed above (Anthropic, OpenAI, Railway, Green API) are located outside Israel, primarily in the United States and the European Union. This means your data is processed abroad as well. These providers operate under industry-standard security frameworks (including SOC 2 or equivalents).</p>
+
+      <h2>8. Security Measures</h2>
+      <p>The information is protected by the following measures:</p>
+      <ul>
+        <li><strong>Encryption in transit</strong> — all communication between components is over TLS/HTTPS</li>
+        <li><strong>Encryption at rest</strong> — the database is encrypted at the server level</li>
+        <li><strong>Access control</strong> — only I (Alex) have access to the data. No employees, contractors, or other third parties</li>
+        <li><strong>Backups</strong> — performed securely and encrypted</li>
+        <li><strong>Incident response</strong> — in the event of a data breach, I will take all required action under applicable law and notify affected users in accordance with the law</li>
+      </ul>
+
+      <h2>9. Data Retention</h2>
+      <p>Conversation history is stored in my database <strong>for up to 6 months from the last message exchanged with you</strong>. After this period, the conversation is automatically deleted. If you contact me again within that window, the clock resets.</p>
+      <p>Data held by third-party providers (Meta, Green API, Anthropic, OpenAI) is subject to their own retention policies.</p>
+
+      <h2>10. Minors</h2>
+      <p>This service is intended for adult business owners and professionals only and is not intended for users under 18. I do not knowingly collect data from minors. If you become aware that a minor has interacted with Sasha, please contact me and I will delete the data immediately.</p>
+
+      <h2>11. Your Rights Under Israeli Privacy Law</h2>
+      <p>Under the Israeli Privacy Protection Law, 5741-1981 (including Amendment 13 of 2025), you have the following rights:</p>
+      <ul>
+        <li><strong>Right of access</strong> — request to see what information is held about you</li>
+        <li><strong>Right of correction</strong> — request to correct inaccurate information</li>
+        <li><strong>Right of deletion</strong> — request to delete all information held about you</li>
+        <li><strong>Right to withdraw consent</strong> — request to stop processing at any time</li>
+        <li><strong>Right to complain</strong> — file a complaint with the Privacy Protection Authority at the Ministry of Justice: <a href="https://www.gov.il/en/departments/the_privacy_protection_authority" target="_blank" rel="noopener noreferrer">gov.il/privacy-protection</a></li>
+      </ul>
+
+      <h2>12. How to Exercise Your Rights</h2>
+      <p>You can reach me through either channel:</p>
+      <ul>
+        <li><strong>Email:</strong> <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a></li>
+        <li><strong>In conversation with Sasha:</strong> if you ask to delete your data, stop receiving messages, or exercise any other right — Sasha will recognize the request and pass it to me for personal handling. Sending such a message will immediately halt further messages from Sasha until I process your request.</li>
+      </ul>
+      <p>If contacting by email, please include the phone number used in your conversation with Sasha so I can locate your data. I will respond <strong>within 30 days</strong> of receiving the request.</p>
+
+      <h2>13. Changes to This Policy</h2>
+      <p>I may update this policy from time to time. Material changes will be clearly highlighted, and in some cases renewed consent will be requested. Minor changes will be posted on this page with a new "last updated" date at the top.</p>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .policy {
+    color: #1f2937;
+    line-height: 1.75;
+  }
+  .policy h2 {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #111827;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .policy p {
+    margin-bottom: 1rem;
+  }
+  .policy ul,
+  .policy ol {
+    margin-bottom: 1rem;
+    padding-inline-start: 1.5rem;
+  }
+  .policy ul li {
+    list-style: disc;
+    margin-bottom: 0.375rem;
+  }
+  .policy ol li {
+    list-style: decimal;
+    margin-bottom: 0.375rem;
+  }
+  .policy a {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+  .policy a:hover {
+    color: #1d4ed8;
+  }
+</style>
