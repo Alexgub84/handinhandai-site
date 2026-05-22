@@ -15,6 +15,14 @@ const SHORTLINKS: Record<string, ShortLink> = {
     description: "קביעת פגישה עם המעצבת — Lac Gel",
     image: "/og/wa/lac-gel.jpg",
   },
+  "home-cta": {
+    // "Hi Alex, I came from the website and would like to schedule a consultation"
+    whatsappUrl:
+      "https://wa.me/972545053620?text=%D7%94%D7%99%D7%99%20%D7%90%D7%9C%D7%9B%D7%A1%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A7%D7%91%D7%95%D7%A2%20%D7%A9%D7%99%D7%97%D7%AA%20%D7%99%D7%99%D7%A2%D7%95%D7%A5",
+    title: "Hand in Hand AI — קביעת שיחת ייעוץ",
+    description: "צוות AI מותאם אישית לעסק שלכם. שיחה של 20 דקות, בלי מצגות.",
+    image: "/og/default.png",
+  },
 };
 
 const BOT_UA_PATTERNS = [
