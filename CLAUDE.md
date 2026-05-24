@@ -33,6 +33,33 @@ Two paths depending on whether the shortlink needs a branded social-media previe
 
 `npm run preview` honors neither path (static server). Verify in a Cloudflare Pages preview deploy. To test the UA-sniff behavior, curl with `-H "User-Agent: WhatsApp/2.23"` (expect 200 + HTML) vs default UA (expect 302 to wa.me).
 
+## Geo-routing (`functions/_middleware.ts`)
+
+Root-path language routing for first-time visitors: IL → Hebrew (serve `/`), everyone else → English (302 to `/en/`). Driven by Cloudflare's free `CF-IPCountry` header / `request.cf.country` — no third-party geo-IP service.
+
+The middleware **only acts on `/`**. Every other path (`/fitness-studio`, `/en/about`, `/wa/*`, etc.) passes straight through — the URL already encodes the chosen language.
+
+Resolution order on `/`:
+1. `hiha_lang` cookie (`he` or `en`) — user's explicit choice always wins.
+2. `request.cf.country` (fallback to `CF-IPCountry` header): `IL` → HE, else → EN.
+3. No country header → default to EN.
+
+Skipped (always serve the requested URL):
+- **Bot UAs** (Googlebot, bingbot, social-card scrapers, etc.) — never redirect; would confuse SEO/canonicalization. Reuses the same UA list style as `functions/wa/[slug].ts`.
+- **`*.pages.dev` preview deploys** — so QA can hit `/` directly.
+
+Cookie is set client-side from `LanguageSwitcher.astro` on click: `hiha_lang=<he|en>; Max-Age=31536000; Path=/; SameSite=Lax; Secure`. The `<a>` link still works without JS — the script only attaches the cookie before navigation.
+
+Response on `/` carries `Vary: CF-IPCountry, Cookie` so edge/browser caches don't cross-pollute.
+
+Same caveat as `/wa/*`: `npm run preview` doesn't run Pages Functions. Test on a CF preview deploy. Curl scenarios:
+```
+curl -H "CF-IPCountry: IL" https://handinhand.ai/                              # 200 HE
+curl -H "CF-IPCountry: US" https://handinhand.ai/                              # 302 /en/
+curl -H "Cookie: hiha_lang=en" -H "CF-IPCountry: IL" https://handinhand.ai/    # 200 EN
+curl -H "User-Agent: Googlebot/2.1" -H "CF-IPCountry: US" https://handinhand.ai/  # 200 HE
+```
+
 ## Cloudflare Pages — Linux native binaries
 
 The lockfile is generated on macOS-arm64, which means npm only resolves darwin-arm64 binary packages. CF Pages runs Linux-x64-gnu and `npm ci` will skip optional binaries that aren't in the lockfile's `packages` section — silently failing at build time with `Cannot find module '../lightningcss.linux-x64-gnu.node'` (or the rollup / oxide variant).

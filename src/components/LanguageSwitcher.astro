@@ -18,6 +18,7 @@ const route = getRouteFromUrl(Astro.url);
       return (
         <a
           href={href}
+          data-hiha-lang={code}
           class:list={[
             'px-2.5 sm:px-3 py-1.5 sm:py-1 rounded-md text-sm font-medium transition-colors touch-manipulation',
             isActive
@@ -32,3 +33,18 @@ const route = getRouteFromUrl(Astro.url);
     })
   }
 </nav>
+
+<script>
+  // Persist the user's explicit language choice as a cookie so the geo-routing
+  // middleware (functions/_middleware.ts) honors it on future visits to `/`.
+  // The link still works without JS — we only attach the cookie, then let the
+  // browser follow the href normally.
+  document.querySelectorAll<HTMLAnchorElement>('a[data-hiha-lang]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const lang = link.getAttribute('data-hiha-lang');
+      if (lang !== 'he' && lang !== 'en') return;
+      const secure = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie = `hiha_lang=${lang}; Max-Age=31536000; Path=/; SameSite=Lax${secure}`;
+    });
+  });
+</script>
