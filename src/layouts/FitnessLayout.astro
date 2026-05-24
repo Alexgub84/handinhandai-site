@@ -4,27 +4,24 @@ import '@styles/hiha-tokens.css';
 import '@styles/fitness.css';
 import { type Lang } from '@i18n/ui';
 import { getDirection } from '@i18n/utils';
+import SEOHead from '@components/SEOHead.astro';
 
 interface Props {
   lang: Lang;
   title?: string;
   description?: string;
   ogImage?: string;
-  canonicalUrl?: string;
+  pageType?: string;
 }
 
-const { 
-  lang, 
+const {
+  lang,
   title = 'צ׳טבוט חכם לסטודיו',
   description = 'צ׳טבוט חכם בוואטסאפ לסטודיו שלכם, שעונה ללקוחות, קובע שיעורי ניסיון ומזכיר על אימונים',
   ogImage = '/og/fitness/og.jpg',
-  canonicalUrl,
+  pageType = 'website',
 } = Astro.props;
 const dir = getDirection(lang);
-const ogSiteName = lang === 'he' ? 'צ׳טבוט חכם לסטודיו' : 'Smart chatbot for studios';
-const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://handinhandai.com';
-const fullUrl = canonicalUrl || new URL(Astro.url.pathname, Astro.site).toString();
-const fullImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astro.site).toString();
 ---
 
 <!doctype html>
@@ -33,39 +30,21 @@ const fullImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Ast
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/logo.png" />
-    
-    <!-- SEO -->
-    <meta name="description" content={description} />
-    <link rel="canonical" href={fullUrl} />
-    
-    <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={fullUrl} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={fullImageUrl} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content={ogSiteName} />
-    <meta property="og:locale" content={lang === 'he' ? 'he_IL' : 'en_US'} />
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={fullUrl} />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={fullImageUrl} />
-    
-    <!-- WhatsApp specific (uses og: tags, but these help) -->
-    <meta property="og:image:alt" content={title} />
-    
+
+    <SEOHead
+      lang={lang}
+      title={title}
+      description={description}
+      ogImage={ogImage}
+      pageType={pageType}
+    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Outfit:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <title>{title}</title>
   </head>
   <body>
     <slot />

@@ -1,0 +1,39 @@
+---
+import { type Lang } from '@i18n/ui';
+
+interface Props {
+  lang: Lang;
+  name: string;
+  description: string;
+  /** Path or slug for the service page (e.g. '/fitness-studio'). Used to build serviceType id. */
+  slug: string;
+}
+
+const { lang, name, description, slug } = Astro.props;
+
+const SITE_FALLBACK = 'https://handinhandai.com';
+const siteOrigin = Astro.site?.toString().replace(/\/$/, '') || SITE_FALLBACK;
+const siteBase = Astro.site ?? `${SITE_FALLBACK}/`;
+const pageUrl = new URL(Astro.url.pathname, siteBase).toString();
+
+const areaServed = lang === 'en'
+  ? [{ '@type': 'Country', name: 'IL' }, { '@type': 'Place', name: 'Worldwide' }]
+  : [{ '@type': 'Country', name: 'IL' }];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${pageUrl}#service`,
+  name,
+  description,
+  url: pageUrl,
+  serviceType: slug.replace(/^\//, ''),
+  provider: { '@id': `${siteOrigin}/#organization` },
+  areaServed,
+  offers: {
+    '@type': 'Offer',
+    availability: 'https://schema.org/InStock',
+  },
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />

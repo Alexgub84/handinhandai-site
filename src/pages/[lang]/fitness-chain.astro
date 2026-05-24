@@ -3,6 +3,7 @@ import FitnessLayout from '@layouts/FitnessLayout.astro';
 import { siteContact } from '@/data/site-contact';
 import { useTranslations, getDirection } from '@i18n/utils';
 import { languages, type Lang } from '@i18n/ui';
+import ServiceSchema from '@components/ServiceSchema.astro';
 
 export function getStaticPaths() {
   return Object.keys(languages).map((lang) => ({
@@ -21,6 +22,12 @@ const pageDescription = t('fitness-chain.hero.lede');
   title={t('fitness-chain.page.title')}
   description={pageDescription}
 >
+  <ServiceSchema
+    lang={lang}
+    name={t('fitness-chain.page.title')}
+    description={pageDescription}
+    slug="/fitness-chain"
+  />
   <div class="fs-page" dir={dir} lang={lang}>
 
     <!-- TopBar -->
