@@ -7,6 +7,7 @@ import WhatsAppMock from '@components/whatsapp-mock/WhatsAppMock';
 import { trialBookingMessages } from '@components/whatsapp-mock/scenarios/trial-booking';
 import { loyaltyMessages } from '@components/whatsapp-mock/scenarios/loyalty';
 import { noShowMessages } from '@components/whatsapp-mock/scenarios/no-show';
+import ServiceSchema from '@components/ServiceSchema.astro';
 
 const lang = defaultLang;
 const t = useTranslations(lang);
@@ -25,6 +26,12 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
   description={pageDescription}
   ogImage="/og/fitness-studio/og.jpg"
 >
+  <ServiceSchema
+    lang={lang}
+    name={t('fitness-studio.page.title')}
+    description={pageDescription}
+    slug="/fitness-studio"
+  />
   <div class="fs-page" dir="rtl" lang="he">
 
     <!-- TopBar -->
