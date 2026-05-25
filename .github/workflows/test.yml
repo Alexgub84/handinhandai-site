@@ -24,10 +24,9 @@ jobs:
         run: npm install --no-package-lock
         env:
           # @alexgub84/whatsapp-chat-mock lives in a separate repo's GitHub
-          # Packages registry. The auto-generated secrets.GITHUB_TOKEN only
-          # has read:packages on packages owned by THIS repo and gets a 403
-          # against the cross-repo package. Use a PAT (NPM_TOKEN secret) that
-          # has read:packages scope on @alexgub84/*.
+          # Packages registry. The auto secrets.GITHUB_TOKEN only has
+          # read:packages on packages owned by THIS repo and 403s cross-repo.
+          # Use the NPM_TOKEN PAT (read:packages on @alexgub84/*).
           GITHUB_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Build

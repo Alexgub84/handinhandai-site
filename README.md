@@ -103,7 +103,7 @@ Each page's sections in render order. Update this table whenever a page is creat
 
 | Page | File | Sections (in order) |
 |------|------|---------------------|
-| `/` | `src/pages/index.astro` | Hero · Features grid · Contact form |
+| `/` | `src/pages/index.astro` → `ScrollHero` | Cinematic loader · Topbar · Pinned hero (chaos→orb, 3 scenes) · One pinned scroll-film (chapters cross-fade over a persistent orb on a single scroll timeline): Reveal · Bespoke · Vignettes · Engineering · Process · CTA · Footer |
 | `/contact` | `src/pages/contact.astro` | Hero · Contact form |
 | `/fitness-studio` | `src/pages/fitness-studio.astro` | TopBar · Hero (image + WhatsApp CTA + WhatsAppMock) · Core Promise band · Three Jobs grid · Scenario 2: Loyal Attendee · Scenario 3: No-Show Re-engagement · Channel Options band · How It Works (3 steps) · About · FAQ · Final CTA · Footer |
 | `/fitness-chain` | `src/pages/fitness-chain.astro` | Identical structure to `/fitness-studio` (clone — sections diverge as copy is updated) |

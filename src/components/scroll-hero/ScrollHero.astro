@@ -2,7 +2,7 @@
 import type { Lang } from '@i18n/ui';
 import { getScenario } from './data/scenarios';
 import ChaosToOrb from './ChaosToOrb';
-import WorkflowVignettes from './WorkflowVignettes';
+import StoryFilm from './StoryFilm';
 import CinematicLoader from './CinematicLoader';
 
 interface Props {
@@ -27,67 +27,8 @@ const s = getScenario(lang);
 
 <ChaosToOrb client:load scenario={s} />
 
-<div class="chapters">
-  <!-- Chapter 2 — Reveal -->
-  <section class="slide slide--dark" aria-label={s.reveal.title}>
-    <p class="slide__kicker">{s.reveal.kicker}</p>
-    <h2>{s.reveal.title}</h2>
-    <p class="slide__lede">{s.reveal.lede}</p>
-    <p class="slide__body">{s.reveal.body}</p>
-  </section>
-
-  <!-- Chapter 3 — Bespoke -->
-  <section class="slide slide--paper" aria-label={s.bespoke.title}>
-    <p class="slide__kicker">{s.bespoke.kicker}</p>
-    <h2>{s.bespoke.title}</h2>
-    <p class="slide__body">{s.bespoke.body}</p>
-    <div class="bespoke-diagram" aria-hidden="true">
-      {s.bespoke.nodes.slice(0, 2).map((node) => (
-        <div class="bespoke-diagram__node">{node}</div>
-      ))}
-      <div class="bespoke-diagram__node bespoke-diagram__node--center">{s.bespoke.center}</div>
-      {s.bespoke.nodes.slice(2).map((node) => (
-        <div class="bespoke-diagram__node">{node}</div>
-      ))}
-    </div>
-  </section>
-
-  <!-- Chapter 4 — Vignettes pinned -->
-  <WorkflowVignettes client:visible scenario={s} />
-
-  <!-- Chapter 5 — Engineering -->
-  <section class="slide slide--dark-2" aria-label={s.engineering.title}>
-    <p class="slide__kicker">{s.engineering.kicker}</p>
-    <h2>{s.engineering.title}</h2>
-    <p class="slide__lede">{s.engineering.body}</p>
-  </section>
-
-  <!-- Chapter 6 — Process -->
-  <section class="slide slide--paper" aria-label={s.process.title}>
-    <p class="slide__kicker">{s.process.kicker}</p>
-    <h2>{s.process.title}</h2>
-    <p class="slide__lede">{s.process.body}</p>
-    <div class="process-grid">
-      {s.process.steps.map((step) => (
-        <article class="process-step">
-          <span class="process-step__num" aria-hidden="true">{step.num}</span>
-          <h3>{step.title}</h3>
-          <p>{step.body}</p>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <!-- Chapter 7 — CTA -->
-  <section class="slide slide--gold" id="cta" aria-label={s.cta.title}>
-    <p class="slide__kicker">{s.cta.kicker}</p>
-    <h2>{s.cta.title}</h2>
-    <p class="slide__lede">{s.cta.body}</p>
-    <a class="slide__cta" href={s.cta.href}>
-      {s.cta.button} <span aria-hidden="true">→</span>
-    </a>
-  </section>
-</div>
+<!-- Chapters 2–7 as one pinned scroll-scrub film (issue #20) -->
+<StoryFilm client:load scenario={s} />
 
 <footer class="cinematic-footer">
   <div class="cinematic-footer__inner">
