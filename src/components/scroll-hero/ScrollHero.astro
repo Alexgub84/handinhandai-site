@@ -4,6 +4,7 @@ import { getScenario } from './data/scenarios';
 import ChaosToOrb from './ChaosToOrb';
 import StoryFilm from './StoryFilm';
 import CinematicLoader from './CinematicLoader';
+import ServicesNav from './ServicesNav.astro';
 
 interface Props {
   lang: Lang;
@@ -29,6 +30,9 @@ const s = getScenario(lang);
 
 <!-- Chapters 2–7 as one pinned scroll-scrub film (issue #20) -->
 <StoryFilm client:load scenario={s} />
+
+<!-- Services navigation -->
+<ServicesNav lang={lang} />
 
 <footer class="cinematic-footer">
   <div class="cinematic-footer__inner">
