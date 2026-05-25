@@ -41,7 +41,10 @@ body {
   margin: 0;
   padding: 0;
   min-width: 320px;
-  overflow-x: hidden;
+  /* `clip` (not `hidden`) prevents horizontal scroll WITHOUT turning the
+     root into a scroll container — which would break `position: sticky` for
+     every pinned chapter (hero + film). See issue #20. */
+  overflow-x: clip;
   background: var(--c-bg);
   color: var(--c-ink);
   font-family: var(--font-body);
@@ -894,6 +897,199 @@ body.has-scrolled .scroll-note {
   color: var(--c-gold);
 }
 
+/* ─── Unified pinned scroll-film: chapters 2–7 (issue #20) ──────────── */
+
+.ch-film {
+  position: relative;
+  z-index: 10;
+  min-height: 620svh;
+  min-height: 620dvh;
+  background: var(--c-bg);
+}
+
+.ch-film__stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  height: 100dvh;
+  min-height: 540px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 78% 60%, oklch(82% 0.15 78 / 0.08), transparent 30rem),
+    var(--c-bg);
+}
+
+.ch-film__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--c-grid) 0 1px, transparent 1px 100%),
+    linear-gradient(180deg, var(--c-grid) 0 1px, transparent 1px 100%);
+  background-size: 8rem 8rem;
+  opacity: 0.4;
+  mask-image: radial-gradient(ellipse at center, black 0%, black 55%, transparent 92%);
+}
+
+/* Persistent orb backdrop — reuses `.orb` look, repositioned + scroll-driven. */
+.ch-film__orb {
+  inset-inline-end: clamp(-80px, -4vw, 40px);
+  width: clamp(300px, 36vw, 560px);
+  opacity: 0.92;
+  transform:
+    translate(0, -50%)
+    rotate(calc(var(--film-p, 0) * 100deg))
+    scale(calc(0.9 + var(--film-p, 0) * 0.18));
+  transition: none;
+}
+
+@media (max-width: 700px) {
+  .ch-film__orb {
+    inset-inline-end: 50%;
+    opacity: 0.42;
+    transform:
+      translate(50%, -50%)
+      rotate(calc(var(--film-p, 0) * 100deg))
+      scale(calc(0.78 + var(--film-p, 0) * 0.16));
+  }
+}
+
+/* Cross-fading chapter layers, all stacked in the same pinned stage. */
+.film-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: clamp(72px, 13vh, 168px) clamp(24px, 7vw, 120px);
+  color: var(--c-ink);
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(8px);
+  pointer-events: none;
+  transition:
+    opacity 440ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 440ms ease;
+  will-change: opacity, transform, filter;
+  z-index: 3;
+}
+
+.film-layer.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  pointer-events: auto;
+  z-index: 4;
+}
+
+.film-layer__inner {
+  width: 100%;
+  max-width: min(880px, 64%);
+}
+
+.film-layer h2 {
+  max-width: 16ch;
+  margin: 0;
+  color: var(--c-ink);
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5.4vw, 5.4rem);
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  line-height: 0.96;
+}
+
+@media (max-width: 900px) {
+  .film-layer__inner {
+    max-width: 100%;
+  }
+}
+
+/* Bespoke diagram + process grid: recolour for the dark stage. */
+.ch-film .bespoke-diagram__node {
+  background: oklch(96% 0.012 84 / 0.04);
+  border-color: oklch(96% 0.012 84 / 0.22);
+}
+
+.ch-film .bespoke-diagram__node--center {
+  background: var(--c-gold);
+  color: var(--c-paper-ink);
+  border-color: var(--c-gold);
+}
+
+.ch-film .process-grid {
+  max-width: 100%;
+}
+
+.ch-film .process-step {
+  border-color: oklch(96% 0.012 84 / 0.1);
+  background: oklch(96% 0.012 84 / 0.04);
+}
+
+.ch-film .process-step h3 {
+  color: var(--c-ink);
+}
+
+.ch-film .process-step p {
+  color: var(--c-muted);
+}
+
+.ch-film .process-step__num {
+  color: oklch(96% 0.012 84 / 0.08);
+}
+
+/* Vignettes layer: persistent title (start side) + cross-fading cards (end side). */
+.film-vignettes__copy {
+  position: absolute;
+  top: clamp(80px, 14vh, 140px);
+  inset-inline-start: clamp(24px, 7vw, 120px);
+  max-width: min(520px, 42vw);
+  z-index: 5;
+}
+
+.film-layer--vignettes .vignette-stack {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-end: 0;
+  width: min(560px, 46vw);
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(24px, 6vh, 80px) clamp(20px, 4vw, 60px);
+}
+
+@media (max-width: 900px) {
+  .film-vignettes__copy {
+    inset-inline-end: clamp(24px, 7vw, 120px);
+    max-width: none;
+  }
+  .film-layer--vignettes .vignette-stack {
+    inset-inline-start: 0;
+    width: auto;
+    align-items: flex-end;
+    padding-bottom: clamp(40px, 8vh, 96px);
+  }
+}
+
+/* CTA layer accent. */
+.film-layer--cta {
+  background: radial-gradient(ellipse at 50% 62%, oklch(82% 0.15 78 / 0.12), transparent 40rem);
+}
+
+.film-layer--cta .slide__cta {
+  border-color: var(--c-gold);
+  color: var(--c-gold);
+}
+
+.film-layer--cta .slide__cta:hover {
+  background: var(--c-gold);
+  color: var(--c-paper-ink);
+}
+
 /* Reduced motion */
 
 @media (prefers-reduced-motion: reduce) {
@@ -907,4 +1103,47 @@ body.has-scrolled .scroll-note {
   .vignette { opacity: 1; transform: none; filter: none; position: static; width: 100%; margin-bottom: 16px; }
   .orb { position: relative; transform: none; opacity: 1; margin: 32px auto; --orb-opacity: 1; --orb-scale: 1; }
   .app-card { position: relative; opacity: 1; transform: none; margin: 6px; display: inline-flex; }
+
+  /* Film: unstack into a normal static document flow. */
+  .ch-film { min-height: auto; }
+  .ch-film__stage {
+    position: relative;
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+  .ch-film__orb {
+    position: relative;
+    inset: auto;
+    width: clamp(220px, 50vw, 360px);
+    margin: 32px auto;
+    transform: none;
+    opacity: 1;
+  }
+  .film-layer {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    transform: none;
+    filter: none;
+    pointer-events: auto;
+    padding: 48px clamp(20px, 6vw, 80px);
+    border-top: 1px solid oklch(96% 0.012 84 / 0.08);
+  }
+  .film-layer__inner { max-width: 100%; }
+  .film-vignettes__copy,
+  .film-layer--vignettes .vignette-stack {
+    position: relative;
+    inset: auto;
+    top: auto;
+    bottom: auto;
+    width: auto;
+    max-width: 100%;
+    padding: 0;
+  }
+  .film-layer--vignettes .vignette-stack {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+  }
 }
