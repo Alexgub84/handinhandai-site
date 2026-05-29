@@ -12,7 +12,7 @@ export type Lang = keyof typeof languages;
 export const ui = {
   he: {
     "site.title": "Hand in Hand AI",
-    "site.description": "פתרונות בינה מלאכותית לעסקים",
+    "site.description": "פתרונות AI לעסקים",
     "nav.home": "בית",
     "nav.about": "אודות",
     "nav.services": "שירותים",
@@ -21,51 +21,50 @@ export const ui = {
     "nav.fitnessStudio": "סטודיו",
     "nav.fitnessChain": "רשת",
     "hero.title": "יד ביד עם בינה מלאכותית",
-    "hero.subtitle":
-      "אנחנו עוזרים לעסקים לצמוח באמצעות פתרונות AI מותאמים אישית",
+    "hero.subtitle": "עוזרים לעסקים לצמוח עם AI שנבנה בשבילם",
     "hero.cta": "בואו נדבר",
     "footer.rights": "כל הזכויות שמורות",
     "footer.privacy": "מדיניות פרטיות — סשה",
     "contact.title": "צרו קשר",
-    "contact.subtitle": "דברו עם הסוכן ה-AI שלי, קבלו מידע וקבעו פגישה",
-    "contact.whatsappCta": "שוחחו עם הסוכן שלנו בוואטסאפ",
+    "contact.subtitle": "שלחו הודעה לסשה — היא תענה, תספר ותקבע",
+    "contact.whatsappCta": "כתבו לנו בוואטסאפ",
     "features.fast.title": "מהיר ויעיל",
-    "features.fast.description": "פתרונות AI שחוסכים זמן ומשאבים לעסק שלכם",
+    "features.fast.description": "AI שחוסך לכם שעות בכל שבוע",
     "features.secure.title": "אמין ובטוח",
-    "features.secure.description": "אבטחת מידע ברמה הגבוהה ביותר לשקט נפשי מלא",
+    "features.secure.description": "הנתונים שלכם מוגנים. נקודה.",
     "features.support.title": "ליווי אישי",
     "features.support.description":
-      "צוות מומחים שמלווה אתכם בכל שלב בדרך להצלחה",
+      "אנחנו לא נעלמים אחרי ההשקה — תמיד יש למי לפנות",
 
     // ── Homepage ───────────────────────────────────────────────────
     "home.hero.headline": "תפסיקו לרוץ אחרי המערכות, תתחילו לנהל עסק",
     "home.hero.subheadline":
       "עוזר AI שעובד בשבילכם 24/7, מסדר את כל השוטף, ומשחרר אתכם לדברים שבאמת חשובים — לצמוח, להנשים, ולהיות בבית",
-    "home.hero.cta.primary": "קבעו שיחת גילוי",
+    "home.hero.cta.primary": "בואו נדבר",
     "home.hero.cta.secondary": "שוחחו עם סשה",
     "home.hero.cta.secondary.hint": "סשה היא עוזרת ה-AI של העסק שלנו",
 
     "home.valueProps.custom.title": "התאמה אישית מלאה",
     "home.valueProps.custom.description":
-      "לא פלטפורמה, לא תבנית. פתרון שנבנה במיוחד עבור העסק שלכם",
-    "home.valueProps.transformation.title": "שינוי עסקי ואישי",
+      "לא פלטפורמה, לא תבנית. משהו שנבנה בשביל העסק שלכם בדיוק.",
+    "home.valueProps.transformation.title": "שינוי אמיתי",
     "home.valueProps.transformation.description":
       "לא רק יעילות. יותר הכנסות, פחות שעות, ויותר זמן לדברים שחשובים לכם.",
-    "home.valueProps.process.title": "תהליך מונחה גילוי",
+    "home.valueProps.process.title": "מתחילים מכם",
     "home.valueProps.process.description":
-      "מתחילים בהבנה עמוקה של הכאבים, מסיימים בפתרון שעובד",
+      "מתחילים מלהבין מה מפריע לכם, מסיימים בפתרון שבאמת עובד.",
 
     "home.process.title": "איך זה עובד",
-    "home.process.subtitle": "תהליך פשוט בשלושה שלבים — מהמפגש הראשון ועד תוצאות מדידות",
-    "home.process.stage1.title": "גילוי",
+    "home.process.subtitle": "שלושה שלבים — משיחה ראשונה ועד שזה עובד בשטח",
+    "home.process.stage1.title": "מבינים אתכם",
     "home.process.stage1.description":
-      "שיחה עם סשה (AI) או איתי ישירות. מבינים את העסק, הכאבים, המטרות",
-    "home.process.stage2.title": "עיצוב",
+      "שיחה עם סשה (AI) או איתי ישירות. מבינים מה קורה, מה לוחץ, ולאן רוצים להגיע.",
+    "home.process.stage2.title": "בונים תוכנית",
     "home.process.stage2.description":
-      "יחד מזהים את נקודות המינוף. AI? CRM? אוטומציה? מה ישנה הכי הרבה",
-    "home.process.stage3.title": "פריסה",
+      "מחליטים ביחד מה עושים קודם. AI? CRM? אוטומציה? מה יזיז הכי הרבה.",
+    "home.process.stage3.title": "יוצאים לדרך",
     "home.process.stage3.description":
-      "בונים, מטמיעים, מלווים. הפתרון עובד, אתם רואים תוצאות",
+      "בונים, מחברים, מלווים. אתם רואים את זה עובד.",
 
     "home.about.title": "היי, אני אלכס",
     "home.about.bio.paragraph1":
@@ -73,24 +72,24 @@ export const ui = {
     "home.about.bio.paragraph2":
       "בשנים האחרונות בניתי לעסקים קטנים ובינוניים פתרונות AI מותאמים אישית — סוכנים חכמים, מערכות CRM ואוטומציות — שחוסכים להם שעות עבודה בכל שבוע.",
     "home.about.bio.paragraph3":
-      "העבודה שלי לא רק על טכנולוגיה. היא על לעזור לכם לנהל עסק שמרוויח יותר, דורש פחות, ומשאיר לכם זמן למשפחה ולחזון.",
+      "העבודה שלי לא רק על טכנולוגיה. היא על לעזור לכם לנהל עסק שמרוויח יותר ודורש פחות — ומשאיר לכם זמן לדברים שחשובים.",
     "home.about.stat1.value": "AI + CRM",
     "home.about.stat1.label": "התמחות",
     "home.about.stat2.value": "SMB",
     "home.about.stat2.label": "עסקים קטנים ובינוניים",
 
     "home.services.title": "פתרונות לפי תחום",
-    "home.services.subtitle": "כל פתרון מותאם במיוחד לסוג העסק ולאתגרים הייחודיים שלו",
+    "home.services.subtitle": "כל פתרון נבנה בשביל העסק הספציפי הזה — לא קופי-פייסט",
     "home.services.fitnessStudio.title": "סטודיו כושר",
     "home.services.fitnessStudio.description":
-      "עוזר חכם בוואטסאפ שמטפל בהזמנות, מחזק נאמנות ומחזיר מתאמנים שנעלמו",
+      "בוט בוואטסאפ שעונה ללקוחות, קובע שיעורים, ומחזיר מתאמנים שנעלמו",
     "home.services.fitnessChain.title": "רשת כושר",
     "home.services.fitnessChain.description":
-      "סוכן AI לרשת — עונה ללקוחות בכל סניף, קובע שיעורים ומזהה מתאמנים בסיכון נשירה",
+      "סוכן AI לרשת — עונה בכל סניף, קובע שיעורים, ורואה מי עומד לעזוב לפני שזה קורה",
     "home.services.learnMore": "למידע נוסף",
     "home.services.moreComing": "תחומים נוספים בקרוב — סלונים, קליניקות, ועוד",
 
-    "home.cta.title": "מוכנים לשנות את הדרך בה אתם מנהלים את העסק?",
+    "home.cta.title": "רוצים שזה יעבוד גם אצלכם?",
     "home.cta.subtitle":
       "בואו נדבר. 20 דקות, בלי מצגת, בלי התחייבות. נבין ביחד מה לוחץ לכם ונראה אם AI יכול לעזור.",
     "home.cta.primary": "קבעו שיחה",
@@ -117,7 +116,7 @@ export const ui = {
     "fitness-studio.promise.eyebrow": "מה זה עושה",
     "fitness-studio.promise.title": "אתה מלמד. אנחנו מטפלים בשאר.",
     "fitness-studio.promise.body":
-      "עוזר חכם בוואטסאפ שמנהל את מחזור החיים של המתאמן שלך: מהפנייה הראשונה ועד לנאמן שמגיע כל שבוע.",
+      "עוזר בוואטסאפ שמלווה את המתאמן מהרגע שכתב ועד שהוא נאמן שבא כל שבוע.",
     "fitness-studio.jobs.eyebrow": "שלוש משימות",
     "fitness-studio.jobs.title": "הדברים שהיית צריך לעשות אחרי כל יום אימון.",
     "fitness-studio.job1.title": "ממלא שיעורים",
@@ -127,7 +126,7 @@ export const ui = {
       "שולח מסרים שבועיים לפי נוכחות. מי שבא שלוש פעמים מקבל אחד, מי שבא פעם אחת מקבל אחר.",
     "fitness-studio.job3.title": "מונע נשירה",
     "fitness-studio.job3.body":
-      "מחזיר מתאמנים שנעלמו בגישה אמפתית. כשצריך אותך, מעביר אליך.",
+      "פונה למתאמנים שנעלמו בצורה חמה ואנושית. כשצריך אותך — מעביר.",
     "fitness-studio.scenario2.label": "תרחיש 2 · מתאמנת נאמנה",
     "fitness-studio.scenario2.heading": "באת 3 פעמים השבוע. ידענו. שלחנו לך הודעה.",
     "fitness-studio.scenario2.desc":
@@ -221,7 +220,7 @@ export const ui = {
     // Hero
     "fitness-chain.hero.eyebrow": "לרשתות כושר",
     "fitness-chain.hero.title": "סוכן AI לרשת הכושר שלכם",
-    "fitness-chain.hero.tagline": "סוכן AI שנבנה במיוחד עבור הרשת שלכם — לא כלי מהמדף.",
+    "fitness-chain.hero.tagline": "סוכן AI שנבנה בשביל הרשת שלכם — לא כלי מהמדף.",
     "fitness-chain.hero.lede":
       "עונה ללקוחות בוואטסאפ בכל סניף, קובע שיעורי ניסיון, ושם לב למתאמנים שמפסיקים להגיע — לפני שהם מבטלים מנוי.",
     "fitness-chain.hero.cta": "בואו נדבר",
@@ -329,7 +328,7 @@ export const ui = {
     "fitness-chain.why.eyebrow": "מי אני",
     "fitness-chain.why.title": "היי, אני אלכס.",
     "fitness-chain.why.body":
-      "אני אוהב ספורט. בניתי את הסוכן הזה מאפס, ואני בונה אותו לכל רשת מחדש — סביב המערכות והנהלים שלכם. כי רשת שנותנת אימון מעולה ראויה גם לשירות באותה רמה.",
+      "אני אוהב ספורט. בניתי את הסוכן הזה מאפס, ואני בונה אותו לכל רשת מחדש — סביב המערכות והנהלים שלכם. כי רשת שנותנת אימון מעולה מגיעה לה גם שירות באותה רמה.",
 
     // Final CTA
     "fitness-chain.finalcta.title": "מוכנים לראות איך זה ייראה אצלכם?",
