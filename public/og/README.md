@@ -1,41 +1,92 @@
-# OG / Social Sharing Images
+# Open Graph (OG) Social Preview Images
 
-This folder contains all Open Graph images used for social media link previews
-(WhatsApp, Facebook, Twitter/X, LinkedIn, iMessage, etc.).
+This directory contains OG images for social media previews (WhatsApp, Facebook, Twitter, LinkedIn).
 
-## Requirements
+## Generated Images
 
-- **Size:** 1200 × 630 px (2:1 ratio)
-- **Format:** JPEG preferred for photos (smallest file); PNG for graphics with text/logos
-- **File size:** under 300 KB — required for WhatsApp previews to appear
-- **Text:** Keep important content within the safe zone (960 × 504 px centered)
+### 1. Homepage (`home/og.jpg`)
+- **Size**: 1200 × 630 px (57KB)
+- **Content**: 
+  - Title: "Hand in Hand AI"
+  - Hebrew tagline: "תפסיקו לרוץ אחרי המערכות, תתחילו לנהל עסק"
+  - Hebrew subtitle: "צוות AI מותאם אישית שעובד מסביב לשעון"
+  - Colors: Blue (#2563EB), Purple (#7C3AED), Green (#10B981)
+- **Use**: Main homepage and general marketing
 
-## Folder structure
+### 2. Privacy Page (`privacy/og.jpg`)
+- **Size**: 1200 × 630 px (32KB)
+- **Content**:
+  - Title: "Privacy Policy"
+  - Subtitle: "Hand in Hand AI"
+  - Clean, professional blue gradient
+- **Use**: Privacy policy page
 
-Each route gets its own subfolder. The image inside is always named `og.png`.
+### 3. Default Fallback (`default.jpg`)
+- **Size**: 1200 × 630 px (40KB)
+- **Content**:
+  - Title: "Hand in Hand AI"
+  - Hebrew tagline: "בווטסאפ לסטודיו בוטיק AI עוזר"
+  - Green AI badge icon
+- **Use**: Generic fallback for pages without specific OG images
 
+## Technical Specifications
+
+- **Dimensions**: 1200 × 630 px (2:1 ratio, optimal for all social platforms)
+- **Format**: JPEG with 85% quality
+- **File Size**: All under 300KB (WhatsApp compatible)
+- **Safe Zone**: Text kept within central 960 × 504 px area
+- **Design**: Professional B2B AI consulting aesthetic
+- **Language**: Hebrew (RTL) with English brand name
+
+## Regenerating Images
+
+To regenerate all OG images:
+
+```bash
+npm run generate:og
 ```
-public/og/
-  default.png          ← site-wide fallback (Layout.astro)
-  fitness/
-    og.png             ← /fitness route
-  contact/
-    og.png             ← /contact route (optional)
+
+This runs the `scripts/generate-og-images.js` script which uses Node.js Canvas to programmatically generate the images.
+
+## Image Usage in Astro
+
+To use these images in your Astro pages, add the following meta tags:
+
+```astro
+---
+// In your frontmatter
+const ogImage = "/og/home/og.jpg"; // or /og/privacy/og.jpg, /og/default.jpg
+---
+
+<head>
+  <!-- Open Graph / Facebook -->
+  <meta property="og:image" content={new URL(ogImage, Astro.url)} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content={new URL(ogImage, Astro.url)} />
+  
+  <!-- WhatsApp -->
+  <meta property="og:image:type" content="image/jpeg" />
+</head>
 ```
 
-## Route → image mapping
+## Platform Support
 
-| Route        | Image file              |
-| ------------ | ----------------------- |
-| Site default | `default.png`           |
-| `/fitness`   | `fitness/og.png`        |
-| `/contact`   | `contact/og.png`        |
+These images are optimized for:
+- ✅ WhatsApp (under 300KB limit)
+- ✅ Facebook (1200×630 recommended)
+- ✅ Twitter/X (summary_large_image card)
+- ✅ LinkedIn (1200×627 recommended)
+- ✅ Telegram
+- ✅ Slack
+- ✅ Discord
 
-Add a row here whenever you add a new route.
+## Notes
 
-## Adding an image for a new route
-
-1. Create a subfolder named after the route slug: `public/og/<slug>/`
-2. Save the image as `og.png` inside it (1200 × 630 px)
-3. Pass `ogImage="/og/<slug>/og.png"` to the layout in your page file
-4. Update the table above and the Social Sharing section in `CLAUDE.md`
+- Hebrew text is rendered using Unicode characters
+- The canvas library handles Hebrew character shapes correctly
+- Images use web-safe fonts (Arial) for maximum compatibility
+- All images maintain consistent brand colors and style

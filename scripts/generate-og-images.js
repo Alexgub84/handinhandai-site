@@ -1,0 +1,176 @@
+import fs from 'fs';
+import { createCanvas } from 'canvas';
+
+// Helper function to draw gradient background
+function drawGradientBackground(ctx, colors) {
+    const gradient = ctx.createLinearGradient(0, 0, 1200, 630);
+    gradient.addColorStop(0, colors[0]);
+    gradient.addColorStop(0.5, colors[1]);
+    gradient.addColorStop(1, colors[2]);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 1200, 630);
+    
+    // Add subtle overlay pattern
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    for (let i = 0; i < 20; i++) {
+        ctx.fillRect(i * 60, 0, 30, 630);
+    }
+}
+
+// Helper function to wrap text
+function wrapText(ctx, text, x, y, maxWidth, lineHeight, align = 'center') {
+    ctx.textAlign = align;
+    const words = text.split(' ');
+    let line = '';
+    const lines = [];
+
+    for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+            lines.push(line.trim());
+            line = words[n] + ' ';
+        } else {
+            line = testLine;
+        }
+    }
+    lines.push(line.trim());
+
+    lines.forEach((line, index) => {
+        ctx.fillText(line, x, y + (index * lineHeight));
+    });
+
+    return lines.length * lineHeight;
+}
+
+// Generate Home OG Image
+function generateHome() {
+    const canvas = createCanvas(1200, 630);
+    const ctx = canvas.getContext('2d');
+    
+    // Background gradient
+    drawGradientBackground(ctx, ['#1e40af', '#6d28d9', '#059669']);
+    
+    // Semi-transparent overlay for better text readability
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+    ctx.fillRect(0, 0, 1200, 630);
+    
+    // Logo and brand name
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 48px Arial, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('Hand in Hand AI', 1080, 120);
+    
+    // Main Hebrew tagline (canvas doesn't support RTL, so we work around it)
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 64px Arial, sans-serif';
+    ctx.textAlign = 'center';
+    // Hebrew text is visually rendered correctly by the canvas library
+    ctx.fillText('תפסיקו לרוץ אחרי המערכות,', 600, 260);
+    ctx.fillText('תתחילו לנהל עסק', 600, 350);
+    
+    // Subtitle
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.font = '36px Arial, sans-serif';
+    ctx.fillText('צוות AI מותאם אישית שעובד מסביב לשעון', 600, 460);
+    
+    // Accent line
+    ctx.fillStyle = '#10B981';
+    ctx.fillRect(300, 510, 600, 4);
+    
+    // Save to file
+    const buffer = canvas.toBuffer('image/jpeg', { quality: 0.85 });
+    fs.writeFileSync('public/og/home/og.jpg', buffer);
+    console.log('✓ Generated public/og/home/og.jpg (' + (buffer.length / 1024).toFixed(0) + 'KB)');
+}
+
+// Generate Privacy OG Image
+function generatePrivacy() {
+    const canvas = createCanvas(1200, 630);
+    const ctx = canvas.getContext('2d');
+    
+    // Simple clean background
+    const gradient = ctx.createLinearGradient(0, 0, 0, 630);
+    gradient.addColorStop(0, '#1e3a8a');
+    gradient.addColorStop(1, '#1e40af');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 1200, 630);
+    
+    // Logo and brand name
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 40px Arial, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('Hand in Hand AI', 1080, 120);
+    
+    // Main title
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 72px Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Privacy Policy', 600, 300);
+    
+    // Separator
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.fillRect(400, 340, 400, 2);
+    
+    // Subtitle
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.font = '40px Arial, sans-serif';
+    ctx.fillText('Hand in Hand AI', 600, 420);
+    
+    // Save to file
+    const buffer = canvas.toBuffer('image/jpeg', { quality: 0.85 });
+    fs.writeFileSync('public/og/privacy/og.jpg', buffer);
+    console.log('✓ Generated public/og/privacy/og.jpg (' + (buffer.length / 1024).toFixed(0) + 'KB)');
+}
+
+// Generate Default OG Image
+function generateDefault() {
+    const canvas = createCanvas(1200, 630);
+    const ctx = canvas.getContext('2d');
+    
+    // Background gradient - more subtle than home
+    drawGradientBackground(ctx, ['#1e40af', '#4f46e5', '#2563eb']);
+    
+    // Semi-transparent overlay
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+    ctx.fillRect(0, 0, 1200, 630);
+    
+    // Logo and brand name - larger and centered
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 80px Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Hand in Hand AI', 600, 260);
+    
+    // Tagline
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.font = '42px Arial, sans-serif';
+    ctx.fillText('עוזר AI בווטסאפ לסטודיו בוטיק', 600, 360);
+    
+    // Accent circle with AI text
+    ctx.fillStyle = '#10B981';
+    ctx.beginPath();
+    ctx.arc(600, 470, 60, 0, Math.PI * 2);
+    ctx.fill();
+    
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 48px Arial, sans-serif';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('AI', 600, 470);
+    
+    // Save to file
+    const buffer = canvas.toBuffer('image/jpeg', { quality: 0.85 });
+    fs.writeFileSync('public/og/default.jpg', buffer);
+    console.log('✓ Generated public/og/default.jpg (' + (buffer.length / 1024).toFixed(0) + 'KB)');
+}
+
+// Generate all images
+try {
+    generateHome();
+    generatePrivacy();
+    generateDefault();
+    console.log('\n✓ All OG images generated successfully!');
+} catch (error) {
+    console.error('Error generating images:', error);
+    process.exit(1);
+}

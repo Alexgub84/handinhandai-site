@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>OG Image Generator - Hand in Hand AI</title>
+  <style>
+    body {
+      font-family: 'Heebo', Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .canvas-container {
+      margin: 20px 0;
+      border: 2px solid #ccc;
+      display: inline-block;
+    }
+    canvas {
+      display: block;
+      background: white;
+    }
+    button {
+      margin: 10px 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #2563EB;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    h2 {
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Hand in Hand AI — OG Image Generator</h1>
+<p>Right-click each canvas and "Save Image As..." to download as PNG, then convert to JPG and optimize.</p>
+
+<h2>Homepage OG Image</h2>
+<div class="canvas-container">
+  <canvas id="homepage" width="1200" height="630"></canvas>
+</div>
+<button onclick="drawHomepage()">Regenerate Homepage</button>
+
+<h2>Default OG Image</h2>
+<div class="canvas-container">
+  <canvas id="default" width="1200" height="630"></canvas>
+</div>
+<button onclick="drawDefault()">Regenerate Default</button>
+
+<h2>Privacy Page OG Image</h2>
+<div class="canvas-container">
+  <canvas id="privacy" width="1200" height="630"></canvas>
+</div>
+<button onclick="drawPrivacy()">Regenerate Privacy</button>
+
+<script>
+// Homepage OG
+function drawHomepage() {
+  const canvas = document.getElementById('homepage');
+  const ctx = canvas.getContext('2d');
+  
+  // Gradient background
+  const gradient = ctx.createLinearGradient(0, 0, 1200, 630);
+  gradient.addColorStop(0, '#2563EB');
+  gradient.addColorStop(0.5, '#7C3AED');
+  gradient.addColorStop(1, '#10B981');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 1200, 630);
+  
+  // Semi-transparent overlay for better text readability
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+  ctx.fillRect(0, 0, 1200, 630);
+  
+  // White content box (safe zone)
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+  const boxX = 120; // (1200 - 960) / 2
+  const boxY = 63;  // (630 - 504) / 2
+  ctx.fillRect(boxX, boxY, 960, 504);
+  
+  // Logo/Brand name (RTL)
+  ctx.fillStyle = '#2563EB';
+  ctx.font = 'bold 72px Heebo, Arial';
+  ctx.textAlign = 'right';
+  ctx.fillText('Hand in Hand AI', 1080 - boxX, boxY + 120);
+  
+  // Main tagline (Hebrew, RTL)
+  ctx.fillStyle = '#1f2937';
+  ctx.font = 'bold 56px Heebo, Arial';
+  ctx.textAlign = 'right';
+  wrapText(ctx, 'תפסיקו לרוץ אחרי המערכות,', 1080 - boxX, boxY + 220, 900, 70);
+  ctx.fillText('תתחילו לנהל עסק', 1080 - boxX, boxY + 290);
+  
+  // Subtitle (Hebrew, RTL)
+  ctx.fillStyle = '#4b5563';
+  ctx.font = '400 32px Heebo, Arial';
+  ctx.textAlign = 'right';
+  wrapText(ctx, 'צוות AI מותאם אישית שעובד מסביב לשעון', 1080 - boxX, boxY + 380, 900, 45);
+  
+  // Accent line
+  ctx.fillStyle = '#10B981';
+  ctx.fillRect(boxX + 40, boxY + 450, 200, 6);
+}
+
+// Default OG
+function drawDefault() {
+  const canvas = document.getElementById('default');
+  const ctx = canvas.getContext('2d');
+  
+  // Solid blue background
+  ctx.fillStyle = '#2563EB';
+  ctx.fillRect(0, 0, 1200, 630);
+  
+  // White content area
+  ctx.fillStyle = 'white';
+  ctx.fillRect(120, 63, 960, 504);
+  
+  // Logo
+  ctx.fillStyle = '#2563EB';
+  ctx.font = 'bold 80px Heebo, Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('Hand in Hand AI', 600, 250);
+  
+  // Tagline (English)
+  ctx.fillStyle = '#4b5563';
+  ctx.font = '400 36px Heebo, Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('AI Solutions for Modern Businesses', 600, 340);
+  
+  // Accent
+  ctx.fillStyle = '#10B981';
+  ctx.fillRect(450, 400, 300, 6);
+}
+
+// Privacy OG
+function drawPrivacy() {
+  const canvas = document.getElementById('privacy');
+  const ctx = canvas.getContext('2d');
+  
+  // Light gray background
+  ctx.fillStyle = '#f3f4f6';
+  ctx.fillRect(0, 0, 1200, 630);
+  
+  // White card
+  ctx.fillStyle = 'white';
+  ctx.fillRect(150, 100, 900, 430);
+  
+  // Title
+  ctx.fillStyle = '#1f2937';
+  ctx.font = 'bold 64px Heebo, Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('Privacy Policy', 600, 280);
+  
+  // Brand
+  ctx.fillStyle = '#2563EB';
+  ctx.font = '500 40px Heebo, Arial';
+  ctx.fillText('Hand in Hand AI', 600, 360);
+  
+  // Icon (shield shape)
+  ctx.fillStyle = '#10B981';
+  ctx.beginPath();
+  ctx.moveTo(600, 420);
+  ctx.lineTo(560, 450);
+  ctx.lineTo(560, 490);
+  ctx.lineTo(600, 510);
+  ctx.lineTo(640, 490);
+  ctx.lineTo(640, 450);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+  const words = text.split(' ');
+  let line = '';
+  
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + ' ';
+    const metrics = ctx.measureText(testLine);
+    const testWidth = metrics.width;
+    
+    if (testWidth > maxWidth && n > 0) {
+      ctx.fillText(line, x, y);
+      line = words[n] + ' ';
+      y += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line, x, y);
+}
+
+// Initial draw
+drawHomepage();
+drawDefault();
+drawPrivacy();
+</script>
+
+</body>
+</html>

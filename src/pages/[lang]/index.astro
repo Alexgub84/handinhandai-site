@@ -22,6 +22,11 @@ const meta = lang === 'he'
     };
 ---
 
-<CinematicLayout lang={lang} title={meta.title} description={meta.description}>
+<CinematicLayout 
+  lang={lang} 
+  title={meta.title} 
+  description={meta.description}
+  ogImage="/og/home/og.jpg"
+>
   <ScrollHero lang={lang} />
 </CinematicLayout>
