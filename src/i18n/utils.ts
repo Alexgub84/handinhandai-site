@@ -13,11 +13,14 @@ export function useTranslations(lang: Lang) {
   };
 }
 
+// All non-default language prefixes (he is the default and carries no prefix).
+const knownLangs = ['en', 'ru', 'uk'];
+
 export function getRouteFromUrl(url: URL): string {
   const pathname = url.pathname;
   const parts = pathname.split('/').filter(Boolean);
-  
-  if (parts[0] === 'en') {
+
+  if (parts[0] && knownLangs.includes(parts[0])) {
     return '/' + parts.slice(1).join('/');
   }
   return pathname;

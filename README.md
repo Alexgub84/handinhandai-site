@@ -86,14 +86,13 @@ Fitness copy: `fitness-studio.*` and `fitness-chain.*` keys in `src/i18n/ui.ts`.
 
 | URL | Notes |
 |-----|--------|
-| `/` | Homepage (Hebrew, default language) |
+| `/` | Homepage (Hebrew, default language — no prefix) |
 | `/contact` | Contact (Hebrew) |
-| `/he/`, `/en/` | Homepage per locale |
-| `/he/contact`, `/en/contact` | Contact per locale |
+| `/en/`, `/ru/`, `/uk/` (and `/he/`) | Homepage per locale (Hebrew default also served at `/`) |
+| `/{lang}/fitness-studio` | Fitness Studio per locale — `lang` ∈ he/en/ru/uk |
 | `/fitness-studio` | Fitness Studio landing (Hebrew) |
-| `/he/fitness-studio`, `/en/fitness-studio` | Fitness Studio per locale |
+| `/{lang}/fitness-chain` | Fitness Chain per locale — `lang` ∈ he/en/ru/uk |
 | `/fitness-chain` | Fitness Chain landing (Hebrew) |
-| `/he/fitness-chain`, `/en/fitness-chain` | Fitness Chain per locale |
 
 ---
 
