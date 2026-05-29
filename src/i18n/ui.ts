@@ -40,16 +40,17 @@ export const ui = {
     // ── Homepage ───────────────────────────────────────────────────
     "home.hero.headline": "תפסיקו לרוץ אחרי המערכות, תתחילו לנהל עסק",
     "home.hero.subheadline":
-      "צוות AI מותאם אישית שעובד מסביב לשעון, מטפל בעבודה התפעולית, ומשחרר אתכם להתמקד במה שחשוב — הצמיחה, החזון, והמשפחה",
+      "עוזר AI שעובד בשבילכם 24/7, מסדר את כל השוטף, ומשחרר אתכם לדברים שבאמת חשובים — לצמוח, להנשים, ולהיות בבית",
     "home.hero.cta.primary": "קבעו שיחת גילוי",
     "home.hero.cta.secondary": "שוחחו עם סשה",
+    "home.hero.cta.secondary.hint": "סשה היא עוזרת ה-AI של העסק שלנו",
 
     "home.valueProps.custom.title": "התאמה אישית מלאה",
     "home.valueProps.custom.description":
       "לא פלטפורמה, לא תבנית. פתרון שנבנה במיוחד עבור העסק שלכם",
     "home.valueProps.transformation.title": "שינוי עסקי ואישי",
     "home.valueProps.transformation.description":
-      "לא רק יעילות. יותר הכנסות, פחות שעות, יותר זמן למשפחה וחזון",
+      "לא רק יעילות. יותר הכנסות, פחות שעות, ויותר זמן לדברים שחשובים לכם.",
     "home.valueProps.process.title": "תהליך מונחה גילוי",
     "home.valueProps.process.description":
       "מתחילים בהבנה עמוקה של הכאבים, מסיימים בפתרון שעובד",
@@ -68,9 +69,9 @@ export const ui = {
 
     "home.about.title": "היי, אני אלכס",
     "home.about.bio.paragraph1":
-      "אני עוזר לבעלי עסקים קטנים ובינוניים להפוך את הטכנולוגיה לנכס אסטרטגי, לא לעול.",
+      "אני עוזר לבעלי עסקים קטנים ובינוניים שהטכנולוגיה תעבוד בשבילם — לא להיפך.",
     "home.about.bio.paragraph2":
-      "במשך השנים האחרונות בניתי פתרונות AI מותאמים אישית — סוכנים חכמים, מערכות CRM ואוטומציות — שמשחררים בעלי עסקים מהעבודה התפעולית ומחזירים להם שליטה על החיים.",
+      "בשנים האחרונות בניתי לעסקים קטנים ובינוניים פתרונות AI מותאמים אישית — סוכנים חכמים, מערכות CRM ואוטומציות — שחוסכים להם שעות עבודה בכל שבוע.",
     "home.about.bio.paragraph3":
       "העבודה שלי לא רק על טכנולוגיה. היא על לעזור לכם לנהל עסק שמרוויח יותר, דורש פחות, ומשאיר לכם זמן למשפחה ולחזון.",
     "home.about.stat1.value": "AI + CRM",
@@ -91,9 +92,10 @@ export const ui = {
 
     "home.cta.title": "מוכנים לשנות את הדרך בה אתם מנהלים את העסק?",
     "home.cta.subtitle":
-      "בואו נדבר. שיחת גילוי של 20 דקות, בלי מצגת, בלי התחייבות. נבין את העסק שלכם ונראה איך AI יכול לעזור",
+      "בואו נדבר. 20 דקות, בלי מצגת, בלי התחייבות. נבין ביחד מה לוחץ לכם ונראה אם AI יכול לעזור.",
     "home.cta.primary": "קבעו שיחה",
     "home.cta.secondary": "שוחחו עם סשה",
+    "home.cta.secondary.hint": "סשה היא עוזרת ה-AI של העסק שלנו",
 
     // ── Fitness Studio landing page ───────────────────────────────
     "fitness-studio.page.title": "עוזר חכם בוואטסאפ לסטודיו",
@@ -428,6 +430,7 @@ export const ui = {
       "Custom AI team that works 24/7, handles operations, and frees you to focus on what matters — growth, vision, and family",
     "home.hero.cta.primary": "Book Discovery Call",
     "home.hero.cta.secondary": "Chat with Sasha",
+    "home.hero.cta.secondary.hint": "Sasha is our business AI assistant",
 
     "home.valueProps.custom.title": "Full Customization",
     "home.valueProps.custom.description":
@@ -479,6 +482,7 @@ export const ui = {
       "Let's talk. 20-minute discovery call, no presentation, no commitment. We'll understand your business and see how AI can help",
     "home.cta.primary": "Book a Call",
     "home.cta.secondary": "Chat with Sasha",
+    "home.cta.secondary.hint": "Sasha is our business AI assistant",
 
     // ── Fitness Studio landing page ───────────────────────────────
     "fitness-studio.page.title": "Smart studio manager on WhatsApp",
@@ -770,6 +774,7 @@ export const ui = {
       "Персональная AI-команда, которая работает круглосуточно, берет на себя операционную рутину и освобождает вас для того, что важно — роста, стратегии и семьи",
     "home.hero.cta.primary": "Записаться на диагностическую встречу",
     "home.hero.cta.secondary": "Написать Саше",
+    "home.hero.cta.secondary.hint": "Саша — наш ИИ-ассистент",
 
     "home.valueProps.custom.title": "Полная персонализация",
     "home.valueProps.custom.description":
@@ -823,6 +828,7 @@ export const ui = {
       "Давайте поговорим. 20-минутная диагностическая встреча, без презентаций, без обязательств. Разберемся в вашем бизнесе и посмотрим, как AI может помочь",
     "home.cta.primary": "Записаться на встречу",
     "home.cta.secondary": "Написать Саше",
+    "home.cta.secondary.hint": "Саша — наш ИИ-ассистент",
 
     // ── Fitness Studio landing page ───────────────────────────────
     "fitness-studio.page.title": "Умный менеджер студии в WhatsApp",
@@ -1127,6 +1133,7 @@ export const ui = {
       "Персональна AI-команда, яка працює цілодобово, бере на себе операційну рутину та звільняє вас для того, що важливо — зростання, стратегії та родини",
     "home.hero.cta.primary": "Записатися на діагностичну зустріч",
     "home.hero.cta.secondary": "Написати Саші",
+    "home.hero.cta.secondary.hint": "Саша — наш ШІ-асистент",
 
     "home.valueProps.custom.title": "Повна персоналізація",
     "home.valueProps.custom.description":
@@ -1180,6 +1187,7 @@ export const ui = {
       "Поговорімо. 20-хвилинна діагностична зустріч, без презентацій, без зобов'язань. Розберемося у вашому бізнесі й подивимося, як AI може допомогти",
     "home.cta.primary": "Записатися на зустріч",
     "home.cta.secondary": "Написати Саші",
+    "home.cta.secondary.hint": "Саша — наш ШІ-асистент",
 
     // ── Fitness Studio landing page ───────────────────────────────
     "fitness-studio.page.title": "Розумний менеджер студії у WhatsApp",
