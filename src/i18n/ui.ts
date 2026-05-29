@@ -15,6 +15,7 @@ export const ui = {
     "nav.about": "אודות",
     "nav.services": "שירותים",
     "nav.contact": "צור קשר",
+    "nav.privacy": "מדיניות פרטיות",
     "nav.fitnessStudio": "סטודיו",
     "nav.fitnessChain": "רשת",
     "hero.title": "יד ביד עם בינה מלאכותית",
@@ -33,6 +34,64 @@ export const ui = {
     "features.support.title": "ליווי אישי",
     "features.support.description":
       "צוות מומחים שמלווה אתכם בכל שלב בדרך להצלחה",
+
+    // ── Homepage ───────────────────────────────────────────────────
+    "home.hero.headline": "תפסיקו לרוץ אחרי המערכות, תתחילו לנהל עסק",
+    "home.hero.subheadline":
+      "צוות AI מותאם אישית שעובד מסביב לשעון, מטפל בעבודה התפעולית, ומשחרר אתכם להתמקד במה שחשוב — הצמיחה, החזון, והמשפחה",
+    "home.hero.cta.primary": "קבעו שיחת גילוי",
+    "home.hero.cta.secondary": "שוחחו עם סשה",
+
+    "home.valueProps.custom.title": "התאמה אישית מלאה",
+    "home.valueProps.custom.description":
+      "לא פלטפורמה, לא תבנית. פתרון שנבנה במיוחד עבור העסק שלכם",
+    "home.valueProps.transformation.title": "שינוי עסקי ואישי",
+    "home.valueProps.transformation.description":
+      "לא רק יעילות. יותר הכנסות, פחות שעות, יותר זמן למשפחה וחזון",
+    "home.valueProps.process.title": "תהליך מונחה גילוי",
+    "home.valueProps.process.description":
+      "מתחילים בהבנה עמוקה של הכאבים, מסיימים בפתרון שעובד",
+
+    "home.process.title": "איך זה עובד",
+    "home.process.subtitle": "תהליך פשוט בשלושה שלבים — מהמפגש הראשון ועד תוצאות מדידות",
+    "home.process.stage1.title": "גילוי",
+    "home.process.stage1.description":
+      "שיחה עם סשה (AI) או איתי ישירות. מבינים את העסק, הכאבים, המטרות",
+    "home.process.stage2.title": "עיצוב",
+    "home.process.stage2.description":
+      "יחד מזהים את נקודות המינוף. AI? CRM? אוטומציה? מה ישנה הכי הרבה",
+    "home.process.stage3.title": "פריסה",
+    "home.process.stage3.description":
+      "בונים, מטמיעים, מלווים. הפתרון עובד, אתם רואים תוצאות",
+
+    "home.about.title": "היי, אני אלכס",
+    "home.about.bio.paragraph1":
+      "אני עוזר לבעלי עסקים קטנים ובינוניים להפוך את הטכנולוגיה לנכס אסטרטגי, לא לעול.",
+    "home.about.bio.paragraph2":
+      "במשך השנים האחרונות בניתי פתרונות AI מותאמים אישית — סוכנים חכמים, מערכות CRM ואוטומציות — שמשחררים בעלי עסקים מהעבודה התפעולית ומחזירים להם שליטה על החיים.",
+    "home.about.bio.paragraph3":
+      "העבודה שלי לא רק על טכנולוגיה. היא על לעזור לכם לנהל עסק שמרוויח יותר, דורש פחות, ומשאיר לכם זמן למשפחה ולחזון.",
+    "home.about.stat1.value": "AI + CRM",
+    "home.about.stat1.label": "התמחות",
+    "home.about.stat2.value": "SMB",
+    "home.about.stat2.label": "עסקים קטנים ובינוניים",
+
+    "home.services.title": "פתרונות לפי תחום",
+    "home.services.subtitle": "כל פתרון מותאם במיוחד לסוג העסק ולאתגרים הייחודיים שלו",
+    "home.services.fitnessStudio.title": "סטודיו כושר",
+    "home.services.fitnessStudio.description":
+      "עוזר חכם בוואטסאפ שמטפל בהזמנות, מחזק נאמנות ומחזיר מתאמנים שנעלמו",
+    "home.services.fitnessChain.title": "רשת כושר",
+    "home.services.fitnessChain.description":
+      "סוכן AI לרשת — עונה ללקוחות בכל סניף, קובע שיעורים ומזהה מתאמנים בסיכון נשירה",
+    "home.services.learnMore": "למידע נוסף",
+    "home.services.moreComing": "תחומים נוספים בקרוב — סלונים, קליניקות, ועוד",
+
+    "home.cta.title": "מוכנים לשנות את הדרך בה אתם מנהלים את העסק?",
+    "home.cta.subtitle":
+      "בואו נדבר. שיחת גילוי של 20 דקות, בלי מצגת, בלי התחייבות. נבין את העסק שלכם ונראה איך AI יכול לעזור",
+    "home.cta.primary": "קבעו שיחה",
+    "home.cta.secondary": "שוחחו עם סשה",
 
     // ── Fitness Studio landing page ───────────────────────────────
     "fitness-studio.page.title": "עוזר חכם בוואטסאפ לסטודיו",
@@ -340,6 +399,7 @@ export const ui = {
     "nav.about": "About",
     "nav.services": "Services",
     "nav.contact": "Contact",
+    "nav.privacy": "Privacy Policy",
     "nav.fitnessStudio": "Studio",
     "nav.fitnessChain": "Chain",
     "hero.title": "Hand in Hand with AI",
@@ -359,6 +419,64 @@ export const ui = {
     "features.support.title": "Personal Support",
     "features.support.description":
       "Expert team guiding you every step of the way to success",
+
+    // ── Homepage ───────────────────────────────────────────────────
+    "home.hero.headline": "Stop chasing systems, start running a business",
+    "home.hero.subheadline":
+      "Custom AI team that works 24/7, handles operations, and frees you to focus on what matters — growth, vision, and family",
+    "home.hero.cta.primary": "Book Discovery Call",
+    "home.hero.cta.secondary": "Chat with Sasha",
+
+    "home.valueProps.custom.title": "Full Customization",
+    "home.valueProps.custom.description":
+      "Not a platform, not a template. Solution built specifically for your business",
+    "home.valueProps.transformation.title": "Business + Personal Transformation",
+    "home.valueProps.transformation.description":
+      "Not just efficiency. More revenue, fewer hours, more time for family and vision",
+    "home.valueProps.process.title": "Discovery-Driven Process",
+    "home.valueProps.process.description":
+      "Start with deep understanding of pain points, end with solution that works",
+
+    "home.process.title": "How It Works",
+    "home.process.subtitle": "Simple three-stage process — from first meeting to measurable results",
+    "home.process.stage1.title": "Discover",
+    "home.process.stage1.description":
+      "Chat with Sasha (AI) or directly with me. Understand your business, pain points, goals",
+    "home.process.stage2.title": "Design",
+    "home.process.stage2.description":
+      "Together identify leverage points. AI? CRM? Automation? What will change the most",
+    "home.process.stage3.title": "Deploy",
+    "home.process.stage3.description":
+      "Build, implement, support. The solution works, you see results",
+
+    "home.about.title": "Hi, I'm Alex",
+    "home.about.bio.paragraph1":
+      "I help small and medium business owners turn technology into a strategic asset, not a burden.",
+    "home.about.bio.paragraph2":
+      "Over the past few years I've built custom AI solutions — smart agents, CRM systems, and automations — that free business owners from operational work and give them back control of their lives.",
+    "home.about.bio.paragraph3":
+      "My work isn't just about technology. It's about helping you run a business that earns more, demands less, and leaves you time for family and vision.",
+    "home.about.stat1.value": "AI + CRM",
+    "home.about.stat1.label": "Expertise",
+    "home.about.stat2.value": "SMB",
+    "home.about.stat2.label": "Small & Medium Business",
+
+    "home.services.title": "Solutions by Industry",
+    "home.services.subtitle": "Each solution tailored to the business type and its unique challenges",
+    "home.services.fitnessStudio.title": "Fitness Studio",
+    "home.services.fitnessStudio.description":
+      "Smart WhatsApp assistant that handles bookings, builds loyalty, and re-engages members who disappear",
+    "home.services.fitnessChain.title": "Fitness Chain",
+    "home.services.fitnessChain.description":
+      "AI agent for chains — responds to clients at every location, books classes, identifies at-risk members",
+    "home.services.learnMore": "Learn more",
+    "home.services.moreComing": "More industries coming soon — salons, clinics, and more",
+
+    "home.cta.title": "Ready to change how you run your business?",
+    "home.cta.subtitle":
+      "Let's talk. 20-minute discovery call, no presentation, no commitment. We'll understand your business and see how AI can help",
+    "home.cta.primary": "Book a Call",
+    "home.cta.secondary": "Chat with Sasha",
 
     // ── Fitness Studio landing page ───────────────────────────────
     "fitness-studio.page.title": "Smart studio manager on WhatsApp",

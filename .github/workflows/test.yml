@@ -21,9 +21,9 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install --no-package-lock
+        run: npm ci
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Build
         run: npm run build

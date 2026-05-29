@@ -1,0 +1,74 @@
+---
+import { type Lang } from '@i18n/ui';
+import { useTranslations } from '@i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="py-16 sm:py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+        {t('home.process.title')}
+      </h2>
+      <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+        {t('home.process.subtitle')}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 relative">
+      <!-- Connection line (desktop only) -->
+      <div class="hidden md:block absolute top-24 left-0 right-0 h-0.5 bg-blue-200" style="width: 66%; margin-left: 16.66%; margin-right: 16.66%;" aria-hidden="true"></div>
+
+      <!-- Stage 1: Discover -->
+      <div class="relative">
+        <div class="flex flex-col items-center text-center">
+          <div class="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-6 relative z-10 shadow-lg">
+            1
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">
+            {t('home.process.stage1.title')}
+          </h3>
+          <p class="text-gray-600 leading-relaxed">
+            {t('home.process.stage1.description')}
+          </p>
+        </div>
+      </div>
+
+      <!-- Stage 2: Design -->
+      <div class="relative">
+        <div class="flex flex-col items-center text-center">
+          <div class="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-6 relative z-10 shadow-lg">
+            2
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">
+            {t('home.process.stage2.title')}
+          </h3>
+          <p class="text-gray-600 leading-relaxed">
+            {t('home.process.stage2.description')}
+          </p>
+        </div>
+      </div>
+
+      <!-- Stage 3: Deploy -->
+      <div class="relative">
+        <div class="flex flex-col items-center text-center">
+          <div class="w-20 h-20 bg-green-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mb-6 relative z-10 shadow-lg">
+            3
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">
+            {t('home.process.stage3.title')}
+          </h3>
+          <p class="text-gray-600 leading-relaxed">
+            {t('home.process.stage3.description')}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

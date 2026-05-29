@@ -1,0 +1,62 @@
+---
+import { type Lang } from '@i18n/ui';
+import { useTranslations } from '@i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="py-16 sm:py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+      <!-- Value Prop 1 -->
+      <div class="text-center">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-6">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+          </svg>
+        </div>
+        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
+          {t('home.valueProps.custom.title')}
+        </h3>
+        <p class="text-gray-600 leading-relaxed">
+          {t('home.valueProps.custom.description')}
+        </p>
+      </div>
+
+      <!-- Value Prop 2 -->
+      <div class="text-center">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-purple-100 text-purple-600 rounded-full mb-6">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
+          {t('home.valueProps.transformation.title')}
+        </h3>
+        <p class="text-gray-600 leading-relaxed">
+          {t('home.valueProps.transformation.description')}
+        </p>
+      </div>
+
+      <!-- Value Prop 3 -->
+      <div class="text-center">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 text-green-600 rounded-full mb-6">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+          </svg>
+        </div>
+        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
+          {t('home.valueProps.process.title')}
+        </h3>
+        <p class="text-gray-600 leading-relaxed">
+          {t('home.valueProps.process.description')}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
