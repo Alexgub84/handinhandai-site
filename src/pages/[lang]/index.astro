@@ -1,6 +1,11 @@
 ---
-import CinematicLayout from '@layouts/CinematicLayout.astro';
-import ScrollHero from '@components/scroll-hero/ScrollHero.astro';
+import SimpleLayout from '@layouts/SimpleLayout.astro';
+import Hero from '@components/homepage/Hero.astro';
+import ValueProps from '@components/homepage/ValueProps.astro';
+import Process from '@components/homepage/Process.astro';
+import About from '@components/homepage/About.astro';
+import ServicesGrid from '@components/homepage/ServicesGrid.astro';
+import CTASection from '@components/homepage/CTASection.astro';
 import { languages, type Lang } from '@i18n/ui';
 
 export function getStaticPaths() {
@@ -11,22 +16,40 @@ export function getStaticPaths() {
 
 const { lang } = Astro.params as { lang: Lang };
 
-const meta = lang === 'he'
-  ? {
-      title: 'Hand in Hand AI — תפסיקו להריץ תוכנה, תתחילו לנהל עסק',
-      description: 'צוות AI מותאם אישית לעסק שלכם — מחובר לכל המערכות, עובד מסביב לשעון, מטפל בעבודה התפעולית כדי שתוכלו להתמקד במה שחשוב.',
-    }
-  : {
-      title: 'Hand in Hand AI — Stop running software. Start running your business.',
-      description: 'Custom AI workforce built for your business. We design, build, and operate AI agents that handle your operational work — so your team can focus on what matters.',
-    };
+const meta: Record<Lang, { title: string; description: string }> = {
+  he: {
+    title: 'Hand in Hand AI — תפסיקו לרוץ אחרי המערכות, תתחילו לנהל עסק',
+    description:
+      'צוות AI מותאם אישית שעובד מסביב לשעון, מטפל בעבודה התפעולית, ומשחרר אתכם להתמקד במה שחשוב — הצמיחה, החזון, והמשפחה',
+  },
+  en: {
+    title: 'Hand in Hand AI — Stop chasing systems, start running a business',
+    description:
+      'Custom AI team that works 24/7, handles operations, and frees you to focus on what matters — growth, vision, and family',
+  },
+  ru: {
+    title: 'Hand in Hand AI — Хватит гнаться за системами, начните управлять бизнесом',
+    description:
+      'Персональная AI-команда, которая работает круглосуточно, берет на себя операционную рутину и освобождает вас для того, что важно — роста, стратегии и семьи',
+  },
+  uk: {
+    title: 'Hand in Hand AI — Досить ганятися за системами, почніть керувати бізнесом',
+    description:
+      'Персональна AI-команда, яка працює цілодобово, бере на себе операційну рутину та звільняє вас для того, що важливо — зростання, стратегії та родини',
+  },
+};
 ---
 
-<CinematicLayout 
-  lang={lang} 
-  title={meta.title} 
-  description={meta.description}
+<SimpleLayout
+  lang={lang}
+  title={meta[lang].title}
+  description={meta[lang].description}
   ogImage="/og/home/og.jpg"
 >
-  <ScrollHero lang={lang} />
-</CinematicLayout>
+  <Hero lang={lang} />
+  <ValueProps lang={lang} />
+  <Process lang={lang} />
+  <About lang={lang} />
+  <ServicesGrid lang={lang} />
+  <CTASection lang={lang} />
+</SimpleLayout>

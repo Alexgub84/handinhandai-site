@@ -7,14 +7,14 @@ Mutable (describes current state, not history). Update in the same task that shi
 
 ### Homepage (`/`)
 
-- **Route:** `/` and `/en/`, `/he/` → `src/pages/index.astro` + `src/pages/[lang]/index.astro` → `ScrollHero`
-- **Purpose:** Cinematic, scroll-scrubbed pitch for the AI-workforce product.
-- **Triggers / activation:** Page load. A loader holds ~1.1–3.5s, then the film is scroll-driven.
-- **Surface:** One pinned hero (chaos→orb, 3 scenes) + one pinned scroll-film (`StoryFilm`) where chapters Reveal · Bespoke · Vignettes · Engineering · Process · CTA cross-fade over a persistent orb on a single scroll timeline. CTA links to `/wa/home-cta`.
-- **Dependencies:** `CinematicLayout.astro`, `src/styles/cinematic.css`, `@astrojs/react`. Copy in `src/components/scroll-hero/data/scenarios.ts` (HE default, EN). `prefers-reduced-motion` falls back to a static stacked document.
-- **Key scenarios:** E2E `tests/homepage-scroll.spec.ts` — (1) film stage stays pinned + chapters advance on scroll; (2) reduced-motion reveals every chapter statically.
+- **Route:** `/` (Hebrew default) and `/en/`, `/ru/`, `/uk/`, `/he/` → `src/pages/index.astro` + `src/pages/[lang]/index.astro` → `SimpleLayout`
+- **Purpose:** AI-consulting brand pitch — Tailwind marketing homepage assembled from reusable section components.
+- **Triggers / activation:** Static page load; no scroll-scrub film.
+- **Surface:** `Hero` (dual WhatsApp CTA) · `ValueProps` (3-col) · `Process` (3-stage) · `About` (founder + bio) · `ServicesGrid` (fitness cards) · `CTASection` (final conversion). Components in `src/components/homepage/`, all `lang`-prop driven and mobile-first responsive.
+- **Dependencies:** `SimpleLayout.astro` (sets `dir` via `getDirection(lang)`), Tailwind, i18n `home.*` keys in `src/i18n/ui.ts`. No JS island.
+- **i18n:** Four languages — Hebrew (RTL, default, no prefix), English, Russian, Ukrainian (all LTR). Non-default langs carry a `/{lang}` route prefix.
 - **Status:** `active`.
-- **Last updated:** `2026-05-24`.
+- **Last updated:** `2026-05-29`.
 
 ### Fitness Studio landing (`/fitness-studio`)
 
