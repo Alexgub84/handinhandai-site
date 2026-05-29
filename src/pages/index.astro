@@ -1,15 +1,25 @@
 ---
-import CinematicLayout from '@layouts/CinematicLayout.astro';
-import ScrollHero from '@components/scroll-hero/ScrollHero.astro';
+import SimpleLayout from '@layouts/SimpleLayout.astro';
+import Hero from '@components/homepage/Hero.astro';
+import ValueProps from '@components/homepage/ValueProps.astro';
+import Process from '@components/homepage/Process.astro';
+import About from '@components/homepage/About.astro';
+import ServicesGrid from '@components/homepage/ServicesGrid.astro';
+import CTASection from '@components/homepage/CTASection.astro';
 import { defaultLang } from '@i18n/ui';
 
 const lang = defaultLang;
 ---
 
-<CinematicLayout
+<SimpleLayout
   lang={lang}
-  title="Hand in Hand AI — תפסיקו להריץ תוכנה, תתחילו לנהל עסק"
-  description="צוות AI מותאם אישית לעסק שלכם — מחובר לכל המערכות, עובד מסביב לשעון, מטפל בעבודה התפעולית כדי שתוכלו להתמקד במה שחשוב."
+  title="Hand in Hand AI — תפסיקו לרוץ אחרי המערכות, תתחילו לנהל עסק"
+  description="צוות AI מותאם אישית שעובד מסביב לשעון, מטפל בעבודה התפעולית, ומשחרר אתכם להתמקד במה שחשוב — הצמיחה, החזון, והמשפחה"
 >
-  <ScrollHero lang={lang} />
-</CinematicLayout>
+  <Hero lang={lang} />
+  <ValueProps lang={lang} />
+  <Process lang={lang} />
+  <About lang={lang} />
+  <ServicesGrid lang={lang} />
+  <CTASection lang={lang} />
+</SimpleLayout>

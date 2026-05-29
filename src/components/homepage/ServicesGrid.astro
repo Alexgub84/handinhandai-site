@@ -1,0 +1,85 @@
+---
+import { type Lang } from '@i18n/ui';
+import { useTranslations, getLocalizedPath } from '@i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="py-16 sm:py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+        {t('home.services.title')}
+      </h2>
+      <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+        {t('home.services.subtitle')}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      <!-- Fitness Studio Card -->
+      <a
+        href={getLocalizedPath('/fitness-studio', lang)}
+        class="group bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
+      >
+        <div class="p-8">
+          <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+            {t('home.services.fitnessStudio.title')}
+          </h3>
+          <p class="text-gray-600 mb-4 leading-relaxed">
+            {t('home.services.fitnessStudio.description')}
+          </p>
+          <div class="flex items-center text-blue-600 font-semibold group-hover:gap-2 transition-all">
+            <span>{t('home.services.learnMore')}</span>
+            <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={lang === 'he' ? 'M15 19l-7-7 7-7' : 'M9 5l7 7-7 7'} />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Fitness Chain Card -->
+      <a
+        href={getLocalizedPath('/fitness-chain', lang)}
+        class="group bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
+      >
+        <div class="p-8">
+          <div class="w-14 h-14 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
+            {t('home.services.fitnessChain.title')}
+          </h3>
+          <p class="text-gray-600 mb-4 leading-relaxed">
+            {t('home.services.fitnessChain.description')}
+          </p>
+          <div class="flex items-center text-purple-600 font-semibold group-hover:gap-2 transition-all">
+            <span>{t('home.services.learnMore')}</span>
+            <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={lang === 'he' ? 'M15 19l-7-7 7-7' : 'M9 5l7 7-7 7'} />
+            </svg>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Coming soon teaser (optional) -->
+    <div class="mt-8 text-center">
+      <p class="text-gray-500 text-sm">
+        {t('home.services.moreComing')}
+      </p>
+    </div>
+  </div>
+</section>

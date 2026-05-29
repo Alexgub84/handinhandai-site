@@ -1,0 +1,71 @@
+---
+import { type Lang } from '@i18n/ui';
+import { useTranslations } from '@i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="about" class="py-16 sm:py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Photo placeholder -->
+      <div class="order-2 lg:order-1">
+        <div class="aspect-square bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center shadow-xl">
+          <div class="text-center px-8">
+            <svg class="w-32 h-32 mx-auto text-blue-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <p class="text-gray-500 text-sm italic">
+              {lang === 'he' ? 'תמונת פרופיל תתווסף בקרוב' : 'Photo coming soon'}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bio content -->
+      <div class="order-1 lg:order-2">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+          {t('home.about.title')}
+        </h2>
+        <div class="space-y-4 text-lg text-gray-600 leading-relaxed">
+          <p>
+            {t('home.about.bio.paragraph1')}
+          </p>
+          <p>
+            {t('home.about.bio.paragraph2')}
+          </p>
+          <p>
+            {t('home.about.bio.paragraph3')}
+          </p>
+        </div>
+        
+        <!-- Optional: Quick stats or credentials -->
+        <div class="mt-8 pt-8 border-t border-gray-200">
+          <div class="grid grid-cols-2 gap-6">
+            <div>
+              <div class="text-3xl font-bold text-blue-600 mb-2">
+                {t('home.about.stat1.value')}
+              </div>
+              <div class="text-sm text-gray-600">
+                {t('home.about.stat1.label')}
+              </div>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-purple-600 mb-2">
+                {t('home.about.stat2.value')}
+              </div>
+              <div class="text-sm text-gray-600">
+                {t('home.about.stat2.label')}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

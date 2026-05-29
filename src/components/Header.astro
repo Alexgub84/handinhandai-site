@@ -26,31 +26,44 @@ const t = useTranslations(lang);
         >
           {t('nav.home')}
         </a>
-        <!-- Hidden for now
+        <div class="relative group">
+          <button
+            type="button"
+            class="text-gray-600 hover:text-gray-900 font-medium transition-colors inline-flex items-center gap-1"
+          >
+            {t('nav.services')}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div class="py-2">
+              <a
+                href={getLocalizedPath('/fitness-studio', lang)}
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+              >
+                {t('nav.fitnessStudio')}
+              </a>
+              <a
+                href={getLocalizedPath('/fitness-chain', lang)}
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+              >
+                {t('nav.fitnessChain')}
+              </a>
+            </div>
+          </div>
+        </div>
         <a
-          href={getLocalizedPath('/about', lang)}
+          href={getLocalizedPath('/', lang) + '#about'}
           class="text-gray-600 hover:text-gray-900 font-medium transition-colors"
         >
           {t('nav.about')}
         </a>
         <a
-          href={getLocalizedPath('/services', lang)}
+          href={getLocalizedPath('/privacy-sasha', lang)}
           class="text-gray-600 hover:text-gray-900 font-medium transition-colors"
         >
-          {t('nav.services')}
-        </a>
-        -->
-        <a
-          href={getLocalizedPath('/fitness-studio', lang)}
-          class="text-gray-600 hover:text-gray-900 font-medium transition-colors"
-        >
-          {t('nav.fitnessStudio')}
-        </a>
-        <a
-          href={getLocalizedPath('/fitness-chain', lang)}
-          class="text-gray-600 hover:text-gray-900 font-medium transition-colors"
-        >
-          {t('nav.fitnessChain')}
+          {t('nav.privacy')}
         </a>
         <a
           href="https://wa.me/972545053620"
@@ -92,31 +105,34 @@ const t = useTranslations(lang);
       >
         {t('nav.home')}
       </a>
-      <!-- Hidden for now
+      <div class="space-y-1">
+        <div class="px-4 py-2 text-sm font-semibold text-gray-500">
+          {t('nav.services')}
+        </div>
+        <a
+          href={getLocalizedPath('/fitness-studio', lang)}
+          class="block px-4 py-3 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+        >
+          {t('nav.fitnessStudio')}
+        </a>
+        <a
+          href={getLocalizedPath('/fitness-chain', lang)}
+          class="block px-4 py-3 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+        >
+          {t('nav.fitnessChain')}
+        </a>
+      </div>
       <a
-        href={getLocalizedPath('/about', lang)}
+        href={getLocalizedPath('/', lang) + '#about'}
         class="block px-4 py-3 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
       >
         {t('nav.about')}
       </a>
       <a
-        href={getLocalizedPath('/services', lang)}
+        href={getLocalizedPath('/privacy-sasha', lang)}
         class="block px-4 py-3 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
       >
-        {t('nav.services')}
-      </a>
-      -->
-      <a
-        href={getLocalizedPath('/fitness-studio', lang)}
-        class="block px-4 py-3 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
-      >
-        {t('nav.fitnessStudio')}
-      </a>
-      <a
-        href={getLocalizedPath('/fitness-chain', lang)}
-        class="block px-4 py-3 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
-      >
-        {t('nav.fitnessChain')}
+        {t('nav.privacy')}
       </a>
       <a
         href="https://wa.me/972545053620"
