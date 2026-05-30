@@ -32,17 +32,20 @@ const secondaryCTA = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
         {t('home.hero.subheadline')}
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a
-          href={primaryCTA}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          {t('home.hero.cta.primary')}
-        </a>
+        <div class="flex flex-col items-center gap-1">
+          <a
+            href={primaryCTA}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            {t('home.hero.cta.primary')}
+          </a>
+          <span class="text-xs text-transparent select-none" aria-hidden="true">placeholder</span>
+        </div>
         <div class="flex flex-col items-center gap-1">
           <a
             href={secondaryCTA}
