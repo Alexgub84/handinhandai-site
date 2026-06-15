@@ -1,0 +1,171 @@
+---
+import Icon from "./Icon.astro";
+import ChatDemo from "./ChatDemo.astro";
+import { siteContact } from "@/data/site-contact";
+const wa = siteContact.whatsappCta;
+
+const CHAT_POINTS = [
+  "מקבל פניות בכל שעה — גם ב־2 בלילה",
+  "עונה כמו בנאדם, בשפה של העסק שלכם",
+  "קובע תור או פגישה ישר ביומן",
+  "אף ליד לא מתפספס בדרך",
+];
+const REMINDER_POINTS = [
+  "אפס תורים ריקים בגלל ביטולים",
+  "הלקוח מאשר הגעה בלחיצה אחת",
+  "רשימת ההמתנה מתמלאת מעצמה",
+];
+const DIGEST_POINTS = [
+  "כמה פניות, תורים וביטולים — מאתמול",
+  "מי עדיין מחכה לתשובה מכם",
+  "בלי לפתוח את היומן, המייל והוואטסאפ בנפרד",
+];
+const WINBACK_POINTS = [
+  "זיהוי אוטומטי של לקוחות בסיכון",
+  "פנייה אישית בדיוק בזמן הנכון",
+  "פחות ביטולים, יותר חידושים",
+];
+---
+
+<section id="example" class="section section--alt example" aria-labelledby="example-title">
+  <div class="container">
+    <div class="example__head reveal">
+      <h2 id="example-title" class="h2">איך AI יכול <b class="accent">לשפר</b> לכם את העסק</h2>
+      <p class="example__intro">
+        לא סיסמאות — דרכים קונקרטיות ש־AI לוקח על עצמו עבודה שחוזרת על עצמה
+        ואוכלת לכם את היום. מתחילים מהמבוקשת ביותר:
+      </p>
+    </div>
+
+    <!-- ① סוכן שמטפל בלקוחות — צ'אט חי -->
+    <div class="ex-row">
+      <div class="ex-row__copy reveal">
+        <h3 class="example__lead-title">סוכן ש<b class="accent">מטפל בלקוחות</b> במקומכם</h3>
+        <p class="example__sub">סוכן AI שמקבל פניות, מבין מה הלקוח צריך ודואג לו — בלי שאתם צמודים לטלפון. ככה זה מרגיש מהצד של הלקוח:</p>
+        <ul class="example__points">
+          {CHAT_POINTS.map((p) => (
+            <li><Icon name="tick-circle" size={20} color="var(--green-accent)" />{p}</li>
+          ))}
+        </ul>
+        <div class="example__try">
+          <p class="example__try-q">רוצים לנסות בעצמכם?</p>
+          <a class="btn btn--dark btn--lg" href={wa}><Icon name="whatsapp" size={19} />שלחו הודעה לסשה</a>
+          <p class="example__try-note">סשה היא עוזרת ה-AI של העסק שלנו</p>
+        </div>
+      </div>
+      <div class="ex-row__media reveal reveal--scale">
+        <div class="phone">
+          <div class="phone__screen phone__screen--chat">
+            <span class="phone__island" aria-hidden="true"></span>
+            <div class="phone__status" aria-hidden="true"><span>9:41</span><span class="phone__batt"></span></div>
+            <ChatDemo />
+          </div>
+        </div>
+        <p class="ex-media-cap">הדגמה חיה — נסו להקליד 👆</p>
+      </div>
+    </div>
+
+    <!-- ② תזכורת ומילוי רשימת המתנה -->
+    <div class="ex-row ex-row--reverse">
+      <div class="ex-row__copy reveal">
+        <h3 class="example__lead-title">תזכורת ומילוי <b class="accent">רשימת המתנה</b></h3>
+        <p class="example__sub">תור שמתפנה לא נשאר ריק. תזכורת יום לפני, ואם מבטלים — התור עובר אוטומטית לבא בתור ברשימת ההמתנה.</p>
+        <ul class="example__points">
+          {REMINDER_POINTS.map((p) => (
+            <li><Icon name="tick-circle" size={20} color="var(--green-accent)" />{p}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="ex-row__media reveal reveal--scale">
+        <div class="phone" aria-hidden="true">
+          <div class="phone__screen phone__screen--wa">
+            <span class="phone__island"></span>
+            <div class="phone__status"><span>21:14</span><span class="phone__batt"></span></div>
+            <div class="wa">
+              <div class="wa__bar">
+                <span class="wa__avatar">ס</span>
+                <div class="wa__who"><b>סשה · handinhand</b><small>מקלידה…</small></div>
+              </div>
+              <div class="wa__body">
+                <span class="wa__day">היום</span>
+                <span class="t-bubble t-bubble--agent">תזכורת 📅 התור שלך מחר ב־17:00 אצל ד״ר לוי. מגיע/ה?</span>
+                <div class="scn-chips"><span>כן, אגיע</span><span class="is-picked">לא אוכל</span></div>
+                <span class="t-bubble t-bubble--user">לא אוכל הפעם 🙏</span>
+                <span class="t-bubble t-bubble--agent">סבבה, שחררתי את התור. תודה שעדכנת!</span>
+                <span class="scn-sys"><Icon name="tick-circle" size={14} color="var(--green-accent)" />הוצע ליעל מרשימת ההמתנה · אושר אוטומטית</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="ex-media-cap">כך נראית התזכורת אצל הלקוח</p>
+      </div>
+    </div>
+
+    <!-- ③ דוח בוקר -->
+    <div class="ex-row">
+      <div class="ex-row__copy reveal">
+        <h3 class="example__lead-title"><b class="accent">סיכום של אתמול</b>, כל בוקר בטלפון</h3>
+        <p class="example__sub">כל בוקר מחכה לכם הודעה אחת: כמה פניות נכנסו אתמול, כמה תורים נקבעו ומי עדיין מחכה לתשובה — בלי לפתוח שום מערכת.</p>
+        <ul class="example__points">
+          {DIGEST_POINTS.map((p) => (
+            <li><Icon name="tick-circle" size={20} color="var(--green-accent)" />{p}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="ex-row__media reveal reveal--scale">
+        <div class="phone" aria-hidden="true">
+          <div class="phone__screen phone__screen--lock">
+            <span class="phone__island"></span>
+            <div class="phone__status"><span>8:01</span><span class="phone__batt"></span></div>
+            <div class="lock">
+              <div class="lock__time">8:01</div>
+              <div class="lock__date">יום ג׳, 14 ביוני</div>
+              <div class="lock__notif">
+                <span class="lock__notif-icon"><img src="/handinhand-logo.png" alt="" width="22" height="22" /></span>
+                <div class="lock__notif-body">
+                  <div class="lock__notif-top"><b>handinhand</b><span>עכשיו</span></div>
+                  <p>בוקר טוב אלכס ☀️ יש לך 8 פניות חדשות, 3 תורים חדשים מאתמול ו-2 לידים שמחכים לך.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="ex-media-cap">כך נראה הסיכום שלכם · נתונים לדוגמה</p>
+      </div>
+    </div>
+
+    <!-- ④ שחזור לקוחות שנעלמו -->
+    <div class="ex-row ex-row--reverse">
+      <div class="ex-row__copy reveal">
+        <h3 class="example__lead-title">שחזור לקוחות ש<b class="accent">נעלמו</b></h3>
+        <p class="example__sub">המערכת מזהה מי הפסיק להגיע, והסוכן פונה אליו עם הזמנה אישית לחזור — לפני שהוא מבטל.</p>
+        <ul class="example__points">
+          {WINBACK_POINTS.map((p) => (
+            <li><Icon name="tick-circle" size={20} color="var(--green-accent)" />{p}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="ex-row__media reveal reveal--scale">
+        <div class="phone" aria-hidden="true">
+          <div class="phone__screen phone__screen--wa">
+            <span class="phone__island"></span>
+            <div class="phone__status"><span>11:30</span><span class="phone__batt"></span></div>
+            <div class="wa">
+              <div class="wa__bar">
+                <span class="wa__avatar">ס</span>
+                <div class="wa__who"><b>סשה · handinhand</b><small>פעילה עכשיו</small></div>
+              </div>
+              <div class="wa__body">
+                <span class="scn-sys is-trigger"><i></i>זוהתה ירידה: רון לא הגיע 3 שבועות</span>
+                <span class="t-bubble t-bubble--agent">היי רון, מזמן לא ראינו אותך! 💪 שמרתי לך מקום בשיעור של יום ה׳ ב־19:00 — בא לך שאקבע?</span>
+                <span class="t-bubble t-bubble--user">וואו, תודה! כן בכיף 🙏</span>
+                <span class="t-bubble t-bubble--agent">סגור, קבעתי. נתראה 🙌</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="ex-media-cap">כך מחזירים לקוח שכבר חשב לעזוב</p>
+      </div>
+    </div>
+  </div>
+</section>

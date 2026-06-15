@@ -102,11 +102,12 @@ Each page's sections in render order. Update this table whenever a page is creat
 
 || Page | File | Sections (in order) |
 |------|------|---------------------|
-| `/` | `src/pages/index.astro` → `SimpleLayout` | Hero (dual CTA) · Value Props (3-column) · Process (3-stage) · About (founder + bio) · Services Grid (fitness cards) · CTA Section (final conversion) |
+| `/` | `src/pages/index.astro` (self-contained doc, `src/styles/handinhand/*`, Discovery font) | ScrollProgress · NavBar (anchor nav) · Hero (headline + IntegrationHub visual) · AlexSection (founder) · Capabilities (bento grid + DiagChat) · ExampleSection (4 use-cases + phone previews + live ChatDemo) · HowItWorks (3-step timeline) · AudienceSection (chains) · FinalCTA (dark panel) · Footer · FloatingWhatsApp. Hebrew-only, RTL, CSS-first animations, WhatsApp-only CTAs. |
 | `/contact` | `src/pages/contact.astro` | Hero · Contact form |
 | `/fitness-studio` | `src/pages/fitness-studio.astro` | TopBar · Hero (image + WhatsApp CTA + WhatsAppMock) · Core Promise band · Three Jobs grid · Scenario 2: Loyal Attendee · Scenario 3: No-Show Re-engagement · Channel Options band · How It Works (3 steps) · About · FAQ · Final CTA · Footer |
 | `/fitness-chain` | `src/pages/fitness-chain.astro` | Identical structure to `/fitness-studio` (clone — sections diverge as copy is updated) |
-| `[lang]/*` variants | `src/pages/[lang]/` | Same section order as default-lang counterparts; fitness `[lang]/` variants use static dashed-border mock placeholders instead of live `WhatsAppMock` |
+| `/en` | `src/pages/[lang]/index.astro` → `HomeDocument` | Serves the **same** new homepage as `/` (identical Hebrew content; canonical → `/`). Only `en` is generated. |
+| `[lang]/*` fitness variants | `src/pages/[lang]/` | Same section order as default-lang counterparts; fitness `[lang]/` variants use static dashed-border mock placeholders instead of live `WhatsAppMock`. Site languages are Hebrew + English only (Russian/Ukrainian removed). |
 
 ---
 

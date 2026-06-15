@@ -1,55 +1,11 @@
 ---
-import SimpleLayout from '@layouts/SimpleLayout.astro';
-import Hero from '@components/homepage/Hero.astro';
-import ValueProps from '@components/homepage/ValueProps.astro';
-import Process from '@components/homepage/Process.astro';
-import About from '@components/homepage/About.astro';
-import ServicesGrid from '@components/homepage/ServicesGrid.astro';
-import CTASection from '@components/homepage/CTASection.astro';
-import { languages, type Lang } from '@i18n/ui';
+import HomeDocument from "@components/handinhand/HomeDocument.astro";
 
+/* Only `/en` is generated — it serves the same Hebrew homepage as `/`
+   (canonical → `/`). Hebrew is the default and lives at `/`, so no `/he`. */
 export function getStaticPaths() {
-  return Object.keys(languages).map((lang) => ({
-    params: { lang },
-  }));
+  return [{ params: { lang: "en" } }];
 }
-
-const { lang } = Astro.params as { lang: Lang };
-
-const meta: Record<Lang, { title: string; description: string }> = {
-  he: {
-    title: 'Hand in Hand AI — תפסיקו לרוץ אחרי המערכות, תתחילו לנהל עסק',
-    description:
-      'צוות AI מותאם אישית שעובד מסביב לשעון, מטפל בעבודה התפעולית, ומשחרר אתכם להתמקד במה שחשוב — הצמיחה, החזון, והמשפחה',
-  },
-  en: {
-    title: 'Hand in Hand AI — Stop chasing systems, start running a business',
-    description:
-      'Custom AI team that works 24/7, handles operations, and frees you to focus on what matters — growth, vision, and family',
-  },
-  ru: {
-    title: 'Hand in Hand AI — Хватит гнаться за системами, начните управлять бизнесом',
-    description:
-      'Персональная AI-команда, которая работает круглосуточно, берет на себя операционную рутину и освобождает вас для того, что важно — роста, стратегии и семьи',
-  },
-  uk: {
-    title: 'Hand in Hand AI — Досить ганятися за системами, почніть керувати бізнесом',
-    description:
-      'Персональна AI-команда, яка працює цілодобово, бере на себе операційну рутину та звільняє вас для того, що важливо — зростання, стратегії та родини',
-  },
-};
 ---
 
-<SimpleLayout
-  lang={lang}
-  title={meta[lang].title}
-  description={meta[lang].description}
-  ogImage="/og/home/og.jpg"
->
-  <Hero lang={lang} />
-  <ValueProps lang={lang} />
-  <Process lang={lang} />
-  <About lang={lang} />
-  <ServicesGrid lang={lang} />
-  <CTASection lang={lang} />
-</SimpleLayout>
+<HomeDocument />

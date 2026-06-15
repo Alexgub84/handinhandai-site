@@ -1,0 +1,50 @@
+---
+import Icon from "./Icon.astro";
+import IntegrationHub from "./IntegrationHub.astro";
+import { siteContact } from "@/data/site-contact";
+const wa = siteContact.whatsappCta;
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <h1 id="hero-title" class="display hero__title" aria-label="עסק שמתנהל חכם מרוויח יותר">
+        <span class="hero__line">
+          <span class="word-mask"><span class="word">עסק</span></span>
+          <span class="word-mask"><span class="word">שמתנהל</span></span>
+          <span class="word-mask"><span class="word">חכם</span></span>
+        </span>
+        <span class="hero__line">
+          <span class="word-mask"><span class="word"><mark class="hl">מרוויח</mark></span></span>
+          <span class="word-mask"><span class="word">יותר.</span></span>
+        </span>
+      </h1>
+      <p class="hero__sub">
+        אלכס בונה לכם מערכת חכמה שמתחברת למייל, לוואטסאפ, לאתר ולכלים שכבר
+        יש לכם — ולוקחת על עצמה את העבודה הרוטינית שאוכלת לכם את היום. אתם
+        מתפנים למה שבאמת מזיז את העסק.
+      </p>
+      <div class="hero__ctas">
+        <a class="btn btn--dark btn--lg" href={wa}>
+          <Icon name="whatsapp" size={19} />
+          בואו נדבר
+        </a>
+        <a class="btn btn--outline btn--lg" href="#build">
+          מה אפשר לבנות
+          <Icon name="arrow-left" size={18} />
+        </a>
+      </div>
+      <p class="hero__note">
+        <Icon name="tick-circle" size={16} color="var(--green-accent)" />
+        שיחת אבחון ראשונה — בלי התחייבות
+      </p>
+    </div>
+    <div class="hero__visual">
+      <IntegrationHub />
+    </div>
+  </div>
+  <a class="hero__scroll" href="#alex" aria-label="גלילה למטה">
+    <span class="hero__scroll-dot"></span>
+    <span class="hero__scroll-label">גללו</span>
+  </a>
+</section>

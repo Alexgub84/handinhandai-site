@@ -1,0 +1,15 @@
+---
+import Icon from "./Icon.astro";
+import { siteContact } from "@/data/site-contact";
+const wa = siteContact.whatsappCta;
+---
+
+<div class="float-wa" data-floatwa>
+  <div class="float-wa__bubble" role="status" data-floatwa-bubble>
+    <button type="button" class="float-wa__bubble-close" aria-label="סגירת ההודעה" data-floatwa-close>×</button>
+    <p>רוצים לראות בעצמכם איך זה עובד? שלחו הודעה ל<b>סשה</b>, הסוכנת שלי</p>
+  </div>
+  <a class="float-wa__btn" href={wa} aria-label="פתיחת שיחת וואטסאפ עם סשה, הסוכנת של handinhand">
+    <Icon name="whatsapp" size={26} color="#ffffff" />
+  </a>
+</div>

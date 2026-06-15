@@ -7,14 +7,15 @@ Mutable (describes current state, not history). Update in the same task that shi
 
 ### Homepage (`/`)
 
-- **Route:** `/` (Hebrew default) and `/en/`, `/ru/`, `/uk/`, `/he/` → `src/pages/index.astro` + `src/pages/[lang]/index.astro` → `SimpleLayout`
-- **Purpose:** AI-consulting brand pitch — Tailwind marketing homepage assembled from reusable section components.
-- **Triggers / activation:** Static page load; no scroll-scrub film.
-- **Surface:** `Hero` (dual WhatsApp CTA) · `ValueProps` (3-col) · `Process` (3-stage) · `About` (founder + bio) · `ServicesGrid` (fitness cards) · `CTASection` (final conversion). Components in `src/components/homepage/`, all `lang`-prop driven and mobile-first responsive.
-- **Dependencies:** `SimpleLayout.astro` (sets `dir` via `getDirection(lang)`), Tailwind, i18n `home.*` keys in `src/i18n/ui.ts`. No JS island.
-- **i18n:** Four languages — Hebrew (RTL, default, no prefix), English, Russian, Ukrainian (all LTR). Non-default langs carry a `/{lang}` route prefix.
+- **Route:** `/` (Hebrew default) and `/en/` both → the shared `src/components/handinhand/HomeDocument.astro` (via `src/pages/index.astro` and `src/pages/[lang]/index.astro`). `/en` is an identical Hebrew page that canonicalises to `/`. No `/he`, `/ru`, `/uk` homepages — Russian and Ukrainian were removed from the site.
+- **Purpose:** AI-consulting brand pitch — recreation of the `handinhand-production` design. Static Astro + custom CSS, Hebrew-only.
+- **Triggers / activation:** Static page load; CSS-first animations (CSS keyframes + scroll-driven `animation-timeline` + SVG SMIL) with a small vanilla-JS layer for IntersectionObserver reveals, nav state, the live ChatDemo and the cycling DiagChat. Respects `prefers-reduced-motion`.
+- **Surface:** ScrollProgress · NavBar (anchor nav `#alex #build #example #how`) · Hero (headline + IntegrationHub visual) · AlexSection · Capabilities (bento + DiagChat) · ExampleSection (4 use-cases + phone previews + live ChatDemo) · HowItWorks (timeline) · AudienceSection · FinalCTA · Footer · FloatingWhatsApp. Components in `src/components/handinhand/`.
+- **Dependencies:** `src/styles/handinhand/{tokens,base,app}.css`, Discovery font (`public/fonts/Discovery_Fs-*.woff2`), `public/handinhand-logo.png`, `public/alex.jpg`, OG `public/og/home/og.jpg`. WhatsApp links sourced from `src/data/site-contact.ts` (`waLink`/`whatsappCta`). No React/Tailwind/GSAP on this page.
+- **i18n:** Site languages are Hebrew (default) + English only. The homepage is Hebrew-content; `/en` serves the same page. Russian/Ukrainian removed from `src/i18n/ui.ts`.
+- **SEO:** `ProfessionalService` JSON-LD, canonical, OG/Twitter, full server-rendered static HTML (AI-findable).
 - **Status:** `active`.
-- **Last updated:** `2026-05-29`.
+- **Last updated:** `2026-06-15`.
 
 ### Fitness Studio landing (`/fitness-studio`)
 

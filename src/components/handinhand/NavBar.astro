@@ -1,0 +1,50 @@
+---
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+import { siteContact } from "@/data/site-contact";
+
+const links = [
+  { label: "מי אני", href: "#alex" },
+  { label: "מה אני בונה", href: "#build" },
+  { label: "דוגמה", href: "#example" },
+  { label: "איך מתחילים", href: "#how" },
+];
+const wa = siteContact.whatsappCta;
+---
+
+<header class="nav" data-nav>
+  <div class="container nav__inner">
+    <Logo />
+    <nav class="nav__links" aria-label="ניווט ראשי">
+      {links.map((l) => (
+        <a href={l.href} data-navlink={l.href.slice(1)}>{l.label}</a>
+      ))}
+    </nav>
+    <a class="btn btn--dark btn--sm nav__cta" href={wa}>
+      <Icon name="whatsapp" size={16} />
+      בואו נדבר
+    </a>
+    <button
+      type="button"
+      class="nav__burger"
+      aria-label="פתיחת התפריט"
+      aria-expanded="false"
+      aria-controls="nav-mobile"
+      data-burger
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div id="nav-mobile" class="nav__mobile">
+    <nav aria-label="ניווט נייד">
+      {links.map((l) => (
+        <a href={l.href} data-mobilelink>{l.label}</a>
+      ))}
+    </nav>
+    <a class="btn btn--dark btn--lg" href={wa} data-mobilelink>
+      <Icon name="whatsapp" size={18} />
+      בואו נדבר
+    </a>
+  </div>
+</header>

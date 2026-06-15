@@ -14,7 +14,7 @@ export function useTranslations(lang: Lang) {
 }
 
 // All non-default language prefixes (he is the default and carries no prefix).
-const knownLangs = ['en', 'ru', 'uk'];
+const knownLangs = ['en'];
 
 export function getRouteFromUrl(url: URL): string {
   const pathname = url.pathname;

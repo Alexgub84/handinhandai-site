@@ -1,0 +1,20 @@
+---
+const SCENARIOS = [
+  { pain: "לוקח לי זמן לענות ללידים", reply: "מבין. נבנה סוכן שעונה במקומך, מסביב לשעון." },
+  { pain: "לקוחות מבטלים והתור נשאר ריק", reply: "אין בעיה — תזכורות שגם ממלאות מרשימת ההמתנה." },
+  { pain: "אין לי זמן לעקוב מה קורה בעסק", reply: "קל. כל בוקר סיכום קצר אצלך בוואטסאפ." },
+  { pain: "לקוחות נעלמים ולא חוזרים", reply: "על זה. נזהה אותם ונחזיר בהודעה אישית." },
+];
+const first = SCENARIOS[0];
+---
+
+<div class="bento__preview prev-dchat" aria-hidden="true" data-dchat>
+  <div class="dchat__convo" data-dchat-convo>
+    <span class="dchat__msg dchat__msg--user" data-dchat-pain>{first.pain}</span>
+    <span class="dchat__msg dchat__msg--agent" data-dchat-reply>{first.reply}</span>
+  </div>
+  <div class="dchat__dots" data-dchat-dots>
+    {SCENARIOS.map((_, i) => <span class={i === 0 ? "is-on" : undefined}></span>)}
+  </div>
+  <script type="application/json" data-dchat-json set:html={JSON.stringify(SCENARIOS)} />
+</div>

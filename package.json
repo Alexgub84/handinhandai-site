@@ -14,7 +14,6 @@
     "generate:og": "node scripts/generate-og-images.js"
   },
   "dependencies": {
-    "@alexgub84/whatsapp-chat-mock": "1.1.0",
     "@astrojs/react": "5.0.4",
     "@astrojs/sitemap": "^3.7.2",
     "@tailwindcss/vite": "4.1.18",

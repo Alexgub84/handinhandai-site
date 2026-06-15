@@ -1,0 +1,24 @@
+---
+import Icon from "./Icon.astro";
+import { siteContact } from "@/data/site-contact";
+const wa = siteContact.whatsappCta;
+---
+
+<section id="talk" class="cta" aria-labelledby="cta-title">
+  <div class="container">
+    <div class="cta__panel reveal reveal--scale">
+      <span class="cta__badge" aria-hidden="true">
+        <img src="/handinhand-logo.png" alt="" width="60" height="60" />
+      </span>
+      <div class="grid-bg" aria-hidden="true"></div>
+      <div class="cta__content">
+        <h2 id="cta-title">נעבוד על העסק שלכם — <b>יד ביד</b></h2>
+        <p class="cta__sub">
+          ספרו לי מה בוער לכם, ונראה יחד איפה הטכנולוגיה יכולה לחסוך לכם
+          הכי הרבה זמן וכסף. בלי התחייבות.
+        </p>
+        <a class="btn btn--green btn--lg" href={wa}><Icon name="whatsapp" size={19} />בואו נדבר</a>
+      </div>
+    </div>
+  </div>
+</section>

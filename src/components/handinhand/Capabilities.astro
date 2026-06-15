@@ -1,0 +1,110 @@
+---
+import Icon from "./Icon.astro";
+import DiagChat from "./DiagChat.astro";
+
+const TOOLS_A = [
+  { label: "מייל", icon: "sms" },
+  { label: "וואטסאפ", icon: "whatsapp" },
+];
+const TOOLS_B = [
+  { label: "הזמנות", icon: "shopping-cart" },
+  { label: "משימות", icon: "task-square" },
+];
+const AUTO_ROWS = [
+  { text: "אישור הגעה נשלח ללקוחה", time: "21:14" },
+  { text: "התור עודכן ביומן", time: "21:14" },
+  { text: "נפתחה משימה לצוות הבוקר", time: "21:15" },
+];
+const SPARK_LINE = "M0,40 L24,34 L48,30 L74,21 L100,15 L124,7";
+const SPARK_AREA = `${SPARK_LINE} L124,48 L0,48 Z`;
+---
+
+<section id="build" class="section" aria-labelledby="build-title">
+  <div class="container">
+    <div class="caps__head reveal">
+      <h2 id="build-title" class="h2">
+        העבודה שלכם יכולה להתייעל<br />כבר <b>מחר בבוקר</b>
+      </h2>
+    </div>
+
+    <div class="bento reveal reveal--stagger">
+      <!-- מתחבר לכל הכלים -->
+      <div class="bento__cell bento__cell--wide">
+        <h3 class="title">מתחבר לכל הכלים</h3>
+        <p>מייל, וואטסאפ, האתר, מערכת ההזמנות וניהול המשימות — הכול מדבר אחד עם השני, במקום אחד.</p>
+        <div class="bento__preview prev-int" aria-hidden="true">
+          {TOOLS_A.map(({ label, icon }) => (
+            <span class="prev-int__item">
+              <span class="prev-int__chip"><Icon name={icon} size={18} /></span>
+              <span class="prev-int__label">{label}</span>
+            </span>
+          ))}
+          <span class="prev-int__item prev-int__item--hub">
+            <span class="prev-int__hub"><img src="/handinhand-logo.png" alt="" width="26" height="26" /></span>
+          </span>
+          {TOOLS_B.map(({ label, icon }) => (
+            <span class="prev-int__item">
+              <span class="prev-int__chip"><Icon name={icon} size={18} /></span>
+              <span class="prev-int__label">{label}</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <!-- אוטומציה של הרוטינה -->
+      <div class="bento__cell bento__cell--mid">
+        <h3 class="title">אוטומציה של הרוטינה</h3>
+        <p>הפעולות החוזרות שאוכלות לכם את היום רצות לבד ברקע, בלי שתצטרכו לגעת.</p>
+        <div class="bento__preview prev-auto" aria-hidden="true">
+          {AUTO_ROWS.map(({ text, time }) => (
+            <span class="prev-auto__row">
+              <Icon name="tick-circle" size={16} color="var(--green-accent)" />
+              {text}
+              <time>{time}</time>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <!-- AI שמתאים לכם -->
+      <div class="bento__cell">
+        <h3 class="title">AI שמתאים לכם</h3>
+        <p>מודל מקומי או מודל מאובטח בענן — בוחרים את מה שנכון לעסק ולפרטיות שלכם.</p>
+        <div class="bento__preview" aria-hidden="true">
+          <div class="prev-ai">
+            <span class="prev-ai__opt is-on"><Icon name="cpu" size={16} /> מודל מקומי</span>
+            <span class="prev-ai__opt"><Icon name="cloud" size={16} /> ענן מאובטח</span>
+          </div>
+          <p class="prev-ai__cap">נבחר יחד — לפי רגישות המידע שלכם</p>
+        </div>
+      </div>
+
+      <!-- אבחון לפני בנייה -->
+      <div class="bento__cell">
+        <h3 class="title">אבחון לפני בנייה</h3>
+        <p>קודם מקשיבים ומבינים מה הכי כואב — ורק אז בונים את הפתרון המדויק.</p>
+        <DiagChat />
+      </div>
+
+      <!-- מדדים = רווח -->
+      <div class="bento__cell">
+        <h3 class="title">מדדים שמתורגמים לרווח</h3>
+        <p>מגדירים יחד מדדי הצלחה ועוקבים בשקיפות: שעות שנחסכו, פניות שנענו, פגישות שנקבעו.</p>
+        <div class="bento__preview prev-kpi" aria-hidden="true">
+          <span class="prev-eg">לדוגמה</span>
+          <span class="prev-kpi__head">
+            <span class="prev-kpi__num">12+ שעות <Icon name="trend-up" size={18} color="var(--green-accent)" /></span>
+            <span class="prev-kpi__cap">חוזרות לצוות, כל שבוע</span>
+          </span>
+          <div class="prev-kpi__chart">
+            <svg class="prev-kpi__spark" viewBox="0 0 124 48" preserveAspectRatio="none">
+              <path class="prev-kpi__area" d={SPARK_AREA} />
+              <path class="prev-kpi__line" d={SPARK_LINE} />
+            </svg>
+            <span class="prev-kpi__pt"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

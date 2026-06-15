@@ -1,0 +1,51 @@
+---
+import Icon from "./Icon.astro";
+import { waLink } from "@/data/site-contact";
+
+const GREETING = [
+  { from: "agent", name: "סשה · עוזרת ה-AI", text: "היי 👋 אני סשה, העוזרת של handinhand. ככה אני עונה ללקוחות שלכם — בכל שעה." },
+  { from: "user", text: "אפשר לקבוע פגישת ייעוץ?" },
+  { from: "agent", text: "בטח! מתאים לכם יום ג׳ ב־10:00 או יום ה׳ ב־16:30? אשריין ואשלח אישור 📅" },
+];
+const QUICK = ["רוצה לקבוע פגישה", "איך זה עובד?", "כמה זה עולה?"];
+---
+
+<div class="chat" data-chat>
+  <div class="chat__head">
+    <span class="chat__avatar" aria-hidden="true">ס</span>
+    <div class="chat__head-info">
+      <div class="chat__head-name">סשה</div>
+      <div class="chat__head-status"><i aria-hidden="true"></i>עוזרת AI · מגיבה מיד</div>
+    </div>
+    <span class="chat__badge">חיה</span>
+  </div>
+
+  <div class="chat__stream">
+    {GREETING.map((m) => (
+      <div class={`bubble bubble--${m.from}`}>
+        {m.name && <span class="bubble__name">{m.name}</span>}
+        <div class="bubble__body">{m.text}</div>
+      </div>
+    ))}
+  </div>
+
+  <div class="chat__quick">
+    {QUICK.map((t) => (
+      <a href={waLink(t)} target="_blank" rel="noopener noreferrer">{t}</a>
+    ))}
+  </div>
+
+  <div class="chat__foot">
+    <div class="chat__composer">
+      <input
+        type="text"
+        placeholder="כתבו הודעה — נמשיך בוואטסאפ…"
+        aria-label="כתבו הודעה לסשה"
+        data-chat-input
+      />
+      <button type="button" class="chat__send" aria-label="שליחה בוואטסאפ" data-chat-send>
+        <Icon name="send" size={20} />
+      </button>
+    </div>
+  </div>
+</div>

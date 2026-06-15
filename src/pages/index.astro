@@ -1,26 +1,5 @@
 ---
-import SimpleLayout from '@layouts/SimpleLayout.astro';
-import Hero from '@components/homepage/Hero.astro';
-import ValueProps from '@components/homepage/ValueProps.astro';
-import Process from '@components/homepage/Process.astro';
-import About from '@components/homepage/About.astro';
-import ServicesGrid from '@components/homepage/ServicesGrid.astro';
-import CTASection from '@components/homepage/CTASection.astro';
-import { defaultLang } from '@i18n/ui';
-
-const lang = defaultLang;
+import HomeDocument from "@components/handinhand/HomeDocument.astro";
 ---
 
-<SimpleLayout
-  lang={lang}
-  title="Hand in Hand AI — תפסיקו לרוץ אחרי המערכות, תתחילו לנהל עסק"
-  description="צוות AI מותאם אישית שעובד מסביב לשעון, מטפל בעבודה התפעולית, ומשחרר אתכם להתמקד במה שחשוב — הצמיחה, החזון, והמשפחה"
-  ogImage="/og/home/og.jpg"
->
-  <Hero lang={lang} />
-  <ValueProps lang={lang} />
-  <Process lang={lang} />
-  <About lang={lang} />
-  <ServicesGrid lang={lang} />
-  <CTASection lang={lang} />
-</SimpleLayout>
+<HomeDocument />
