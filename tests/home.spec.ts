@@ -48,3 +48,13 @@ test.describe("handinhand homepage (/)", () => {
     expect(bodyText).toContain("שלושה צעדים");
   });
 });
+
+test.describe("English route (/en) serves the same homepage", () => {
+  test("/en renders the same hero and canonicalises to /", async ({ page }) => {
+    await page.goto("/en/");
+    await expect(page.locator("h1#hero-title")).toBeVisible();
+    await expect(page).toHaveTitle("handinhand — עסק שמתנהל חכם מרוויח יותר");
+    const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
+    expect(canonical).toMatch(/\/$/);
+  });
+});

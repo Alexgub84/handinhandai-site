@@ -7,12 +7,12 @@ Mutable (describes current state, not history). Update in the same task that shi
 
 ### Homepage (`/`)
 
-- **Route:** `/` → `src/pages/index.astro` (self-contained HTML document, not `SimpleLayout`). Localized homepages `/en/`, `/ru/`, `/uk/`, `/he/` → `src/pages/[lang]/index.astro` still use the previous Tailwind/`SimpleLayout` design.
+- **Route:** `/` (Hebrew default) and `/en/` both → the shared `src/components/handinhand/HomeDocument.astro` (via `src/pages/index.astro` and `src/pages/[lang]/index.astro`). `/en` is an identical Hebrew page that canonicalises to `/`. No `/he`, `/ru`, `/uk` homepages — Russian and Ukrainian were removed from the site.
 - **Purpose:** AI-consulting brand pitch — recreation of the `handinhand-production` design. Static Astro + custom CSS, Hebrew-only.
 - **Triggers / activation:** Static page load; CSS-first animations (CSS keyframes + scroll-driven `animation-timeline` + SVG SMIL) with a small vanilla-JS layer for IntersectionObserver reveals, nav state, the live ChatDemo and the cycling DiagChat. Respects `prefers-reduced-motion`.
 - **Surface:** ScrollProgress · NavBar (anchor nav `#alex #build #example #how`) · Hero (headline + IntegrationHub visual) · AlexSection · Capabilities (bento + DiagChat) · ExampleSection (4 use-cases + phone previews + live ChatDemo) · HowItWorks (timeline) · AudienceSection · FinalCTA · Footer · FloatingWhatsApp. Components in `src/components/handinhand/`.
 - **Dependencies:** `src/styles/handinhand/{tokens,base,app}.css`, Discovery font (`public/fonts/Discovery_Fs-*.woff2`), `public/handinhand-logo.png`, `public/alex.jpg`, OG `public/og/home/og.jpg`. WhatsApp links sourced from `src/data/site-contact.ts` (`waLink`/`whatsappCta`). No React/Tailwind/GSAP on this page.
-- **i18n:** Hebrew only (RTL). No localized variant for the new design.
+- **i18n:** Site languages are Hebrew (default) + English only. The homepage is Hebrew-content; `/en` serves the same page. Russian/Ukrainian removed from `src/i18n/ui.ts`.
 - **SEO:** `ProfessionalService` JSON-LD, canonical, OG/Twitter, full server-rendered static HTML (AI-findable).
 - **Status:** `active`.
 - **Last updated:** `2026-06-15`.

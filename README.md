@@ -106,7 +106,8 @@ Each page's sections in render order. Update this table whenever a page is creat
 | `/contact` | `src/pages/contact.astro` | Hero · Contact form |
 | `/fitness-studio` | `src/pages/fitness-studio.astro` | TopBar · Hero (image + WhatsApp CTA + WhatsAppMock) · Core Promise band · Three Jobs grid · Scenario 2: Loyal Attendee · Scenario 3: No-Show Re-engagement · Channel Options band · How It Works (3 steps) · About · FAQ · Final CTA · Footer |
 | `/fitness-chain` | `src/pages/fitness-chain.astro` | Identical structure to `/fitness-studio` (clone — sections diverge as copy is updated) |
-| `[lang]/*` variants | `src/pages/[lang]/` | Same section order as default-lang counterparts; fitness `[lang]/` variants use static dashed-border mock placeholders instead of live `WhatsAppMock`. **Note:** the localized homepages (`/[lang]/index.astro`) still use the previous `SimpleLayout` design — the new `/` homepage is Hebrew-only and was not localized. |
+| `/en` | `src/pages/[lang]/index.astro` → `HomeDocument` | Serves the **same** new homepage as `/` (identical Hebrew content; canonical → `/`). Only `en` is generated. |
+| `[lang]/*` fitness variants | `src/pages/[lang]/` | Same section order as default-lang counterparts; fitness `[lang]/` variants use static dashed-border mock placeholders instead of live `WhatsAppMock`. Site languages are Hebrew + English only (Russian/Ukrainian removed). |
 
 ---
 
