@@ -1,0 +1,102 @@
+/* ════════════════════════════════════════════════════════════
+   handinhand — tokens (ported from handinhand-production)
+   נייר חם, נייבי-צפחה, ירוק-עלה, חול אנושי × Discovery יחיד.
+   ════════════════════════════════════════════════════════════ */
+
+/* ---- Discovery — המשפחה היחידה, מקומית ---- */
+@font-face {
+  font-family: 'Discovery';
+  font-weight: 100 500;
+  font-display: swap;
+  src: url('/fonts/Discovery_Fs-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Discovery';
+  font-weight: 600 800;
+  font-display: swap;
+  src: url('/fonts/Discovery_Fs-Demibold.woff2') format('woff2');
+}
+
+:root {
+  color-scheme: light;
+
+  /* ---- Ink (slate-navy) ---- */
+  --ink-900: #1e2236;
+  --ink-800: #2a2e45;
+  --ink-700: #383d58;
+  --ink-600: #4b5170;
+  --ink-500: #6b7193;
+  --ink-300: #c2c6d8;
+
+  /* ---- Green (צד ה-AI) ---- */
+  --green-800: #4c7318;
+  --green-700: #5e8e1e;
+  --green-600: #76a82b;
+  --green-500: #8dc63f;
+  --green-400: #a6d85c;
+  --green-300: #c4e88c;
+  --green-200: #dcf1b6;
+  --green-100: #eaf6d4;
+  --green-50:  #f4fae7;
+
+  --green-accent: #2f9e48;
+  --green-accent-strong: #25823a;
+
+  /* ---- Sand (הצד האנושי) ---- */
+  --sand-700: #c28c4e;
+  --sand-500: #f0c090;
+  --sand-400: #f4cfa6;
+  --sand-300: #f8dcbe;
+  --sand-200: #fbe8d4;
+  --sand-100: #fdf3e9;
+
+  /* ---- נייר חם וניטרלים ---- */
+  --white: #ffffff;
+  --paper: #fbfaf6;
+  --paper-2: #f4f1ea;
+  --border: #e7e2d6;
+  --border-strong: #d7d1c2;
+
+  /* ---- סמנטיקה ---- */
+  --bg: var(--paper);
+  --bg-alt: var(--paper-2);
+  --text-strong: var(--ink-800);
+  --text-body: #3a3f58;
+  --text-muted: var(--ink-600);
+  --text-on-dark: #f3f1ea;
+  --text-on-dark-muted: #a9aecb;
+  --link: var(--green-accent);
+  --link-hover: var(--green-accent-strong);
+  --focus-ring: rgba(141, 198, 63, 0.55);
+
+  /* ---- טיפוגרפיה ---- */
+  --font: 'Discovery', 'Helvetica Neue', 'Arial Hebrew', Arial, sans-serif;
+  --fs-display: clamp(2.5rem, 1.6rem + 3vw, 4rem);
+  --fs-h2: clamp(1.85rem, 1.3rem + 1.9vw, 2.7rem);
+  --fs-h3: 1.3rem;
+  --fs-lead: clamp(1.08rem, 1rem + 0.4vw, 1.3rem);
+  --fs-body: 1.0625rem;
+  --fs-sm: 0.9375rem;
+
+  /* ---- ריווח ופריסה ---- */
+  --container: 1180px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-y: clamp(4rem, 9vw, 7.5rem);
+
+  /* ---- רדיוסים ---- */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-2xl: 40px;
+  --radius-pill: 999px;
+
+  /* ---- צללים ---- */
+  --shadow-sm: 0 2px 6px rgba(42, 46, 69, 0.07), 0 1px 2px rgba(42, 46, 69, 0.05);
+  --shadow-md: 0 8px 22px rgba(42, 46, 69, 0.09), 0 2px 6px rgba(42, 46, 69, 0.05);
+  --shadow-lg: 0 18px 44px rgba(42, 46, 69, 0.13), 0 4px 12px rgba(42, 46, 69, 0.06);
+
+  /* ---- תנועה ---- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 140ms;
+  --dur: 220ms;
+}

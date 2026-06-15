@@ -1,0 +1,45 @@
+---
+import Icon from "./Icon.astro";
+const TAGS = [
+  { icon: "people", label: "שותף, לא ספק" },
+  { icon: "search-status", label: "אבחון לפני פתרון" },
+  { icon: "trend-up", label: "מדדים = רווח אמיתי" },
+];
+---
+
+<section id="alex" class="section section--sand" aria-labelledby="alex-title">
+  <div class="container alex__grid alex">
+    <div class="alex__photo-wrap reveal reveal--scale">
+      <div class="alex__photo">
+        <img src="/alex.jpg" alt="אלכס, מייסד handinhand" loading="lazy" />
+      </div>
+      <div class="alex__badge">
+        <img src="/handinhand-logo.png" alt="" width="30" height="30" />
+        <span>אבא לרון · מתכנת</span>
+      </div>
+      <svg class="alex__arrow" viewBox="0 0 116 64" fill="none" aria-hidden="true">
+        <path d="M104 11 C 72 12 36 40 17 50" stroke="currentColor" stroke-width="2" stroke-dasharray="1.5 7" stroke-linecap="round" />
+        <path d="M12 52.5 L 29 50 L 23.5 38 Z" fill="currentColor" />
+      </svg>
+    </div>
+    <div class="reveal">
+      <h2 id="alex-title" class="h2">היי, אני <b class="accent">אלכס</b>.</h2>
+      <p>
+        אחרי שנים בסטארטאפ יצאתי להקים עסק עם חזון אחד: להכניס לעסקים את
+        הטכנולוגיה והבינה המלאכותית שחוסכות זמן וכסף, ומשחררות אתכם
+        מהעבודה שחוזרת על עצמה.
+      </p>
+      <p>
+        אבל אני לא רק מתכנת. אני קודם מבין את הבעיה — העסקית והאנושית —
+        ורק אז בונה את הפתרון המדויק. לכן אני נכנס כשותף בעסק שלכם: לומד
+        לעומק איך אתם עובדים, מתאים את הפתרון בול לצורך, ומגדיר מדדי
+        הצלחה שמתורגמים לרווח אמיתי.
+      </p>
+      <div class="alex__tags">
+        {TAGS.map(({ icon, label }) => (
+          <span class="alex__tag"><Icon name={icon} size={16} />{label}</span>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

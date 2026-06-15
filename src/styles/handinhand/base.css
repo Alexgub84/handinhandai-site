@@ -1,0 +1,174 @@
+/* handinhand — base, helpers, buttons, reveals. RTL Hebrew-first. */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  /* קיזוז לעוגנים מתחת לנאב הדביק */
+  scroll-padding-top: 88px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  color: var(--text-body);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+h1, h2, h3, h4 { color: var(--text-strong); text-wrap: balance; }
+p { text-wrap: pretty; }
+b, strong { font-weight: 700; color: var(--text-strong); }
+ul, ol { list-style: none; }
+
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--green-200); color: var(--ink-900); }
+
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+img { display: block; max-width: 100%; }
+button { font-family: var(--font); cursor: pointer; }
+
+.skip-link {
+  position: absolute;
+  top: -72px;
+  inset-inline-start: 16px;
+  background: var(--ink-800);
+  color: var(--text-on-dark);
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  z-index: 120;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 12px; }
+
+/* ---- פריסה ---- */
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.section { padding-block: var(--section-y); }
+.section--alt { background: var(--bg-alt); }
+.section--sand { background: var(--sand-100); }
+
+/* ---- טיפוגרפיה משותפת ---- */
+.display {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  line-height: 1.07;
+  letter-spacing: -0.015em;
+}
+.h2 {
+  font-size: var(--fs-h2);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.005em;
+}
+.h2 b, .h2 strong { font-weight: 700; }
+.accent { color: var(--green-accent); }
+mark.hl {
+  color: var(--green-accent-strong);
+  background: var(--green-100);
+  padding: 0.04em 0.18em;
+  margin-inline: 0.03em;
+  border-radius: 0.2em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.title { font-size: var(--fs-h3); font-weight: 700; line-height: 1.3; }
+.lead {
+  font-size: var(--fs-lead);
+  line-height: 1.7;
+  color: var(--ink-600);
+}
+
+/* ---- כפתורים ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-family: var(--font);
+  font-weight: 700;
+  line-height: 1.1;
+  font-size: var(--fs-body);
+  padding: 14px 26px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid transparent;
+  white-space: nowrap;
+  transition: background-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.btn:active { transform: translateY(1px) scale(0.985); }
+.btn svg { flex: none; }
+
+.btn--dark { background: var(--ink-800); color: var(--text-on-dark); }
+.btn--dark:hover { background: var(--ink-700); }
+
+.btn--green { background: var(--green-500); color: var(--ink-900); }
+.btn--green:hover { background: var(--green-400); }
+
+.btn--outline { background: transparent; color: var(--text-strong); border-color: var(--border-strong); }
+.btn--outline:hover { color: var(--green-accent-strong); border-color: var(--green-accent); }
+
+.btn--sm { font-size: var(--fs-sm); padding: 10px 18px; border-radius: var(--radius-sm); }
+.btn--lg { font-size: 1.125rem; padding: 16px 30px; }
+
+/* ---- רשת-מעגלים עדינה (סקשן כהה) ---- */
+.grid-bg {
+  background-image:
+    linear-gradient(var(--text-on-dark) 1px, transparent 1px),
+    linear-gradient(90deg, var(--text-on-dark) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: center;
+}
+
+/* ---- חשיפה בגלילה — CSS-only.
+       גלוי כברירת מחדל (ללא JS / קוראי-מסך / סורקים). כש-.js פעיל
+       מוסתר עד ש-IntersectionObserver מוסיף .is-in. ---- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.js .reveal--scale { transform: translateY(26px) scale(0.965); }
+.js .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+/* stagger — הילדים הישירים נכנסים בזה אחר זה */
+.js .reveal--stagger > * {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out);
+}
+.js .reveal--stagger.is-in > * { opacity: 1; transform: none; }
+.js .reveal--stagger.is-in > *:nth-child(2) { transition-delay: 0.09s; }
+.js .reveal--stagger.is-in > *:nth-child(3) { transition-delay: 0.18s; }
+.js .reveal--stagger.is-in > *:nth-child(4) { transition-delay: 0.27s; }
+.js .reveal--stagger.is-in > *:nth-child(5) { transition-delay: 0.36s; }
+.js .reveal--stagger.is-in > *:nth-child(6) { transition-delay: 0.45s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal,
+  .js .reveal.is-in,
+  .js .reveal--stagger > *,
+  .js .reveal--stagger.is-in > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .btn { transition: none; }
+  .btn:active { transform: none; }
+}

@@ -1,0 +1,16 @@
+---
+interface Props {
+  word?: boolean;
+}
+const { word = true } = Astro.props;
+export const logoUrl = "/handinhand-logo.png";
+---
+
+<a class="logo" href="#" aria-label="handinhand ai — לראש הדף">
+  <img src="/handinhand-logo.png" alt="" width="38" height="38" />
+  {word && (
+    <span class="logo__word">
+      Hand<span class="logo__in">In</span>Hand<span class="logo__ai">AI</span>
+    </span>
+  )}
+</a>

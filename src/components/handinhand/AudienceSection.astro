@@ -1,0 +1,31 @@
+---
+import Icon from "./Icon.astro";
+import { siteContact } from "@/data/site-contact";
+const wa = siteContact.whatsappCta;
+const POINTS = [
+  { icon: "buildings2", title: "מענה אחיד בכל הסניפים", text: "אותה רמת שירות וטון מדויק — מהסניף הראשון ועד החמישים." },
+  { icon: "speedometer", title: "עומד בנפח גדול", text: "מאות פניות במקביל, בלי תורים ובלי לידים שנופלים בין הכיסאות." },
+  { icon: "setting4", title: "מותאם לכל עסק", text: "מאבחנים את הצורך הספציפי ובונים מערכת שמדברת בשפה שלכם." },
+];
+---
+
+<section id="audience" class="section section--alt aud" aria-labelledby="aud-title">
+  <div class="container aud__grid">
+    <div class="reveal">
+      <h2 id="aud-title" class="h2">רשת אחת.<br />מענה אחד. <b class="accent">בלי פשרות.</b></h2>
+      <p class="aud__sub">
+        ככל שיש יותר סניפים ויותר פניות — כך קל יותר לפספס. המערכת מחזיקה
+        את כל הקצוות, יד ביד איתכם.
+      </p>
+      <a class="btn btn--dark btn--lg" href={wa}><Icon name="whatsapp" size={18} />בואו נדבר</a>
+    </div>
+    <div class="aud__points">
+      {POINTS.map(({ icon, title, text }) => (
+        <div class="aud-point reveal">
+          <span class="aud-point__icon"><Icon name={icon} size={24} /></span>
+          <div><h3>{title}</h3><p>{text}</p></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

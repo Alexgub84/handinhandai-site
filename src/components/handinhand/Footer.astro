@@ -1,0 +1,13 @@
+---
+import Logo from "./Logo.astro";
+import { siteContact } from "@/data/site-contact";
+const wa = siteContact.whatsappCta;
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <Logo />
+    <p>© 2026 handinhand · אלכס · מערכות AI מותאמות לעסק</p>
+    <a href={wa}>וואטסאפ ←</a>
+  </div>
+</footer>

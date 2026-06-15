@@ -1,0 +1,72 @@
+---
+import Icon from "./Icon.astro";
+const STATS = [
+  { num: "12+", cap: "שעות נחסכות" },
+  { num: "100%", cap: "פניות נענות" },
+  { num: "0", cap: "לידים אבודים" },
+];
+---
+
+<section id="how" class="section how" aria-labelledby="how-title">
+  <div class="container process-grid">
+    <div class="process-head reveal">
+      <h2 id="how-title" class="h2">שלושה צעדים, <b>יד ביד</b></h2>
+      <p class="process-lede">
+        בלי הצעת מדף ובלי מילים גדולות — ככה נראית הדרך מההודעה הראשונה
+        ועד מערכת שעובדת בשבילכם:
+      </p>
+    </div>
+    <ol class="timeline">
+      <!-- שלב 1 -->
+      <li class="t-step reveal" data-step>
+        <div class="t-marker" aria-hidden="true">
+          <span class="t-num">1</span>
+          <span class="t-line"><span class="t-line__fill"></span></span>
+        </div>
+        <div class="t-body">
+          <h3>כותבים לסשה הסוכנת שלי</h3>
+          <p>מספרים מה הכאבים והבעיות והיא מאבחנת את הצורך וקובעת לנו פגישה.</p>
+          <div class="t-prev t-prev--chat" aria-hidden="true">
+            <span class="t-bubble t-bubble--user">היי, אפשר לקבוע תור להיום?</span>
+            <span class="t-bubble t-bubble--agent">בכיף! יש פנוי ב־10:00 או ב־16:30 👍</span>
+          </div>
+        </div>
+      </li>
+      <!-- שלב 2 -->
+      <li class="t-step reveal" data-step>
+        <div class="t-marker" aria-hidden="true">
+          <span class="t-num">2</span>
+          <span class="t-line"><span class="t-line__fill"></span></span>
+        </div>
+        <div class="t-body">
+          <h3>נפגשים</h3>
+          <p>שיחת אבחון קצרה איתי, להבין לעומק איך העסק שלכם עובד.</p>
+          <div class="t-prev t-prev--meet" aria-hidden="true">
+            <span class="t-meet__icon"><Icon name="calendar-tick" size={20} /></span>
+            <span class="t-meet__info"><b>שיחת אבחון</b><small>30 דקות · אונליין · בלי התחייבות</small></span>
+            <span class="t-meet__check"></span>
+          </div>
+        </div>
+      </li>
+      <!-- שלב 3 -->
+      <li class="t-step t-step--final reveal" data-step>
+        <div class="t-marker" aria-hidden="true">
+          <span class="t-num">3</span>
+          <span class="t-line"><span class="t-line__fill"></span></span>
+        </div>
+        <div class="t-body">
+          <h3>מתחילים לעבוד יד ביד</h3>
+          <p>בונים את המערכת, מודדים תוצאות ומשתפרים יחד — לאורך זמן.</p>
+          <div class="t-prev t-prev--stats" aria-hidden="true">
+            <span class="prev-eg">לדוגמה</span>
+            <div class="t-stats-row">
+              {STATS.map((s) => (
+                <span class="t-stat"><b>{s.num}</b><small>{s.cap}</small></span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
