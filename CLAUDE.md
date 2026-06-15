@@ -5,23 +5,19 @@ Astro 5 marketing site for Hand in Hand AI. Deployed to Cloudflare Workers.
 ## Setup
 
 ```bash
-npm install        # requires GITHUB_TOKEN in env (see below)
+npm install        # no auth needed — no private registries
 npm run dev        # http://localhost:4321
 npm run build      # astro check + build
 ```
 
-## GitHub Packages auth
+## No private registries (tokenless installs)
 
-The `@alexgub84` scope is served from GitHub Packages. npm reads the token from the shell environment:
-
-```
-# in ~/.zshrc
-export GITHUB_TOKEN=ghp_...   # needs read:packages scope
-```
-
-After updating `.zshrc`, run `source ~/.zshrc` before `npm install`.
-
-For Cloudflare Pages builds: add `GITHUB_TOKEN` as a build environment variable in the dashboard. **Do not rename to `NPM_TOKEN` in `.npmrc`** — Cloudflare's env var is `GITHUB_TOKEN` and renaming silently breaks every deploy with a 401 from GitHub Packages. GitHub Actions also uses `${{ secrets.GITHUB_TOKEN }}` (built-in, no PAT to rotate) — see `.github/workflows/test.yml`.
+The site has **no GitHub Packages / private npm dependencies**. The former
+`@alexgub84/whatsapp-chat-mock` package is **vendored** at
+`src/vendor/whatsapp-chat-mock/` (see the WhatsApp Mock section), so `npm ci`
+needs no token in local, GitHub Actions, or Cloudflare. There is no `.npmrc`
+and no `GITHUB_TOKEN`/`NPM_TOKEN` requirement. If you ever re-add a private
+dependency, restore `.npmrc` + the CI secret + the Cloudflare build env var.
 
 ## Short-link redirects (`/wa/*`)
 
@@ -54,7 +50,11 @@ If any of these packages get bumped (Astro/Vite/Tailwind/Rollup upgrade), bump t
 
 ## WhatsApp Mock Component
 
-Package: `@alexgub84/whatsapp-chat-mock`
+Vendored library: `src/vendor/whatsapp-chat-mock/` (inlined `dist` of
+`@alexgub84/whatsapp-chat-mock@1.1.0` — `index.js`, `index.d.ts`, `styles.css`).
+Import via `@/vendor/whatsapp-chat-mock/index.js` and the styles via
+`@/vendor/whatsapp-chat-mock/styles.css`. To update, re-copy the published
+`dist/` over that folder. No registry auth involved.
 
 All WhatsApp mock UI lives in `src/components/whatsapp-mock/`:
 
@@ -95,12 +95,12 @@ import { waitlistMessages } from '@components/whatsapp-mock/scenarios/waitlist';
 ### Adding a new scenario
 
 1. Create `src/components/whatsapp-mock/scenarios/my-scenario.ts`
-2. Export a `Message[]` array (import type from `@alexgub84/whatsapp-chat-mock`)
+2. Export a `Message[]` array (import type from `@/vendor/whatsapp-chat-mock/index.js`)
 3. Add a re-export to `src/components/whatsapp-mock/index.ts`
 
 ```ts
 // src/components/whatsapp-mock/scenarios/my-scenario.ts
-import type { Message } from "@alexgub84/whatsapp-chat-mock";
+import type { Message } from "@/vendor/whatsapp-chat-mock/index.js";
 
 export const myScenarioMessages: Message[] = [
   { id: "1", sender: "incoming", text: "...", timestamp: "10:00", delayBeforeMs: 800 },
@@ -146,7 +146,7 @@ The README has a `## Page structure` section listing every page's sections in re
 ## CI
 
 GitHub Actions workflow at `.github/workflows/test.yml` runs on every PR to `main`:
-1. Install deps (`npm ci`) — requires `GITHUB_TOKEN` secret in repo settings for GitHub Packages
+1. Install deps (`npm ci`) — no token needed (no private registries)
 2. Build (`npm run build`)
 3. Install Playwright browsers (Chromium only)
 4. Run tests (`npm run test` → `playwright test`)

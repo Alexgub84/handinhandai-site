@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { WhatsAppChat, type Message } from "@alexgub84/whatsapp-chat-mock";
+import { WhatsAppChat, type Message } from "@/vendor/whatsapp-chat-mock/index.js";
 
 type Props = {
   messages: Message[];

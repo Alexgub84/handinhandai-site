@@ -1,4 +1,4 @@
-import type { Message } from "@alexgub84/whatsapp-chat-mock";
+import type { Message } from "@/vendor/whatsapp-chat-mock/index.js";
 
 export const chainChurnMultiBranchMessages: Message[] = [
   {
