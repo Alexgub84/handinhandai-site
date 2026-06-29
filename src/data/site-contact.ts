@@ -1,4 +1,4 @@
-const WHATSAPP_NUMBER = "972545053620";
+const WHATSAPP_NUMBER = "972549236292";
 
 /** Default greeting prefilled in the WhatsApp composer from homepage CTAs. */
 export const waGreeting = "היי, הגעתי מהאתר ואשמח לשיחת אבחון";
@@ -9,8 +9,8 @@ export const waLink = (text?: string): string =>
 
 export const siteContact = {
   email: "alexg@handinhandai.com",
-  phoneDisplay: "054-505-3620",
-  phoneTel: "+972545053620",
+  phoneDisplay: "054-923-6292",
+  phoneTel: "+972549236292",
   whatsapp: `https://wa.me/${WHATSAPP_NUMBER}`,
   /** WhatsApp link with the default diagnostic greeting — used by homepage CTAs. */
   whatsappCta: waLink(),
