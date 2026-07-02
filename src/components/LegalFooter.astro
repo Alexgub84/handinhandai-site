@@ -1,0 +1,51 @@
+---
+import { legal, siteContact } from '@/data/site-contact';
+import { defaultLang, type Lang } from '@i18n/ui';
+import { useTranslations, getLocalizedPath } from '@i18n/utils';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
+const isHe = lang === 'he';
+const currentYear = new Date().getFullYear();
+
+const operatedBy = isHe
+  ? `${legal.brand} מופעל על ידי ${legal.legalName.he}, ${legal.osekType.he} מס' ${legal.osekNumber}`
+  : `${legal.brand} is operated by ${legal.legalName.en}, ${legal.osekType.en} no. ${legal.osekNumber}`;
+const phoneLabel = isHe ? 'טלפון' : 'Phone';
+---
+
+<div class="legal-footer" dir={isHe ? 'rtl' : 'ltr'}>
+  <p>{operatedBy}</p>
+  <p>
+    {legal.city[lang]} · {phoneLabel}:
+    <a href={`tel:${legal.businessPhoneTel}`}>{legal.businessPhoneDisplay}</a> ·
+    <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a>
+  </p>
+  <p>
+    <a href={getLocalizedPath('/terms', lang)}>{t('footer.terms')}</a> ·
+    <a href={getLocalizedPath('/privacy-sasha', lang)}>{t('footer.privacy')}</a> ·
+    © {currentYear} {t('footer.rights')}
+  </p>
+</div>
+
+<style>
+  .legal-footer {
+    width: 100%;
+    font-size: 0.8rem;
+    line-height: 1.7;
+    color: inherit;
+    opacity: 0.85;
+  }
+  .legal-footer p {
+    margin: 0;
+  }
+  .legal-footer a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

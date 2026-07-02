@@ -103,7 +103,9 @@ Each page's sections in render order. Update this table whenever a page is creat
 || Page | File | Sections (in order) |
 |------|------|---------------------|
 | `/` | `src/pages/index.astro` (self-contained doc, `src/styles/handinhand/*`, Discovery font) | ScrollProgress · NavBar (anchor nav) · Hero (headline + IntegrationHub visual) · AlexSection (founder) · Capabilities (bento grid + DiagChat) · ExampleSection (4 use-cases + phone previews + live ChatDemo) · HowItWorks (3-step timeline) · AudienceSection (chains) · FinalCTA (dark panel) · Footer · FloatingWhatsApp. Hebrew-only, RTL, CSS-first animations, WhatsApp-only CTAs. |
-| `/contact` | `src/pages/contact.astro` | Hero · Contact form |
+| `/about` | `src/pages/about.astro` | Legal-identity page (brand → legal entity + full contact block incl. address) · Hebrew section · English section |
+| `/terms` | `src/pages/terms.astro` | Terms of use (identity · service description · WhatsApp terms · acceptable use · IP · liability · governing law · changes) · Hebrew section · English section |
+| `/privacy-sasha` | `src/pages/privacy-sasha.astro` | General privacy policy (website + Sasha assistant + client WhatsApp lines) · Hebrew section · English section |
 | `/fitness-studio` | `src/pages/fitness-studio.astro` | TopBar · Hero (image + WhatsApp CTA + WhatsAppMock) · Core Promise band · Three Jobs grid · Scenario 2: Loyal Attendee · Scenario 3: No-Show Re-engagement · Channel Options band · How It Works (3 steps) · About · FAQ · Final CTA · Footer |
 | `/fitness-chain` | `src/pages/fitness-chain.astro` | Identical structure to `/fitness-studio` (clone — sections diverge as copy is updated) |
 | `/en` | `src/pages/[lang]/index.astro` → `HomeDocument` | Serves the **same** new homepage as `/` (identical Hebrew content; canonical → `/`). Only `en` is generated. |

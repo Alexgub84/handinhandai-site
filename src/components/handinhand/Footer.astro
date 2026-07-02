@@ -1,5 +1,6 @@
 ---
 import Logo from "./Logo.astro";
+import LegalFooter from "@components/LegalFooter.astro";
 import { siteContact } from "@/data/site-contact";
 const wa = siteContact.whatsappCta;
 ---
@@ -7,7 +8,17 @@ const wa = siteContact.whatsappCta;
 <footer class="footer">
   <div class="container footer__inner">
     <Logo />
-    <p>© 2026 handinhand · אלכס · מערכות AI מותאמות לעסק</p>
+    <p>מערכות AI מותאמות לעסק</p>
     <a href={wa}>וואטסאפ ←</a>
   </div>
+  <div class="container footer__legal">
+    <LegalFooter lang="he" />
+  </div>
 </footer>
+
+<style>
+  .footer__legal {
+    padding-top: 16px;
+    text-align: center;
+  }
+</style>

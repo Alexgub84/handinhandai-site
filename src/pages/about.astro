@@ -1,0 +1,83 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { defaultLang } from '@i18n/ui';
+import { legal, siteContact } from '@/data/site-contact';
+---
+
+<Layout
+  lang={defaultLang}
+  title="אודות handinhand"
+  description="אודות handinhand — מערכות AI מותאמות לעסקים קטנים ובינוניים, ופרטי ההתקשרות הרשמיים של העסק."
+>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <section dir="rtl" class="policy">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">אודות handinhand</h1>
+
+      <p>handinhand הוא מותג של {legal.legalName.he}, {legal.osekType.he} מס' {legal.osekNumber}, הפועל מ{legal.city.he}, ישראל.</p>
+
+      <p>אנחנו בונים מערכות AI מותאמות לעסקים קטנים ובינוניים: סוכני WhatsApp חכמים לשירות לקוחות, ניהול לידים, קביעת תורים ומעקבים, וכן מערכות CRM ו-ERP בהתאמה אישית.</p>
+
+      <h2>פרטי התקשרות</h2>
+      <ul>
+        <li><strong>שם עסק רשום:</strong> {legal.legalName.he}</li>
+        <li><strong>מס' עוסק:</strong> {legal.osekNumber}</li>
+        <li><strong>כתובת:</strong> {legal.address.he}</li>
+        <li><strong>טלפון:</strong> <a href={`tel:${legal.businessPhoneTel}`}>{legal.businessPhoneDisplay}</a></li>
+        <li><strong>WhatsApp (מענה אוטומטי חכם):</strong> <a href={siteContact.whatsapp}>{siteContact.phoneDisplay}</a></li>
+        <li><strong>דוא"ל:</strong> <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a></li>
+      </ul>
+    </section>
+
+    <hr class="my-12 border-gray-200" />
+
+    <section dir="ltr" class="policy">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">About handinhand</h1>
+
+      <p>handinhand is a brand of {legal.legalName.en}, {legal.osekType.en} no. {legal.osekNumber}, based in {legal.city.en}, Israel.</p>
+
+      <p>We build custom AI systems for small and medium businesses: smart WhatsApp agents for customer service, lead management, appointment scheduling and follow-ups, as well as custom CRM and ERP systems.</p>
+
+      <h2>Contact Details</h2>
+      <ul>
+        <li><strong>Registered business name:</strong> {legal.legalName.en}</li>
+        <li><strong>Business (Osek) number:</strong> {legal.osekNumber}</li>
+        <li><strong>Address:</strong> {legal.address.en}</li>
+        <li><strong>Phone:</strong> <a href={`tel:${legal.businessPhoneTel}`}>{legal.businessPhoneDisplay}</a></li>
+        <li><strong>WhatsApp (smart automated line):</strong> <a href={siteContact.whatsapp}>{siteContact.phoneDisplay}</a></li>
+        <li><strong>Email:</strong> <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a></li>
+      </ul>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .policy {
+    color: #1f2937;
+    line-height: 1.75;
+  }
+  .policy h2 {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #111827;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .policy p {
+    margin-bottom: 1rem;
+  }
+  .policy ul {
+    margin-bottom: 1rem;
+    padding-inline-start: 1.5rem;
+  }
+  .policy ul li {
+    list-style: disc;
+    margin-bottom: 0.375rem;
+  }
+  .policy a {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+  .policy a:hover {
+    color: #1d4ed8;
+  }
+</style>

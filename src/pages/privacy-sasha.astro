@@ -1,33 +1,33 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import { defaultLang } from '@i18n/ui';
-import { siteContact } from '@/data/site-contact';
+import { legal, siteContact } from '@/data/site-contact';
 
 const lang = defaultLang;
-const lastUpdated = '20.05.2026';
-const lastUpdatedEn = '2026-05-20';
+const lastUpdated = '02.07.2026';
+const lastUpdatedEn = '2026-07-02';
 ---
 
 <Layout
   lang={lang}
-  title="מדיניות פרטיות — סשה | Hand in Hand AI"
-  description="מדיניות הפרטיות עבור סשה, הנציגה הדיגיטלית של Hand in Hand AI בוואטסאפ."
+  title="מדיניות פרטיות"
+  description="מדיניות הפרטיות של Hand in Hand AI — האתר, סשה הנציגה הדיגיטלית, ושירותי WhatsApp המופעלים עבור לקוחות."
   ogImage="/og/privacy/og.jpg"
 >
   <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
     <section dir="rtl" class="policy">
-      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">מדיניות פרטיות — סשה (נציגה דיגיטלית בוואטסאפ)</h1>
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">מדיניות פרטיות</h1>
       <p class="text-sm text-gray-500 mb-1"><strong>עודכן לאחרונה:</strong> {lastUpdated}</p>
-      <p class="text-sm text-gray-500 mb-8"><strong>גרסה:</strong> 1.0</p>
+      <p class="text-sm text-gray-500 mb-8"><strong>גרסה:</strong> 2.0</p>
 
       <h2>1. הקדמה</h2>
-      <p>המדיניות הזו מסבירה איזה מידע נאסף, כיצד הוא מעובד, ואילו זכויות עומדות לך, כאשר אתה מתכתב עם סשה — הנציגה הדיגיטלית שלי בוואטסאפ. המדיניות חלה אך ורק על השיחות עם סשה ועל המידע הנובע מהן. שימוש כללי באתר שלי אינו מכוסה במסמך זה.</p>
+      <p>המדיניות הזו מסבירה איזה מידע נאסף, כיצד הוא מעובד, ואילו זכויות עומדות לך. היא חלה על: (א) השימוש באתר handinhandai.com; (ב) ההתכתבות עם סשה — הנציגה הדיגיטלית שלי בוואטסאפ; (ג) קווי WhatsApp שהעסק מפעיל עבור לקוחותיו (ראו סעיף 14).</p>
 
       <h2>2. מי אני (בעל המידע)</h2>
       <ul>
-        <li><strong>שם:</strong> אלכס גוברמן</li>
-        <li><strong>מעמד עסקי:</strong> עוסק פטור</li>
-        <li><strong>כתובת:</strong> רמת גן, ישראל</li>
+        <li><strong>שם:</strong> {legal.legalName.he}</li>
+        <li><strong>מעמד עסקי:</strong> {legal.osekType.he} מס' {legal.osekNumber}</li>
+        <li><strong>כתובת:</strong> {legal.address.he}, ישראל</li>
         <li><strong>אימייל:</strong> <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a></li>
       </ul>
       <p>אני בעל המידע (Data Controller) ואחראי באופן אישי על אופן הטיפול בו.</p>
@@ -104,26 +104,33 @@ const lastUpdatedEn = '2026-05-20';
         <li><strong>בשיחה עם סשה:</strong> אם תבקש למחוק את המידע שלך, להפסיק לקבל הודעות, או להפעיל זכות אחרת — סשה תזהה את הבקשה ותעביר אותה אליי לטיפול אישי. שלחת ההודעה תעצור באופן מיידי הודעות נוספות מסשה עד שאטפל בבקשה.</li>
       </ul>
       <p>בפנייה במייל, אנא כלול את מספר הטלפון שממנו התקיימה השיחה עם סשה כדי שאוכל לאתר את המידע. אענה לפנייה <strong>בתוך 30 ימים</strong> מקבלתה.</p>
+      <p><strong>הסרה מהודעות:</strong> ניתן להפסיק קבלת הודעות וואטסאפ בכל עת על ידי שליחת "הסר" או "STOP" בתגובה לכל הודעה.</p>
 
-      <h2>13. שינויים במדיניות</h2>
+      <h2>13. האתר: עוגיות ומידע טכני</h2>
+      <p>האתר handinhandai.com הוא אתר סטטי. הוא אינו משתמש בעוגיות (Cookies), אינו מפעיל כלי אנליטיקה או מעקב, ואינו כולל טפסים האוספים מידע אישי. ספק האחסון (Cloudflare) עשוי לתעד נתונים טכניים סטנדרטיים (כגון כתובת IP) לצורכי אבטחה ותפעול, בהתאם למדיניות שלו.</p>
+
+      <h2>14. קווי WhatsApp המופעלים עבור לקוחות</h2>
+      <p>העסק מקים ומפעיל סוכני WhatsApp חכמים גם עבור לקוחותיו העסקיים, באמצעות פלטפורמת WhatsApp Business (Cloud API) של Meta. הודעות הנשלחות לקווים אלה מעובדות דרך הפלטפורמה של Meta וכפופות לתנאים ולמדיניות הפרטיות של Meta/WhatsApp. המענה בקווים אלה ניתן באופן אוטומטי על ידי בינה מלאכותית (AI). בכל קו כזה ניתן להפסיק קבלת הודעות על ידי שליחת "הסר" או "STOP".</p>
+
+      <h2>15. שינויים במדיניות</h2>
       <p>ייתכן שאעדכן את המדיניות הזו מעת לעת. שינויים מהותיים יוצגו בבירור ובמקרים מסוימים תידרש הסכמה מחודשת. שינויים קלים יפורסמו בעמוד הזה עם תאריך עדכון חדש בראש המסמך.</p>
     </section>
 
     <hr class="my-12 border-gray-200" />
 
     <section dir="ltr" class="policy policy-en">
-      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">Privacy Policy — Sasha (WhatsApp Digital Assistant)</h1>
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">Privacy Policy</h1>
       <p class="text-sm text-gray-500 mb-1"><strong>Last updated:</strong> {lastUpdatedEn}</p>
-      <p class="text-sm text-gray-500 mb-8"><strong>Version:</strong> 1.0</p>
+      <p class="text-sm text-gray-500 mb-8"><strong>Version:</strong> 2.0</p>
 
       <h2>1. Introduction</h2>
-      <p>This policy explains what information is collected, how it is processed, and what rights you have when you interact with Sasha — my WhatsApp digital assistant. This policy applies only to conversations with Sasha and to the information derived from them. General use of my website is not covered by this document.</p>
+      <p>This policy explains what information is collected, how it is processed, and what rights you have. It applies to: (a) use of the handinhandai.com website; (b) conversations with Sasha — my WhatsApp digital assistant; (c) WhatsApp lines the business operates on behalf of its clients (see section 14).</p>
 
       <h2>2. Who I Am (Data Controller)</h2>
       <ul>
-        <li><strong>Name:</strong> Alex Guberman</li>
-        <li><strong>Business status:</strong> Sole proprietor (Osek Patur)</li>
-        <li><strong>Address:</strong> Ramat Gan, Israel</li>
+        <li><strong>Name:</strong> {legal.legalName.en}</li>
+        <li><strong>Business status:</strong> {legal.osekType.en} no. {legal.osekNumber}</li>
+        <li><strong>Address:</strong> {legal.address.en}, Israel</li>
         <li><strong>Email:</strong> <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a></li>
       </ul>
       <p>I am the Data Controller and am personally responsible for how your data is handled.</p>
@@ -200,8 +207,15 @@ const lastUpdatedEn = '2026-05-20';
         <li><strong>In conversation with Sasha:</strong> if you ask to delete your data, stop receiving messages, or exercise any other right — Sasha will recognize the request and pass it to me for personal handling. Sending such a message will immediately halt further messages from Sasha until I process your request.</li>
       </ul>
       <p>If contacting by email, please include the phone number used in your conversation with Sasha so I can locate your data. I will respond <strong>within 30 days</strong> of receiving the request.</p>
+      <p><strong>Opting out of messages:</strong> you can stop receiving WhatsApp messages at any time by replying "STOP" (or "הסר") to any message.</p>
 
-      <h2>13. Changes to This Policy</h2>
+      <h2>13. The Website: Cookies and Technical Data</h2>
+      <p>handinhandai.com is a static website. It does not use cookies, does not run analytics or tracking tools, and contains no forms that collect personal information. The hosting provider (Cloudflare) may log standard technical data (such as IP addresses) for security and operational purposes, in accordance with its own policies.</p>
+
+      <h2>14. WhatsApp Lines Operated for Clients</h2>
+      <p>The business also builds and operates smart WhatsApp agents on behalf of its business clients, via Meta's WhatsApp Business Platform (Cloud API). Messages sent to those lines are processed through Meta's platform and are subject to Meta/WhatsApp's own terms and privacy policy. Responses on those lines are generated automatically by AI. On any such line, you can stop receiving messages by replying "STOP" (or "הסר").</p>
+
+      <h2>15. Changes to This Policy</h2>
       <p>I may update this policy from time to time. Material changes will be clearly highlighted, and in some cases renewed consent will be requested. Minor changes will be posted on this page with a new "last updated" date at the top.</p>
     </section>
   </article>

@@ -6,6 +6,7 @@ import { defaultLang } from '@i18n/ui';
 import WhatsAppMock from '@components/whatsapp-mock/WhatsAppMock';
 import { chainChurnMultiBranchMessages } from '@components/whatsapp-mock/scenarios/chain-churn-multi-branch';
 import ServiceSchema from '@components/ServiceSchema.astro';
+import LegalFooter from '@components/LegalFooter.astro';
 
 const lang = defaultLang;
 const t = useTranslations(lang);
@@ -319,6 +320,7 @@ const waIconPath = "M19.05 4.91A10 10 0 0 0 4.6 18.96L3 23l4.16-1.55A10 10 0 1 0
         <a href={`tel:${siteContact.phoneTel}`}>{siteContact.phoneDisplay}</a>
         <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a>
       </div>
+      <LegalFooter lang={lang} />
     </footer>
 
   </div>
