@@ -26,6 +26,7 @@ const phoneLabel = isHe ? 'טלפון' : 'Phone';
     <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a>
   </p>
   <p>
+    <a href={getLocalizedPath('/about', lang)}>{t('nav.about')}</a> ·
     <a href={getLocalizedPath('/terms', lang)}>{t('footer.terms')}</a> ·
     <a href={getLocalizedPath('/privacy-sasha', lang)}>{t('footer.privacy')}</a> ·
     © {currentYear} {t('footer.rights')}
