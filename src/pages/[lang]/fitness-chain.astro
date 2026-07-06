@@ -4,6 +4,7 @@ import { siteContact } from '@/data/site-contact';
 import { useTranslations, getDirection } from '@i18n/utils';
 import { languages, type Lang } from '@i18n/ui';
 import ServiceSchema from '@components/ServiceSchema.astro';
+import LegalFooter from '@components/LegalFooter.astro';
 
 export function getStaticPaths() {
   return Object.keys(languages).map((lang) => ({
@@ -308,6 +309,7 @@ const pageDescription = t('fitness-chain.hero.lede');
         <a href={`tel:${siteContact.phoneTel}`}>{siteContact.phoneDisplay}</a>
         <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a>
       </div>
+      <LegalFooter lang={lang} />
     </footer>
 
   </div>

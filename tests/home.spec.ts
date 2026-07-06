@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
+import { siteContact } from "../src/data/site-contact";
 
-const WA = "wa.me/972545053620";
+const WA = siteContact.whatsapp.replace("https://", "");
 
 test.describe("handinhand homepage (/)", () => {
   test.beforeEach(async ({ page }) => {

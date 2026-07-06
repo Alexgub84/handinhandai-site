@@ -1,4 +1,5 @@
 ---
+import LegalFooter from '@components/LegalFooter.astro';
 import { siteContact } from '@/data/site-contact';
 import { type Lang } from '@i18n/ui';
 import { useTranslations } from '@i18n/utils';
@@ -9,7 +10,6 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const currentYear = new Date().getFullYear();
 ---
 
 <footer class="bg-gray-900 text-white">
@@ -30,15 +30,9 @@ const currentYear = new Date().getFullYear();
           >
             {siteContact.email}
           </a>
-          <a
-            href="/privacy-sasha"
-            class="text-gray-400 hover:text-white transition-colors"
-          >
-            {t('footer.privacy')}
-          </a>
         </div>
         <div class="text-gray-400 text-center md:text-end">
-          © {currentYear} {t('site.title')}. {t('footer.rights')}.
+          <LegalFooter lang={lang} />
         </div>
       </div>
     </div>

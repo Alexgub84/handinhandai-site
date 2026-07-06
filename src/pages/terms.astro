@@ -1,0 +1,117 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { defaultLang } from '@i18n/ui';
+import { legal, siteContact } from '@/data/site-contact';
+
+const lang = defaultLang;
+const lastUpdated = '02.07.2026';
+const lastUpdatedEn = '2026-07-02';
+---
+
+<Layout
+  lang={lang}
+  title="תנאי שימוש"
+  description="תנאי השימוש באתר ובשירותי Hand in Hand AI."
+>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <section dir="rtl" class="policy">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">תנאי שימוש</h1>
+      <p class="text-sm text-gray-500 mb-8"><strong>עודכן לאחרונה:</strong> {lastUpdated}</p>
+
+      <h2>1. זהות המפעיל</h2>
+      <p>{legal.brand} מופעל על ידי {legal.legalName.he}, {legal.osekType.he} מס' {legal.osekNumber}, הפועל מ{legal.city.he}, ישראל. ניתן ליצור קשר בדוא"ל <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a>.</p>
+
+      <h2>2. תיאור השירות</h2>
+      <p>האתר מציג מידע על השירותים שלנו: בניית מערכות AI מותאמות לעסקים קטנים ובינוניים, ובכלל זה סוכני WhatsApp חכמים לשירות לקוחות, ניהול לידים, קביעת תורים ומעקבים, וכן מערכות CRM ו-ERP בהתאמה אישית.</p>
+
+      <h2>3. תנאים ספציפיים לשירותי WhatsApp</h2>
+      <ul>
+        <li>קבלת הודעות דרך WhatsApp מותנית בהסכמתך (opt-in). ניתן להפסיק את קבלת ההודעות בכל עת, למשל על ידי שליחת "הסר" או "STOP" בכל הודעה.</li>
+        <li>שירות ה-WhatsApp ניתן על גבי פלטפורמת WhatsApp Business של Meta וכפוף לתנאי השימוש של WhatsApp.</li>
+        <li>תשובות בשיחות עשויות להיווצר באופן אוטומטי על ידי בינה מלאכותית (AI) ועלולות לכלול אי-דיוקים. למידע מחייב יש לפנות לנציג אנושי.</li>
+      </ul>
+
+      <h2>4. שימוש מותר</h2>
+      <p>אין לעשות באתר או בשירותים שימוש בלתי חוקי, ואין לשלוח דואר זבל (spam) או תוכן פוגעני באמצעות המערכות.</p>
+
+      <h2>5. קניין רוחני</h2>
+      <p>כל התכנים באתר, לרבות טקסטים, עיצובים ולוגו, הם קניינו של העסק. אין להעתיק או לעשות בהם שימוש מסחרי ללא אישור מראש ובכתב.</p>
+
+      <h2>6. הגבלת אחריות</h2>
+      <p>השירות ניתן כפי שהוא ("As Is"). העסק לא יישא באחריות לנזקים עקיפים או תוצאתיים הנובעים מהשימוש באתר או בשירותים, וזאת במגבלות הדין הישראלי.</p>
+
+      <h2>7. דין וסמכות שיפוט</h2>
+      <p>על תנאים אלה יחול הדין הישראלי בלבד. סמכות השיפוט הבלעדית נתונה לבתי המשפט המוסמכים במחוז תל אביב.</p>
+
+      <h2>8. שינויים בתנאים ויצירת קשר</h2>
+      <p>ייתכן שנעדכן תנאים אלה מעת לעת; הנוסח המעודכן יפורסם בעמוד זה עם תאריך עדכון חדש. לשאלות ניתן לפנות אלינו בדוא"ל <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a>.</p>
+    </section>
+
+    <hr class="my-12 border-gray-200" />
+
+    <section dir="ltr" class="policy">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">Terms of Use</h1>
+      <p class="text-sm text-gray-500 mb-8"><strong>Last updated:</strong> {lastUpdatedEn}</p>
+
+      <h2>1. Operator Identity</h2>
+      <p>{legal.brand} is operated by {legal.legalName.en}, {legal.osekType.en} no. {legal.osekNumber}, based in {legal.city.en}, Israel. Contact: <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a>.</p>
+
+      <h2>2. Service Description</h2>
+      <p>This website presents information about our services: custom AI systems for small and medium businesses, including smart WhatsApp agents for customer service, lead management, appointment scheduling and follow-ups, as well as custom CRM and ERP systems.</p>
+
+      <h2>3. WhatsApp-Specific Terms</h2>
+      <ul>
+        <li>Receiving messages via WhatsApp requires your consent (opt-in). You can opt out at any time, for example by replying "STOP" (or "הסר") to any message.</li>
+        <li>The WhatsApp service is provided over Meta's WhatsApp Business Platform and is subject to WhatsApp's Terms of Service.</li>
+        <li>Responses in conversations may be generated automatically by AI and may contain inaccuracies. For binding information, please contact a human representative.</li>
+      </ul>
+
+      <h2>4. Acceptable Use</h2>
+      <p>You may not use the website or services for any unlawful purpose, or send spam or abusive content through the systems.</p>
+
+      <h2>5. Intellectual Property</h2>
+      <p>All site content, including texts, designs, and logos, belongs to the business. Copying or commercial use without prior written permission is prohibited.</p>
+
+      <h2>6. Limitation of Liability</h2>
+      <p>The service is provided "as is". The business shall not be liable for indirect or consequential damages arising from use of the website or services, within the limits of Israeli law.</p>
+
+      <h2>7. Governing Law</h2>
+      <p>These terms are governed exclusively by Israeli law. Exclusive jurisdiction is granted to the competent courts of the Tel Aviv district.</p>
+
+      <h2>8. Changes and Contact</h2>
+      <p>We may update these terms from time to time; the updated version will be posted on this page with a new "last updated" date. Questions: <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a>.</p>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .policy {
+    color: #1f2937;
+    line-height: 1.75;
+  }
+  .policy h2 {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #111827;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .policy p {
+    margin-bottom: 1rem;
+  }
+  .policy ul {
+    margin-bottom: 1rem;
+    padding-inline-start: 1.5rem;
+  }
+  .policy ul li {
+    list-style: disc;
+    margin-bottom: 0.375rem;
+  }
+  .policy a {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+  .policy a:hover {
+    color: #1d4ed8;
+  }
+</style>

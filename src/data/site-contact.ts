@@ -7,6 +7,19 @@ export const waGreeting = "היי, הגעתי מהאתר ואשמח לשיחת �
 export const waLink = (text?: string): string =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent((text ?? "").trim() || waGreeting)}`;
 
+/** Legal identity for Meta Business Verification — must match Business Manager + tax documents character-for-character. */
+export const legal = {
+  brand: "handinhand (Hand In Hand AI)",
+  legalName: { he: "אלכס גוברמן", en: "Alex Guberman" },
+  osekType: { he: "עוסק פטור", en: "Sole proprietor (Osek Patur)" },
+  osekNumber: "323227199",
+  city: { he: "רמת גן", en: "Ramat Gan" },
+  /** Full address is published only on /about and the privacy identity block — never in footers. */
+  address: { he: "האשל 8, רמת גן", en: "Ha'Eshel 8, Ramat Gan" },
+  businessPhoneDisplay: "054-634-0926",
+  businessPhoneTel: "+972546340926",
+} as const;
+
 export const siteContact = {
   email: "alexg@handinhandai.com",
   phoneDisplay: "054-505-3620",
