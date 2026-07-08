@@ -16,8 +16,8 @@ export const legal = {
   city: { he: "רמת גן", en: "Ramat Gan" },
   /** Full address is published only on /about and the privacy identity block — never in footers. */
   address: { he: "האשל 8, רמת גן", en: "Ha'Eshel 8, Ramat Gan" },
-  businessPhoneDisplay: "054-634-0926",
-  businessPhoneTel: "+972546340926",
+  businessPhoneDisplay: "054-505-3620",
+  businessPhoneTel: "+972545053620",
 } as const;
 
 export const siteContact = {
