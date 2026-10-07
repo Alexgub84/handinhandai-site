@@ -86,7 +86,7 @@ Fitness copy: `fitness-studio.*` and `fitness-chain.*` keys in `src/i18n/ui.ts`.
 
 | URL | Notes |
 |-----|--------|
-| `/` | Homepage (Hebrew, default language — no prefix) |
+| `/` | `src/pages/index.astro` → `src/components/home/HomeDocument.astro` (self-contained doc, `src/styles/home/*`, Heebo + JetBrains Mono via Google Fonts) | Hero (top nav + headline with rotating word + portrait) · Services (two tracks: business systems / startup CTO) · WhyAlex (4 value cards) · About (photo + word-reveal story + years counter) · CaseStudies (stacked cards, data from `src/data/case-studies.ts`) · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer (dark, legal links) · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
 | `/contact` | Contact (Hebrew) |
 | `/en/`, `/ru/`, `/uk/` (and `/he/`) | Homepage per locale (Hebrew default also served at `/`) |
 | `/{lang}/fitness-studio` | Fitness Studio per locale — `lang` ∈ he/en/ru/uk |
@@ -108,7 +108,7 @@ Each page's sections in render order. Update this table whenever a page is creat
 | `/privacy-sasha` | `src/pages/privacy-sasha.astro` | General privacy policy (website + Sasha assistant + client WhatsApp lines) · Hebrew section · English section |
 | `/fitness-studio` | `src/pages/fitness-studio.astro` | TopBar · Hero (image + WhatsApp CTA + WhatsAppMock) · Core Promise band · Three Jobs grid · Scenario 2: Loyal Attendee · Scenario 3: No-Show Re-engagement · Channel Options band · How It Works (3 steps) · About · FAQ · Final CTA · Footer |
 | `/fitness-chain` | `src/pages/fitness-chain.astro` | Identical structure to `/fitness-studio` (clone — sections diverge as copy is updated) |
-| `/en` | `src/pages/[lang]/index.astro` → `HomeDocument` | Serves the **same** new homepage as `/` (identical Hebrew content; canonical → `/`). Only `en` is generated. |
+| `/en` | `src/pages/[lang]/index.astro` → `HomeDocument` | Serves the **same** homepage as `/` (identical Hebrew content; canonical → `/`). Only `en` is generated. |
 | `[lang]/*` fitness variants | `src/pages/[lang]/` | Same section order as default-lang counterparts; fitness `[lang]/` variants use static dashed-border mock placeholders instead of live `WhatsAppMock`. Site languages are Hebrew + English only (Russian/Ukrainian removed). |
 
 ---
@@ -117,9 +117,11 @@ Each page's sections in render order. Update this table whenever a page is creat
 
 ```
 src/
-├── components/       # Header, Footer, ContactForm, whatsapp-mock, …
+├── components/       # Header, Footer, ContactForm, whatsapp-mock, home/ (homepage v3), …
 ├── data/
-│   └── site-contact.ts   # Shared phone + email for footers
+│   ├── site-contact.ts   # Shared phone + email + WhatsApp greeting
+│   ├── case-studies.ts   # Homepage case studies (fill the placeholders here)
+│   └── home-profile.ts   # Name, years in field, homepage WhatsApp greeting
 ├── i18n/             # ui.ts (strings), utils.ts
 ├── layouts/          # Layout.astro (main), FitnessLayout.astro
 ├── pages/
@@ -128,7 +130,7 @@ src/
 │   ├── fitness-studio.astro
 │   ├── fitness-chain.astro
 │   └── [lang]/       # /he/*, /en/* (index, contact, fitness-studio, fitness-chain)
-├── styles/           # global.css, hiha-tokens.css, fitness.css
+├── styles/           # global.css, hiha-tokens.css, fitness.css, home/ (homepage v3)
 functions/api/        # Cloudflare Pages Functions (e.g. error logging)
 public/               # Static assets
 ```

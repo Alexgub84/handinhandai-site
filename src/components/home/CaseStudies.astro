@@ -1,0 +1,187 @@
+---
+/* "לא רק מבטיחים. מראים." — stacked case-study cards. Port of prototype `hu` (section#example).
+   Content comes from src/data/case-studies.ts (placeholders until filled). */
+import LucideIcon from "./LucideIcon.astro";
+import WhatsAppIcon from "./WhatsAppIcon.astro";
+import { siteContact } from "@/data/site-contact";
+import { caseStudies, TRACK_META } from "@/data/case-studies";
+
+const wa = siteContact.whatsappCta;
+const NUM = /^([^\d]*)(\d+(?:[.,]\d+)?)(.*)$/;
+const initialValue = (v: string): string => {
+  const m = v.match(NUM);
+  return m ? `${m[1]}0${m[3]}` : v;
+};
+---
+
+<section id="example" dir="rtl" aria-labelledby="cs-title" class="cs bg-background font-sans text-foreground">
+  <div class="cs-bg" aria-hidden="true"></div>
+  <div class="cs-wrap">
+    <header class="cs-head">
+      <div>
+        <h2 id="cs-title" class="cs-title">לא רק מבטיחים. <em>מראים.</em></h2>
+        <p class="cs-sub">כמה מהעסקים והמיזמים שכבר עשו את הקפיצה — מה היה, מה בנינו, ומה השתנה.</p>
+      </div>
+    </header>
+
+    <div class="cs-stack" data-cs-stack>
+      {caseStudies.map((c, i) => {
+        const meta = TRACK_META[c.track];
+        const initial = c.client.replace(/[[\]]/g, "").trim().charAt(0);
+        return (
+          <article data-index={i} class="cs-card" style={`--tc:${meta.color};--i:${i}`}>
+            <div class="cs-card-in">
+              <div class="cs-meta">
+                <div class="cs-client">
+                  <span class="cs-logo">{c.logo ? <img src={c.logo} alt="" /> : initial}</span>
+                  <div><b>{c.client}</b><small>{c.industry}</small></div>
+                </div>
+                <h3 class="cs-h">{c.title}</h3>
+                <div class="cs-blocks">
+                  <div class="cs-block">
+                    <span class="cs-block-ic bad"><LucideIcon name="circle-alert" class="cs-i" /></span>
+                    <div><h4>האתגר</h4><p>{c.challenge}</p></div>
+                  </div>
+                  <div class="cs-block">
+                    <span class="cs-block-ic ok"><LucideIcon name="sparkles" class="cs-i" /></span>
+                    <div><h4>מה בנינו</h4><p>{c.solution}</p></div>
+                  </div>
+                </div>
+                <div class="cs-stackchips">{c.stack.map((s) => <span>{s}</span>)}</div>
+                {c.href && (
+                  <a class="cs-link" href={c.href}>לסיפור המלא <LucideIcon name="arrow-left" class="cs-i" /></a>
+                )}
+              </div>
+
+              <div class="cs-vis">
+                <div class="cs-browser">
+                  {c.image ? (
+                    <div class="cs-shot"><img src={c.image} alt={`צילום מסך — ${c.client}`} loading="lazy" /></div>
+                  ) : (
+                    <>
+                      <div class="cs-skel" aria-hidden="true">
+                        <div class="cs-skel-side">
+                          <span></span><span></span><span style="width:80%"></span><span style="width:60%"></span><span></span>
+                        </div>
+                        <div class="cs-skel-main">
+                          <div class="cs-skel-kpis"><span></span><span></span><span></span></div>
+                          <div class="cs-skel-chart">
+                            <svg viewBox="0 0 100 50" preserveAspectRatio="none">
+                              <path class="cs-skel-area" d="M0 44 C15 42 22 36 35 33 S55 26 65 18 S85 8 100 5 L100 50 L0 50Z"></path>
+                              <path class="cs-skel-line" pathLength="1" d="M0 44 C15 42 22 36 35 33 S55 26 65 18 S85 8 100 5"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <span class="cs-ph-tag">[צילום מסך של המערכת]</span>
+                    </>
+                  )}
+                </div>
+                <div class="cs-results">
+                  {c.results.map((r) => {
+                    const numeric = NUM.test(r.value);
+                    return (
+                      <div class="cs-metric">
+                        <span class={numeric ? "cs-val" : "cs-val is-ph"} data-metric={numeric ? r.value : undefined}>
+                          {initialValue(r.value)}
+                        </span>
+                        <span class="cs-lbl">{r.label}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {c.quote && (
+                <blockquote class="cs-quote">
+                  <span class="cs-quote-mark" aria-hidden="true">”</span>
+                  <p>
+                    {c.quote.text}
+                    <small>— {c.quote.name}, {c.quote.role}</small>
+                  </p>
+                </blockquote>
+              )}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <div class="cs-end" id="start">
+      <p>הפרויקט הבא יכול להיות שלכם.</p>
+      <a class="cs-btn" href={wa} target="_blank" rel="noopener noreferrer">
+        <WhatsAppIcon />
+        בואו נדבר על הפרויקט שלכם
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const stack = document.querySelector<HTMLElement>("[data-cs-stack]");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const NUM = /^([^\d]*)(\d+(?:[.,]\d+)?)(.*)$/;
+
+  const countUp = (el: HTMLElement) => {
+    const value = el.dataset.metric ?? "";
+    const m = value.match(NUM);
+    if (!m) return;
+    if (reduced) {
+      el.textContent = value;
+      return;
+    }
+    const n = parseFloat(m[2].replace(",", "."));
+    const decimals = (m[2].split(/[.,]/)[1] || "").length;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / 1400);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = `${m[1]}${(n * eased).toFixed(decimals)}${m[3]}`;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  if (stack) {
+    const cards = Array.from(stack.querySelectorAll<HTMLElement>(".cs-card"));
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const card = entry.target as HTMLElement;
+          card.classList.add("is-in");
+          card.querySelectorAll<HTMLElement>("[data-metric]").forEach(countUp);
+          io.unobserve(card);
+        });
+      },
+      { threshold: 0.3 }
+    );
+    cards.forEach((c) => io.observe(c));
+
+    /* Sticky stack: the card underneath shrinks and dims as the next one slides over it. */
+    const desktop = window.matchMedia("(min-width: 901px)");
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      cards.forEach((card, i) => {
+        const next = cards[i + 1];
+        if (!next || !desktop.matches || reduced) {
+          card.style.transform = "";
+          card.style.filter = "";
+          return;
+        }
+        const a = card.getBoundingClientRect();
+        const b = next.getBoundingClientRect();
+        const f = Math.min(1, Math.max(0, 1 - (b.top - a.top) / a.height));
+        card.style.transform = `scale(${1 - f * 0.06})`;
+        card.style.filter = `brightness(${1 - f * 0.45})`;
+      });
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+  }
+</script>

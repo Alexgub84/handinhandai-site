@@ -120,11 +120,33 @@ The phone frame renders at 390×844px internally. The `.fs-mock-zoom-wrapper` cl
 
 Wrap the `<WhatsAppMock>` in `<div class="fs-mock-slot">` — the slot provides the size, border-radius, shadow, and `overflow: hidden` clipping.
 
+## Homepage (v3, personal-brand "Alex" site)
+
+`/` and `/en` render `src/components/home/HomeDocument.astro`. It is a standalone
+document (own `<html>`), ported 1:1 from the designer's prototype in
+`docs/specs/homepage-v3/alex-site-light.html` (see that folder's README for the
+spec review). Rules:
+
+- `src/styles/home/app.css` is the prototype CSS **verbatim** and
+  `src/styles/home/tailwind.css` is the prototype's compiled Tailwind 3 utilities,
+  frozen. Put any local tweaks in `src/styles/home/overrides.css`, never in those two,
+  so they can be re-synced from the HTML file.
+- No React on the homepage: each component carries a small vanilla-TS `<script>` that
+  reproduces the prototype's React state (rotating word, היום/אפשרי switch, count-ups,
+  sticky case-study stack, contact form). `prefers-reduced-motion` disables motion.
+- **Fillable content lives in data files, not components:** case studies in
+  `src/data/case-studies.ts` (bracketed Hebrew + `XX` are placeholders, with
+  `logo`/`image`/`href` optional), name / years / WhatsApp greeting in
+  `src/data/home-profile.ts`, phone + email in `src/data/site-contact.ts`.
+- Homepage form opens WhatsApp / `mailto:` with the composed message; it does **not**
+  post to Make.com (only `/contact` does).
+- Icons: Lucide paths in `src/components/home/icons.ts` rendered by `LucideIcon.astro`.
+
 ## Routes
 
 | Path | File | Notes |
 |---|---|---|
-| `/` | `src/pages/index.astro` | Main landing |
+| `/` | `src/pages/index.astro` → `components/home/HomeDocument.astro` | Homepage v3 (see section above) |
 | `/fitness-studio` | `src/pages/fitness-studio.astro` | Fitness Studio landing |
 | `/fitness-chain` | `src/pages/fitness-chain.astro` | Fitness Chain landing |
 | `/contact` | `src/pages/contact.astro` | Contact form |

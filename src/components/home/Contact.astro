@@ -1,0 +1,177 @@
+---
+/* "מוכנים לעשות את הקפיצה?" — contact methods + form. Port of prototype `xu` (section#contact).
+   The form composes a message and opens WhatsApp (or mailto); nothing is stored server-side. */
+import LucideIcon from "./LucideIcon.astro";
+import WhatsAppIcon from "./WhatsAppIcon.astro";
+import type { IconName } from "./icons";
+import { siteContact } from "@/data/site-contact";
+
+const wa = siteContact.whatsappCta;
+const phone = siteContact.phoneDisplay;
+const tel = `tel:${siteContact.phoneTel}`;
+const email = siteContact.email;
+const topics: { id: string; label: string; icon: IconName }[] = [
+  { id: "מערכת ניהול / אוטומציה לעסק", label: "מערכת לעסק", icon: "building-complex" },
+  { id: "שותף טכנולוגי / CTO למיזם", label: "CTO למיזם", icon: "rocket" },
+  { id: "עוד לא בטוח/ה — בואו נדבר", label: "עוד לא בטוח/ה", icon: "circle-question-mark" },
+];
+---
+
+<section id="contact" dir="rtl" aria-labelledby="ct-title" class="ct bg-background font-sans text-foreground" data-contact>
+  <div class="ct-bg" aria-hidden="true"></div>
+  <div class="ct-wrap">
+    <header class="ct-head">
+      <h2 id="ct-title" class="ct-title">מוכנים לעשות<br />את <em>הקפיצה?</em></h2>
+      <p class="ct-sub">ספרו לי בכמה מילים איפה אתם עומדים, ונקבע שיחת אבחון קצרה. השיחה הראשונה עליי — בלי התחייבות.</p>
+    </header>
+
+    <div class="ct-grid">
+      <div class="ct-methods">
+        <a class="ct-method wa" href={wa} target="_blank" rel="noopener noreferrer">
+          <span class="ct-m-ic"><WhatsAppIcon /></span>
+          <div><b>וואטסאפ</b><span class="v">{phone}</span></div>
+          <span class="ct-go" aria-hidden="true"><LucideIcon name="arrow-left" class="ct-i" /></span>
+        </a>
+        <div class="ct-method">
+          <span class="ct-m-ic"><LucideIcon name="phone" /></span>
+          <div><b><a class="ct-stretch" href={tel}>טלפון</a></b><span class="v">{phone}</span></div>
+          <button type="button" class="ct-copy" aria-label="העתקת מספר הטלפון" data-copy={phone}>
+            <LucideIcon name="copy" class="ct-i" />
+            <LucideIcon name="check" class="ct-i" />
+          </button>
+        </div>
+        <div class="ct-method">
+          <span class="ct-m-ic"><LucideIcon name="mail" /></span>
+          <div><b><a class="ct-stretch" href={`mailto:${email}`}>מייל</a></b><span class="v">{email}</span></div>
+          <button type="button" class="ct-copy" aria-label="העתקת כתובת המייל" data-copy={email}>
+            <LucideIcon name="copy" class="ct-i" />
+            <LucideIcon name="check" class="ct-i" />
+          </button>
+        </div>
+        <div class="ct-note">
+          <img src="/home/alex-hero.webp" alt="" width="490" height="930" loading="lazy" />
+          <span>בלי מוקד ובלי נציגים — <b>מדברים ישירות איתי</b>, מהשיחה הראשונה ועד שהמערכת באוויר.</span>
+        </div>
+      </div>
+
+      <div class="ct-form-wrap">
+        <form class="ct-form" novalidate data-ct-form>
+          <div class="ct-form-body">
+            <div class="ct-row">
+              <div class="ct-field">
+                <label for="ct-name">שם מלא</label>
+                <input id="ct-name" name="name" class="ct-input" autocomplete="name" placeholder="איך קוראים לך?" />
+                <span class="ct-err" hidden data-err="name">נשמח לדעת איך לפנות אליך</span>
+              </div>
+              <div class="ct-field">
+                <label for="ct-phone">טלפון</label>
+                <input id="ct-phone" name="phone" class="ct-input ltr" type="tel" inputmode="tel" autocomplete="tel" placeholder="050-000-0000" />
+                <span class="ct-err" hidden data-err="phone">צריך מספר תקין כדי שנוכל לחזור אליך</span>
+              </div>
+            </div>
+            <fieldset class="ct-field" style="border:0;padding:0;margin:0">
+              <legend class="ct-legend" style="margin-bottom:6px">על מה נדבר?</legend>
+              <div class="ct-chips">
+                {topics.map((t, i) => (
+                  <label class="ct-chip">
+                    <input type="radio" name="ct-topic" value={t.id} checked={i === 0} />
+                    <span><LucideIcon name={t.icon} class="ct-i" />{t.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            <div class="ct-field">
+              <label for="ct-msg">כמה מילים על העסק / המיזם <small>(לא חובה)</small></label>
+              <textarea id="ct-msg" name="message" class="ct-input" placeholder="מה הכאב הכי גדול היום? מה הייתם רוצים שיקרה?"></textarea>
+            </div>
+            <div class="ct-done" role="status" hidden data-done>
+              <LucideIcon name="circle-check-big" class="ct-i" />
+              <span data-done-text></span>
+            </div>
+            <div class="ct-actions">
+              <button type="submit" class="ct-submit"><WhatsAppIcon />שליחה בוואטסאפ</button>
+              <button type="button" class="ct-alt" data-send-mail>או שליחה במייל</button>
+            </div>
+            <span class="ct-fine">הפרטים נשלחים ישירות לאלכס ולא נשמרים באתר.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { waLink, siteContact } from "@/data/site-contact";
+
+  /* Copy-to-clipboard buttons. */
+  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy ?? "");
+      } catch {
+        /* clipboard unavailable: still show the tick so the click feels acknowledged */
+      }
+      btn.classList.add("is-done");
+      window.setTimeout(() => btn.classList.remove("is-done"), 1600);
+    });
+  });
+
+  const form = document.querySelector<HTMLFormElement>("[data-ct-form]");
+  if (form) {
+    const name = form.querySelector<HTMLInputElement>("#ct-name")!;
+    const phone = form.querySelector<HTMLInputElement>("#ct-phone")!;
+    const msg = form.querySelector<HTMLTextAreaElement>("#ct-msg")!;
+    const errName = form.querySelector<HTMLElement>('[data-err="name"]')!;
+    const errPhone = form.querySelector<HTMLElement>('[data-err="phone"]')!;
+    const done = form.querySelector<HTMLElement>("[data-done]")!;
+    const doneText = form.querySelector<HTMLElement>("[data-done-text]")!;
+    let submitted = false;
+
+    const topic = () => (form.querySelector<HTMLInputElement>('input[name="ct-topic"]:checked')?.value ?? "");
+    const nameOk = () => name.value.trim().length >= 2;
+    const phoneOk = () => /^[+\d][\d\s-]{7,}$/.test(phone.value.trim());
+
+    const refresh = () => {
+      if (!submitted) return;
+      errName.hidden = nameOk();
+      errPhone.hidden = phoneOk();
+      name.setAttribute("aria-invalid", nameOk() ? "false" : "true");
+      phone.setAttribute("aria-invalid", phoneOk() ? "false" : "true");
+    };
+    name.addEventListener("input", refresh);
+    phone.addEventListener("input", refresh);
+
+    const compose = () =>
+      [
+        "היי אלכס, הגעתי מהאתר 👋",
+        `שם: ${name.value.trim()}`,
+        `טלפון: ${phone.value.trim()}`,
+        `נושא: ${topic()}`,
+        msg.value.trim() && `\n${msg.value.trim()}`,
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+    const send = (via: "wa" | "mail") => {
+      submitted = true;
+      refresh();
+      if (!nameOk() || !phoneOk()) return;
+      const body = compose();
+      if (via === "wa") {
+        window.open(waLink(body), "_blank", "noopener");
+        doneText.textContent = "פתחנו לכם וואטסאפ עם ההודעה מוכנה — רק ללחוץ שליחה.";
+      } else {
+        const subject = `פנייה מהאתר — ${topic()}`;
+        window.location.href = `mailto:${siteContact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        doneText.textContent = "פתחנו לכם מייל עם ההודעה מוכנה — רק ללחוץ שליחה.";
+      }
+      done.hidden = false;
+    };
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      send("wa");
+    });
+    form.querySelector("[data-send-mail]")?.addEventListener("click", () => send("mail"));
+  }
+</script>

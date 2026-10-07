@@ -1,39 +1,32 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Homepage (/) Tailwind smoke tests', () => {
+test.describe('Homepage (/) CSS smoke tests', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
 
-  test('header has a visible border-bottom (nav has border-b class)', async ({ page }) => {
-    const header = page.locator('header').first();
-    await expect(header).toBeVisible();
+  test('top nav has a visible border (prototype utility classes applied)', async ({ page }) => {
+    const nav = page.locator('#top nav').first();
+    await expect(nav).toBeVisible();
 
-    const borderWidth = await header.evaluate((el) =>
-      getComputedStyle(el).borderBottomWidth
-    );
-    expect(borderWidth, `Expected header border-bottom-width to be non-zero, got: ${borderWidth}`).not.toBe('0px');
+    const borderWidth = await nav.evaluate((el) => getComputedStyle(el).borderTopWidth);
+    expect(borderWidth, `Expected nav border-width to be non-zero, got: ${borderWidth}`).not.toBe('0px');
   });
 
-  test('hero h1 has bold font-weight (font-bold)', async ({ page }) => {
+  test('hero h1 is heavy (font-black)', async ({ page }) => {
     const h1 = page.locator('h1').first();
     await expect(h1).toBeVisible();
 
-    const fontWeight = await h1.evaluate((el) =>
-      getComputedStyle(el).fontWeight
-    );
-    const isBold = fontWeight === '700' || fontWeight === '800';
-    expect(isBold, `Expected h1 font-weight to be 700 or 800, got: ${fontWeight}`).toBe(true);
+    const fontWeight = await h1.evaluate((el) => Number(getComputedStyle(el).fontWeight));
+    expect(fontWeight, `Expected h1 font-weight >= 700, got: ${fontWeight}`).toBeGreaterThanOrEqual(700);
   });
 
-  test('first section has non-zero padding-top', async ({ page }) => {
-    const section = page.locator('section').first();
-    await expect(section).toBeVisible();
+  test('services section has non-zero padding-top (custom CSS loaded)', async ({ page }) => {
+    const section = page.locator('#services');
+    await expect(section).toBeAttached();
 
-    const paddingTop = await section.evaluate((el) =>
-      getComputedStyle(el).paddingTop
-    );
-    expect(paddingTop, `Expected first section padding-top to be non-zero, got: ${paddingTop}`).not.toBe('0px');
+    const paddingTop = await section.evaluate((el) => getComputedStyle(el).paddingTop);
+    expect(paddingTop, `Expected #services padding-top to be non-zero, got: ${paddingTop}`).not.toBe('0px');
   });
 });
 

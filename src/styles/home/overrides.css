@@ -1,0 +1,31 @@
+/* Small additions on top of the prototype CSS (app.css). Keep app.css verbatim
+   so it can be re-synced from docs/specs/homepage-v3/alex-site-light.html. */
+
+/* Copy buttons render both icons; show the tick only after a successful copy. */
+.ct-copy svg:last-child { display: none; }
+.ct-copy.is-done svg:first-child { display: none; }
+.ct-copy.is-done svg:last-child { display: block; }
+
+/* Legal links under the contact column (About / Terms / Privacy). */
+.ft-legal { margin-top: 14px; padding-top: 12px; border-top: 1px solid hsl(var(--border)); }
+
+/* Skip link for keyboard users. */
+.skip-link {
+  position: absolute;
+  inset-inline-start: 12px;
+  top: -48px;
+  z-index: 100;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 12px; }
+
+/* The prototype rendered these conditionally; here they are always in the DOM and toggled
+   with the `hidden` attribute, which must beat the component's own display value. */
+.ct-done[hidden],
+.ct-err[hidden] { display: none; }
