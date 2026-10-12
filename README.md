@@ -86,7 +86,7 @@ Fitness copy: `fitness-studio.*` and `fitness-chain.*` keys in `src/i18n/ui.ts`.
 
 | URL | Notes |
 |-----|--------|
-| `/` | `src/pages/index.astro` → `src/components/home/HomeDocument.astro` (self-contained doc, `src/styles/home/*`, Heebo + JetBrains Mono via Google Fonts) | Hero (top nav + headline with rotating word + portrait) · Services (two tracks: business systems / startup CTO) · WhyAlex (4 value cards) · About (photo + word-reveal story + years counter) · CaseStudies (stacked cards, data from `src/data/case-studies.ts`) · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer (dark, legal links) · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
+| `/` | `src/pages/index.astro` → `src/components/home/HomeDocument.astro` (self-contained doc, `src/styles/home/*`, Heebo + JetBrains Mono via Google Fonts) | Hero (top nav + headline with rotating word + portrait) · Services (two tracks: business systems / startup CTO) · WhyAlex (4 value cards) · About (photo + word-reveal story + years counter) · _(CaseStudies: built, not mounted until real content is filled in `src/data/case-studies.ts`)_ · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer (dark, legal links) · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
 | `/contact` | Contact (Hebrew) |
 | `/en/`, `/ru/`, `/uk/` (and `/he/`) | Homepage per locale (Hebrew default also served at `/`) |
 | `/{lang}/fitness-studio` | Fitness Studio per locale — `lang` ∈ he/en/ru/uk |

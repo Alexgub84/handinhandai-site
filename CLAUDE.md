@@ -141,6 +141,9 @@ spec review). Rules:
 - Homepage form opens WhatsApp / `mailto:` with the composed message; it does **not**
   post to Make.com (only `/contact` does).
 - Icons: Lucide paths in `src/components/home/icons.ts` rendered by `LucideIcon.astro`.
+- `CaseStudies.astro` is built but **not mounted** in `HomeDocument.astro` until the
+  placeholders in `src/data/case-studies.ts` are replaced with real clients. When mounting
+  it back, also restore the "דוגמה" nav link (Hero) and "דוגמאות" footer link.
 
 ## Routes
 

@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import { siteContact } from "../src/data/site-contact";
-import { caseStudies } from "../src/data/case-studies";
 
 const WA = siteContact.whatsapp.replace("https://", "");
 const TITLE = "אלכס — HandInHandAI | מערכות ניהול, סוכני AI ו-CTO לעסקים ולמיזמים";
@@ -22,7 +21,7 @@ test.describe("homepage v3 (/)", () => {
   });
 
   test("all sections render in the spec order", async ({ page }) => {
-    const ids = ["top", "services", "why-alex", "about", "example", "why", "contact"];
+    const ids = ["top", "services", "why-alex", "about", "why", "contact"];
     const order = await page.evaluate(
       (ids) => ids.map((id) => document.getElementById(id)?.getBoundingClientRect().top ?? -1),
       ids
@@ -57,9 +56,9 @@ test.describe("homepage v3 (/)", () => {
     await expect(section).not.toHaveClass(/is-order/);
   });
 
-  test("case studies come from the data file", async ({ page }) => {
-    await expect(page.locator("#example .cs-card")).toHaveCount(caseStudies.length);
-    await expect(page.locator("#example .cs-card").first()).toContainText(caseStudies[0].client);
+  test("case-studies section is not mounted until real content exists", async ({ page }) => {
+    await expect(page.locator("#example")).toHaveCount(0);
+    await expect(page.locator('a[href="#example"]')).toHaveCount(0);
   });
 
   test("contact form validates and opens WhatsApp with the composed message", async ({ page }) => {
