@@ -70,15 +70,9 @@ Bilingual (Hebrew default / English) marketing site for Hand in Hand AI, built w
 | What | Where |
 |------|--------|
 | Copy / translations (UI strings) | `src/i18n/ui.ts` |
-| **Phone & email in footers** (main site + fitness) | `src/data/site-contact.ts` — single source of truth |
 | Main site chrome (nav, footer, meta) | `src/layouts/Layout.astro`, `src/components/Header.astro`, `src/components/Footer.astro` |
 | Contact form + webhook wiring | `src/components/ContactForm.astro` |
-| Fitness Studio landing (standalone layout, no shared Header) | `src/pages/fitness-studio.astro`, `src/pages/[lang]/fitness-studio.astro` |
-| Fitness Chain landing (shares layout + CSS with Studio) | `src/pages/fitness-chain.astro`, `src/pages/[lang]/fitness-chain.astro` |
-| Shared fitness layout + styles | `src/layouts/FitnessLayout.astro`, `src/styles/fitness.css` |
-| WhatsApp demo chats on fitness pages | `src/components/whatsapp-mock/` |
 
-Fitness copy: `fitness-studio.*` and `fitness-chain.*` keys in `src/i18n/ui.ts`. Fitness images: `public/fitness-studio/`, `public/fitness-chain/`.
 
 ---
 
@@ -89,10 +83,6 @@ Fitness copy: `fitness-studio.*` and `fitness-chain.*` keys in `src/i18n/ui.ts`.
 | `/` | `src/pages/index.astro` → `src/components/home/HomeDocument.astro` (self-contained doc, `src/styles/home/*`, Heebo + JetBrains Mono via Google Fonts) | Hero (top nav + headline with rotating word + portrait) · Services (two tracks: business systems / startup CTO) · WhyAlex (4 value cards) · About (photo + word-reveal story + years counter) · _(CaseStudies: built, not mounted until real content is filled in `src/data/case-studies.ts`)_ · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer (dark, legal links) · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
 | `/contact` | Contact (Hebrew) |
 | `/en/`, `/ru/`, `/uk/` (and `/he/`) | Homepage per locale (Hebrew default also served at `/`) |
-| `/{lang}/fitness-studio` | Fitness Studio per locale — `lang` ∈ he/en/ru/uk |
-| `/fitness-studio` | Fitness Studio landing (Hebrew) |
-| `/{lang}/fitness-chain` | Fitness Chain per locale — `lang` ∈ he/en/ru/uk |
-| `/fitness-chain` | Fitness Chain landing (Hebrew) |
 
 ---
 
@@ -106,10 +96,7 @@ Each page's sections in render order. Update this table whenever a page is creat
 | `/about` | `src/pages/about.astro` | Legal-identity page (brand → legal entity + full contact block incl. address) · Hebrew section · English section |
 | `/terms` | `src/pages/terms.astro` | Terms of use (identity · service description · WhatsApp terms · acceptable use · IP · liability · governing law · changes) · Hebrew section · English section |
 | `/privacy-sasha` | `src/pages/privacy-sasha.astro` | General privacy policy (website + Sasha assistant + client WhatsApp lines) · Hebrew section · English section |
-| `/fitness-studio` | `src/pages/fitness-studio.astro` | TopBar · Hero (image + WhatsApp CTA + WhatsAppMock) · Core Promise band · Three Jobs grid · Scenario 2: Loyal Attendee · Scenario 3: No-Show Re-engagement · Channel Options band · How It Works (3 steps) · About · FAQ · Final CTA · Footer |
-| `/fitness-chain` | `src/pages/fitness-chain.astro` | Identical structure to `/fitness-studio` (clone — sections diverge as copy is updated) |
 | `/en` | `src/pages/[lang]/index.astro` → `HomeDocument` | Serves the **same** homepage as `/` (identical Hebrew content; canonical → `/`). Only `en` is generated. |
-| `[lang]/*` fitness variants | `src/pages/[lang]/` | Same section order as default-lang counterparts; fitness `[lang]/` variants use static dashed-border mock placeholders instead of live `WhatsAppMock`. Site languages are Hebrew + English only (Russian/Ukrainian removed). |
 
 ---
 
@@ -117,20 +104,19 @@ Each page's sections in render order. Update this table whenever a page is creat
 
 ```
 src/
-├── components/       # Header, Footer, ContactForm, whatsapp-mock, home/ (homepage v3), …
+├── components/       # Header, Footer, LegalFooter, SEOHead, home/ (homepage v3)
 ├── data/
 │   ├── site-contact.ts   # Shared phone + email + WhatsApp greeting
 │   ├── case-studies.ts   # Homepage case studies (fill the placeholders here)
 │   └── home-profile.ts   # Name, years in field, homepage WhatsApp greeting
 ├── i18n/             # ui.ts (strings), utils.ts
-├── layouts/          # Layout.astro (main), FitnessLayout.astro
+├── layouts/          # Layout.astro (legal pages); homepage is a standalone document
 ├── pages/
 │   ├── index.astro
 │   ├── contact.astro
-│   ├── fitness-studio.astro
-│   ├── fitness-chain.astro
-│   └── [lang]/       # /he/*, /en/* (index, contact, fitness-studio, fitness-chain)
-├── styles/           # global.css, hiha-tokens.css, fitness.css, home/ (homepage v3)
+│   ├── about.astro, terms.astro, privacy-sasha.astro
+│   └── [lang]/       # /en/index only
+├── styles/           # global.css, home/ (homepage v3)
 functions/api/        # Cloudflare Pages Functions (e.g. error logging)
 public/               # Static assets
 ```

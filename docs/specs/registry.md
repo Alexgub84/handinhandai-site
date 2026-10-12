@@ -18,23 +18,11 @@ Mutable (describes current state, not history). Update in the same task that shi
 - **Status:** `active`.
 - **Last updated:** `2026-10-07`.
 
-### Fitness Studio landing (`/fitness-studio`)
+### Retired: Fitness Studio / Fitness Chain landings
 
-- **Route:** `/fitness-studio` + `/[lang]/fitness-studio` → `FitnessLayout`
-- **Purpose:** Sub-brand landing — WhatsApp AI assistant for a single fitness studio.
-- **Surface:** TopBar · Hero (image + WhatsApp CTA + `WhatsAppMock`) · Core Promise · Three Jobs · Loyalty + No-Show scenarios · Channels · How It Works · About · FAQ · Final CTA · Footer.
-- **Dependencies:** `@alexgub84/whatsapp-chat-mock`, `src/styles/fitness.css`, Heebo font. OG image `public/og/fitness-studio/og.jpg`.
-- **Status:** `active`.
-- **Last updated:** `2026-05-24`.
-
-### Fitness Chain landing (`/fitness-chain`)
-
-- **Route:** `/fitness-chain` + `/[lang]/fitness-chain` → `FitnessLayout`
-- **Purpose:** Sub-brand landing — WhatsApp AI assistant for a multi-branch fitness chain.
-- **Surface:** Same section structure as `/fitness-studio`; copy diverges. Uses `chain-churn-multi-branch` mock scenario.
-- **Dependencies:** as `/fitness-studio`. OG image `public/og/fitness-chain/og.jpg`.
-- **Status:** `active`.
-- **Last updated:** `2026-05-24`.
+- **Routes:** `/fitness-studio`, `/fitness-chain` and their `/en`, `/he` variants — **removed 2026-10-13** together with `FitnessLayout`, the vendored WhatsApp chat mock and the fitness OG images.
+- **Redirects:** `public/_redirects` sends all six paths to `/` with a 301 so old shared links keep working.
+- **Status:** `retired`.
 
 ### Contact (`/contact`)
 

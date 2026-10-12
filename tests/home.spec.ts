@@ -2,11 +2,13 @@ import { test, expect } from "@playwright/test";
 import { siteContact } from "../src/data/site-contact";
 
 const WA = siteContact.whatsapp.replace("https://", "");
-const TITLE = "אלכס — HandInHandAI | מערכות ניהול, סוכני AI ו-CTO לעסקים ולמיזמים";
+const TITLE = "אלכס — HandInHandAI | מערכות ניהול, אפליקציות, סוכני AI ו-CTO לעסקים ולמיזמים";
 
 test.describe("homepage v3 (/)", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
+    /* Dev server loads component scripts as separate modules; wait for them before interacting. */
+    await page.waitForLoadState("networkidle");
   });
 
   test("renders the hero headline with the rotating word", async ({ page }) => {
@@ -106,6 +108,7 @@ test.describe("homepage v3 (/)", () => {
 test.describe("English route (/en) serves the same homepage", () => {
   test("/en renders the same hero and canonicalises to /", async ({ page }) => {
     await page.goto("/en/");
+    await page.waitForLoadState("networkidle");
     await expect(page.locator("#top h1")).toBeVisible();
     await expect(page).toHaveTitle(TITLE);
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");

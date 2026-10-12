@@ -18,11 +18,11 @@ import Footer from "./Footer.astro";
 import FloatingWhatsApp from "./FloatingWhatsApp.astro";
 import { homeProfile } from "@/data/home-profile";
 
-const title = "אלכס — HandInHandAI | מערכות ניהול, סוכני AI ו-CTO לעסקים ולמיזמים";
+const title = "אלכס — HandInHandAI | מערכות ניהול, אפליקציות, סוכני AI ו-CTO לעסקים ולמיזמים";
 const description =
-  "אני אלכס, ואני כאן כדי להפוך רעיון למציאות: פיתוח מערכות ניהול מותאמות אישית, סוכני AI ואוטומציות לעסקים, ושותף טכנולוגי / CTO למיזמים וסטארטאפים. שיחת אבחון ראשונה — בלי התחייבות.";
+  "אני אלכס, ואני כאן כדי להפוך רעיון למציאות: פיתוח מערכות ניהול ואפליקציות מותאמות אישית, סוכני AI ואוטומציות לעסקים, ושותף טכנולוגי / CTO למיזמים וסטארטאפים. שיחת אבחון ראשונה — בלי התחייבות.";
 const ogDescription =
-  "מערכות ניהול, סוכני AI ואוטומציות שנבנים סביב העסק שלכם — עם שותף טכנולוגי שחושב ביזנס.";
+  "מערכות ניהול, אפליקציות, סוכני AI ואוטומציות שנבנים סביב העסק שלכם — עם שותף טכנולוגי שחושב ביזנס.";
 const site = Astro.site ?? new URL("https://handinhandai.com");
 const canonical = new URL("/", site).href;
 const ogImage = new URL("/og/home/og.jpg", site).href;
@@ -37,11 +37,11 @@ const jsonLd = {
   image: ogImage,
   slogan: "אני כאן כדי להפוך רעיון למציאות",
   description:
-    "פיתוח מערכות ניהול וטכנולוגיה לעסקים (Custom CRM, סוכני AI, אוטומציות) ושותפות טכנולוגית / CTO למיזמים וסטארטאפים.",
+    "פיתוח מערכות ניהול, אפליקציות וטכנולוגיה לעסקים (Custom CRM, סוכני AI, אוטומציות) ושותפות טכנולוגית / CTO למיזמים וסטארטאפים.",
   areaServed: { "@type": "Country", name: "Israel" },
   availableLanguage: "he",
   founder: { "@type": "Person", name: homeProfile.firstName, jobTitle: "מייסד, מפתח ו-CTO במיקור חוץ" },
-  knowsAbout: ["מערכות ניהול לעסקים", "Custom CRM", "סוכני AI", "אוטומציה לעסקים", "CTO במיקור חוץ", "פיתוח MVP"],
+  knowsAbout: ["מערכות ניהול לעסקים", "פיתוח אפליקציות", "Custom CRM", "סוכני AI", "אוטומציה לעסקים", "CTO במיקור חוץ", "פיתוח MVP"],
 };
 ---
 

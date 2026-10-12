@@ -1,2 +1,10 @@
+# Retired fitness landing pages (removed 2026-10-13) — keep old shared links alive.
+/fitness-studio      /  301
+/fitness-chain       /  301
+/en/fitness-studio   /  301
+/en/fitness-chain    /  301
+/he/fitness-studio   /  301
+/he/fitness-chain    /  301
+
 # /wa/* shortlinks handled by Pages Function at functions/wa/[slug].ts
 # (bot UAs get OG-tagged HTML preview, humans get 302 to wa.me)
