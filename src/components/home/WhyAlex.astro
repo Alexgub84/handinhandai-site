@@ -1,0 +1,46 @@
+---
+/* "למה אלכס?" — four value cards. Port of prototype `pu` (section#why-alex). */
+import LucideIcon from "./LucideIcon.astro";
+import type { IconName } from "./icons";
+
+const reasons: { icon: IconName; title: string; text: string }[] = [
+  {
+    icon: "briefcase",
+    title: "חשיבה עסקית לפני הטכנולוגיה",
+    text: "אני לא בונה תוכנה כדי לבנות תוכנה. אני מבין את הבעיה העסקית, מנתח את ה-ROI ובונה פתרון שמביא תוצאות.",
+  },
+  {
+    icon: "zap",
+    title: "תכליתיות ויעילות (בלי מריחות)",
+    text: "מעדיף להגיע כבר למפגשים הראשונים עם דמו עובד, מאשר לנהל דיונים עקרים. זזים מהר.",
+  },
+  {
+    icon: "messages-square",
+    title: "תקשורת ישירה ושקופה",
+    text: "שיח בגובה העיניים, אחריות מלאה ודיווח שוטף. אתם לא צריכים לנהל אותי במיקרו-מנג'מנט.",
+  },
+  {
+    icon: "users",
+    title: "צוות פיתוח חזק מאחוריי",
+    text: "שילוב של הובלה ישראלית אסטרטגית יחד עם צוות מפתחים מיומן, שמבטיח איכות ביצוע וסקייל.",
+  },
+];
+---
+
+<section id="why-alex" dir="rtl" aria-labelledby="wa-title" class="wa bg-background font-sans text-foreground">
+  <div class="wa-wrap">
+    <header class="wa-head">
+      <h2 id="wa-title" class="wa-title">למה <em>אלכס</em>?</h2>
+      <p class="wa-sub">כי טכנולוגיה טובה מתחילה בהבנה של העסק — ונמדדת בתוצאות.</p>
+    </header>
+    <div class="wa-grid">
+      {reasons.map((r) => (
+        <article class="wa-card">
+          <span class="wa-ic"><LucideIcon name={r.icon} class="wa-i" /></span>
+          <h3>{r.title}</h3>
+          <p>{r.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

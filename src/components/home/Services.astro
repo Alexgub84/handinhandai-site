@@ -1,0 +1,146 @@
+---
+/* "איך נוכל להתפתח ביחד?" — two tracks. Port of prototype `cu` (section#services). */
+import LucideIcon from "./LucideIcon.astro";
+import type { IconName } from "./icons";
+import { waLink } from "@/data/site-contact";
+
+interface Track {
+  no: string;
+  color: string;
+  icon: IconName;
+  title: string;
+  audience: string;
+  steps: { icon: IconName; text: string }[];
+  cta: string;
+}
+
+const tracks: Track[] = [
+  {
+    no: "01",
+    color: "var(--primary)",
+    icon: "building-complex",
+    title: "פיתוח מערכות ניהול וטכנולוגיה לעסקים",
+    audience: "לבעלי עסקים וחברות שרוצים לייעל תהליכים, לפשט מערכים מורכבים ולעשות את קפיצת המדרגה הטכנולוגית הבאה.",
+    steps: [
+      { icon: "scan-search", text: "פיצוח הבעיה העסקית ואפיון מוצר מדויק" },
+      { icon: "layout-dashboard", text: "פיתוח מערכות ניהול ואפליקציות מותאמות אישית (Custom CRM)" },
+      { icon: "bot", text: "שילוב סוכני AI ואוטומציות מתקדמות לעסק" },
+      { icon: "graduation-cap", text: "הטמעה מלאה, הדרכה וליווי של הצוות" },
+    ],
+    cta: "בואו נבנה את המערכת שלכם",
+  },
+  {
+    no: "02",
+    color: "var(--accent)",
+    icon: "rocket",
+    title: "שותף טכנולוגי ו-CTO למיזמים וסטארטאפים",
+    audience: "ליזמים רציניים עם רעיון מוכח או מוצר קיים, שמחפשים שותף טכנולוגי שחי ונושם ביזנס — ולא רק קוד.",
+    steps: [
+      { icon: "blocks", text: "הובלת ארכיטקטורה ופיתוח אפליקציה / MVP מהיר לגיוס או לסייקל ראשון" },
+      { icon: "target", text: "חשיבה אסטרטגית, עסקית ושיווקית על המוצר" },
+      { icon: "users-round", text: "הובלת צוות פיתוח מקצועי מקצה לקצה" },
+      { icon: "trending-up", text: "מעורבות אקטיבית כשותף שדוחף את המיזם קדימה" },
+    ],
+    cta: "בואו נדבר על המיזם שלכם",
+  },
+];
+const trackWa = (title: string): string => waLink(`היי אלכס, הגעתי מהאתר ואני מתעניין/ת במסלול: ${title}`);
+---
+
+<section id="services" dir="rtl" aria-labelledby="tr-title" class="tr bg-background font-sans text-foreground">
+  <div class="tr-bg" aria-hidden="true"></div>
+  <div class="tr-wrap">
+    <header class="tr-head">
+      <h2 class="tr-title" id="tr-title">איך נוכל <em>להתפתח ביחד?</em></h2>
+      <p class="tr-sub">שני מסלולים, מטרה אחת: טכנולוגיה שמזיזה את העסק קדימה. בחרו את הדרך שמתאימה לשלב שבו אתם נמצאים.</p>
+    </header>
+
+    <svg class="tr-branch" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+      <path class="tr-b0" pathLength="1" d="M500 0 L500 18"></path>
+      <path class="tr-b1" pathLength="1" id="tr-p1" d="M500 18 C500 70 750 40 750 100"></path>
+      <path class="tr-b2" pathLength="1" id="tr-p2" d="M500 18 C500 70 250 40 250 100"></path>
+      <g class="tr-pulse">
+        <circle r="4" fill="hsl(var(--primary))">
+          <animateMotion class="tr-run" dur="1.6s" begin="indefinite" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".45 0 .2 1">
+            <mpath href="#tr-p1"></mpath>
+          </animateMotion>
+        </circle>
+        <circle r="4" fill="hsl(var(--accent))">
+          <animateMotion class="tr-run" dur="1.6s" begin="indefinite" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".45 0 .2 1">
+            <mpath href="#tr-p2"></mpath>
+          </animateMotion>
+        </circle>
+      </g>
+    </svg>
+
+    <div class="tr-grid">
+      {tracks.map((t) => (
+        <article class="tr-card" style={`--tc:${t.color}`} data-track-card>
+          <span class="tr-watermark" aria-hidden="true">{t.no}</span>
+          <div class="tr-visual" aria-hidden="true">
+            <span class="tr-v-icon"><LucideIcon name={t.icon} strokeWidth={1.4} /></span>
+          </div>
+          <div class="tr-body">
+            <div class="tr-h">
+              <span class="tr-h-ic"><LucideIcon name={t.icon} class="tr-i" /></span>
+              <h3>{t.title}</h3>
+            </div>
+            <p class="tr-aud">{t.audience}</p>
+            <ol class="tr-steps">
+              {t.steps.map((s) => (
+                <li class="tr-step">
+                  <span class="tr-dot"><LucideIcon name={s.icon} class="tr-i" /></span>
+                  <span>{s.text}</span>
+                </li>
+              ))}
+            </ol>
+            <div class="tr-cta">
+              <a class="tr-btn" href={trackWa(t.title)} target="_blank" rel="noopener noreferrer">
+                {t.cta} <LucideIcon name="arrow-left" class="tr-i" />
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="tr-foot">
+      לא בטוחים איזה מסלול מתאים לכם?{" "}
+      <a href="#contact">שיחת אבחון קצרה תעשה סדר <LucideIcon name="arrow-left" class="tr-i" /></a>
+    </p>
+  </div>
+</section>
+
+<script>
+  const section = document.getElementById("services");
+  if (section) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          if (el.classList.contains("tr-card")) {
+            el.classList.add("is-in");
+          } else {
+            section.classList.add("is-in");
+            window.setTimeout(() => {
+              section.querySelectorAll<SVGAnimateMotionElement>(".tr-run").forEach((a) => a.beginElement());
+            }, 1300);
+          }
+          io.unobserve(el);
+        });
+      },
+      { threshold: 0.25 }
+    );
+    const head = section.querySelector(".tr-head");
+    if (head) io.observe(head);
+    section.querySelectorAll<HTMLElement>(".tr-card").forEach((card) => {
+      io.observe(card);
+      card.addEventListener("pointermove", (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        card.style.setProperty("--my", `${e.clientY - r.top}px`);
+      });
+    });
+  }
+</script>

@@ -1,0 +1,103 @@
+---
+/* Shared homepage document (v3 — "Alex" personal-brand site). Rendered by `/` and `/en`
+   (identical Hebrew content; canonical always points to `/`).
+   Spec: docs/specs/homepage-v3/. Order follows the prototype render order.
+   CaseStudies.astro is intentionally NOT mounted yet — real case-study content is pending
+   (see docs/specs/homepage-v3/CONTENT-TODO.md). Re-add it between About and WhyToggle. */
+import "@styles/home/tailwind.css";
+import "@styles/home/theme.css";
+import "@styles/home/app.css";
+import "@styles/home/overrides.css";
+import Hero from "./Hero.astro";
+import Services from "./Services.astro";
+import WhyAlex from "./WhyAlex.astro";
+import About from "./About.astro";
+import WhyToggle from "./WhyToggle.astro";
+import Contact from "./Contact.astro";
+import Footer from "./Footer.astro";
+import FloatingWhatsApp from "./FloatingWhatsApp.astro";
+import { homeProfile } from "@/data/home-profile";
+
+const title = "אלכס — HandInHandAI | מערכות ניהול, אפליקציות, סוכני AI ו-CTO לעסקים ולמיזמים";
+const description =
+  "אני אלכס, ואני כאן כדי להפוך רעיון למציאות: פיתוח מערכות ניהול ואפליקציות מותאמות אישית, סוכני AI ואוטומציות לעסקים, ושותף טכנולוגי / CTO למיזמים וסטארטאפים. שיחת אבחון ראשונה — בלי התחייבות.";
+const ogDescription =
+  "מערכות ניהול, אפליקציות, סוכני AI ואוטומציות שנבנים סביב העסק שלכם — עם שותף טכנולוגי שחושב ביזנס.";
+const site = Astro.site ?? new URL("https://handinhandai.com");
+const canonical = new URL("/", site).href;
+const ogImage = new URL("/og/home/og.jpg", site).href;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "handinhand",
+  alternateName: "HandInHandAI",
+  url: canonical,
+  logo: new URL("/handinhand-logo.png", site).href,
+  image: ogImage,
+  slogan: "אני כאן כדי להפוך רעיון למציאות",
+  description:
+    "פיתוח מערכות ניהול, אפליקציות וטכנולוגיה לעסקים (Custom CRM, סוכני AI, אוטומציות) ושותפות טכנולוגית / CTO למיזמים וסטארטאפים.",
+  areaServed: { "@type": "Country", name: "Israel" },
+  availableLanguage: "he",
+  founder: { "@type": "Person", name: homeProfile.firstName, jobTitle: "מייסד, מפתח ו-CTO במיקור חוץ" },
+  knowsAbout: ["מערכות ניהול לעסקים", "פיתוח אפליקציות", "Custom CRM", "סוכני AI", "אוטומציה לעסקים", "CTO במיקור חוץ", "פיתוח MVP"],
+};
+---
+
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="facebook-domain-verification" content="xbzm8v23p977iuikrwz7x2k6ciiewu" />
+    <meta name="theme-color" content="#faf8f3" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="he_IL" />
+    <meta property="og:site_name" content="HandInHandAI" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" type="image/png" href="/handinhand-logo.png" />
+    <link rel="apple-touch-icon" href="/handinhand-logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preload" as="image" href="/home/alex-hero.webp" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">דילוג לתוכן</a>
+    <main id="main" dir="rtl" class="min-h-[100dvh] bg-background text-foreground font-sans">
+      <Hero />
+      <Services />
+      <WhyAlex />
+      <About />
+      <WhyToggle />
+      <Contact />
+    </main>
+    <Footer />
+    <FloatingWhatsApp />
+  </body>
+</html>

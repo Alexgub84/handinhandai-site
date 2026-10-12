@@ -3,13 +3,13 @@ import { test, expect } from '@playwright/test';
 const pages = [
   { path: '/', name: 'homepage (Hebrew, SimpleLayout)' },
   { path: '/en/', name: 'English homepage (SimpleLayout)' },
-  { path: '/fitness-studio', name: 'fitness-studio (FitnessLayout)' },
-  { path: '/fitness-chain', name: 'fitness-chain (FitnessLayout)' },
+  { path: '/about', name: 'about (Layout)' },
 ];
 
 for (const { path, name } of pages) {
   test(`${name} has CSS stylesheets injected (/_astro/ links or Vite dev style tags)`, async ({ page }) => {
     await page.goto(path);
+    await page.waitForLoadState('networkidle');
 
     // Production builds inject <link rel="stylesheet" href="/_astro/...css">
     // Dev server (Vite) injects <style data-vite-dev-id="..."> inline style blocks

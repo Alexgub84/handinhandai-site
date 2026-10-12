@@ -1,0 +1,48 @@
+/* LIGHT theme — add to src/index.css.
+   Brand: green #25823a, navy #383d58 as the text color (instead of black), warm off-white background.
+   Sections with the class .theme-dark ("מי מנהל לכם היום את העסק?" + footer) stay dark on purpose. */
+:root {
+  --background: 40 33% 97%; /* warm off-white */
+  --background-deep: 40 24% 93%;
+  --foreground: 231 22% 28%; /* #383d58 */
+  --muted-foreground: 231 12% 44%;
+  --card: 0 0% 100%;
+  --border: 231 16% 87%;
+  --primary: 134 56% 33%; /* #25823a */
+  --primary-text: 134 58% 29%; /* a touch darker for small text on light */
+  --primary-foreground: 0 0% 100%;
+  --accent: 26 85% 48%;
+  --cyan: 172 55% 30%;
+  --destructive: 355 68% 50%;
+  --shadow: 231 30% 25%;
+  --shadow-a: 0.22;
+}
+.theme-dark {
+  --background: 235 32% 7%;
+  --background-deep: 235 35% 5%;
+  --foreground: 220 25% 96%;
+  --muted-foreground: 225 15% 68%;
+  --card: 235 28% 12%;
+  --border: 230 25% 22%;
+  --primary: 134 56% 33%;
+  --primary-text: 134 42% 52%;
+  --primary-foreground: 0 0% 100%;
+  --accent: 26 78% 54%;
+  --cyan: 170 42% 48%;
+  --destructive: 355 70% 60%;
+  --shadow: 0 0% 0%;
+  --shadow-a: 0.9;
+  color: hsl(var(--foreground));
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  overflow-x: clip;
+} /* use clip, not hidden — hidden breaks the sticky case-study stack */
+/* Fonts: Heebo (400–900) as font-sans, JetBrains Mono (500/700) as font-mono — via Google Fonts in index.html */
+
+body {
+  background: hsl(var(--background));
+  margin: 0;
+}

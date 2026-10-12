@@ -1,0 +1,59 @@
+---
+/* Dark footer with the outlined wordmark. Port of prototype `gu`. */
+import LucideIcon from "./LucideIcon.astro";
+import WhatsAppIcon from "./WhatsAppIcon.astro";
+import { siteContact } from "@/data/site-contact";
+
+const wa = siteContact.whatsappCta;
+const year = new Date().getFullYear();
+const links = [
+  { label: "מי אני", href: "#about" },
+  { label: "מה אני בונה", href: "#services" },
+  { label: "למה אלכס", href: "#why-alex" },
+  { label: "יצירת קשר", href: "#contact" },
+];
+---
+
+<footer dir="rtl" class="ft theme-dark bg-background font-sans text-foreground">
+  <div class="ft-wrap">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="#top" class="ft-logo" aria-label="HandInHandAI — חזרה למעלה">
+          <span class="ft-logo-mark"><span>🤝</span></span>
+          <span>Hand<b>In</b>Hand<i>AI</i></span>
+        </a>
+        <p class="ft-tag">מערכות ניהול, אפליקציות, סוכני AI ואוטומציות שנבנים סביב העסק שלכם — עם שותף טכנולוגי שחושב ביזנס.</p>
+      </div>
+      <nav aria-label="ניווט תחתון">
+        <h4>ניווט</h4>
+        <ul class="ft-links">
+          {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </nav>
+      <div>
+        <h4>יצירת קשר</h4>
+        <ul class="ft-links">
+          <li><a href={wa} target="_blank" rel="noopener noreferrer"><WhatsAppIcon class="ct-i" /> וואטסאפ</a></li>
+          <li><a href={`tel:${siteContact.phoneTel}`}><LucideIcon name="phone" class="ct-i" /> <span class="ltr">{siteContact.phoneDisplay}</span></a></li>
+          <li><a href={`mailto:${siteContact.email}`}><LucideIcon name="mail" class="ct-i" /> <span class="ltr">{siteContact.email}</span></a></li>
+        </ul>
+        <ul class="ft-links ft-legal">
+          <li><a href="/about">אודות</a></li>
+          <li><a href="/terms">תנאי שימוש</a></li>
+          <li><a href="/privacy-sasha">פרטיות</a></li>
+        </ul>
+      </div>
+      <button type="button" class="ft-up" aria-label="חזרה לראש העמוד" data-scroll-top>
+        <LucideIcon name="arrow-up" class="ct-i" />
+      </button>
+    </div>
+    <div class="ft-word" data-text="HandInHandAI" aria-hidden="true">HandInHandAI</div>
+    <div class="ft-bottom"><span>© {year} HandInHandAI · כל הזכויות שמורות</span></div>
+  </div>
+</footer>
+
+<script>
+  document.querySelector("[data-scroll-top]")?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+</script>

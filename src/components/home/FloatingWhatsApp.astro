@@ -1,0 +1,40 @@
+---
+/* Floating WhatsApp button: appears after ~80% of the first viewport, hides over the contact section. */
+import WhatsAppIcon from "./WhatsAppIcon.astro";
+import { siteContact } from "@/data/site-contact";
+const wa = siteContact.whatsappCta;
+---
+
+<a href={wa} target="_blank" rel="noopener noreferrer" class="fw" aria-label="דברו עם אלכס בוואטסאפ" tabindex="-1" data-fw>
+  <span class="fw-btn"><WhatsAppIcon /></span>
+  <span class="fw-tip">דברו איתי בוואטסאפ</span>
+</a>
+
+<script>
+  const fw = document.querySelector<HTMLAnchorElement>("[data-fw]");
+  if (fw) {
+    let scrolled = false;
+    let overContact = false;
+    const apply = () => {
+      const on = scrolled && !overContact;
+      fw.classList.toggle("is-on", on);
+      fw.tabIndex = on ? 0 : -1;
+    };
+    const onScroll = () => {
+      scrolled = window.scrollY > window.innerHeight * 0.8;
+      apply();
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    const contact = document.getElementById("contact");
+    if (contact) {
+      new IntersectionObserver(
+        ([e]) => {
+          overContact = e.isIntersecting;
+          apply();
+        },
+        { threshold: 0.15 }
+      ).observe(contact);
+    }
+  }
+</script>

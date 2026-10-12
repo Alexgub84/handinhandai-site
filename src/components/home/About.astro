@@ -1,0 +1,128 @@
+---
+/* "נעים להכיר, אני אלכס." Port of prototype `mu` (section#about).
+   Words reveal on scroll (--p on .ab-story, --k per word); years counter counts up. */
+import LucideIcon from "./LucideIcon.astro";
+import WhatsAppIcon from "./WhatsAppIcon.astro";
+import { siteContact } from "@/data/site-contact";
+import { homeProfile } from "@/data/home-profile";
+
+const wa = siteContact.whatsappCta;
+/* [[...]] marks highlighted phrases. */
+const story = [
+  "כבר [[חמש שנים]] שאני חי את העולם הזה. אני מת על הכלים החדשים שיוצאים היום – [[AI, אוטומציות, פתרונות חכמים]] – אבל מבחינתי הם לא שווים כלום אם הם לא עושים לכם את [[החיים קלים יותר.]]",
+  "כמו בניהול בית ומשפחה, גם בעסקים אני מאמין [[ביחס ישר, תקשורת פתוחה ובלי משחקים.]]",
+  "כשעובדים איתי, לא מקבלים קופסה שחורה של קוד, אלא [[בנאדם שאפשר לסמוך עליו,]] לדבר איתו בגובה העיניים ולדעת שהפרויקט שלכם [[בידיים בטוחות.]]",
+];
+
+interface Word {
+  text: string;
+  hl: boolean;
+  k: number;
+}
+let k = 0;
+const paragraphs: Word[][] = story.map((p) =>
+  p
+    .split(/(\[\[.*?\]\])/)
+    .filter(Boolean)
+    .flatMap((chunk) => {
+      const hl = chunk.startsWith("[[");
+      return chunk
+        .replace(/^\[\[|\]\]$/g, "")
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((text) => ({ text, hl, k: k++ }));
+    })
+);
+const total = k;
+---
+
+<section id="about" dir="rtl" aria-labelledby="ab-title" class="ab bg-background font-sans text-foreground">
+  <div class="ab-bg" aria-hidden="true"></div>
+  <div class="ab-wrap">
+    <div class="ab-copy">
+      <h2 id="ab-title" class="ab-title">נעים להכיר,<br /><em>אני <span>{homeProfile.firstName}</span>.</em></h2>
+      <div class="ab-ids">
+        <span class="ab-id"><LucideIcon name="baby" class="ab-i" /> אבא של רון</span>
+        <span class="ab-id"><LucideIcon name="rocket" class="ab-i" /> יזם</span>
+        <span class="ab-id"><LucideIcon name="users" class="ab-i" /> איש של אנשים וטכנולוגיה</span>
+      </div>
+      <div class="ab-story" style={`--n:${total}`} data-story>
+        {paragraphs.map((words) => (
+          <p>
+            {words.map((w) => (
+              <span class={w.hl ? "ab-w hl" : "ab-w"} style={`--k:${w.k}`}>{w.text} </span>
+            ))}
+          </p>
+        ))}
+      </div>
+      <a class="ab-cta" href={wa} target="_blank" rel="noopener noreferrer">
+        <WhatsAppIcon />
+        בואו נדבר, בגובה העיניים
+      </a>
+    </div>
+    <div class="ab-photo-col">
+      <div class="ab-photo">
+        <img src="/home/alex-about.webp" alt={homeProfile.firstName} loading="lazy" width="700" height="895" />
+        <div class="ab-photo-cap">
+          <div><b>{homeProfile.firstName}</b><small>HandInHandAI</small></div>
+          <div class="ab-years">
+            <strong data-years={homeProfile.yearsInField}>0</strong>
+            <span>שנים בתחום</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const section = document.getElementById("about");
+  const story = section?.querySelector<HTMLElement>("[data-story]");
+  const years = section?.querySelector<HTMLElement>("[data-years]");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (section && years) {
+    const target = Number(years.dataset.years ?? "0");
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        section.classList.add("is-in");
+        io.disconnect();
+        if (reduced) {
+          years.textContent = String(target);
+          return;
+        }
+        const start = performance.now();
+        const tick = (now: number) => {
+          const p = Math.min(1, (now - start) / 1200);
+          years.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3))));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(section);
+  }
+
+  if (story) {
+    if (reduced) {
+      story.style.setProperty("--p", "1");
+    } else {
+      let raf = 0;
+      const update = () => {
+        raf = 0;
+        const r = story.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const p = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height + vh * 0.3)));
+        story.style.setProperty("--p", p.toFixed(4));
+      };
+      const schedule = () => {
+        if (!raf) raf = requestAnimationFrame(update);
+      };
+      update();
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule);
+    }
+  }
+</script>
