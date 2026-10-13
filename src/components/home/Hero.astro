@@ -4,6 +4,7 @@ import LucideIcon from "./LucideIcon.astro";
 import WhatsAppIcon from "./WhatsAppIcon.astro";
 import { siteContact } from "@/data/site-contact";
 import { homeProfile } from "@/data/home-profile";
+import AiAnswersNote from "./AiAnswersNote.astro";
 
 const wa = siteContact.whatsappCta;
 const benefits = ["מאפיון ועד מוצר", "פתרון מותאם לצורך", "צוות מפתחים", "CTO במיקור חוץ"];
@@ -60,10 +61,10 @@ const rotating = ["למציאות.", "למערכת.", "לפיצ'ר."];
     </a>
   </nav>
 
-  <div
-    class="ah-main mx-auto grid w-[min(1240px,calc(100%-32px))] flex-1 items-center gap-[clamp(24px,4vw,64px)] py-[clamp(28px,5vh,64px)] lg:grid-cols-[1.05fr_1fr]"
-  >
-    <div class="relative z-[2] text-center lg:text-right">
+  <!-- Three grid children so the phone order can be headline → portrait → actions
+       while desktop keeps one text column beside the portrait (see overrides.css). -->
+  <div class="ah-main mx-auto w-[min(1240px,calc(100%-32px))] flex-1 py-[clamp(28px,5vh,64px)]">
+    <div class="ah-head relative z-[2] text-center lg:text-right">
       <ul class="ah-benefits" aria-label="מה מקבלים">
         {benefits.map((b) => (
           <li>
@@ -92,8 +93,10 @@ const rotating = ["למציאות.", "למערכת.", "לפיצ'ר."];
           </span>
         </span>
       </h1>
+    </div>
 
-      <div class="mt-[34px] flex flex-wrap justify-center gap-3.5 lg:justify-start">
+    <div class="ah-actions relative z-[2] text-center lg:text-right">
+      <div class="flex flex-wrap justify-center gap-3.5 lg:justify-start">
         <a href={wa} target="_blank" rel="noopener noreferrer" class="ah-btn ah-btn-primary">
           <WhatsAppIcon class="h-[18px] w-[18px]" />
           בואו נדבר
@@ -110,11 +113,11 @@ const rotating = ["למציאות.", "למערכת.", "לפיצ'ר."];
         </span>
         שיחת אבחון ראשונה — בלי התחייבות
       </div>
+
+      <AiAnswersNote class="ah-ai-note" />
     </div>
 
-    <div
-      class="ah-visual relative -order-1 aspect-[1/1.05] w-[min(100%,440px)] justify-self-center lg:order-none lg:w-[min(100%,560px)]"
-    >
+    <div class="ah-visual relative aspect-[1/1.05] w-[min(100%,440px)] justify-self-center lg:w-[min(100%,560px)]">
       <div class="ah-tilt absolute inset-0">
         <div class="ah-ring ah-ring-2"><span class="ah-sat"></span></div>
         <div class="ah-ring ah-ring-1"><span class="ah-sat"></span></div>
