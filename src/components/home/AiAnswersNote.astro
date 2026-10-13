@@ -1,0 +1,28 @@
+---
+/* Disclosure: the WhatsApp line is answered first by Alex's AI assistant.
+   Shown next to WhatsApp CTAs so people know what to expect before they write.
+   `variant="line"` = one muted sentence, `variant="panel"` = bordered block. */
+import LucideIcon from "./LucideIcon.astro";
+
+interface Props {
+  variant?: "line" | "panel";
+  class?: string;
+}
+const { variant = "line", class: className } = Astro.props;
+---
+
+{variant === "panel" ? (
+  <p class:list={["ai-note ai-note--panel", className]}>
+    <span class="ai-note__ic"><LucideIcon name="bot" class="ct-i" /></span>
+    <span>
+      <b>בוואטסאפ עונה ראשון העוזר הדיגיטלי שלי.</b>
+      הוא מברר מה אתם צריכים, זמין מסביב לשעון, ומעביר אליי — ואני חוזר אליכם בעצמי.
+      תמיד אפשר לבקש ממנו לדבר איתי ישירות.
+    </span>
+  </p>
+) : (
+  <span class:list={["ai-note", className]}>
+    <LucideIcon name="bot" class="ct-i" />
+    <span>בוואטסאפ עונה קודם העוזר הדיגיטלי שלי (AI), ואז אני</span>
+  </span>
+)}

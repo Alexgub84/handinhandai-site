@@ -33,3 +33,115 @@
 /* Service cards: the prototype had illustrative fake charts here; replaced with the track icon. */
 .tr-visual .tr-v-icon { display: grid; place-items: center; width: 100%; height: 100%; }
 .tr-visual .tr-v-icon svg { width: clamp(48px, 5vw, 64px); height: clamp(48px, 5vw, 64px); color: hsl(var(--tc) / 0.6); filter: drop-shadow(0 8px 18px hsl(var(--tc) / 0.25)); }
+
+/* Hero layout. Phone: headline → portrait → actions in one column.
+   Desktop (≥1024px): headline + actions stacked in the right column, portrait left,
+   both columns vertically centred — same look as the prototype. */
+.ah-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: "head" "visual" "actions";
+  row-gap: clamp(22px, 4vw, 32px);
+  align-content: center;
+  justify-items: center;
+}
+.ah-head { grid-area: head; width: 100%; }
+.ah-visual { grid-area: visual; }
+.ah-actions { grid-area: actions; width: 100%; }
+@media (min-width: 1024px) {
+  .ah-main {
+    grid-template-columns: 1.05fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: "head visual" "actions visual";
+    column-gap: clamp(24px, 4vw, 64px);
+    row-gap: 34px;
+    align-items: center;
+    justify-items: stretch;
+  }
+  .ah-head { align-self: end; }
+  .ah-actions { align-self: start; }
+  .ah-visual { justify-self: center; }
+}
+
+/* Mobile hero: keep the whole block (headline, portrait, buttons, notes) inside the
+   first screen instead of letting the bottom note fall below the fold. */
+@media (max-width: 1023px) {
+  .ah-main { row-gap: 14px; padding-block: 20px; }
+  /* Scale with the viewport but never below a size where the portrait reads as a person
+     and the floating chips stop colliding with it. */
+  .ah-visual { height: clamp(250px, 40dvh, 380px); width: auto; }
+}
+
+/* "an AI assistant answers first on WhatsApp" disclosure. */
+.ai-note {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 7px;
+  max-width: 100%;
+  text-wrap: pretty;
+  font-size: 13px;
+  line-height: 1.45;
+  color: hsl(var(--muted-foreground));
+}
+.ai-note > svg { width: 15px; height: 15px; flex: none; margin-top: 2px; color: hsl(var(--primary-text)); }
+.ai-note > span:not(.ai-note__ic) { flex: 1 1 auto; min-width: 0; }
+.ai-note--panel {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px dashed hsl(var(--primary) / 0.45);
+  border-radius: 14px;
+  background: hsl(var(--primary) / 0.06);
+  font-size: 13.5px;
+  text-align: start;
+}
+.ai-note--panel b { color: hsl(var(--foreground)); font-weight: 700; }
+.ai-note__ic {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: hsl(var(--primary) / 0.14);
+}
+.ai-note__ic svg { width: 17px; height: 17px; }
+.ah-ai-note { margin-top: 10px; justify-content: center; text-align: center; }
+@media (min-width: 1024px) { .ah-ai-note { justify-content: flex-start; } }
+.ct-form-ai { margin-top: 10px; }
+
+/* Small "AI answers" badge beside the WhatsApp heading in the contact card. */
+.ct-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-inline-start: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: hsl(var(--primary) / 0.14);
+  color: hsl(var(--primary-text));
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  vertical-align: middle;
+}
+.ct-ai-badge svg { width: 12px; height: 12px; }
+
+/* Narrow phones (iPhone SE / mini): shrink the portrait a little more so the
+   WhatsApp disclosure under the buttons still lands above the fold. */
+@media (max-width: 380px) {
+  .ah-main { row-gap: 12px; padding-block: 16px; }
+  .ah-benefits li { font-size: 12.5px; }
+}
+
+/* Short phone screens (iPhone SE and similar): the portrait gives up height first. */
+@media (max-width: 1023px) and (max-height: 720px) {
+  .ah-main { row-gap: 8px; padding-block: 12px; }
+  /* Too little height for the chips to sit clear of the portrait — drop them. */
+  .ah-chip { display: none; }
+}

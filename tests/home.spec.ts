@@ -85,6 +85,41 @@ test.describe("homepage v3 (/)", () => {
     await expect(form.locator("[data-done]")).toBeVisible();
   });
 
+  test("mobile hero puts the headline above the portrait", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+
+    const headline = await page.locator("#top h1").boundingBox();
+    const portrait = await page.locator("#top .ah-visual").boundingBox();
+    const actions = await page.locator("#top .ah-actions").boundingBox();
+    expect(headline!.y + headline!.height).toBeLessThanOrEqual(portrait!.y);
+    expect(portrait!.y + portrait!.height).toBeLessThanOrEqual(actions!.y);
+
+    /* Nothing may sit outside the viewport horizontally, and the portrait keeps a usable size. */
+    const hscroll = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth
+    );
+    expect(hscroll).toBe(false);
+    expect(portrait!.height).toBeGreaterThanOrEqual(250);
+  });
+
+  test("desktop hero keeps the headline beside the portrait", async ({ page }) => {
+    const headline = await page.locator("#top h1").boundingBox();
+    const portrait = await page.locator("#top .ah-visual").boundingBox();
+    /* RTL: text column on the right, portrait on the left, vertically overlapping. */
+    expect(headline!.x).toBeGreaterThan(portrait!.x);
+    expect(headline!.y).toBeLessThan(portrait!.y + portrait!.height);
+  });
+
+  test("tells people an AI assistant answers WhatsApp first", async ({ page }) => {
+    await expect(page.locator("#top .ai-note")).toContainText("העוזר הדיגיטלי");
+    await expect(page.locator("#contact .ai-note--panel")).toContainText("עונה ראשון העוזר הדיגיטלי");
+    await expect(page.locator("#contact .ct-ai-badge")).toContainText("עוזר AI");
+    await expect(page.locator("[data-ct-form] .ai-note")).toBeVisible();
+    await expect(page.locator("[data-fw] .fw-tip")).toContainText("עוזר AI");
+  });
+
   test("exposes ProfessionalService JSON-LD for SEO/AI findability", async ({ page }) => {
     const raw = await page.locator('script[type="application/ld+json"]').first().textContent();
     const data = JSON.parse(raw || "{}");

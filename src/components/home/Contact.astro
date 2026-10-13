@@ -5,6 +5,7 @@ import LucideIcon from "./LucideIcon.astro";
 import WhatsAppIcon from "./WhatsAppIcon.astro";
 import type { IconName } from "./icons";
 import { siteContact } from "@/data/site-contact";
+import AiAnswersNote from "./AiAnswersNote.astro";
 
 const wa = siteContact.whatsappCta;
 const phone = siteContact.phoneDisplay;
@@ -29,9 +30,13 @@ const topics: { id: string; label: string; icon: IconName }[] = [
       <div class="ct-methods">
         <a class="ct-method wa" href={wa} target="_blank" rel="noopener noreferrer">
           <span class="ct-m-ic"><WhatsAppIcon /></span>
-          <div><b>וואטסאפ</b><span class="v">{phone}</span></div>
+          <div>
+            <b>וואטסאפ <span class="ct-ai-badge"><LucideIcon name="bot" class="ct-i" />עונה מיד · עוזר AI</span></b>
+            <span class="v">{phone}</span>
+          </div>
           <span class="ct-go" aria-hidden="true"><LucideIcon name="arrow-left" class="ct-i" /></span>
         </a>
+        <AiAnswersNote variant="panel" />
         <div class="ct-method">
           <span class="ct-m-ic"><LucideIcon name="phone" /></span>
           <div><b><a class="ct-stretch" href={tel}>טלפון</a></b><span class="v">{phone}</span></div>
@@ -50,7 +55,7 @@ const topics: { id: string; label: string; icon: IconName }[] = [
         </div>
         <div class="ct-note">
           <img src="/home/alex-hero.webp" alt="" width="490" height="930" loading="lazy" />
-          <span>בלי מוקד ובלי נציגים — <b>מדברים ישירות איתי</b>, מהשיחה הראשונה ועד שהמערכת באוויר.</span>
+          <span>בלי מוקד ובלי נציגים. אחרי העוזר הדיגיטלי <b>מדברים ישירות איתי</b>, ועד שהמערכת באוויר.</span>
         </div>
       </div>
 
@@ -92,6 +97,7 @@ const topics: { id: string; label: string; icon: IconName }[] = [
               <button type="submit" class="ct-submit"><WhatsAppIcon />שליחה בוואטסאפ</button>
               <button type="button" class="ct-alt" data-send-mail>או שליחה במייל</button>
             </div>
+            <AiAnswersNote class="ct-form-ai" />
             <span class="ct-fine">הפרטים נשלחים ישירות לאלכס ולא נשמרים באתר.</span>
           </div>
         </form>

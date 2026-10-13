@@ -67,6 +67,13 @@ spec review). Rules:
 - Homepage form opens WhatsApp / `mailto:` with the composed message; it does **not**
   post to Make.com (only `/contact` does).
 - Icons: Lucide paths in `src/components/home/icons.ts` rendered by `LucideIcon.astro`.
+- Hero layout is a 3-area grid (`.ah-head`, `.ah-visual`, `.ah-actions`) defined in
+  `overrides.css`: phone order is headline → portrait → buttons, desktop keeps the text
+  column beside the portrait. The portrait shrinks with the viewport but never below
+  250px; under 720px tall the floating chips are hidden so they don't cover it.
+- **WhatsApp is answered first by an AI assistant** — `AiAnswersNote.astro` states this
+  next to every place someone is about to write (hero CTA, contact card, contact form,
+  floating button tooltip). Keep that disclosure if you touch the WhatsApp copy.
 - `CaseStudies.astro` is built but **not mounted** in `HomeDocument.astro` until the
   placeholders in `src/data/case-studies.ts` are replaced with real clients. When mounting
   it back, also restore the "דוגמה" nav link (Hero) and "דוגמאות" footer link.
