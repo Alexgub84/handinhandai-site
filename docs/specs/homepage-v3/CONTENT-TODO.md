@@ -5,28 +5,41 @@ Fill the files named here; no component changes needed.
 
 ## 1. Case studies — `src/data/case-studies.ts`
 
-Three cards in the "לא רק מבטיחים. מראים." section. Replace, reorder, or delete
-entries freely (the section handles 1 to many). Per card:
+Status: **card 1 is filled and live** (construction quality control, track `01`,
+data and anonymity rules in `docs/handoff/case-01-construction-qc.md`). The
+section is mounted; it renders one card per entry, so adding a card is a data
+edit only.
+
+Still open:
+
+- **Card 2 — CTO לסטארטאפ (`track: "02"`)**, so the section shows the orange
+  track too.
+- **Card 3 — AI agent (`track: "01"`)**.
+- **Screenshot for card 1** — sanitized, Hebrew UI, landscape ~1600×1000, JPEG
+  under 300KB, neutral file name (never the product name), into
+  `public/home/cases/`, then set `image: "/home/cases/<file>"`. Until it lands
+  the card shows the grey skeleton.
+
+Per card:
 
 | Field | What to write | Example | Notes |
 |---|---|---|---|
 | `track` | `"01"` business system / `"02"` startup CTO | `"01"` | Sets colour (green / orange) and chip label |
-| `client` | Client or venture name | `"קליניקת ד״ר כהן"` | Can be anonymised: `"קליניקה בתל אביב"`. First letter becomes the avatar if no `logo` |
+| `client` | Client or venture name | `"קליניקת ד״ר כהן"` | Can be anonymised: `"יזם בנייה למגורים"`. First letter becomes the avatar if no `logo` |
 | `industry` | Sector, short | `"נדל״ן"` | Shown under the name |
 | `title` | The result in one sentence | `"מ-5 מערכות מפוזרות לפלטפורמה אחת"` | Card headline |
 | `challenge` | What hurt before, 1–2 sentences | | "האתגר" block |
 | `solution` | What was built, 1–2 sentences | | "מה בנינו" block |
-| `results` | Exactly 3 metrics `{ value, label }` | `{ value: "72%", label: "פחות עבודה ידנית" }` | `value` must contain a number to animate (`"40"`, `"72%"`, `"$1.2M"`, `"3.5"`). Prefix/suffix allowed |
-| `stack` | 3–5 tech chips | `["Custom CRM", "AI Agent", "WhatsApp API"]` | Rendered in monospace |
-| `url` | Fake/real address for the browser bar | `"app.client.co.il"` | Display only, not a link |
+| `results` | Exactly 3 metrics `{ value, label }` | `{ value: "₪100,000", label: "חסכון שנתי ללקוח" }` | `value` animates when it contains a digit (`"40"`, `"72%"`, `"3,300+"`, `"₪100,000"`). Thousands separators are kept |
+| `stack` | 3–5 tech chips | `["Flutter", "React", "Fastify"]` | Rendered in monospace |
+| `url` | Fake/real address for the browser bar | `"qc.site-control.co.il"` | Display only, not a link |
 | `quote` | `{ text, name, role }` | | Optional. Omit the whole object to hide the quote |
 | `logo` | Path to square client logo | `"/home/cases/cohen-logo.png"` | Optional. ~96×96 px PNG/SVG, put under `public/home/cases/` |
 | `image` | Screenshot of the system | `"/home/cases/cohen-crm.jpg"` | Optional. Replaces the grey skeleton. Landscape, ~1600×1000 px, JPEG < 300 KB, under `public/home/cases/` |
 | `href` | Link to a full case-study page | `"/cases/cohen"` | Optional. Adds "לסיפור המלא" link. Page must exist |
 
-Card 1 (`01`) = business system, card 2 (`02`) = startup, card 3 (`01`) = AI
-agent. Keep at least one of each track if possible, the section was designed
-to show both colours.
+Keep at least one card of each track once a second card exists, the section was
+designed to show both colours.
 
 ## 2. Personal facts — `src/data/home-profile.ts`
 

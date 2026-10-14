@@ -1,9 +1,7 @@
 ---
 /* Shared homepage document (v3 — "Alex" personal-brand site). Rendered by `/` and `/en`
    (identical Hebrew content; canonical always points to `/`).
-   Spec: docs/specs/homepage-v3/. Order follows the prototype render order.
-   CaseStudies.astro is intentionally NOT mounted yet — real case-study content is pending
-   (see docs/specs/homepage-v3/CONTENT-TODO.md). Re-add it between About and WhyToggle. */
+   Spec: docs/specs/homepage-v3/. Order follows the prototype render order. */
 import "@styles/home/tailwind.css";
 import "@styles/home/theme.css";
 import "@styles/home/app.css";
@@ -12,6 +10,7 @@ import Hero from "./Hero.astro";
 import Services from "./Services.astro";
 import WhyAlex from "./WhyAlex.astro";
 import About from "./About.astro";
+import CaseStudies from "./CaseStudies.astro";
 import WhyToggle from "./WhyToggle.astro";
 import Contact from "./Contact.astro";
 import Footer from "./Footer.astro";
@@ -41,7 +40,7 @@ const jsonLd = {
   areaServed: { "@type": "Country", name: "Israel" },
   availableLanguage: "he",
   founder: { "@type": "Person", name: homeProfile.firstName, jobTitle: "מייסד, מפתח ו-CTO במיקור חוץ" },
-  knowsAbout: ["מערכות ניהול לעסקים", "פיתוח אפליקציות", "Custom CRM", "סוכני AI", "אוטומציה לעסקים", "CTO במיקור חוץ", "פיתוח MVP"],
+  knowsAbout: ["מערכות ניהול לעסקים", "פיתוח אפליקציות לאנדרואיד ול-iOS", "פיתוח אפליקציות", "Custom CRM", "סוכני AI", "אוטומציה לעסקים", "CTO במיקור חוץ", "פיתוח MVP"],
 };
 ---
 
@@ -94,6 +93,7 @@ const jsonLd = {
       <Services />
       <WhyAlex />
       <About />
+      <CaseStudies />
       <WhyToggle />
       <Contact />
     </main>

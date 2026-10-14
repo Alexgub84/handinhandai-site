@@ -80,7 +80,7 @@ Bilingual (Hebrew default / English) marketing site for Hand in Hand AI, built w
 
 | URL | Notes |
 |-----|--------|
-| `/` | `src/pages/index.astro` → `src/components/home/HomeDocument.astro` (self-contained doc, `src/styles/home/*`, Heebo + JetBrains Mono via Google Fonts) | Hero (top nav + headline with rotating word + portrait) · Services (two tracks: business systems / startup CTO) · WhyAlex (4 value cards) · About (photo + word-reveal story + years counter) · _(CaseStudies: built, not mounted until real content is filled in `src/data/case-studies.ts`)_ · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer (dark, legal links) · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
+| `/` | `src/pages/index.astro` → `src/components/home/HomeDocument.astro` (self-contained doc, `src/styles/home/*`, Heebo + JetBrains Mono via Google Fonts) | Hero (top nav + headline with rotating word + portrait) · Services (two tracks: business systems / startup CTO) · WhyAlex (4 value cards) · About (photo + word-reveal story + years counter) · CaseStudies (real client cards from `src/data/case-studies.ts`) · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer (dark, legal links) · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
 | `/contact` | Contact (Hebrew) |
 | `/en/`, `/ru/`, `/uk/` (and `/he/`) | Homepage per locale (Hebrew default also served at `/`) |
 
@@ -107,7 +107,7 @@ src/
 ├── components/       # Header, Footer, LegalFooter, SEOHead, home/ (homepage v3)
 ├── data/
 │   ├── site-contact.ts   # Shared phone + email + WhatsApp greeting
-│   ├── case-studies.ts   # Homepage case studies (fill the placeholders here)
+│   ├── case-studies.ts   # Homepage case studies (one entry per card)
 │   └── home-profile.ts   # Name, years in field, homepage WhatsApp greeting
 ├── i18n/             # ui.ts (strings), utils.ts
 ├── layouts/          # Layout.astro (legal pages); homepage is a standalone document

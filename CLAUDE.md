@@ -61,8 +61,8 @@ spec review). Rules:
   reproduces the prototype's React state (rotating word, היום/אפשרי switch, count-ups,
   sticky case-study stack, contact form). `prefers-reduced-motion` disables motion.
 - **Fillable content lives in data files, not components:** case studies in
-  `src/data/case-studies.ts` (bracketed Hebrew + `XX` are placeholders, with
-  `logo`/`image`/`href` optional), name / years / WhatsApp greeting in
+  `src/data/case-studies.ts` (`logo`/`image`/`href` optional; a metric `value` animates as a
+  count-up when it contains a digit, thousands separators included), name / years / WhatsApp greeting in
   `src/data/home-profile.ts`, phone + email in `src/data/site-contact.ts`.
 - Homepage form opens WhatsApp / `mailto:` with the composed message; it does **not**
   post to Make.com (only `/contact` does).
@@ -74,9 +74,15 @@ spec review). Rules:
 - **WhatsApp is answered first by an AI assistant** — `AiAnswersNote.astro` states this
   next to every place someone is about to write (hero CTA, contact card, contact form,
   floating button tooltip). Keep that disclosure if you touch the WhatsApp copy.
-- `CaseStudies.astro` is built but **not mounted** in `HomeDocument.astro` until the
-  placeholders in `src/data/case-studies.ts` are replaced with real clients. When mounting
-  it back, also restore the "דוגמה" nav link (Hero) and "דוגמאות" footer link.
+- `CaseStudies.astro` is mounted between `About` and `WhyToggle` and renders one card per
+  entry in `src/data/case-studies.ts` (one card today, the construction QC client). The
+  section subtitle switches between singular and plural on the entry count. Adding an entry
+  needs no component change.
+- **Client anonymity:** the construction QC client ships the product under their own
+  developer account, so the product name identifies the client. Never put the product name,
+  its real domain or a store link in copy, alt text, file names or commit messages; keep
+  `client` generic and keep the invented hostname in `url`. Source of truth:
+  `docs/handoff/case-01-construction-qc.md`.
 
 ## Routes
 
