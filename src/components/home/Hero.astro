@@ -64,7 +64,9 @@ const rotating = ["למציאות.", "למערכת.", "לפיצ'ר."];
   <!-- Three grid children so the phone order can be headline → portrait → actions
        while desktop keeps one text column beside the portrait (see overrides.css). -->
   <div class="ah-main mx-auto w-[min(1240px,calc(100%-32px))] flex-1 py-[clamp(28px,5vh,64px)]">
-    <div class="ah-head relative z-[2] text-center lg:text-right">
+    <!-- Benefit chips are their own grid child: last on the phone, above the
+         headline on desktop (see .ah-bench in overrides.css). -->
+    <div class="ah-bench relative z-[2] w-full">
       <ul class="ah-benefits" aria-label="מה מקבלים">
         {benefits.map((b) => (
           <li>
@@ -73,8 +75,10 @@ const rotating = ["למציאות.", "למערכת.", "לפיצ'ר."];
           </li>
         ))}
       </ul>
+    </div>
 
-      <h1 class="ah-h1 mt-[22px] text-[clamp(2.3rem,4.9vw,4.7rem)] font-black leading-[1.08] tracking-[-0.02em]">
+    <div class="ah-head relative z-[2] text-center lg:text-right">
+      <h1 class="ah-h1 text-[clamp(2.3rem,4.9vw,4.7rem)] font-black leading-[1.08] tracking-[-0.02em]">
         <span class="ah-line"><span>אני <span class="ah-name">{homeProfile.firstName}</span>,</span></span>
         <span class="ah-line"><span>אני כאן כדי להפוך</span></span>
         <span class="ah-line">

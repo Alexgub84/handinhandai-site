@@ -85,7 +85,7 @@ test.describe("homepage v3 (/)", () => {
     await expect(form.locator("[data-done]")).toBeVisible();
   });
 
-  test("mobile hero puts the headline above the portrait", async ({ page }) => {
+  test("mobile hero orders headline, portrait, buttons, benefit chips", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
     await page.waitForLoadState("networkidle");
@@ -102,6 +102,20 @@ test.describe("homepage v3 (/)", () => {
     );
     expect(hscroll).toBe(false);
     expect(portrait!.height).toBeGreaterThanOrEqual(250);
+
+    /* Benefit chips close the hero on the phone, and the whole block fits one screen. */
+    const bench = await page.locator("#top .ah-bench").boundingBox();
+    expect(actions!.y + actions!.height).toBeLessThanOrEqual(bench!.y);
+    expect(bench!.y + bench!.height).toBeLessThanOrEqual(844);
+  });
+
+  test("short phone screens still fit the whole hero above the fold", async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 640 });
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+
+    const bench = await page.locator("#top .ah-bench").boundingBox();
+    expect(bench!.y + bench!.height).toBeLessThanOrEqual(640);
   });
 
   test("desktop hero keeps the headline beside the portrait", async ({ page }) => {
