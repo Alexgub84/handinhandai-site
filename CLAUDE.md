@@ -85,7 +85,9 @@ spec review). Rules:
   `docs/handoff/case-01-construction-qc.md`. The ordering/AI-verification client
   (card 2) is likewise anonymous, and its card figures are a **yearly run rate** from
   a three-month window — never present them as a completed year. Derivation:
-  `docs/handoff/case-02-construction-ordering.md`.
+  `docs/handoff/case-02-construction-ordering.md`. Card 3 (Chillist) is a named
+  product on the `02` track and carries **build facts, not usage figures** — the
+  product has no traffic to report, and invented metrics do not go on this site.
 
 ## Routes
 
