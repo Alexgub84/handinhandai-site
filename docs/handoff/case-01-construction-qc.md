@@ -81,7 +81,19 @@ Spare numbers, same honesty level, if one of the three needs replacing:
 | 2 | אפליקציות על backend אחד |
 | 17 | סוגי חדרים בתבנית |
 
-## Image
+## Image (delivered 2026-10-15)
+
+`public/home/cases/construction-qc-matrix.jpg` — the office progress matrix,
+built from the source project's own QA capture
+(`local/qa/2026-10-13-matrix/02-matrix-overview.png` in the product repo). The
+top bar carrying the product mark is **cropped away**, so the card shows the
+Hebrew matrix, the sidebar and the building cards only. Composed on a 1600×1000
+light canvas, 96 KB.
+
+If it is ever re-shot, keep the same rule: no product name, no real domain, no
+user name in the header.
+
+## Original note
 
 Not delivered yet. It will arrive as a sanitized screenshot of the office
 progress matrix: Hebrew UI, landscape 1600×1000, JPEG under 300KB, no browser
@@ -102,6 +114,9 @@ development. The published copy therefore differs from the table above:
 - `solution`: names the Android + iOS app and the office web system explicitly.
 - third metric label: "שבועות עד App Store ו-Google Play".
 - `stack` carries an "iOS + Android" chip.
+- 2026-10-15: the card also shows **App Store / Google Play badges** (`stores`),
+  and the third metric went back to "שבועות עד שתי החנויות" — the badges already
+  name the stores, so the label does not need to.
 
 Still inside the anonymity rules: store *names* are fine, a store *link* or the
 product name is not.

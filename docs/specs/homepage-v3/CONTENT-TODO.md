@@ -11,12 +11,18 @@ verification (`docs/handoff/case-02-construction-ordering.md`) and Chillist on t
 orange startup track (`docs/handoff/case-03-chillist.md`). The section is mounted;
 it renders one card per entry, so adding a card is a data edit only.
 
+All three cards ship a screenshot, and the two cards with a mobile app show
+App Store / Google Play badges.
+
 Still open:
 
-- **Screenshot for card 1** — sanitized, Hebrew UI, landscape ~1600×1000, JPEG
-  under 300KB, neutral file name (never the product name), into
-  `public/home/cases/`, then set `image: "/home/cases/<file>"`. Until it lands
-  the card shows the grey skeleton. Card 2 already ships its screenshot.
+- Usage figures for Chillist, once the product has traffic (the card carries build
+  facts today).
+- A quote from any of the three clients, if approval ever comes.
+
+Image rules for a new card: sanitised, Hebrew UI, landscape ~1600×1000, JPEG under
+300KB, neutral file name (never a client's product name), into `public/home/cases/`,
+then `image: "/home/cases/<file>"`. Without one the card falls back to a grey skeleton.
 
 Per card:
 

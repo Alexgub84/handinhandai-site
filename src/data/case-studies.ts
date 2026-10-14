@@ -18,6 +18,9 @@
 
 export type CaseTrack = "01" | "02";
 
+/** App stores a product ships in; rendered as badges on the card. */
+export type CaseStore = "appstore" | "googleplay";
+
 export interface CaseResult {
   value: string;
   label: string;
@@ -45,6 +48,8 @@ export interface CaseStudy {
   image?: string;
   /** Link to a full case-study page, if one exists. */
   href?: string;
+  /** Shows "זמין ב App Store / Google Play" badges under the client name. */
+  stores?: CaseStore[];
 }
 
 export const TRACK_META: Record<CaseTrack, { color: string; label: string }> = {
@@ -57,18 +62,20 @@ export const caseStudies: CaseStudy[] = [
     track: "01",
     client: "יזם בנייה למגורים",
     industry: "בנייה למגורים",
-    title: "מצ'קליסט על נייר לאפליקציה בשטח ומערכת ווב במשרד",
+    title: "מצ'קליסט על נייר לאפליקציה בשטח ולמערכת ווב במשרד",
     challenge:
       "בדיקות איכות באתר נרשמו על דפים ובוואטסאפ, תמונות התפזרו בין טלפונים, ובסוף אף אחד לא ידע מה אושר ומה נפתח מחדש.",
     solution:
-      "אפליקציה לאנדרואיד ול-iOS שעובדת בשטח גם בלי רשת, ומערכת ווב למשרד: צ'קליסטים לפי דירה, מחזור תיקון תקלות, חתימה ודוח PDF נעול.",
+      "אפליקציה לאנדרואיד ולאייפון שעובדת בשטח גם בלי רשת, ולצידה מערכת ווב למשרד: צ'קליסטים לפי דירה, מחזור תיקון תקלות, חתימה ודוח נעול.",
     results: [
       { value: "₪100,000", label: "חסכון שנתי ללקוח" },
       { value: "3,300+", label: "נקודות בדיקה באתר" },
-      { value: "6", label: "שבועות עד App Store ו-Google Play" },
+      { value: "6", label: "שבועות עד שתי החנויות" },
     ],
     stack: ["Flutter", "iOS + Android", "React", "Fastify", "PostgreSQL", "AWS"],
     url: "qc.site-control.co.il",
+    stores: ["appstore", "googleplay"],
+    image: "/home/cases/construction-qc-matrix.jpg",
   },
   {
     track: "01",
@@ -92,18 +99,19 @@ export const caseStudies: CaseStudy[] = [
     track: "02",
     client: "Chillist",
     industry: "אפליקציה לתכנון קבוצתי",
-    title: "מוצר אחד בוויב ובחנויות, עם סוכן AI בוואטסאפ הרשמי",
+    title: "אפליקציה אחת לווב ולנייד, עם סוכן AI שמנהל את הרשימה בוואטסאפ",
     challenge:
       "תכנון של טיול או אירוע קבוצתי נגמר בגיליון אלקטרוני ובשרשור וואטסאפ מבולגן, ואף אחד לא יודע מי מביא מה ומה כבר נקנה.",
     solution:
-      "מוצר אחד בשלוש פלטפורמות: ווב, אפליקציה לאנדרואיד ול-iOS בחנויות, וסוכן AI על WhatsApp Cloud API הרשמי של Meta שמוסיף פריטים, מעדכן סטטוס ומשייך אותם לאנשים ישירות בצ'אט.",
+      "מוצר אחד בשלוש פלטפורמות: אתר, אפליקציה לאנדרואיד ולאייפון, וסוכן AI בוואטסאפ שמוסיף פריטים, מעדכן סטטוס ומחלק משימות ישירות בצ'אט — דרך הממשק הרשמי של מטא, בלי מתווך.",
     results: [
-      { value: "3", label: "פלטפורמות: ווב, iOS, אנדרואיד" },
+      { value: "3", label: "פלטפורמות: אתר, אנדרואיד, אייפון" },
       { value: "700+", label: "פריטים בספריית הרשימות" },
       { value: "3", label: "שפות כולל עברית RTL" },
     ],
     stack: ["React 19", "Expo", "Fastify", "PostgreSQL", "Meta WhatsApp API", "Vercel AI SDK"],
     url: "chillist-fe.pages.dev",
-    image: "/home/cases/chillist-web.jpg",
+    stores: ["appstore", "googleplay"],
+    image: "/home/cases/chillist-plan.jpg",
   },
 ];

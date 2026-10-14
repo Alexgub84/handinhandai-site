@@ -16,8 +16,13 @@ three platforms** (web plus native apps on Google Play and the App Store) and
 that it carries an **AI agent on the official Meta WhatsApp Cloud API** — not a
 third-party WhatsApp bridge. People search for exactly that.
 
-Carried by: the title, the solution line, the `Meta WhatsApp API` chip, and the
-"3 פלטפורמות" metric.
+Carried by: the title, the solution line, the `Meta WhatsApp API` chip, the
+"3 פלטפורמות" metric, and — since 2026-10-15 — **App Store and Google Play
+badges** under the product name (`stores: ["appstore", "googleplay"]`).
+
+Copy rule from the same review: Hebrew first. Latin script in running copy was
+cut (iOS → אייפון, WhatsApp Cloud API → "הממשק הרשמי של מטא"); technical names
+stay in the stack chips, where they belong.
 
 ## Facts behind the copy
 
@@ -67,11 +72,18 @@ countable from the production database.
 
 ## Image
 
-`public/home/cases/chillist-web.jpg` — the live Hebrew landing page captured at
-1440×900 on 2026-10-15, resized to 1600 wide, 136 KB. Replace it with a signed-in
-plan screen if a cleaner one becomes available; the phone store screenshots in
-`chillist-app/docs/store/screenshots/` are portrait and do not suit the card's
-browser frame.
+`public/home/cases/chillist-plan.jpg` — a **signed-in plan screen** in Hebrew:
+"קמפינג בתל אשקלון עם ילדים", 52 items, the buy/bring tabs, the owner board and
+the participant list. Captured 2026-10-15 against the project's own offline dev
+setup (`npx tsx api/server.ts` for the mock API plus `VITE_AUTH_MOCK=true` on
+Vite), so no production account and no real user data were touched; the plan and
+its items come from the repo's seeded mock dataset.
+
+The landing page shot it replaced showed only the outside of the product, which
+Alex rejected on 2026-10-15: show the app from the inside.
+
+To re-shoot: start the mock API and Vite as above, sign in with any email, switch
+the language switcher to עברית and open `/plan/a1b2c3d4-e5f6-4789-abcd-112233445566`.
 
 ## Open
 

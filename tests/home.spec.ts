@@ -71,6 +71,15 @@ test.describe("homepage v3 (/)", () => {
     await expect(page.locator('a[href="#example"]')).not.toHaveCount(0);
   });
 
+  test("a card whose product ships in the stores shows both store badges", async ({ page }) => {
+    const withStores = caseStudies.filter((c) => c.stores?.length);
+    expect(withStores.length).toBeGreaterThan(0);
+
+    const badges = page.locator("#example .cs-card .sb-badge");
+    await expect(badges).toHaveCount(withStores.reduce((n, c) => n + (c.stores?.length ?? 0), 0));
+    await expect(badges.first()).toContainText("App Store");
+  });
+
   test("no bracketed placeholders or XX values reach the page", async ({ page }) => {
     const text = await page.locator("#example").innerText();
     expect(text).not.toMatch(/\[[^\]]*\]/);

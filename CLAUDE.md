@@ -74,6 +74,10 @@ spec review). Rules:
 - **WhatsApp is answered first by an AI assistant** — `AiAnswersNote.astro` states this
   next to every place someone is about to write (hero CTA, contact card, contact form,
   floating button tooltip). Keep that disclosure if you touch the WhatsApp copy.
+- A case card whose product ships as a mobile app sets `stores` in the data file and
+  gets App Store / Google Play badges (`StoreBadges.astro`, drawn inline — no store
+  assets are downloaded). Card copy is **Hebrew first**: technical names live in the
+  stack chips, not in running sentences.
 - `CaseStudies.astro` is mounted between `About` and `WhyToggle` and renders one card per
   entry in `src/data/case-studies.ts` (one card today, the construction QC client). The
   section subtitle switches between singular and plural on the entry count. Adding an entry
