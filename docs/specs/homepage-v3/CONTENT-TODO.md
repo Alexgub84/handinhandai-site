@@ -5,20 +5,20 @@ Fill the files named here; no component changes needed.
 
 ## 1. Case studies — `src/data/case-studies.ts`
 
-Status: **card 1 is filled and live** (construction quality control, track `01`,
-data and anonymity rules in `docs/handoff/case-01-construction-qc.md`). The
+Status: **two cards are filled and live** — construction quality control
+(`docs/handoff/case-01-construction-qc.md`) and materials ordering with AI
+delivery verification (`docs/handoff/case-02-construction-ordering.md`). The
 section is mounted; it renders one card per entry, so adding a card is a data
 edit only.
 
 Still open:
 
-- **Card 2 — CTO לסטארטאפ (`track: "02"`)**, so the section shows the orange
-  track too.
-- **Card 3 — AI agent (`track: "01"`)**.
+- **A `track: "02"` card (CTO לסטארטאפ)**, so the section shows the orange track
+  too. Both current cards are `01`.
 - **Screenshot for card 1** — sanitized, Hebrew UI, landscape ~1600×1000, JPEG
   under 300KB, neutral file name (never the product name), into
   `public/home/cases/`, then set `image: "/home/cases/<file>"`. Until it lands
-  the card shows the grey skeleton.
+  the card shows the grey skeleton. Card 2 already ships its screenshot.
 
 Per card:
 
