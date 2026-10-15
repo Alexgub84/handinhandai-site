@@ -42,7 +42,7 @@ const jsonLd = {
   name: "handinhand",
   alternateName: "HandInHandAI",
   url: canonical,
-  logo: new URL("/handinhand-logo.png", site).href,
+  logo: new URL("/icon-512.png", site).href,
   image: ogImage,
   slogan: "אני כאן כדי להפוך רעיון למציאות",
   description:
@@ -86,8 +86,10 @@ const jsonLd = {
     <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="icon" type="image/png" href="/handinhand-logo.png" />
-    <link rel="apple-touch-icon" href="/handinhand-logo.png" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
