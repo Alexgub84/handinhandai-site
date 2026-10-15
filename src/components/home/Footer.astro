@@ -4,13 +4,18 @@ import LucideIcon from "./LucideIcon.astro";
 import WhatsAppIcon from "./WhatsAppIcon.astro";
 import { siteContact } from "@/data/site-contact";
 
+interface Props {
+  showCases?: boolean;
+}
+const { showCases = false } = Astro.props;
+
 const wa = siteContact.whatsappCta;
 const year = new Date().getFullYear();
 const links = [
   { label: "מי אני", href: "#about" },
   { label: "מה אני בונה", href: "#services" },
   { label: "למה אלכס", href: "#why-alex" },
-  { label: "דוגמאות", href: "#example" },
+  ...(showCases ? [{ label: "דוגמאות", href: "#example" }] : []),
   { label: "יצירת קשר", href: "#contact" },
 ];
 ---

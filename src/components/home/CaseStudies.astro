@@ -5,6 +5,7 @@ import LucideIcon from "./LucideIcon.astro";
 import WhatsAppIcon from "./WhatsAppIcon.astro";
 import { siteContact } from "@/data/site-contact";
 import { caseStudies, TRACK_META } from "@/data/case-studies";
+import StoreBadges from "./StoreBadges.astro";
 
 const wa = siteContact.whatsappCta;
 /* One card reads as a single example, several as a selection. */
@@ -43,6 +44,7 @@ const initialValue = (v: string): string => {
                   <span class="cs-logo">{c.logo ? <img src={c.logo} alt="" /> : initial}</span>
                   <div><b>{c.client}</b><small>{c.industry}</small></div>
                 </div>
+                {c.stores && <StoreBadges stores={c.stores} />}
                 <h3 class="cs-h">{c.title}</h3>
                 <div class="cs-blocks">
                   <div class="cs-block">
@@ -83,6 +85,7 @@ const initialValue = (v: string): string => {
                     </>
                   )}
                 </div>
+                {c.results && (
                 <div class="cs-results">
                   {c.results.map((r) => {
                     const numeric = NUM.test(r.value);
@@ -100,6 +103,7 @@ const initialValue = (v: string): string => {
                     );
                   })}
                 </div>
+                )}
               </div>
 
               {c.quote && (

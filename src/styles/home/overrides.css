@@ -177,3 +177,38 @@
   font-size: min(clamp(1.5rem, 2.6vw, 2.2rem), calc((100cqi - 18px) / (var(--chars, 3) * 0.62)));
   white-space: nowrap;
 }
+
+/* Store badges on a case card: the product ships as an app, and that should read
+   before anyone gets to the sentence that says so. */
+.sb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.sb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 10px;
+  border-radius: 10px;
+  border: 1px solid hsl(var(--foreground) / 0.14);
+  background: hsl(var(--foreground) / 0.035);
+  color: hsl(var(--foreground));
+  line-height: 1.1;
+}
+.sb-ic { width: 20px; height: 20px; flex: none; }
+.sb-txt { display: flex; flex-direction: column; gap: 1px; text-align: start; }
+.sb-txt small { font-size: 10px; letter-spacing: 0.02em; color: hsl(var(--muted-foreground)); }
+.sb-txt b { font-size: 13px; font-weight: 700; direction: ltr; }
+@media (max-width: 560px) {
+  .sb-badge { padding: 5px 10px 5px 8px; }
+  .sb-txt b { font-size: 12px; }
+}
+
+/* Case-study screenshots are composed to fit the frame (phones on a canvas, a cropped
+   dashboard). Cover would slice their edges off, so show the whole image and let the
+   canvas colour fill any gap. */
+.cs-shot img { object-fit: contain; object-position: center; background: hsl(var(--card)); }

@@ -16,8 +16,13 @@ three platforms** (web plus native apps on Google Play and the App Store) and
 that it carries an **AI agent on the official Meta WhatsApp Cloud API** — not a
 third-party WhatsApp bridge. People search for exactly that.
 
-Carried by: the title, the solution line, the `Meta WhatsApp API` chip, and the
-"3 פלטפורמות" metric.
+Carried by: the title, the solution line, the `Meta WhatsApp API` chip, the
+"3 פלטפורמות" metric, and — since 2026-10-15 — **App Store and Google Play
+badges** under the product name (`stores: ["appstore", "googleplay"]`).
+
+Copy rule from the same review: Hebrew first. Latin script in running copy was
+cut (iOS → אייפון, WhatsApp Cloud API → "הממשק הרשמי של מטא"); technical names
+stay in the stack chips, where they belong.
 
 ## Facts behind the copy
 
@@ -28,8 +33,24 @@ Carried by: the title, the solution line, the `Meta WhatsApp API` chip, and the
 | Published in both stores | Alex, 2026-10-15. `chillist-docs/current/status.md` still said "not in the stores yet" at 2026-10-13 — that doc is stale, this card is not |
 | Official Meta WhatsApp | `chillist-be` 1.38.0 (#262): `WHATSAPP_PROVIDER=meta` sends through `graph.facebook.com/{v}/{PHONE_NUMBER_ID}/messages`, inbound webhook `/webhook/meta` with verify-token handshake and `X-Hub-Signature-256`, 24-hour window table, approved templates. Alex confirmed production runs `meta` (2026-10-15); Green API is retired |
 | AI agent on WhatsApp | `chillist-whatsapp-bot`, Vercel AI SDK + Upstash Redis. Chat with your plans in a DM or a group: list plans, see items, update statuses, create plans, link a group chat to a plan. Backend exposes `/api/internal/*` routes for it |
-| 700+ item library | `chillist-docs/current/status.md` and the bulk-add wizard: a library of 700+ suggested items across Group Equipment, Personal Equipment and Food |
+| 700+ item library | `chillist-docs/current/status.md` and the bulk-add wizard: a library of 700+ suggested items across Group Equipment, Personal Equipment and Food. Now stated in the solution sentence rather than as a metric |
+| Guests join without signing up | invite token grants guest access with no account (`chillist-docs/current/status.md`, "Invites & sharing") — the basis for the "0 הרשמות" metric |
+| Four steps to a full plan | the create-plan wizard: type/tags, details, preferences, items |
 | 3 languages, Hebrew RTL | English, Hebrew (RTL) and Spanish across UI, item catalogue and AI suggestions |
+
+## Metric change, 2026-10-15
+
+Alex rejected the first trio (3 platforms / 700+ items / 3 languages) as
+irrelevant to a buyer — build trivia, not product value. Replaced with what the
+product actually does for the people using it:
+
+| value | label | basis |
+| --- | --- | --- |
+| 24/7 | סוכן AI שעונה בוואטסאפ | the WhatsApp agent answers whenever someone writes; no staffed hours |
+| 0 | הרשמות למוזמנים לתוכנית | guests open an invite link and act on the list with no account |
+| 4 | שלבים מרעיון לרשימה מלאה | the four-step create-plan wizard |
+
+Platforms moved to the badges and the solution sentence, where they belong.
 
 ## No usage numbers
 
@@ -67,11 +88,26 @@ countable from the production database.
 
 ## Image
 
-`public/home/cases/chillist-web.jpg` — the live Hebrew landing page captured at
-1440×900 on 2026-10-15, resized to 1600 wide, 136 KB. Replace it with a signed-in
-plan screen if a cleaner one becomes available; the phone store screenshots in
-`chillist-app/docs/store/screenshots/` are portrait and do not suit the card's
-browser frame.
+`public/home/cases/chillist-mobile.jpg` — **three phone screens side by side**:
+the plan with its progress, the checklist with per-item assignees and ticks, and
+the personal list. Alex asked for the mobile checklist specifically (2026-10-15):
+the product sells as something you use in a shop or at the car, not at a desk.
+
+Composed on a 1600×1000 canvas in the app's own splash colour, rounded corners
+and a soft shadow, from iPhone-13 captures at device scale 3.
+
+Previous version (kept here for the record) was a **signed-in plan screen** in Hebrew:
+"קמפינג בתל אשקלון עם ילדים", 52 items, the buy/bring tabs, the owner board and
+the participant list. Captured 2026-10-15 against the project's own offline dev
+setup (`npx tsx api/server.ts` for the mock API plus `VITE_AUTH_MOCK=true` on
+Vite), so no production account and no real user data were touched; the plan and
+its items come from the repo's seeded mock dataset.
+
+The landing page shot it replaced showed only the outside of the product, which
+Alex rejected on 2026-10-15: show the app from the inside.
+
+To re-shoot: start the mock API and Vite as above, sign in with any email, switch
+the language switcher to עברית and open `/plan/a1b2c3d4-e5f6-4789-abcd-112233445566`.
 
 ## Open
 

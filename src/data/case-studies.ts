@@ -18,6 +18,9 @@
 
 export type CaseTrack = "01" | "02";
 
+/** App stores a product ships in; rendered as badges on the card. */
+export type CaseStore = "appstore" | "googleplay";
+
 export interface CaseResult {
   value: string;
   label: string;
@@ -36,7 +39,8 @@ export interface CaseStudy {
   title: string;
   challenge: string;
   solution: string;
-  results: CaseResult[];
+  /** Exactly three outcome tiles, or omitted when a card has nothing honest to count. */
+  results?: CaseResult[];
   stack: string[];
   /** Shown in the fake browser address bar. */
   url: string;
@@ -45,6 +49,8 @@ export interface CaseStudy {
   image?: string;
   /** Link to a full case-study page, if one exists. */
   href?: string;
+  /** Shows "זמין ב App Store / Google Play" badges under the client name. */
+  stores?: CaseStore[];
 }
 
 export const TRACK_META: Record<CaseTrack, { color: string; label: string }> = {
@@ -57,18 +63,20 @@ export const caseStudies: CaseStudy[] = [
     track: "01",
     client: "יזם בנייה למגורים",
     industry: "בנייה למגורים",
-    title: "מצ'קליסט על נייר לאפליקציה בשטח ומערכת ווב במשרד",
+    title: "מערכת לניהול ההתקנות ובקרת האיכות בכל הדירות באתר",
     challenge:
-      "בדיקות איכות באתר נרשמו על דפים ובוואטסאפ, תמונות התפזרו בין טלפונים, ובסוף אף אחד לא ידע מה אושר ומה נפתח מחדש.",
+      "באתר עם מאות דירות אי אפשר היה לדעת מה כבר הותקן, מה נבדק ומה נפתח מחדש. הדיווחים נרשמו על דפים ובוואטסאפ, והתמונות התפזרו בין הטלפונים.",
     solution:
-      "אפליקציה לאנדרואיד ול-iOS שעובדת בשטח גם בלי רשת, ומערכת ווב למשרד: צ'קליסטים לפי דירה, מחזור תיקון תקלות, חתימה ודוח PDF נעול.",
+      "מערכת שמנהלת את כל האתר: לכל בניין, קומה ודירה יש צ'קליסט התקנה ובדיקה, מעקב אחרי תיקון ליקויים, חתימה ודוח מסודר. בשטח אפליקציה שעובדת גם בלי רשת, ובמשרד מסך שמראה איפה כל דירה עומדת.",
     results: [
       { value: "₪100,000", label: "חסכון שנתי ללקוח" },
-      { value: "3,300+", label: "נקודות בדיקה באתר" },
-      { value: "6", label: "שבועות עד App Store ו-Google Play" },
+      { value: "196", label: "דירות במעקב באתר אחד" },
+      { value: "100%", label: "מהבדיקות מתועדות וחתומות" },
     ],
     stack: ["Flutter", "iOS + Android", "React", "Fastify", "PostgreSQL", "AWS"],
     url: "qc.site-control.co.il",
+    stores: ["appstore", "googleplay"],
+    image: "/home/cases/construction-qc-matrix.jpg",
   },
   {
     track: "01",
@@ -80,9 +88,9 @@ export const caseStudies: CaseStudy[] = [
     solution:
       "מערכת הזמנות לנייד ולמשרד עם אישור רכש, שליחה לספק בוואטסאפ, ומודל AI שקורא את תעודת המשלוח המצולמת ומשווה אותה שורה-שורה להזמנה.",
     results: [
-      { value: "1,800+", label: "הזמנות בשנה (קצב נוכחי)" },
       { value: "500+", label: "חוסרים שנתפסים בשנה" },
-      { value: "93%", label: "תעודות שאומתו תוך 36 שעות" },
+      { value: "93%", label: "תעודות שנבדקות תוך 36 שעות" },
+      { value: "20", label: "דקות מהזמנה עד אישור" },
     ],
     stack: ["Remix", "PostgreSQL", "Gemini Vision", "WhatsApp API", "PWA"],
     url: "orders.site-materials.co.il",
@@ -92,18 +100,14 @@ export const caseStudies: CaseStudy[] = [
     track: "02",
     client: "Chillist",
     industry: "אפליקציה לתכנון קבוצתי",
-    title: "מוצר אחד בוויב ובחנויות, עם סוכן AI בוואטסאפ הרשמי",
+    title: "אפליקציה לנייד עם סוכן AI שמנהל את הרשימה בוואטסאפ",
     challenge:
       "תכנון של טיול או אירוע קבוצתי נגמר בגיליון אלקטרוני ובשרשור וואטסאפ מבולגן, ואף אחד לא יודע מי מביא מה ומה כבר נקנה.",
     solution:
-      "מוצר אחד בשלוש פלטפורמות: ווב, אפליקציה לאנדרואיד ול-iOS בחנויות, וסוכן AI על WhatsApp Cloud API הרשמי של Meta שמוסיף פריטים, מעדכן סטטוס ומשייך אותם לאנשים ישירות בצ'אט.",
-    results: [
-      { value: "3", label: "פלטפורמות: ווב, iOS, אנדרואיד" },
-      { value: "700+", label: "פריטים בספריית הרשימות" },
-      { value: "3", label: "שפות כולל עברית RTL" },
-    ],
+      "אפליקציה לאנדרואיד ולאייפון שמחזיקה רשימה משותפת לכל הקבוצה, עם סוכן AI שיושב בוואטסאפ: כותבים לו בצ'אט או בקבוצה והוא מוסיף פריטים, מעדכן מה כבר נקנה ומחלק מי מביא מה. החיבור הוא לממשק הרשמי של מטא, בלי מתווך.",
     stack: ["React 19", "Expo", "Fastify", "PostgreSQL", "Meta WhatsApp API", "Vercel AI SDK"],
     url: "chillist-fe.pages.dev",
-    image: "/home/cases/chillist-web.jpg",
+    stores: ["appstore", "googleplay"],
+    image: "/home/cases/chillist-mobile.jpg",
   },
 ];
