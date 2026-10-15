@@ -1,0 +1,255 @@
+---
+/**
+ * First-party visitor analytics.
+ *
+ * Collects what the site needs to know (where visitors came from, how far down
+ * they read, what they clicked) and posts it to our own edge collector at
+ * /api/e. No third-party request, no cookie, no persistent identifier: the
+ * session id lives in sessionStorage and dies with the tab, and the visitor id
+ * is derived server side from a hash that rotates every day.
+ *
+ * Included by both document heads (Layout.astro and home/HomeDocument.astro).
+ */
+---
+
+<script>
+  type TrackedEvent = {
+    t: 'view' | 'section' | 'depth' | 'click' | 'end';
+    k?: string;
+    h?: string;
+    p?: string;
+    v?: number;
+  };
+
+  const ENDPOINT = '/api/e';
+  const FLUSH_MS = 15000;
+  const MAX_BATCH = 40;
+
+  // Visitors who ask not to be tracked are not tracked: nothing below runs, so
+  // nothing is queued and no request is ever made.
+  if (navigator.doNotTrack !== '1') {
+    const sessionKey = 'hih_s';
+    const newId = (): string =>
+      Math.random().toString(36).slice(2) + Date.now().toString(36);
+
+    let session: string;
+    try {
+      session = sessionStorage.getItem(sessionKey) ?? '';
+      if (!session) {
+        session = newId();
+        sessionStorage.setItem(sessionKey, session);
+      }
+    } catch {
+      // Private mode or storage blocked: fall back to a per-pageview id.
+      session = newId();
+    }
+
+    const path = location.pathname.replace(/(.)\/+$/, '$1');
+    const lang = document.documentElement.lang || '';
+    const params = new URLSearchParams(location.search);
+    const queue: TrackedEvent[] = [];
+
+    const text = (value: string | null | undefined, max: number): string =>
+      (value ?? '').trim().replace(/\s+/g, ' ').slice(0, max);
+
+    const device = (): string => {
+      const narrow = Math.min(screen.width, screen.height);
+      if (narrow <= 480) return 'phone';
+      if (narrow <= 820) return 'tablet';
+      return 'desktop';
+    };
+
+    const refHost = (): string => {
+      if (!document.referrer) return '';
+      try {
+        const { host } = new URL(document.referrer);
+        return host === location.host ? '' : host;
+      } catch {
+        return '';
+      }
+    };
+
+    // Ad platforms replace the referrer with their own click id; treat those as
+    // the source when the link carried no utm_source.
+    const source = (): string => {
+      const utm = text(params.get('utm_source'), 60);
+      if (utm) return utm;
+      if (params.has('gclid')) return 'google-ads';
+      if (params.has('fbclid')) return 'facebook';
+      return '';
+    };
+
+    const push = (event: TrackedEvent): void => {
+      if (queue.length < MAX_BATCH) queue.push(event);
+    };
+
+    const send = (final: boolean): void => {
+      if (!queue.length) return;
+      const body = JSON.stringify({
+        s: session,
+        p: path,
+        l: lang,
+        r: refHost(),
+        u: {
+          s: source(),
+          m: text(params.get('utm_medium'), 60),
+          c: text(params.get('utm_campaign'), 60),
+        },
+        d: device(),
+        w: window.innerWidth,
+        e: queue.splice(0, queue.length),
+      });
+
+      // sendBeacon survives the unload that a plain fetch does not.
+      if (navigator.sendBeacon?.(ENDPOINT, new Blob([body], { type: 'application/json' }))) {
+        return;
+      }
+      void fetch(ENDPOINT, {
+        method: 'POST',
+        body,
+        headers: { 'Content-Type': 'application/json' },
+        keepalive: final,
+      }).catch(() => {
+        // Analytics never interferes with the page.
+      });
+    };
+
+    /* ---- the pageview ------------------------------------------------ */
+
+    push({ t: 'view' });
+
+    /* ---- which sections were reached, and for how long ---------------- */
+
+    const dwell = new Map<string, number>();
+    const openedAt = new Map<HTMLElement, number>();
+    const seen = new Set<string>();
+
+    const sectionId = (el: HTMLElement): string =>
+      el.dataset.trackSection || el.id || 'unnamed';
+
+    const closeSection = (el: HTMLElement, now: number): void => {
+      const started = openedAt.get(el);
+      if (!started) return;
+      openedAt.delete(el);
+      const id = sectionId(el);
+      dwell.set(id, (dwell.get(id) ?? 0) + (now - started));
+    };
+
+    const sections = [
+      ...document.querySelectorAll<HTMLElement>('section[id], [data-track-section]'),
+    ];
+
+    if (sections.length && 'IntersectionObserver' in window) {
+      // A section counts as reached when half of it is on screen, or — for a
+      // section taller than the viewport, where that can never happen — when it
+      // covers half the screen.
+      const reached = (entry: IntersectionObserverEntry): boolean =>
+        entry.isIntersecting &&
+        (entry.intersectionRatio >= 0.5 ||
+          entry.intersectionRect.height >= window.innerHeight * 0.5);
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const now = Date.now();
+          for (const entry of entries) {
+            const el = entry.target as HTMLElement;
+            if (reached(entry)) {
+              const id = sectionId(el);
+              if (!seen.has(id)) {
+                seen.add(id);
+                push({ t: 'section', k: id, v: 0 });
+              }
+              openedAt.set(el, now);
+            } else {
+              closeSection(el, now);
+            }
+          }
+        },
+        { threshold: [0, 0.25, 0.5, 0.75, 1] },
+      );
+      sections.forEach((section) => observer.observe(section));
+    }
+
+    /* ---- how far down the page they got ------------------------------ */
+
+    let depth = 0;
+    const measureDepth = (): void => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const percent = scrollable <= 0 ? 100 : Math.round((scrollY / scrollable) * 100);
+      depth = Math.min(100, Math.max(depth, percent));
+    };
+    measureDepth();
+    addEventListener('scroll', measureDepth, { passive: true });
+
+    /* ---- what they clicked ------------------------------------------- */
+
+    addEventListener(
+      'click',
+      (event) => {
+        const target = (event.target as HTMLElement | null)?.closest<HTMLElement>(
+          'a, button, [data-track]',
+        );
+        if (!target) return;
+
+        const href = (target as HTMLAnchorElement).href || '';
+        const label =
+          target.dataset.track ||
+          text(target.getAttribute('aria-label'), 60) ||
+          text(target.textContent, 60) ||
+          (href ? 'link' : target.tagName.toLowerCase());
+        const section = target.closest<HTMLElement>('section[id], [data-track-section]');
+
+        push({
+          t: 'click',
+          k: label,
+          h: text(href, 200),
+          p: section ? sectionId(section) : '',
+        });
+        if (queue.length >= MAX_BATCH - 4) send(false);
+      },
+      { capture: true, passive: true },
+    );
+
+    /* ---- engaged time, and flushing on the way out -------------------- */
+
+    let engaged = 0;
+    let visibleSince = document.visibilityState === 'visible' ? Date.now() : 0;
+
+    // Sent on every hide rather than only the first one, so a visitor who
+    // switches tabs and comes back still reports their full visit. Depth and
+    // engaged time are cumulative, so the dashboard takes the largest value
+    // per session rather than summing the rows.
+    const flushVisit = (): void => {
+      const now = Date.now();
+      if (visibleSince) {
+        engaged += now - visibleSince;
+        visibleSince = 0;
+      }
+      for (const el of [...openedAt.keys()]) closeSection(el, now);
+      for (const [id, ms] of dwell) {
+        if (ms > 500) push({ t: 'section', k: id, v: Math.round(ms) });
+      }
+      dwell.clear();
+      measureDepth();
+      push({ t: 'depth', v: depth });
+      push({ t: 'end', v: Math.round(engaged) });
+      send(true);
+    };
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        flushVisit();
+      } else if (!visibleSince) {
+        visibleSince = Date.now();
+        const now = visibleSince;
+        for (const section of sections) {
+          const rect = section.getBoundingClientRect();
+          if (rect.top < innerHeight && rect.bottom > 0) openedAt.set(section, now);
+        }
+      }
+    });
+    addEventListener('pagehide', flushVisit);
+
+    setInterval(() => send(false), FLUSH_MS);
+  }
+</script>

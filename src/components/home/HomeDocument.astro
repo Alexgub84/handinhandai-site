@@ -8,6 +8,7 @@ import "@styles/home/theme.css";
 import "@styles/home/app.css";
 import "@styles/home/overrides.css";
 import Hero from "./Hero.astro";
+import Analytics from "../Analytics.astro";
 import Services from "./Services.astro";
 import WhyAlex from "./WhyAlex.astro";
 import About from "./About.astro";
@@ -100,6 +101,7 @@ const jsonLd = {
     <link rel="preload" as="image" href="/home/alex-hero.webp" />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <Analytics />
   </head>
   <body>
     <a class="skip-link" href="#main">דילוג לתוכן</a>
