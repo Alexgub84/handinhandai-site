@@ -125,6 +125,25 @@ GitHub Actions workflow at `.github/workflows/test.yml` runs on every PR to `mai
 
 `/fitness-studio` and `/fitness-chain` (plus `/en`, `/he` variants) were removed on 2026-10-13 along with `FitnessLayout`, the vendored WhatsApp chat mock and `src/styles/fitness.css`. `public/_redirects` 301s those paths to `/`. Do not recreate them without a new spec.
 
+## Favicon / app icons
+
+Every icon in `public/` is generated from `docs/brand/logo-master.png` (the 1.1 MB
+brand master, deliberately outside `public/` so it is never shipped) by
+`scripts/generate-icons.py` (needs Pillow). Regenerate with
+`python3 scripts/generate-icons.py` after any logo change, never by hand:
+
+| File | Size | Used by |
+|---|---|---|
+| `favicon.ico` | 16/32/48 | legacy browsers, default `/favicon.ico` fetch |
+| `favicon-32.png` | 32 | `<link rel="icon">` in both heads |
+| `apple-touch-icon.png` | 180, flattened on white | iOS home screen (transparency renders black there) |
+| `icon-192.png` | 192 | manifest, `Header.astro` logo |
+| `icon-512.png` | 512 | manifest, JSON-LD `logo` |
+
+Both document heads (`src/layouts/Layout.astro` and
+`src/components/home/HomeDocument.astro`) must link the same four files plus
+`/site.webmanifest`. Keep them in sync — they are separate documents.
+
 ## Social Sharing / OG Images
 
 All Open Graph images (WhatsApp previews, Facebook, Twitter/X, LinkedIn) live in `public/og/`.

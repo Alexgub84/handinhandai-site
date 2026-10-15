@@ -4,7 +4,9 @@ dist/
 .astro/
 
 # dependencies
-node_modules/
+# No trailing slash: a stray node_modules *symlink* was committed once and a
+# directory-only pattern did not ignore it.
+node_modules
 
 # logs
 npm-debug.log*
