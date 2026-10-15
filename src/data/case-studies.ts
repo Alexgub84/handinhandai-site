@@ -88,4 +88,22 @@ export const caseStudies: CaseStudy[] = [
     url: "orders.site-materials.co.il",
     image: "/home/cases/construction-orders-board.jpg",
   },
+  {
+    track: "02",
+    client: "Chillist",
+    industry: "אפליקציה לתכנון קבוצתי",
+    title: "מוצר אחד בוויב ובחנויות, עם סוכן AI בוואטסאפ הרשמי",
+    challenge:
+      "תכנון של טיול או אירוע קבוצתי נגמר בגיליון אלקטרוני ובשרשור וואטסאפ מבולגן, ואף אחד לא יודע מי מביא מה ומה כבר נקנה.",
+    solution:
+      "מוצר אחד בשלוש פלטפורמות: ווב, אפליקציה לאנדרואיד ול-iOS בחנויות, וסוכן AI על WhatsApp Cloud API הרשמי של Meta שמוסיף פריטים, מעדכן סטטוס ומשייך אותם לאנשים ישירות בצ'אט.",
+    results: [
+      { value: "3", label: "פלטפורמות: ווב, iOS, אנדרואיד" },
+      { value: "700+", label: "פריטים בספריית הרשימות" },
+      { value: "3", label: "שפות כולל עברית RTL" },
+    ],
+    stack: ["React 19", "Expo", "Fastify", "PostgreSQL", "Meta WhatsApp API", "Vercel AI SDK"],
+    url: "chillist-fe.pages.dev",
+    image: "/home/cases/chillist-web.jpg",
+  },
 ];
