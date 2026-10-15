@@ -70,4 +70,22 @@ export const caseStudies: CaseStudy[] = [
     stack: ["Flutter", "iOS + Android", "React", "Fastify", "PostgreSQL", "AWS"],
     url: "qc.site-control.co.il",
   },
+  {
+    track: "01",
+    client: "קבלן ביצוע",
+    industry: "בנייה ותשתיות",
+    title: "הזמנות חומרים מהשטח, ותעודות משלוח שנבדקות ב-AI",
+    challenge:
+      "הזמנות חומרים נשלחו בוואטסאפ ובטלפון, ותעודות המשלוח נערמו במשרד. חוסרים התגלו שבועות אחר כך מול החשבונית, אם בכלל.",
+    solution:
+      "מערכת הזמנות לנייד ולמשרד עם אישור רכש, שליחה לספק בוואטסאפ, ומודל AI שקורא את תעודת המשלוח המצולמת ומשווה אותה שורה-שורה להזמנה.",
+    results: [
+      { value: "1,800+", label: "הזמנות בשנה (קצב נוכחי)" },
+      { value: "500+", label: "חוסרים שנתפסים בשנה" },
+      { value: "93%", label: "תעודות שאומתו תוך 36 שעות" },
+    ],
+    stack: ["Remix", "PostgreSQL", "Gemini Vision", "WhatsApp API", "PWA"],
+    url: "orders.site-materials.co.il",
+    image: "/home/cases/construction-orders-board.jpg",
+  },
 ];

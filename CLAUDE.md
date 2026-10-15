@@ -82,7 +82,10 @@ spec review). Rules:
   developer account, so the product name identifies the client. Never put the product name,
   its real domain or a store link in copy, alt text, file names or commit messages; keep
   `client` generic and keep the invented hostname in `url`. Source of truth:
-  `docs/handoff/case-01-construction-qc.md`.
+  `docs/handoff/case-01-construction-qc.md`. The ordering/AI-verification client
+  (card 2) is likewise anonymous, and its card figures are a **yearly run rate** from
+  a three-month window — never present them as a completed year. Derivation:
+  `docs/handoff/case-02-construction-ordering.md`.
 
 ## Routes
 
