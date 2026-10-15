@@ -85,6 +85,7 @@ const initialValue = (v: string): string => {
                     </>
                   )}
                 </div>
+                {c.results && (
                 <div class="cs-results">
                   {c.results.map((r) => {
                     const numeric = NUM.test(r.value);
@@ -102,6 +103,7 @@ const initialValue = (v: string): string => {
                     );
                   })}
                 </div>
+                )}
               </div>
 
               {c.quote && (

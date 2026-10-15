@@ -207,3 +207,8 @@
   .sb-badge { padding: 5px 10px 5px 8px; }
   .sb-txt b { font-size: 12px; }
 }
+
+/* Case-study screenshots are composed to fit the frame (phones on a canvas, a cropped
+   dashboard). Cover would slice their edges off, so show the whole image and let the
+   canvas colour fill any gap. */
+.cs-shot img { object-fit: contain; object-position: center; background: hsl(var(--card)); }

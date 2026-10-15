@@ -67,7 +67,7 @@ test.describe("homepage v3 (/)", () => {
     await first.scrollIntoViewIfNeeded();
     await expect(first.locator(".cs-h")).toHaveText(caseStudies[0].title);
     await expect(first.locator(".cs-client b")).toHaveText(caseStudies[0].client);
-    await expect(first.locator(".cs-metric")).toHaveCount(3);
+    await expect(first.locator(".cs-metric")).toHaveCount(caseStudies[0].results?.length ?? 0);
     await expect(page.locator('a[href="#example"]')).not.toHaveCount(0);
   });
 
@@ -87,9 +87,16 @@ test.describe("homepage v3 (/)", () => {
   });
 
   test("metric count-up keeps thousands separators", async ({ page }) => {
+    const first = caseStudies.find((c) => c.results?.length)?.results?.[0];
+    expect(first).toBeDefined();
     const metric = page.locator("#example .cs-val").first();
     await metric.scrollIntoViewIfNeeded();
-    await expect(metric).toHaveText(caseStudies[0].results[0].value, { timeout: 5000 });
+    await expect(metric).toHaveText(first!.value, { timeout: 5000 });
+  });
+
+  test("a card without results renders no metric row", async ({ page }) => {
+    const withResults = caseStudies.filter((c) => c.results?.length).length;
+    await expect(page.locator("#example .cs-results")).toHaveCount(withResults);
   });
 
   test("contact form validates and opens WhatsApp with the composed message", async ({ page }) => {
