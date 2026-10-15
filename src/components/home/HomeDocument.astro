@@ -1,6 +1,7 @@
 ---
 /* Shared homepage document (v3 — "Alex" personal-brand site). Rendered by `/` and `/en`
-   (identical Hebrew content; canonical always points to `/`).
+   (identical Hebrew content; canonical always points to `/`), and by `/examples`, the
+   private review copy that additionally mounts the case-study section.
    Spec: docs/specs/homepage-v3/. Order follows the prototype render order. */
 import "@styles/home/tailwind.css";
 import "@styles/home/theme.css";
@@ -16,6 +17,15 @@ import Contact from "./Contact.astro";
 import Footer from "./Footer.astro";
 import FloatingWhatsApp from "./FloatingWhatsApp.astro";
 import { homeProfile } from "@/data/home-profile";
+
+interface Props {
+  /** Mounts the "לא רק מבטיחים. מראים." section and its nav links. Off on the live homepage. */
+  showCases?: boolean;
+  /** Keeps a page out of search results and out of the sitemap's intent (review copies). */
+  noindex?: boolean;
+}
+
+const { showCases = false, noindex = false } = Astro.props;
 
 const title = "אלכס — HandInHandAI | מערכות ניהול, אפליקציות, סוכני AI ו-CTO לעסקים ולמיזמים";
 const description =
@@ -51,7 +61,10 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="facebook-domain-verification" content="xbzm8v23p977iuikrwz7x2k6ciiewu" />
     <meta name="theme-color" content="#faf8f3" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta
+      name="robots"
+      content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"}
+    />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -89,15 +102,15 @@ const jsonLd = {
   <body>
     <a class="skip-link" href="#main">דילוג לתוכן</a>
     <main id="main" dir="rtl" class="min-h-[100dvh] bg-background text-foreground font-sans">
-      <Hero />
+      <Hero showCases={showCases} />
       <Services />
       <WhyAlex />
       <About />
-      <CaseStudies />
+      {showCases && <CaseStudies />}
       <WhyToggle />
       <Contact />
     </main>
-    <Footer />
+    <Footer showCases={showCases} />
     <FloatingWhatsApp />
   </body>
 </html>

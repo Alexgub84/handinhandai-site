@@ -80,9 +80,10 @@ Bilingual (Hebrew default / English) marketing site for Hand in Hand AI, built w
 
 | URL | Notes |
 |-----|--------|
-| `/` | `src/pages/index.astro` → `src/components/home/HomeDocument.astro` (self-contained doc, `src/styles/home/*`, Heebo + JetBrains Mono via Google Fonts) | Hero (top nav + headline with rotating word + portrait) · Services (two tracks: business systems / startup CTO) · WhyAlex (4 value cards) · About (photo + word-reveal story + years counter) · CaseStudies (real client cards from `src/data/case-studies.ts`) · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer (dark, legal links) · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
-| `/contact` | Contact (Hebrew) |
-| `/en/`, `/ru/`, `/uk/` (and `/he/`) | Homepage per locale (Hebrew default also served at `/`) |
+| `/` | `src/pages/index.astro` → `src/components/home/HomeDocument.astro` (self-contained doc, `src/styles/home/*`, Heebo + JetBrains Mono via Google Fonts) | Hero (top nav + headline with rotating word + portrait) · Services (two tracks: business systems / startup CTO) · WhyAlex (4 value cards) · About (photo + word-reveal story + years counter)  · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer (dark, legal links) · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
+| `/examples` | Private review copy of the homepage, with the case-study section (noindex) |
+| `/en` | Same homepage as `/`, canonical → `/` |
+| `/about`, `/terms`, `/privacy-sasha` | Legal pages |
 
 ---
 
@@ -92,10 +93,11 @@ Each page's sections in render order. Update this table whenever a page is creat
 
 || Page | File | Sections (in order) |
 |------|------|---------------------|
-| `/` | `src/pages/index.astro` (self-contained doc, `src/styles/handinhand/*`, Discovery font) | ScrollProgress · NavBar (anchor nav) · Hero (headline + IntegrationHub visual) · AlexSection (founder) · Capabilities (bento grid + DiagChat) · ExampleSection (4 use-cases + phone previews + live ChatDemo) · HowItWorks (3-step timeline) · AudienceSection (chains) · FinalCTA (dark panel) · Footer · FloatingWhatsApp. Hebrew-only, RTL, CSS-first animations, WhatsApp-only CTAs. |
+| `/` | `src/pages/index.astro` → `src/components/home/HomeDocument.astro` | Hero (top nav + rotating headline + portrait + benefit chips) · Services (two tracks) · WhyAlex (value cards) · About (photo + story + years counter) · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
 | `/about` | `src/pages/about.astro` | Legal-identity page (brand → legal entity + full contact block incl. address) · Hebrew section · English section |
 | `/terms` | `src/pages/terms.astro` | Terms of use (identity · service description · WhatsApp terms · acceptable use · IP · liability · governing law · changes) · Hebrew section · English section |
 | `/privacy-sasha` | `src/pages/privacy-sasha.astro` | General privacy policy (website + Sasha assistant + client WhatsApp lines) · Hebrew section · English section |
+| `/examples` | `src/pages/examples.astro` → `HomeDocument` (`showCases`, `noindex`) | The same homepage **plus** CaseStudies between About and WhyToggle, and the "דוגמה" / "דוגמאות" nav links. Private review copy: `noindex, nofollow`, excluded from the sitemap, linked from nowhere. |
 | `/en` | `src/pages/[lang]/index.astro` → `HomeDocument` | Serves the **same** homepage as `/` (identical Hebrew content; canonical → `/`). Only `en` is generated. |
 
 ---

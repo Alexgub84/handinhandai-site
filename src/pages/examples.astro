@@ -1,0 +1,10 @@
+---
+/* Private review copy of the homepage, with the case-study section mounted.
+   Same document as `/`, one prop apart — see HomeDocument.astro.
+   Not indexed (noindex + excluded from the sitemap) and not linked from anywhere:
+   the URL is handed to a reviewer by hand. Delete this page, or fold the section
+   into `/`, once the examples are approved. */
+import HomeDocument from "@components/home/HomeDocument.astro";
+---
+
+<HomeDocument showCases noindex />

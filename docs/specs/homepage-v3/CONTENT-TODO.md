@@ -12,7 +12,9 @@ orange startup track (`docs/handoff/case-03-chillist.md`). The section is mounte
 it renders one card per entry, so adding a card is a data edit only.
 
 All three cards ship a screenshot, and the two cards with a mobile app show
-App Store / Google Play badges.
+App Store / Google Play badges. The section is live **only on `/examples`**, a
+private review copy of the homepage; `/` is unchanged until the cards are
+approved.
 
 Still open:
 

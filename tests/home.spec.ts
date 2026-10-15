@@ -24,7 +24,7 @@ test.describe("homepage v3 (/)", () => {
   });
 
   test("all sections render in the spec order", async ({ page }) => {
-    const ids = ["top", "services", "why-alex", "about", "example", "why", "contact"];
+    const ids = ["top", "services", "why-alex", "about", "why", "contact"];
     const order = await page.evaluate(
       (ids) => ids.map((id) => document.getElementById(id)?.getBoundingClientRect().top ?? -1),
       ids
@@ -59,44 +59,9 @@ test.describe("homepage v3 (/)", () => {
     await expect(section).not.toHaveClass(/is-order/);
   });
 
-  test("case-studies section renders a card per entry in the data file", async ({ page }) => {
-    const cards = page.locator("#example .cs-card");
-    await expect(cards).toHaveCount(caseStudies.length);
-
-    const first = cards.first();
-    await first.scrollIntoViewIfNeeded();
-    await expect(first.locator(".cs-h")).toHaveText(caseStudies[0].title);
-    await expect(first.locator(".cs-client b")).toHaveText(caseStudies[0].client);
-    await expect(first.locator(".cs-metric")).toHaveCount(caseStudies[0].results?.length ?? 0);
-    await expect(page.locator('a[href="#example"]')).not.toHaveCount(0);
-  });
-
-  test("a card whose product ships in the stores shows both store badges", async ({ page }) => {
-    const withStores = caseStudies.filter((c) => c.stores?.length);
-    expect(withStores.length).toBeGreaterThan(0);
-
-    const badges = page.locator("#example .cs-card .sb-badge");
-    await expect(badges).toHaveCount(withStores.reduce((n, c) => n + (c.stores?.length ?? 0), 0));
-    await expect(badges.first()).toContainText("App Store");
-  });
-
-  test("no bracketed placeholders or XX values reach the page", async ({ page }) => {
-    const text = await page.locator("#example").innerText();
-    expect(text).not.toMatch(/\[[^\]]*\]/);
-    expect(text).not.toContain("XX");
-  });
-
-  test("metric count-up keeps thousands separators", async ({ page }) => {
-    const first = caseStudies.find((c) => c.results?.length)?.results?.[0];
-    expect(first).toBeDefined();
-    const metric = page.locator("#example .cs-val").first();
-    await metric.scrollIntoViewIfNeeded();
-    await expect(metric).toHaveText(first!.value, { timeout: 5000 });
-  });
-
-  test("a card without results renders no metric row", async ({ page }) => {
-    const withResults = caseStudies.filter((c) => c.results?.length).length;
-    await expect(page.locator("#example .cs-results")).toHaveCount(withResults);
+  test("the live homepage does not show the examples section", async ({ page }) => {
+    await expect(page.locator("#example")).toHaveCount(0);
+    await expect(page.locator('a[href="#example"]')).toHaveCount(0);
   });
 
   test("contact form validates and opens WhatsApp with the composed message", async ({ page }) => {
@@ -198,5 +163,67 @@ test.describe("English route (/en) serves the same homepage", () => {
     await expect(page).toHaveTitle(TITLE);
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
     expect(canonical).toMatch(/\/$/);
+  });
+});
+
+test.describe("review copy (/examples)", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/examples");
+    await page.waitForLoadState("networkidle");
+  });
+
+  test("is the same document as the homepage, plus the examples section", async ({ page }) => {
+    const ids = ["top", "services", "why-alex", "about", "example", "why", "contact"];
+    const order = await page.evaluate(
+      (ids) => ids.map((id) => document.getElementById(id)?.getBoundingClientRect().top ?? -1),
+      ids
+    );
+    for (let i = 1; i < order.length; i++) {
+      expect(order[i], `#${ids[i]} should come after #${ids[i - 1]}`).toBeGreaterThan(order[i - 1]);
+    }
+  });
+
+  test("is kept out of search engines", async ({ page }) => {
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+  });
+
+  test("case-studies section renders a card per entry in the data file", async ({ page }) => {
+    const cards = page.locator("#example .cs-card");
+    await expect(cards).toHaveCount(caseStudies.length);
+
+    const first = cards.first();
+    await first.scrollIntoViewIfNeeded();
+    await expect(first.locator(".cs-h")).toHaveText(caseStudies[0].title);
+    await expect(first.locator(".cs-client b")).toHaveText(caseStudies[0].client);
+    await expect(first.locator(".cs-metric")).toHaveCount(caseStudies[0].results?.length ?? 0);
+    await expect(page.locator('a[href="#example"]')).not.toHaveCount(0);
+  });
+
+  test("a card whose product ships in the stores shows both store badges", async ({ page }) => {
+    const withStores = caseStudies.filter((c) => c.stores?.length);
+    expect(withStores.length).toBeGreaterThan(0);
+
+    const badges = page.locator("#example .cs-card .sb-badge");
+    await expect(badges).toHaveCount(withStores.reduce((n, c) => n + (c.stores?.length ?? 0), 0));
+    await expect(badges.first()).toContainText("App Store");
+  });
+
+  test("no bracketed placeholders or XX values reach the page", async ({ page }) => {
+    const text = await page.locator("#example").innerText();
+    expect(text).not.toMatch(/\[[^\]]*\]/);
+    expect(text).not.toContain("XX");
+  });
+
+  test("metric count-up keeps thousands separators", async ({ page }) => {
+    const first = caseStudies.find((c) => c.results?.length)?.results?.[0];
+    expect(first).toBeDefined();
+    const metric = page.locator("#example .cs-val").first();
+    await metric.scrollIntoViewIfNeeded();
+    await expect(metric).toHaveText(first!.value, { timeout: 5000 });
+  });
+
+  test("a card without results renders no metric row", async ({ page }) => {
+    const withResults = caseStudies.filter((c) => c.results?.length).length;
+    await expect(page.locator("#example .cs-results")).toHaveCount(withResults);
   });
 });

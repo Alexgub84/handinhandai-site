@@ -78,7 +78,12 @@ spec review). Rules:
   gets App Store / Google Play badges (`StoreBadges.astro`, drawn inline — no store
   assets are downloaded). Card copy is **Hebrew first**: technical names live in the
   stack chips, not in running sentences.
-- `CaseStudies.astro` is mounted between `About` and `WhyToggle` and renders one card per
+- `CaseStudies.astro` is mounted **only on `/examples`**, the private review copy of the
+  homepage (`HomeDocument` takes `showCases` and `noindex`; `/` and `/en` stay without it,
+  and the "דוגמה" nav link plus the "דוגמאות" footer link appear only when `showCases` is
+  set). The review page is `noindex, nofollow` and filtered out of the sitemap. When the
+  examples are approved, mount the section on `/` and delete `src/pages/examples.astro`.
+- The section renders one card per
   entry in `src/data/case-studies.ts` (one card today, the construction QC client). The
   section subtitle switches between singular and plural on the entry count. Adding an entry
   needs no component change.
