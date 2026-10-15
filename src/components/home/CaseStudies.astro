@@ -7,7 +7,14 @@ import { siteContact } from "@/data/site-contact";
 import { caseStudies, TRACK_META } from "@/data/case-studies";
 
 const wa = siteContact.whatsappCta;
-const NUM = /^([^\d]*)(\d+(?:[.,]\d+)?)(.*)$/;
+/* One card reads as a single example, several as a selection. */
+const subtitle =
+  caseStudies.length === 1
+    ? "דוגמה אחת מהשטח — מה היה, מה בנינו, ומה השתנה."
+    : "כמה מהעסקים והמיזמים שכבר עשו את הקפיצה — מה היה, מה בנינו, ומה השתנה.";
+/* value = optional prefix (₪, +, …) + a number that may carry thousands
+   separators and a decimal part + optional suffix ("%", "+"). */
+const NUM = /^([^\d]*)(\d[\d,]*(?:\.\d+)?)(.*)$/;
 const initialValue = (v: string): string => {
   const m = v.match(NUM);
   return m ? `${m[1]}0${m[3]}` : v;
@@ -20,7 +27,7 @@ const initialValue = (v: string): string => {
     <header class="cs-head">
       <div>
         <h2 id="cs-title" class="cs-title">לא רק מבטיחים. <em>מראים.</em></h2>
-        <p class="cs-sub">כמה מהעסקים והמיזמים שכבר עשו את הקפיצה — מה היה, מה בנינו, ומה השתנה.</p>
+        <p class="cs-sub">{subtitle}</p>
       </div>
     </header>
 
@@ -73,7 +80,6 @@ const initialValue = (v: string): string => {
                           </div>
                         </div>
                       </div>
-                      <span class="cs-ph-tag">[צילום מסך של המערכת]</span>
                     </>
                   )}
                 </div>
@@ -82,7 +88,11 @@ const initialValue = (v: string): string => {
                     const numeric = NUM.test(r.value);
                     return (
                       <div class="cs-metric">
-                        <span class={numeric ? "cs-val" : "cs-val is-ph"} data-metric={numeric ? r.value : undefined}>
+                        <span
+                          class={numeric ? "cs-val" : "cs-val is-ph"}
+                          data-metric={numeric ? r.value : undefined}
+                          style={`--chars:${r.value.length}`}
+                        >
                           {initialValue(r.value)}
                         </span>
                         <span class="cs-lbl">{r.label}</span>
@@ -120,7 +130,7 @@ const initialValue = (v: string): string => {
 <script>
   const stack = document.querySelector<HTMLElement>("[data-cs-stack]");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const NUM = /^([^\d]*)(\d+(?:[.,]\d+)?)(.*)$/;
+  const NUM = /^([^\d]*)(\d[\d,]*(?:\.\d+)?)(.*)$/;
 
   const countUp = (el: HTMLElement) => {
     const value = el.dataset.metric ?? "";
@@ -130,13 +140,21 @@ const initialValue = (v: string): string => {
       el.textContent = value;
       return;
     }
-    const n = parseFloat(m[2].replace(",", "."));
-    const decimals = (m[2].split(/[.,]/)[1] || "").length;
+    /* Commas are thousands separators ("₪100,000"), not decimal points. */
+    const grouped = m[2].includes(",");
+    const n = parseFloat(m[2].replace(/,/g, ""));
+    const decimals = (m[2].split(".")[1] || "").length;
+    const format = (x: number): string =>
+      x.toLocaleString("en-US", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+        useGrouping: grouped,
+      });
     const start = performance.now();
     const tick = (now: number) => {
       const p = Math.min(1, (now - start) / 1400);
       const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = `${m[1]}${(n * eased).toFixed(decimals)}${m[3]}`;
+      el.textContent = `${m[1]}${format(n * eased)}${m[3]}`;
       if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);

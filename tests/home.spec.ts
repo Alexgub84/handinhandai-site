@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { siteContact } from "../src/data/site-contact";
+import { caseStudies } from "../src/data/case-studies";
 
 const WA = siteContact.whatsapp.replace("https://", "");
 const TITLE = "אלכס — HandInHandAI | מערכות ניהול, אפליקציות, סוכני AI ו-CTO לעסקים ולמיזמים";
@@ -23,7 +24,7 @@ test.describe("homepage v3 (/)", () => {
   });
 
   test("all sections render in the spec order", async ({ page }) => {
-    const ids = ["top", "services", "why-alex", "about", "why", "contact"];
+    const ids = ["top", "services", "why-alex", "about", "example", "why", "contact"];
     const order = await page.evaluate(
       (ids) => ids.map((id) => document.getElementById(id)?.getBoundingClientRect().top ?? -1),
       ids
@@ -58,9 +59,28 @@ test.describe("homepage v3 (/)", () => {
     await expect(section).not.toHaveClass(/is-order/);
   });
 
-  test("case-studies section is not mounted until real content exists", async ({ page }) => {
-    await expect(page.locator("#example")).toHaveCount(0);
-    await expect(page.locator('a[href="#example"]')).toHaveCount(0);
+  test("case-studies section renders a card per entry in the data file", async ({ page }) => {
+    const cards = page.locator("#example .cs-card");
+    await expect(cards).toHaveCount(caseStudies.length);
+
+    const first = cards.first();
+    await first.scrollIntoViewIfNeeded();
+    await expect(first.locator(".cs-h")).toHaveText(caseStudies[0].title);
+    await expect(first.locator(".cs-client b")).toHaveText(caseStudies[0].client);
+    await expect(first.locator(".cs-metric")).toHaveCount(3);
+    await expect(page.locator('a[href="#example"]')).not.toHaveCount(0);
+  });
+
+  test("no bracketed placeholders or XX values reach the page", async ({ page }) => {
+    const text = await page.locator("#example").innerText();
+    expect(text).not.toMatch(/\[[^\]]*\]/);
+    expect(text).not.toContain("XX");
+  });
+
+  test("metric count-up keeps thousands separators", async ({ page }) => {
+    const metric = page.locator("#example .cs-val").first();
+    await metric.scrollIntoViewIfNeeded();
+    await expect(metric).toHaveText(caseStudies[0].results[0].value, { timeout: 5000 });
   });
 
   test("contact form validates and opens WhatsApp with the composed message", async ({ page }) => {

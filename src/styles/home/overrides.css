@@ -68,10 +68,20 @@
 /* Mobile hero: keep the whole block (headline, portrait, buttons, notes) inside the
    first screen instead of letting the bottom note fall below the fold. */
 @media (max-width: 1023px) {
-  .ah-main { row-gap: 8px; padding-block: 12px; }
-  /* Scale with the viewport but never below a size where the portrait reads as a person
-     and the floating chips stop colliding with it. */
-  .ah-visual { height: clamp(200px, 31dvh, 340px); width: auto; }
+  /* The grid fills the screen and the portrait row takes whatever height is left, so a
+     tall phone grows the portrait instead of opening a gap above the headline. */
+  .ah-main {
+    row-gap: 8px;
+    padding-block: 12px;
+    grid-template-rows: auto minmax(200px, 1fr) auto auto;
+    align-content: stretch;
+  }
+  .ah-visual {
+    height: auto;
+    min-height: 200px;
+    width: auto;
+    align-self: stretch;
+  }
   /* Chips are the last block, under the buttons: two centred columns, tightened so the
      whole hero still fits one screen. */
   .ah-bench .ah-benefits { justify-content: center; gap: 6px; }
@@ -155,6 +165,15 @@
 /* Short phone screens (iPhone SE and similar): the portrait gives up height first so
    the benefit chips still land above the fold. */
 @media (max-width: 1023px) and (max-height: 700px) {
-  .ah-main { row-gap: 6px; padding-block: 8px; }
-  .ah-visual { height: clamp(176px, 27dvh, 300px); }
+  .ah-main { row-gap: 6px; padding-block: 8px; grid-template-rows: auto minmax(176px, 1fr) auto auto; }
+  .ah-visual { min-height: 176px; }
+}
+
+/* Case-study metrics: a long value ("₪100,000") overflowed its tile, which is sized in
+   thirds. Each tile measures itself, and the value shrinks only as far as its own length
+   needs — short values keep the prototype's size. */
+.cs-metric { container-type: inline-size; }
+.cs-val {
+  font-size: min(clamp(1.5rem, 2.6vw, 2.2rem), calc((100cqi - 18px) / (var(--chars, 3) * 0.62)));
+  white-space: nowrap;
 }
