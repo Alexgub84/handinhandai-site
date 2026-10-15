@@ -3,6 +3,7 @@ import '@styles/global.css';
 import { type Lang } from '@i18n/ui';
 import { useTranslations, getDirection } from '@i18n/utils';
 import Header from '@components/Header.astro';
+import Analytics from '../components/Analytics.astro';
 import Footer from '@components/Footer.astro';
 import SEOHead from '@components/SEOHead.astro';
 import pkg from '../../package.json';
@@ -50,6 +51,7 @@ const version = pkg.version;
       href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <Analytics />
   </head>
   <body class="min-h-screen flex flex-col" data-version={version} data-build={buildTime}>
     <Header lang={lang} />

@@ -47,7 +47,7 @@ const topics: { id: string; label: string; icon: IconName }[] = [
         </div>
         <div class="ct-method">
           <span class="ct-m-ic"><LucideIcon name="mail" /></span>
-          <div><b><a class="ct-stretch" href={`mailto:${email}`}>מייל</a></b><span class="v">{email}</span></div>
+          <div><b><a class="ct-stretch" href={`mailto:${email}`} data-track="contact-email">מייל</a></b><span class="v">{email}</span></div>
           <button type="button" class="ct-copy" aria-label="העתקת כתובת המייל" data-copy={email}>
             <LucideIcon name="copy" class="ct-i" />
             <LucideIcon name="check" class="ct-i" />
@@ -94,8 +94,8 @@ const topics: { id: string; label: string; icon: IconName }[] = [
               <span data-done-text></span>
             </div>
             <div class="ct-actions">
-              <button type="submit" class="ct-submit"><WhatsAppIcon />שליחה בוואטסאפ</button>
-              <button type="button" class="ct-alt" data-send-mail>או שליחה במייל</button>
+              <button type="submit" class="ct-submit" data-track="form-send-whatsapp"><WhatsAppIcon />שליחה בוואטסאפ</button>
+              <button type="button" class="ct-alt" data-send-mail data-track="form-send-email">או שליחה במייל</button>
             </div>
             <AiAnswersNote class="ct-form-ai" />
             <span class="ct-fine">הפרטים נשלחים ישירות לאלכס ולא נשמרים באתר.</span>

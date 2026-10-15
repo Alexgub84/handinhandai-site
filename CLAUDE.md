@@ -143,6 +143,35 @@ brand master, deliberately outside `public/` so it is never shipped) by
 Both document heads (`src/layouts/Layout.astro` and
 `src/components/home/HomeDocument.astro`) must link the same four files plus
 `/site.webmanifest`. Keep them in sync — they are separate documents.
+## Visitor analytics (first party, no third-party script)
+
+Nothing on the page talks to anyone but this domain. The chain is
+`src/components/Analytics.astro` (client) -> `functions/api/e.ts` (collector)
+-> Cloudflare D1 -> `functions/stats.ts` (`/stats` dashboard).
+
+- **No cookies.** Session id lives in `sessionStorage`; the visitor id is
+  `sha256(ip + ua + ANALYTICS_SALT + UTC day)` computed in the collector, so it
+  rotates daily and no IP is ever written. `DNT=1` disables collection entirely.
+- **Events:** `view`, `section` (IntersectionObserver, first reach + dwell),
+  `depth` (max scroll %), `click`, `end` (engaged ms). Batched and sent with
+  `navigator.sendBeacon` on tab hide; depth and engaged time are cumulative, so
+  queries take `MAX(value)` per session, never a sum.
+- **Labelling a CTA:** add `data-track="some-label"` to the element. Without it
+  the label falls back to `aria-label`, then the trimmed text. Sections are read
+  from `section[id]` or `data-track-section`.
+- **Schema:** `db/analytics-schema.sql`. Apply with
+  `npx wrangler d1 execute hih-analytics --remote --file db/analytics-schema.sql`.
+  Rows older than 180 days are pruned lazily inside the collector (~1% of
+  requests) because Pages Functions have no cron handler.
+- **Bindings (Cloudflare dashboard, Production *and* Preview):** D1 binding
+  `ANALYTICS_DB`, secrets `ANALYTICS_SALT` and either `ACCESS_AUD` (Cloudflare
+  Access on `/stats*`) or `STATS_TOKEN` (`/stats?k=...`). With neither auth
+  secret set, `/stats` answers 404 — it never opens by accident.
+- **Verifying locally:** `npm run build`, then
+  `npx wrangler pages dev --binding STATS_TOKEN=x ANALYTICS_SALT=y` with a
+  temporary `[[d1_databases]]` block in `wrangler.toml` (do not commit it).
+- The privacy page (`src/pages/privacy-sasha.astro`, section 13, both languages)
+  describes exactly what is collected. **Keep it in sync** with any change here.
 
 ## Social Sharing / OG Images
 
