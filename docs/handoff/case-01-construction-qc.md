@@ -121,6 +121,21 @@ development. The published copy therefore differs from the table above:
 Still inside the anonymity rules: store *names* are fine, a store *link* or the
 product name is not.
 
+## Copy rewrite 2026-10-15 (Alex)
+
+The earlier title framed the product as "from a paper checklist to an app", which
+undersold it and read badly. It is a **management system for building sites and
+the installation work inside them**, so the card now says that plainly:
+
+- `title`: "מערכת לניהול ההתקנות ובקרת האיכות בכל הדירות באתר"
+- `challenge`: hundreds of apartments, nobody knows what is installed, checked or
+  reopened; reports on paper and WhatsApp, photos scattered across phones.
+- `solution`: a checklist per building, floor and apartment, defect-fix tracking,
+  signature and a report; a field app that works offline and an office screen that
+  shows where every apartment stands.
+
+Plain Hebrew, no slogan, no English inside the sentences.
+
 ## Still open
 
 - Cards 2 (CTO לסטארטאפ) and 3 (AI agent) are not covered by this file; they
