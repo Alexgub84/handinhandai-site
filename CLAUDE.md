@@ -92,11 +92,13 @@ spec review). Rules:
   its real domain or a store link in copy, alt text, file names or commit messages; keep
   `client` generic and keep the invented hostname in `url`. Source of truth:
   `docs/handoff/case-01-construction-qc.md`. The ordering/AI-verification client
-  (card 2) is likewise anonymous, and its card figures are a **yearly run rate** from
-  a three-month window — never present them as a completed year. Derivation:
-  `docs/handoff/case-02-construction-ordering.md`. Card 3 (Chillist) is a named
-  product on the `02` track and carries **build facts, not usage figures** — the
-  product has no traffic to report, and invented metrics do not go on this site.
+  (card 2) is likewise anonymous. Card 3 (Chillist) is a named
+  product on the `02` track. **No card carries metric tiles** since the 2026-10-16
+  review: a figure a reader cannot verify costs more trust than it buys. The
+  `results` rendering stays for a case whose client agrees to publish numbers.
+  **Store badges only for a product a reader can find by name** — Chillist has
+  them; the anonymous construction app does not, because its name never appears
+  here and a failed search reads as a bluff.
 
 ## Routes
 
