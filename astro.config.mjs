@@ -19,8 +19,6 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
-      // `/examples` is a private review copy of the homepage — keep it out of the sitemap.
-      filter: (page) => !page.includes('/examples'),
       i18n: {
         defaultLocale: 'he',
         locales: {

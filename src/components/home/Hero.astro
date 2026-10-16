@@ -6,17 +6,13 @@ import { siteContact } from "@/data/site-contact";
 import { homeProfile } from "@/data/home-profile";
 import AiAnswersNote from "./AiAnswersNote.astro";
 
-interface Props {
-  showCases?: boolean;
-}
-const { showCases = false } = Astro.props;
 
 const wa = siteContact.whatsappCta;
 const benefits = ["מאפיון ועד מוצר", "פתרון מותאם לצורך", "צוות מפתחים", "CTO במיקור חוץ"];
 const navLinks = [
   { label: "מי אני", href: "#about", active: true },
   { label: "מה אני בונה", href: "#services" },
-  ...(showCases ? [{ label: "דוגמה", href: "#example" }] : []),
+  { label: "דוגמה", href: "#example" },
   { label: "איך מתחילים", href: "#contact" },
 ];
 const rotating = ["למציאות.", "למערכת.", "לפיצ'ר."];

@@ -59,9 +59,9 @@ test.describe("homepage v3 (/)", () => {
     await expect(section).not.toHaveClass(/is-order/);
   });
 
-  test("the live homepage does not show the examples section", async ({ page }) => {
-    await expect(page.locator("#example")).toHaveCount(0);
-    await expect(page.locator('a[href="#example"]')).toHaveCount(0);
+  test("the homepage shows the examples section and links to it", async ({ page }) => {
+    await expect(page.locator("#example")).toHaveCount(1);
+    await expect(page.locator('a[href="#example"]')).not.toHaveCount(0);
   });
 
   test("contact form validates and opens WhatsApp with the composed message", async ({ page }) => {
@@ -166,13 +166,13 @@ test.describe("English route (/en) serves the same homepage", () => {
   });
 });
 
-test.describe("review copy (/examples)", () => {
+test.describe("case studies on the homepage", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/examples");
+    await page.goto("/");
     await page.waitForLoadState("networkidle");
   });
 
-  test("is the same document as the homepage, plus the examples section", async ({ page }) => {
+  test("the section sits between About and the why toggle", async ({ page }) => {
     const ids = ["top", "services", "why-alex", "about", "example", "why", "contact"];
     const order = await page.evaluate(
       (ids) => ids.map((id) => document.getElementById(id)?.getBoundingClientRect().top ?? -1),
@@ -183,8 +183,8 @@ test.describe("review copy (/examples)", () => {
     }
   });
 
-  test("is kept out of search engines", async ({ page }) => {
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+  test("is indexable", async ({ page }) => {
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /^index, follow/);
   });
 
   test("case-studies section renders a card per entry in the data file", async ({ page }) => {
