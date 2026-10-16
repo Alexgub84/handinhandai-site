@@ -93,3 +93,13 @@ Same honesty level, if one of the three ever needs replacing.
 | 16 | אנשים שמזמינים מהשטח |
 | 20 | דקות חציוניות עד אישור הזמנה |
 | 0 | שורות שהמודל טעה בהן ותוקנו ידנית |
+
+## 2026-10-16 — metrics removed, copy rewritten
+
+The review asked for no figures on any card, so the three run-rate tiles came
+off. The derivation below stays as the record. The card now leads with what the
+system is ("מערכת לניהול הזמנות, מלאי, ומעקב אחרי תעודות משלוח בעזרת AI"), the
+challenge is told in the client's own terms (paperwork piles, lost delivery
+notes, slow tracking), and the solution closes on who gets time back: the
+manager, the suppliers and the office, with more accurate checks and gaps
+surfacing sooner.

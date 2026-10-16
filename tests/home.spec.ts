@@ -216,7 +216,9 @@ test.describe("review copy (/examples)", () => {
 
   test("metric count-up keeps thousands separators", async ({ page }) => {
     const first = caseStudies.find((c) => c.results?.length)?.results?.[0];
-    expect(first).toBeDefined();
+    // No card carries metrics since the 2026-10-16 review; the count-up stays
+    // covered for the day a client agrees to publish figures again.
+    test.skip(!first, "no case card carries metrics");
     const metric = page.locator("#example .cs-val").first();
     await metric.scrollIntoViewIfNeeded();
     await expect(metric).toHaveText(first!.value, { timeout: 5000 });

@@ -141,3 +141,15 @@ Plain Hebrew, no slogan, no English inside the sentences.
 - Cards 2 (CTO לסטארטאפ) and 3 (AI agent) are not covered by this file; they
   come from other projects.
 - A client quote would need the client's approval and does not exist today.
+
+## 2026-10-16 — metrics and store badges removed
+
+The review asked for no figures on any card ("אני לא בעד להמציא מספרים") and for
+the App Store / Google Play badges to come off this card: the product ships
+under the client's own developer account and its name may never appear on this
+site, so "available in the stores" sends a reader on a search that cannot
+succeed, which costs more trust than the badge buys. The numbers below stay here
+as the record of what was true; they are no longer published.
+
+The card title also dropped the word "ההתקנות" — it invited "installation of
+what?", and the answer would identify the client.

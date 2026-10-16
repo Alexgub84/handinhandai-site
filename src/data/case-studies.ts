@@ -5,6 +5,10 @@
  *   "02" = startup CTO (orange).
  * - `results[].value` is animated as a count-up when it contains a number
  *   ("72%", "40", "₪100,000", "3,300+"). Thousands separators are preserved.
+ *   No card carries results today: on 2026-10-16 the review asked for the metric
+ *   tiles to come off every card, because a figure a reader cannot verify costs
+ *   more trust than it buys. The rendering stays for a case with numbers a
+ *   client has agreed to publish.
  * - `image` is a screenshot of the system (browser-frame mock). Put files under
  *   `public/home/cases/` and reference them as "/home/cases/<file>".
  * - `logo` is a small square client logo (optional; otherwise the first letter of
@@ -39,7 +43,7 @@ export interface CaseStudy {
   title: string;
   challenge: string;
   solution: string;
-  /** Exactly three outcome tiles, or omitted when a card has nothing honest to count. */
+  /** Exactly three outcome tiles. Omitted on every card today — see the note above. */
   results?: CaseResult[];
   stack: string[];
   /** Shown in the fake browser address bar. */
@@ -49,7 +53,13 @@ export interface CaseStudy {
   image?: string;
   /** Link to a full case-study page, if one exists. */
   href?: string;
-  /** Shows "זמין ב App Store / Google Play" badges under the client name. */
+  /**
+   * Shows "זמין ב App Store / Google Play" badges under the client name.
+   * Only for a product a reader can actually find by name. The anonymous
+   * construction client's app ships under the client's own account and its name
+   * never appears on this site, so badges there send people on a search that
+   * fails — removed 2026-10-16.
+   */
   stores?: CaseStore[];
 }
 
@@ -63,35 +73,24 @@ export const caseStudies: CaseStudy[] = [
     track: "01",
     client: "יזם בנייה למגורים",
     industry: "בנייה למגורים",
-    title: "מערכת לניהול ההתקנות ובקרת האיכות בכל הדירות באתר",
+    title: "מערכת לניהול ובקרת איכות בכל הדירות באתר",
     challenge:
       "באתר עם מאות דירות אי אפשר היה לדעת מה כבר הותקן, מה נבדק ומה נפתח מחדש. הדיווחים נרשמו על דפים ובוואטסאפ, והתמונות התפזרו בין הטלפונים.",
     solution:
       "מערכת שמנהלת את כל האתר: לכל בניין, קומה ודירה יש צ'קליסט התקנה ובדיקה, מעקב אחרי תיקון ליקויים, חתימה ודוח מסודר. בשטח אפליקציה שעובדת גם בלי רשת, ובמשרד מסך שמראה איפה כל דירה עומדת.",
-    results: [
-      { value: "₪100,000", label: "חסכון שנתי ללקוח" },
-      { value: "196", label: "דירות במעקב באתר אחד" },
-      { value: "100%", label: "מהבדיקות מתועדות וחתומות" },
-    ],
     stack: ["Flutter", "iOS + Android", "React", "Fastify", "PostgreSQL", "AWS"],
     url: "qc.site-control.co.il",
-    stores: ["appstore", "googleplay"],
     image: "/home/cases/construction-qc-matrix.jpg",
   },
   {
     track: "01",
     client: "קבלן ביצוע",
     industry: "בנייה ותשתיות",
-    title: "הזמנות חומרים מהשטח, ותעודות משלוח שנבדקות ב-AI",
+    title: "מערכת לניהול הזמנות, מלאי, ומעקב אחרי תעודות משלוח בעזרת AI",
     challenge:
-      "הזמנות חומרים נשלחו בוואטסאפ ובטלפון, ותעודות המשלוח נערמו במשרד. חוסרים התגלו שבועות אחר כך מול החשבונית, אם בכלל.",
+      "קבלן בתחום הבנייה התמודד עם ערימות של ניירת, תעודות משלוח הלכו לאיבוד, היה קשה לעשות מעקב אחרי חוסרים, והכל התנהל בצורה מסורבלת שבזבזה המון זמן וכוח אדם.",
     solution:
-      "מערכת הזמנות לנייד ולמשרד עם אישור רכש, שליחה לספק בוואטסאפ, ומודל AI שקורא את תעודת המשלוח המצולמת ומשווה אותה שורה-שורה להזמנה.",
-    results: [
-      { value: "500+", label: "חוסרים שנתפסים בשנה" },
-      { value: "93%", label: "תעודות שנבדקות תוך 36 שעות" },
-      { value: "20", label: "דקות מהזמנה עד אישור" },
-    ],
+      "מערכת הזמנות לנייד ולמשרד עם אישור רכש, שליחה לספק בוואטסאפ, ומודל AI שקורא את תעודת המשלוח המצולמת ומשווה אותה שורה-שורה להזמנה. כך נחסך זמן גם למנהל, גם לספקים וגם להנהלת החשבונות, הבדיקות יותר מדויקות, ופערים מתגלים הרבה יותר מהר.",
     stack: ["Remix", "PostgreSQL", "Gemini Vision", "WhatsApp API", "PWA"],
     url: "orders.site-materials.co.il",
     image: "/home/cases/construction-orders-board.jpg",
@@ -100,7 +99,7 @@ export const caseStudies: CaseStudy[] = [
     track: "02",
     client: "Chillist",
     industry: "אפליקציה לתכנון קבוצתי",
-    title: "אפליקציה לנייד עם סוכן AI שמנהל את הרשימה בוואטסאפ",
+    title: "אפליקציה לתכנון טיולים עם סוכן AI שמנהל את הרשימה בוואטסאפ",
     challenge:
       "תכנון של טיול או אירוע קבוצתי נגמר בגיליון אלקטרוני ובשרשור וואטסאפ מבולגן, ואף אחד לא יודע מי מביא מה ומה כבר נקנה.",
     solution:
