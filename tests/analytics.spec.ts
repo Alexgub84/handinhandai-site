@@ -72,7 +72,10 @@ test('reports scroll depth, section reach and engaged time on leave', async ({ p
   await captureBeacons(page);
   await page.goto('/');
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await page.waitForTimeout(700);
+  // Wait for the observer to actually report the last section rather than for a
+  // fixed delay — the page grew when the case studies moved onto it.
+  await page.locator('#contact').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(900);
   await hide(page);
 
   const all = await batches(page);

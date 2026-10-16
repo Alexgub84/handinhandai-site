@@ -14,3 +14,8 @@
 
 # /wa/* shortlinks handled by Pages Function at functions/wa/[slug].ts
 # (bot UAs get OG-tagged HTML preview, humans get 302 to wa.me)
+
+# The private review copy of the homepage (removed 2026-10-16): the case studies
+# now live on `/` itself, so send the hand-shared link to the section.
+/examples      /#example  301
+/examples/     /#example  301
