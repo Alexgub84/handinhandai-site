@@ -17,10 +17,11 @@ import Contact from "./Contact.astro";
 import Footer from "./Footer.astro";
 import FloatingWhatsApp from "./FloatingWhatsApp.astro";
 import { homeProfile } from "@/data/home-profile";
+import { buildOrganizationSchema } from "@/data/organization-schema";
 
-const title = "אלכס — HandInHandAI | מערכות ניהול, אפליקציות, סוכני AI ו-CTO לעסקים ולמיזמים";
+const title = "אלכס — HandInHandAI: סוכני AI ומערכות ניהול לעסקים";
 const description =
-  "אני אלכס, ואני כאן כדי להפוך רעיון למציאות: פיתוח מערכות ניהול ואפליקציות מותאמות אישית, סוכני AI ואוטומציות לעסקים, ושותף טכנולוגי / CTO למיזמים וסטארטאפים. שיחת אבחון ראשונה — בלי התחייבות.";
+  "אני אלכס, הופך רעיון למציאות: סוכני AI, מערכות ניהול ואפליקציות מותאמות אישית לעסקים, ושותף טכנולוגי (CTO) למיזמים וסטארטאפים. שיחת אבחון ראשונה — בלי התחייבות.";
 const ogDescription =
   "מערכות ניהול, אפליקציות, סוכני AI ואוטומציות שנבנים סביב העסק שלכם — עם שותף טכנולוגי שחושב ביזנס.";
 const site = Astro.site ?? new URL("https://handinhandai.com");
@@ -28,12 +29,7 @@ const canonical = new URL("/", site).href;
 const ogImage = new URL("/og/home/og.jpg", site).href;
 
 const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: "handinhand",
-  alternateName: "HandInHandAI",
-  url: canonical,
-  logo: new URL("/icon-512.png", site).href,
+  ...buildOrganizationSchema(site.toString()),
   image: ogImage,
   slogan: "אני כאן כדי להפוך רעיון למציאות",
   description:

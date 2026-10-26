@@ -97,6 +97,7 @@ Each page's sections in render order. Update this table whenever a page is creat
 | `/terms` | `src/pages/terms.astro` | Terms of use (identity · service description · WhatsApp terms · acceptable use · IP · liability · governing law · changes) · Hebrew section · English section |
 | `/privacy-sasha` | `src/pages/privacy-sasha.astro` | General privacy policy (website + Sasha assistant + client WhatsApp lines) · Hebrew section · English section |
 | `/en` | `src/pages/[lang]/index.astro` → `HomeDocument` | Serves the **same** homepage as `/` (identical Hebrew content; canonical → `/`). Only `en` is generated. |
+| `/404` | `src/pages/404.astro` | Not-found page (Hebrew copy, `noindex`, link back to `/`). Astro builds this to `dist/404.html`, served by Cloudflare Pages for any unmatched route. |
 
 ---
 

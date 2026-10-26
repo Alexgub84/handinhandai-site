@@ -10,7 +10,8 @@ export type Lang = keyof typeof languages;
 export const ui = {
   he: {
     "site.title": "Hand in Hand AI",
-    "site.description": "פתרונות AI לעסקים",
+    "site.description":
+      "Hand in Hand AI בונה מערכות ניהול, אפליקציות וסוכני AI מותאמים לעסקים קטנים ובינוניים, ומלווה מיזמים כשותף טכנולוגי (CTO) מהרעיון ועד ההשקה.",
     "nav.home": "בית",
     "nav.about": "אודות",
     "nav.services": "שירותים",
