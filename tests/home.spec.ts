@@ -3,7 +3,7 @@ import { siteContact } from "../src/data/site-contact";
 import { caseStudies } from "../src/data/case-studies";
 
 const WA = siteContact.whatsapp.replace("https://", "");
-const TITLE = "אלכס — HandInHandAI | מערכות ניהול, אפליקציות, סוכני AI ו-CTO לעסקים ולמיזמים";
+const TITLE = "אלכס — HandInHandAI: סוכני AI ומערכות ניהול לעסקים";
 
 test.describe("homepage v3 (/)", () => {
   test.beforeEach(async ({ page }) => {

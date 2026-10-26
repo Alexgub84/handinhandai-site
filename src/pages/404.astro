@@ -1,0 +1,24 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { defaultLang } from '@i18n/ui';
+---
+
+<Layout
+  lang={defaultLang}
+  title="הדף לא נמצא — HandInHandAI"
+  description="הקישור שהגעתם דרכו שבור, או שהדף הוסר."
+  noindex={true}
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center">
+    <section dir="rtl">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">הדף לא נמצא</h1>
+      <p class="text-gray-600 mb-8">הקישור שהגעתם דרכו שבור, או שהדף הוסר.</p>
+      <a
+        href="/"
+        class="inline-block px-5 py-2.5 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors"
+      >
+        חזרה לדף הבית
+      </a>
+    </section>
+  </div>
+</Layout>
