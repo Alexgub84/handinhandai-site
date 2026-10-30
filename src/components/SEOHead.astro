@@ -10,8 +10,6 @@ interface Props {
   pageType?: string;
   /** Inject Organization JSON-LD (default true). Set false on pages that already render it. */
   includeOrganizationSchema?: boolean;
-  /** Does the current route have a real, rendering English page? Controls whether any hreflang block is emitted. */
-  hasEnglishAlternate?: boolean;
   /** Render `<meta name="robots" content="noindex">` (default false). Used by the 404 page. */
   noindex?: boolean;
 }
@@ -23,7 +21,6 @@ const {
   ogImage = '/og/default.jpg',
   pageType = 'website',
   includeOrganizationSchema = true,
-  hasEnglishAlternate = false,
   noindex = false,
 } = Astro.props;
 
@@ -38,18 +35,6 @@ const fullUrl = new URL(Astro.url.pathname, siteBase).toString();
 const fullImageUrl = ogImage.startsWith('http')
   ? ogImage
   : new URL(ogImage, siteBase).toString();
-
-// hreflang: only emitted when `hasEnglishAlternate` is true (route has a real
-// English page). Derive the language-neutral path from the current pathname
-// so the Hebrew link always points at the unprefixed route.
-const pathname = Astro.url.pathname;
-const parts = pathname.split('/').filter(Boolean);
-const neutralPath = parts[0] === 'en' ? '/' + parts.slice(1).join('/') : pathname;
-const cleanNeutral = neutralPath === '' ? '/' : neutralPath;
-const enPath = cleanNeutral === '/' ? '/en/' : `/en${cleanNeutral}`;
-const hePath = cleanNeutral;
-const hrefHe = `${siteOrigin}${hePath}`;
-const hrefEn = `${siteOrigin}${enPath}`;
 
 const pageTitle = `${title} | Hand in Hand AI`;
 
@@ -75,15 +60,6 @@ const organizationSchema = {
 <meta name="description" content={description} />
 <link rel="canonical" href={fullUrl} />
 {noindex && <meta name="robots" content="noindex" />}
-
-<!-- hreflang: only emitted when this route has a real English page (x-default → English per issue #16 spec) -->
-{hasEnglishAlternate && (
-  <>
-    <link rel="alternate" hreflang="he" href={hrefHe} />
-    <link rel="alternate" hreflang="en" href={hrefEn} />
-    <link rel="alternate" hreflang="x-default" href={hrefEn} />
-  </>
-)}
 
 <!-- Open Graph -->
 <meta property="og:type" content={pageType} />

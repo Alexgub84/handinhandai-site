@@ -155,17 +155,6 @@ test.describe("homepage v3 (/)", () => {
   });
 });
 
-test.describe("English route (/en) serves the same homepage", () => {
-  test("/en renders the same hero and canonicalises to /", async ({ page }) => {
-    await page.goto("/en/");
-    await page.waitForLoadState("networkidle");
-    await expect(page.locator("#top h1")).toBeVisible();
-    await expect(page).toHaveTitle(TITLE);
-    const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
-    expect(canonical).toMatch(/\/$/);
-  });
-});
-
 test.describe("case studies on the homepage", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");

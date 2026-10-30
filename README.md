@@ -1,6 +1,6 @@
 # Hand in Hand AI
 
-Bilingual (Hebrew default / English) marketing site for Hand in Hand AI, built with Astro 5.
+Hebrew-only marketing site for Hand in Hand AI, built with Astro 5.
 
 **Live site:** https://handinhandai.com
 
@@ -81,7 +81,6 @@ Bilingual (Hebrew default / English) marketing site for Hand in Hand AI, built w
 | URL | Notes |
 |-----|--------|
 | `/` | `src/pages/index.astro` → `src/components/home/HomeDocument.astro` (self-contained doc, `src/styles/home/*`, Heebo + JetBrains Mono via Google Fonts) | Hero (top nav + headline with rotating word + portrait) · Services (two tracks: business systems / startup CTO) · WhyAlex (4 value cards) · About (photo + word-reveal story + years counter) · CaseStudies (sticky stack of client cards) · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer (dark, legal links) · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
-| `/en` | Same homepage as `/`, canonical → `/` |
 | `/about`, `/terms`, `/privacy-sasha` | Legal pages |
 
 ---
@@ -96,7 +95,6 @@ Each page's sections in render order. Update this table whenever a page is creat
 | `/about` | `src/pages/about.astro` | Legal-identity page (brand → legal entity + full contact block incl. address) · Hebrew section · English section |
 | `/terms` | `src/pages/terms.astro` | Terms of use (identity · service description · WhatsApp terms · acceptable use · IP · liability · governing law · changes) · Hebrew section · English section |
 | `/privacy-sasha` | `src/pages/privacy-sasha.astro` | General privacy policy (website + Sasha assistant + client WhatsApp lines) · Hebrew section · English section |
-| `/en` | `src/pages/[lang]/index.astro` → `HomeDocument` | Serves the **same** homepage as `/` (identical Hebrew content; canonical → `/`). Only `en` is generated. |
 | `/404` | `src/pages/404.astro` | Not-found page (Hebrew copy, `noindex`, link back to `/`). Astro builds this to `dist/404.html`, served by Cloudflare Pages for any unmatched route. |
 
 ---
@@ -115,8 +113,7 @@ src/
 ├── pages/
 │   ├── index.astro
 │   ├── contact.astro
-│   ├── about.astro, terms.astro, privacy-sasha.astro
-│   └── [lang]/       # /en/index only
+│   └── about.astro, terms.astro, privacy-sasha.astro
 ├── styles/           # global.css, home/ (homepage v3)
 functions/api/        # Cloudflare Pages Functions (e.g. error logging)
 public/               # Static assets
