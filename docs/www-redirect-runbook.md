@@ -34,8 +34,7 @@ manual step in the Cloudflare dashboard.
 
 ## Status
 
-Not yet applied as of this branch (issue #75). The in-repo part of that issue
-(preview `X-Robots-Tag: noindex`, deleting `/og-preview` and
-`public/alex.jpg`) ships without this step; apply it separately in the
-Cloudflare dashboard whenever convenient, then run the verification `curl`
-above to confirm.
+Applied in the Cloudflare dashboard on 2026-10-30 (per the issue #78 comment).
+The `www to apex` Single Redirect rule above is live and was verified by curl
+on `/`, `/about/`, and a query-string path, each returning `HTTP/2 301` to the
+matching `https://handinhandai.com/...` location.

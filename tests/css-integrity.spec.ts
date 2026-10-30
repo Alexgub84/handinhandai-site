@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 
 const pages = [
   { path: '/', name: 'homepage (Hebrew, SimpleLayout)' },
-  { path: '/en/', name: 'English homepage (SimpleLayout)' },
   { path: '/about', name: 'about (Layout)' },
 ];
 

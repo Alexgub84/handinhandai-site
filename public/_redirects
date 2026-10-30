@@ -12,6 +12,11 @@
 /he/fitness-chain     /  301
 /he/fitness-chain/    /  301
 
+# The /en English route was removed in #78 (the site is Hebrew-only).
+/en     /  301
+/en/    /  301
+/en/*   /  301
+
 # /wa/* shortlinks handled by Pages Function at functions/wa/[slug].ts
 # (bot UAs get OG-tagged HTML preview, humans get 302 to wa.me)
 

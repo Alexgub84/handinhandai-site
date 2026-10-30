@@ -1,7 +1,7 @@
 ---
 import '@styles/global.css';
 import { type Lang } from '@i18n/ui';
-import { useTranslations, getDirection, getRouteFromUrl, hasEnglishVariant } from '@i18n/utils';
+import { useTranslations, getDirection } from '@i18n/utils';
 import Header from '@components/Header.astro';
 import Analytics from '../components/Analytics.astro';
 import Footer from '@components/Footer.astro';
@@ -22,8 +22,6 @@ const t = useTranslations(lang);
 const dir = getDirection(lang);
 const pageTitle = title || t('site.title');
 const pageDescription = description || t('site.description');
-const route = getRouteFromUrl(Astro.url);
-const hasEnglishAlternate = hasEnglishVariant(route);
 const buildTime = new Date().toISOString();
 const version = pkg.version;
 ---
@@ -41,7 +39,6 @@ const version = pkg.version;
       description={pageDescription}
       ogImage={ogImage}
       pageType={pageType}
-      hasEnglishAlternate={hasEnglishAlternate}
       noindex={noindex}
     />
 

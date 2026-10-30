@@ -1,7 +1,6 @@
 ---
 import { type Lang } from '@i18n/ui';
 import { useTranslations, getLocalizedPath } from '@i18n/utils';
-import LanguageSwitcher from '@components/LanguageSwitcher.astro';
 
 interface Props {
   lang: Lang;
@@ -49,8 +48,6 @@ const t = useTranslations(lang);
       </nav>
 
       <div class="flex items-center gap-4">
-        <LanguageSwitcher lang={lang} />
-        
         <button
           id="mobile-menu-button"
           type="button"

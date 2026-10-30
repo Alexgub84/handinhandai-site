@@ -44,11 +44,11 @@ If any of these packages get bumped (Astro/Vite/Tailwind/Rollup upgrade), bump t
 - **Framework**: Astro 5 (file-based routing, `src/pages/`)
 - **Styles**: Homepage uses the frozen prototype CSS in `src/styles/home/`; legal pages use Tailwind 4 via `src/styles/global.css`
 - **React**: `@astrojs/react` integration is installed but currently unused (no React islands on any page)
-- **i18n**: `src/i18n/ui.ts` (Hebrew default, English secondary), `[lang]/` route prefix for non-default
+- **i18n**: `src/i18n/ui.ts` (Hebrew default, English secondary) — Hebrew-only routing, no language-prefixed routes
 
 ## Homepage (v3, personal-brand "Alex" site)
 
-`/` and `/en` render `src/components/home/HomeDocument.astro`. It is a standalone
+`/` renders `src/components/home/HomeDocument.astro`. It is a standalone
 document (own `<html>`), ported 1:1 from the designer's prototype in
 `docs/specs/homepage-v3/alex-site-light.html` (see that folder's README for the
 spec review). Rules:
@@ -78,7 +78,7 @@ spec review). Rules:
   gets App Store / Google Play badges (`StoreBadges.astro`, drawn inline — no store
   assets are downloaded). Card copy is **Hebrew first**: technical names live in the
   stack chips, not in running sentences.
-- `CaseStudies.astro` is mounted on the homepage itself (`/` and `/en`) since
+- `CaseStudies.astro` is mounted on the homepage itself (`/`) since
   2026-10-16, with the "דוגמה" nav link and the "דוגמאות" footer link. The private
   review page `/examples` is gone; `public/_redirects` 301s it to `/#example`.
 - The section renders one card per
@@ -123,7 +123,7 @@ GitHub Actions workflow at `.github/workflows/test.yml` runs on every PR to `mai
 
 ## Retired pages
 
-`/fitness-studio` and `/fitness-chain` (plus `/en`, `/he` variants) were removed on 2026-10-13 along with `FitnessLayout`, the vendored WhatsApp chat mock and `src/styles/fitness.css`. `public/_redirects` 301s those paths to `/`. Do not recreate them without a new spec.
+`/fitness-studio` and `/fitness-chain` (plus their non-default-language variants) were removed on 2026-10-13 along with `FitnessLayout`, the vendored WhatsApp chat mock and `src/styles/fitness.css`. `public/_redirects` 301s those paths to `/`. Do not recreate them without a new spec.
 
 ## Favicon / app icons
 
