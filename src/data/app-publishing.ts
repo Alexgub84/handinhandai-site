@@ -8,6 +8,12 @@
  * spec lists in the ownership block and footer. Ruled out in work order #82 —
  * no such document exists yet, and a link to a contract that isn't there is
  * worse than no link.
+ *
+ * Also diverges from the spec on purpose (round 2 of work order #82): no
+ * intake form exists yet, so every "form" reference became a WhatsApp
+ * reference — `waMessage` here, plus the FAQ answer and the two steps/
+ * what-we-do strings edited to match. Revert these to the spec's form
+ * wording once /app-publishing/send ships (issue #83).
  */
 
 export interface PricingRow {
@@ -32,6 +38,14 @@ export interface FaqEntry {
   question: string;
   answer: string;
 }
+
+/**
+ * WhatsApp prefill text for every CTA on this page (hero, header, any
+ * closing CTA) — issue #82 round 2, design §C3. Not the homepage's own
+ * default greeting (`waGreeting` in site-contact.ts): this one names the
+ * free readiness check so the conversation starts on-topic.
+ */
+export const waMessage = "היי אלכס, בניתי אפליקציה ואשמח לבדיקת מוכנות חינם לפני העלאה לחנויות";
 
 export const pricingTable: PricingTable = {
   columns: ["השקה בגוגל פליי", "השקה באפ סטור", "שתי החנויות"],
@@ -83,9 +97,11 @@ export const faq: FaqEntry[] = [
       "גוגל מאפשרת פרסום מחשבון אחד והעברה רשמית לחשבון אחר, ולחשבון עסקי אין דרישת טסטרים, אז זה חוסך לכם שבועות. אפל רוצה שהאפליקציה תפורסם מחשבון של בעל האפליקציה, ומאפשרת להזמין אנשי מקצוע לחשבון. אז שם אתם פותחים חשבון (99$ לשנה, 20 דקות), ואנחנו עושים את העבודה.",
   },
   {
+    // "מדריך מלא: קישור למאמר." dropped per work order #82 round 2, §C1 — no
+    // article exists yet. Put the link back here once the long-form article
+    // (out of scope for #82, its own ticket) ships.
     question: "האם אני צריך מק?",
-    answer:
-      "לא. לאנדרואיד כל מחשב. ל-iOS אנחנו בונים ומעלים מהמק שלנו, או דרך Expo EAS אם האפליקציה שלכם ב-Expo. מדריך מלא: קישור למאמר.",
+    answer: "לא. לאנדרואיד כל מחשב. ל-iOS אנחנו בונים ומעלים מהמק שלנו, או דרך Expo EAS אם האפליקציה שלכם ב-Expo.",
   },
   {
     question: "מתי אוכל להעביר את האפליקציה בגוגל לחשבון שלי?",
@@ -112,9 +128,11 @@ export const faq: FaqEntry[] = [
       "בדיקת מוכנות: יום עסקים. גוגל: באוויר בדרך כלל תוך 1 עד 7 ימים מהתשלום. אפל: 1 עד 3 ימים לבדיקה, פלוס זמן לתיקונים אם יש דחייה. חשבון אפל חדש לוקח לאפל 1 עד 3 ימים לאשר.",
   },
   {
+    // Last sentence replaced per work order #82 round 2, §C2 — "הטופס מפרט
+    // הכל" refers to the intake form, which doesn't exist yet (#83).
     question: "מה צריך לשלוח?",
     answer:
-      "גוגל: קובץ AAB חתום. אפל: גישה לריפו (GitHub) או פרויקט מכווץ. שניהם: אייקון 1024x1024, לפחות 3 צילומי מסך, שם, תיאור קצר וארוך, קישור למדיניות פרטיות, אימייל תמיכה, ומשתמש לבדיקה אם יש התחברות. הטופס מפרט הכל.",
+      "גוגל: קובץ AAB חתום. אפל: גישה לריפו (GitHub) או פרויקט מכווץ. שניהם: אייקון 1024x1024, לפחות 3 צילומי מסך, שם, תיאור קצר וארוך, קישור למדיניות פרטיות, אימייל תמיכה, ומשתמש לבדיקה אם יש התחברות. את הרשימה המלאה תקבלו בתשובה הראשונה.",
   },
   {
     question: "מה אתם לא מפרסמים?",

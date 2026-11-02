@@ -12,15 +12,19 @@ import LucideIcon from "@/components/home/LucideIcon.astro";
 import WhatsAppIcon from "@/components/home/WhatsAppIcon.astro";
 import AiAnswersNote from "@/components/home/AiAnswersNote.astro";
 import { waLink } from "@/data/site-contact";
+import { waMessage } from "@/data/app-publishing";
 
-const cta = waLink("שלחו את האפליקציה לבדיקה חינם");
+// Visible button label stays the spec's CTA wording even though the
+// WhatsApp prefill text is the page's own diagnostic message, not this
+// literal sentence (issue #82 round 2, design §C3).
+const cta = waLink(waMessage);
 ---
 
 <section id="hero" dir="rtl" class="ap-hero">
   <div class="ap-hero-wrap">
     <span class="ap-eyebrow">
       <LucideIcon name="rocket" class="h-3 w-3" strokeWidth={3} />
-      פרסום אפליקציות בגוגל פליי ובאפ סטור
+      פרסום אפליקציה בגוגל פליי ובאפ סטור
     </span>
     <h1 class="ap-h1">האפליקציה שלכם בחנויות תוך ימים. בלי 12 טסטרים, בלי 14 יום המתנה, בלי מק.</h1>
     <p class="ap-sub">

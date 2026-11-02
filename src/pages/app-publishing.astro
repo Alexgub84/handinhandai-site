@@ -19,11 +19,10 @@ import Pricing from "@/components/app-publishing/Pricing.astro";
 import Ownership from "@/components/app-publishing/Ownership.astro";
 import Steps from "@/components/app-publishing/Steps.astro";
 import Faq from "@/components/app-publishing/Faq.astro";
-import { faq } from "@/data/app-publishing";
+import { faq, pricingTable, waMessage } from "@/data/app-publishing";
 import { buildOrganizationSchema, resolveSite } from "@/data/organization-schema";
-import { waGreeting } from "@/data/site-contact";
 
-const title = "פרסום אפליקציה בגוגל פליי ובאפ סטור בלי טסטרים ובלי מק | Hand In Hand AI";
+const title = "פרסום אפליקציה בגוגל פליי ובאפ סטור בלי טסטרים ובלי מק | HandInHandAI";
 const description =
   "בניתם אפליקציה? אנחנו מעלים אותה לחנויות תוך ימים: גוגל פליי מחשבון עסקי מאומת בלי 12 טסטרים, אפ סטור בלי מק. בדיקת מוכנות של מפתח, הסכם, עדכונים כלולים.";
 const canonicalPath = "/app-publishing";
@@ -33,15 +32,30 @@ const ogImagePath = "/og/default.jpg";
 
 const site = resolveSite(Astro.site);
 const organization = buildOrganizationSchema(site.toString());
+const canonical = new URL(canonicalPath, site).href;
+
+// Three Offer entries built from the pricing data's highlighted "מחיר" row
+// (590 / 790 / 1,290 ₪), not hardcoded — issue #82 round 2, design §C6.
+const priceRow = pricingTable.rows.find((row) => row.highlight);
+const offers = priceRow
+  ? pricingTable.columns.map((name, i) => ({
+      "@type": "Offer",
+      name,
+      price: Number(priceRow.values[i].replace(/[^\d]/g, "")),
+      priceCurrency: "ILS",
+    }))
+  : [];
 
 const serviceLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   name: "פרסום אפליקציה בגוגל פליי ובאפ סטור",
   description,
+  url: canonical,
   provider: { "@id": organization["@id"] },
   areaServed: { "@type": "Country", name: "Israel" },
   availableLanguage: "he",
+  offers,
 };
 
 const faqLd = {
@@ -69,7 +83,7 @@ const jsonLd = [faqLd, serviceLd];
   ogImagePath={ogImagePath}
   jsonLd={jsonLd}
 >
-  <PageHeader waMessage={waGreeting} />
+  <PageHeader waMessage={waMessage} />
   <Hero />
   <Problem />
   <WhatWeDo />

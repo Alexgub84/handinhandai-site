@@ -16,6 +16,8 @@ interface FaqPageLd {
 interface ServiceLd {
   "@type": "Service";
   provider: { "@id": string };
+  url: string;
+  offers: { "@type": "Offer"; name: string; price: number; priceCurrency: string }[];
 }
 
 function isFaqPageLd(value: unknown): value is FaqPageLd {
@@ -87,6 +89,37 @@ test.describe("/app-publishing landing page", () => {
     const serviceLd = entries.find(isServiceLd);
     expect(serviceLd).not.toBeUndefined();
     expect(serviceLd?.provider["@id"]).toContain("#organization");
+  });
+
+  test("Service JSON-LD has three offers at the data file's prices", async ({ page }) => {
+    const entries = await collectJsonLd(page);
+    const serviceLd = entries.find(isServiceLd);
+    expect(serviceLd).not.toBeUndefined();
+    expect(serviceLd?.url).toContain("/app-publishing");
+    expect(serviceLd?.offers).toHaveLength(3);
+    for (const offer of serviceLd?.offers ?? []) {
+      expect(offer.priceCurrency).toBe("ILS");
+    }
+    const prices = (serviceLd?.offers ?? []).map((o) => o.price);
+    expect(prices).toEqual([590, 790, 1290]);
+  });
+
+  test("FAQPage JSON-LD never carries the dropped 'קישור למאמר' placeholder", async ({ page }) => {
+    const entries = await collectJsonLd(page);
+    const faqLd = entries.find(isFaqPageLd);
+    expect(faqLd).not.toBeUndefined();
+    const serialised = JSON.stringify(faqLd);
+    expect(serialised).not.toContain("קישור למאמר");
+  });
+
+  test("the FAQPage and Service JSON-LD blocks render in the same order as before", async ({ page }) => {
+    const entries = await collectJsonLd(page);
+    const types = entries.map((e) => (e as { "@type"?: string })["@type"]).filter(Boolean);
+    const faqIndex = types.indexOf("FAQPage");
+    const serviceIndex = types.indexOf("Service");
+    expect(faqIndex).toBeGreaterThanOrEqual(0);
+    expect(serviceIndex).toBeGreaterThanOrEqual(0);
+    expect(faqIndex).toBeLessThan(serviceIndex);
   });
 
   test("the AI-answers-first disclosure sits next to the WhatsApp CTA", async ({ page }) => {

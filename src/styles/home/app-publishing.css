@@ -32,7 +32,7 @@
   border-bottom: 1px solid hsl(var(--border));
   font-size: 14px;
 }
-.ap-table th {
+.ap-table thead th {
   background: hsl(var(--background-deep));
   font-weight: 800;
   color: hsl(var(--foreground));
