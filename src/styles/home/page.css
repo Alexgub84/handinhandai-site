@@ -17,6 +17,14 @@
   width: min(1100px, calc(100% - 32px));
   margin: 0 auto;
 }
+/* 860px reading-width cap (issue #82 round 3, ruling 5) for long-form text
+   blocks (explainer bodies, numbered lists, bullet lists, FAQ) — a modifier
+   on `.pg-wrap`, not a replacement, so a section keeps the same centering
+   and side padding and just narrows. The pricing block and any two-column
+   grid deliberately keep the full 1100px `.pg-wrap` instead of this. */
+.pg-wrap--reading {
+  max-width: 860px;
+}
 .pg-h2 {
   font-size: clamp(1.7rem, 3.2vw, 2.4rem);
   font-weight: 800;

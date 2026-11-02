@@ -40,6 +40,7 @@ const links = [
           <li><a href={`mailto:${siteContact.email}`}><LucideIcon name="mail" class="ct-i" /> <span class="ltr">{siteContact.email}</span></a></li>
         </ul>
         <ul class="ft-links ft-legal">
+          {path !== "/" && <li><a href="/">לאתר הראשי</a></li>}
           <li><a href="/app-publishing">פרסום אפליקציה</a></li>
           <li><a href="/about">אודות</a></li>
           <li><a href="/terms">תנאי שימוש</a></li>

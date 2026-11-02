@@ -6,7 +6,16 @@
    app-publishing.css's `.ap-table thead th` rule is scoped to <thead> only so
    that row-label <th>s keep the same look they had as <td>s. Heading comes
    from this section's `PricingSectionData` entry — the exact bound SEO
-   string (issue #82 round 3, ruling 3), not hardcoded here. */
+   string (issue #82 round 3, ruling 3), not hardcoded here.
+
+   Phone card-per-plan layout (<768px, ruling 4, design §3) built from the
+   same `pricingTable` data as the desktop table, CSS-toggled at the same
+   768px breakpoint the table's own CSS already uses — no JS. Price hoisted
+   to the top of each card, then the remaining rows. This phone layout has
+   no written spec beyond "price on top, then the rows" anywhere in the
+   three round-3 source docs — it's this order's own best-effort fill-in,
+   flagged to the manager as an open question; ship as specified, revisit if
+   a fuller spec turns up. */
 import WhatsAppIcon from "@/components/home/WhatsAppIcon.astro";
 import AiAnswersNote from "@/components/home/AiAnswersNote.astro";
 import { waLink } from "@/data/site-contact";
@@ -40,6 +49,29 @@ const cta = data.cta.kind === "whatsapp" ? waLink(waMessage) : undefined;
           ))}
         </tbody>
       </table>
+    </div>
+
+    <div class="ap-price-cards">
+      {pricingTable.columns.map((col, i) => {
+        const priceRow = pricingTable.rows.find((r) => r.highlight)!;
+        const otherRows = pricingTable.rows.filter((r) => !r.highlight);
+        return (
+          <article class="ap-price-card">
+            <header>
+              <h3>{col}</h3>
+              <p class="ap-price-card-price">{priceRow.values[i]}</p>
+            </header>
+            <dl>
+              {otherRows.map((row) => (
+                <>
+                  <dt>{row.label}</dt>
+                  <dd>{row.values[i]}</dd>
+                </>
+              ))}
+            </dl>
+          </article>
+        );
+      })}
     </div>
 
     <div class="ap-pricing-extra">
