@@ -409,24 +409,22 @@ export const sections: Section[] = [
 /**
  * About-Alex content (section "about" above) — kept as its own export rather
  * than inlined in `sections`, same pattern as the rest of the site keeping
- * personal facts in one place (`home-profile.ts`). Paragraphs reused
- * verbatim from `src/components/home/About.astro`'s `story` strings, minus
- * the `[[...]]` highlight-word markup — this section has no scroll-reveal
- * animation, it's static copy (design §4).
+ * personal facts in one place (`home-profile.ts`). The years-in-field
+ * figure itself is rendered separately by About.astro from
+ * `homeProfile.yearsInField` — not duplicated here.
+ *
+ * The opening line and `closingSentence` are Alex's own positioning, given
+ * verbatim (round 3, copy-change follow-up): leads with "owns a software
+ * house, experience building systems," not the builder's first ("I build AI
+ * agents every day...") draft, which he rejected outright. No needsReview
+ * flag here — this is his own wording, not a guess awaiting approval.
  */
 export const aboutAlex = {
   paragraphs: [
-    "כבר חמש שנים שאני חי את העולם הזה. אני מת על הכלים החדשים שיוצאים היום – AI, אוטומציות, פתרונות חכמים – אבל מבחינתי הם לא שווים כלום אם הם לא עושים לכם את החיים קלים יותר.",
-    "כמו בניהול בית ומשפחה, גם בעסקים אני מאמין ביחס ישר, תקשורת פתוחה ובלי משחקים.",
+    "אני אלכס, בעלים של בית תוכנה, עם ניסיון בפיתוח מערכות.",
     "כשעובדים איתי, לא מקבלים קופסה שחורה של קוד, אלא בנאדם שאפשר לסמוך עליו, לדבר איתו בגובה העיניים ולדעת שהפרויקט שלכם בידיים בטוחות.",
   ],
-  reangledSentence: {
-    text:
-      "אני בונה סוכני AI ומערכות אוטומטיות כל יום, אבל את ההעלאה לחנויות אני עושה בעצמי ואישית, כי מכתב דחייה מאפל צריך מישהו שקורא אותו, מבין אותו ועונה נכון — לא תור אנונימי.",
-    /** Surfaced for Alex's review before this ships — not a silent guess
-     *  (ruling 8). Clear this flag once he's approved the sentence. */
-    needsReview: true,
-  },
+  closingSentence: "בית תוכנה שבונה מערכות, מלווה אותן גם דרך הבדיקה של גוגל ואפל.",
   homeLinkLabel: "לאתר הראשי",
 };
 

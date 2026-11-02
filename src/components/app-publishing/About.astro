@@ -28,7 +28,7 @@ const cta = data.cta.kind === "whatsapp" ? waLink(data.cta.label) : undefined;
     <div class="ap-about-copy">
       <h2 class="pg-h2">מי עומד מאחורי השירות</h2>
       {aboutAlex.paragraphs.map((p) => <p class="ap-about-p">{p}</p>)}
-      <p class="ap-about-p ap-about-reangled">{aboutAlex.reangledSentence.text}</p>
+      <p class="ap-about-p ap-about-reangled">{aboutAlex.closingSentence}</p>
       <div class="ap-about-years">
         <strong>{homeProfile.yearsInField}</strong>
         <span>שנים בתחום</span>
