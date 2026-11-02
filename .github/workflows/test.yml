@@ -6,7 +6,10 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest now resolves to 26.04, which has no Playwright
+    # Chromium build yet. Unpin once Playwright ships a chromium build for
+    # the newer Ubuntu image.
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
