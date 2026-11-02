@@ -1,26 +1,32 @@
 ---
 /* /app-publishing — landing page selling app-store publishing (Google Play from
    HIH's own org account, App Store from the client's own account). Issue #82.
-   Copy source of truth: docs/specs/app-publishing/offer.md, "Final website
-   package (v2, implement this)" → "Page 1: Landing page". Renders in the
-   homepage design system via HomeDocumentShell — same document chrome as `/`,
-   a different <main>. Thin: builds SEO/JSON-LD, orders the section components.
+
+   Round 3 restructures this into a content-led ("advertorial") flow, settled
+   in docs/specs/app-publishing/landing-best-practices.md. This file lists no
+   section component by hand: it renders `sections` (src/data/app-publishing.ts)
+   in array order and dispatches on `kind` — reordering, rewording or
+   swapping a section is a data edit now, not an edit here (design §0,
+   binding). Renders in the homepage design system via HomeDocumentShell —
+   same document chrome as `/`, a different <main>.
 
    Hebrew-only: this page never imports src/i18n/ui.ts. */
 import "@styles/home/app-publishing.css";
 import HomeDocumentShell from "@/components/home/HomeDocumentShell.astro";
 import PageHeader from "@/components/home/PageHeader.astro";
 import Hero from "@/components/app-publishing/Hero.astro";
-import Problem from "@/components/app-publishing/Problem.astro";
+import ArticleSection from "@/components/app-publishing/ArticleSection.astro";
 import WhatWeDo from "@/components/app-publishing/WhatWeDo.astro";
-import WhoFor from "@/components/app-publishing/WhoFor.astro";
-import WhatNot from "@/components/app-publishing/WhatNot.astro";
+import About from "@/components/app-publishing/About.astro";
 import Pricing from "@/components/app-publishing/Pricing.astro";
-import Ownership from "@/components/app-publishing/Ownership.astro";
-import Steps from "@/components/app-publishing/Steps.astro";
 import Faq from "@/components/app-publishing/Faq.astro";
-import { faq, pricingTable, waMessage } from "@/data/app-publishing";
+import ClosingCta from "@/components/app-publishing/ClosingCta.astro";
+import { sections, faq, pricingTable, waMessage, articleDates } from "@/data/app-publishing";
 import { buildOrganizationSchema, resolveSite } from "@/data/organization-schema";
+import { legal } from "@/data/site-contact";
+
+const heroSection = sections.find((s) => s.kind === "hero");
+if (!heroSection) throw new Error("app-publishing: sections array has no hero entry");
 
 const title = "פרסום אפליקציה בגוגל פליי ובאפ סטור בלי טסטרים ובלי מק | HandInHandAI";
 const description =
@@ -68,12 +74,22 @@ const faqLd = {
   })),
 };
 
-// Array order must keep the FAQPage block first and the Service block second
-// — the order the page rendered them in before HomeDocumentShell accepted an
-// array (issue #82 round 2, design §A1): faqLd used to go through the
-// shell's "head-extra" slot, which renders before the shell's own jsonLd
-// <script>, which held serviceLd.
-const jsonLd = [faqLd, serviceLd];
+// New per round 3, ruling 3. headline is the bound H1 string (kept in one
+// place, the hero section's own data entry, not retyped here). author/
+// publisher reuse the same @id pattern Service.provider already uses
+// (organization-schema.ts's buildOrganizationSchema) so Google resolves one
+// entity, not two that disagree.
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: heroSection.h1,
+  author: { "@type": "Person", name: legal.legalName.he },
+  publisher: { "@id": organization["@id"] },
+  datePublished: articleDates.datePublished,
+  dateModified: articleDates.dateModified,
+};
+
+const jsonLd = [articleLd, serviceLd, faqLd];
 ---
 
 <HomeDocumentShell
@@ -84,13 +100,22 @@ const jsonLd = [faqLd, serviceLd];
   jsonLd={jsonLd}
 >
   <PageHeader waMessage={waMessage} />
-  <Hero />
-  <Problem />
-  <WhatWeDo />
-  <WhoFor />
-  <WhatNot />
-  <Pricing />
-  <Ownership />
-  <Steps />
-  <Faq />
+  {sections.map((s) => {
+    switch (s.kind) {
+      case "hero":
+        return <Hero data={s} />;
+      case "article":
+        return <ArticleSection data={s} />;
+      case "what-we-do":
+        return <WhatWeDo data={s} />;
+      case "about":
+        return <About data={s} />;
+      case "pricing":
+        return <Pricing data={s} />;
+      case "faq":
+        return <Faq data={s} />;
+      case "closing-cta":
+        return <ClosingCta data={s} />;
+    }
+  })}
 </HomeDocumentShell>

@@ -1,16 +1,28 @@
 ---
-/* H2: מחירים — table, add-ons and exclusions from src/data/app-publishing.ts
-   (per MEMORY's "fillable content as data" rule and the issue's explicit ask).
-   Copy verbatim from the spec. Column headers are <th scope="col">, the
+/* Section 9: pricing table, add-ons and exclusions from
+   src/data/app-publishing.ts (per MEMORY's "fillable content as data" rule
+   and the issue's explicit ask). Column headers are <th scope="col">, the
    row-label cells are <th scope="row"> (issue #82 round 2, design §C5) —
    app-publishing.css's `.ap-table thead th` rule is scoped to <thead> only so
-   that row-label <th>s keep the same look they had as <td>s. */
-import { pricingTable, addOns, exclusions } from "@/data/app-publishing";
+   that row-label <th>s keep the same look they had as <td>s. Heading comes
+   from this section's `PricingSectionData` entry — the exact bound SEO
+   string (issue #82 round 3, ruling 3), not hardcoded here. */
+import WhatsAppIcon from "@/components/home/WhatsAppIcon.astro";
+import AiAnswersNote from "@/components/home/AiAnswersNote.astro";
+import { waLink } from "@/data/site-contact";
+import { pricingTable, addOns, exclusions, waMessage, type PricingSectionData } from "@/data/app-publishing";
+
+interface Props {
+  data: PricingSectionData;
+}
+
+const { data } = Astro.props;
+const cta = data.cta.kind === "whatsapp" ? waLink(waMessage) : undefined;
 ---
 
-<section id="pricing" dir="rtl" class="pg-section">
+<section id={data.id} dir="rtl" class="pg-section">
   <div class="pg-wrap">
-    <h2 class="pg-h2">מחירים</h2>
+    <h2 class="pg-h2">{data.heading}</h2>
     <div class="ap-table-scroll">
       <table class="ap-table">
         <thead>
@@ -51,5 +63,24 @@ import { pricingTable, addOns, exclusions } from "@/data/app-publishing";
     </div>
 
     <p class="ap-pricing-note">המחירים לא כוללים מע"מ, ככל שחל. התשלום אחרי בדיקת המוכנות, דרך קישור תשלום מאובטח.</p>
+    {data.cta.kind === "whatsapp" && cta && (
+      <div class="ap-cta-row">
+        <a href={cta} target="_blank" rel="noopener noreferrer" class="ah-btn ah-btn-primary" data-track="app-publishing-pricing-whatsapp">
+          <WhatsAppIcon class="h-[18px] w-[18px]" />
+          {data.cta.label}
+        </a>
+        <AiAnswersNote />
+      </div>
+    )}
   </div>
 </section>
+
+<style>
+  .ap-cta-row {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+  }
+</style>

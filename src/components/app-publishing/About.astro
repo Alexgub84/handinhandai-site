@@ -1,0 +1,123 @@
+---
+/* Section 8: "מי עומד מאחורי השירות" — the about-Alex block (issue #82
+   round 3, ruling 8). Reuses the homepage's about copy and portrait
+   verbatim (no new shoot, no new animation — the scroll-driven count-up in
+   home/About.astro is homepage-specific and out of scope here, so the years
+   figure renders as a static number). Ends with a soft WhatsApp link
+   ("בואו נדבר, בגובה העיניים", not a primary button) and the `לאתר הראשי`
+   button, required by this ruling alongside the footer's own link (added to
+   Footer.astro separately). */
+import WhatsAppIcon from "@/components/home/WhatsAppIcon.astro";
+import { homeProfile } from "@/data/home-profile";
+import { waLink } from "@/data/site-contact";
+import { aboutAlex, type AboutSectionData } from "@/data/app-publishing";
+
+interface Props {
+  data: AboutSectionData;
+}
+
+const { data } = Astro.props;
+const cta = data.cta.kind === "whatsapp" ? waLink(data.cta.label) : undefined;
+---
+
+<section id={data.id} dir="rtl" class="pg-section">
+  <div class="ap-about-wrap">
+    <div class="ap-about-photo">
+      <img src="/home/alex-about.webp" alt={homeProfile.firstName} width="700" height="895" loading="lazy" />
+    </div>
+    <div class="ap-about-copy">
+      <h2 class="pg-h2">מי עומד מאחורי השירות</h2>
+      {aboutAlex.paragraphs.map((p) => <p class="ap-about-p">{p}</p>)}
+      <p class="ap-about-p ap-about-reangled">{aboutAlex.reangledSentence.text}</p>
+      <div class="ap-about-years">
+        <strong>{homeProfile.yearsInField}</strong>
+        <span>שנים בתחום</span>
+      </div>
+      <div class="ap-about-actions">
+        {data.cta.kind === "whatsapp" && cta && (
+          <a href={cta} target="_blank" rel="noopener noreferrer" class="ap-soft-link">
+            <WhatsAppIcon class="h-[18px] w-[18px]" />
+            {data.cta.label}
+          </a>
+        )}
+        <a href="/" class="ap-home-link">{aboutAlex.homeLinkLabel}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ap-about-wrap {
+    width: min(1100px, calc(100% - 32px));
+    margin: 0 auto;
+    display: grid;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .ap-about-wrap {
+      grid-template-columns: 280px 1fr;
+    }
+  }
+  .ap-about-photo {
+    border-radius: 18px;
+    overflow: hidden;
+    background: hsl(var(--card));
+  }
+  .ap-about-photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .ap-about-p {
+    color: hsl(var(--muted-foreground));
+    line-height: 1.75;
+    margin: 0 0 14px;
+    max-width: 860px;
+  }
+  .ap-about-reangled {
+    color: hsl(var(--foreground));
+    font-weight: 600;
+  }
+  .ap-about-years {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 8px 0 20px;
+  }
+  .ap-about-years strong {
+    font-size: 2rem;
+    font-weight: 900;
+    color: hsl(var(--primary-text));
+  }
+  .ap-about-years span {
+    color: hsl(var(--muted-foreground));
+    font-size: 14px;
+  }
+  .ap-about-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+  }
+  .ap-soft-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: hsl(var(--primary-text));
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--primary) / 0.4);
+  }
+  .ap-home-link {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid hsl(var(--border));
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-weight: 700;
+    font-size: 14px;
+    color: hsl(var(--foreground));
+    text-decoration: none;
+  }
+</style>

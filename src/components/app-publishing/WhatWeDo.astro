@@ -1,42 +1,54 @@
 ---
-/* H2: מה אנחנו עושים — 5 numbered items, copy verbatim from the spec. The
-   numbered-badge list itself is the generic NumberedList.astro
-   (issue #82 round 2). */
+/* Section 5: "מה אנחנו עושים בפועל" — the pivot from pure information to
+   the offer, still told as process (issue #82 round 3, design/File map).
+   Absorbs the old "איך זה עובד, צעד אחר צעד" 7-step walkthrough's remaining
+   detail into `closingNote` below the numbered list (Steps.astro is
+   deleted, not kept as a tenth section). Gains this page's first real
+   WhatsApp button, with the AI-answers-first disclosure next to it like
+   every other WhatsApp entry point on the site. Content comes from this
+   section's `WhatWeDoSectionData` entry in `sections`. */
 import NumberedList from "@/components/home/NumberedList.astro";
-import type { IconName } from "@/components/home/icons";
+import WhatsAppIcon from "@/components/home/WhatsAppIcon.astro";
+import AiAnswersNote from "@/components/home/AiAnswersNote.astro";
+import { waLink } from "@/data/site-contact";
+import { waMessage, type WhatWeDoSectionData } from "@/data/app-publishing";
 
-const items: { icon: IconName; text: string }[] = [
-  {
-    icon: "scan-search",
-    text:
-      "בדיקת מוכנות של מפתח (כלול, לפני תשלום). מתקינים על טלפון אמיתי, עוברים על ההרשאות, הפרטיות, מחיקת החשבון, גרסת ה-SDK, התשלומים, והכללים של שתי החנויות. מקבלים דוח קצר בעברית: ירוק, או רשימה ברורה של מה לתקן ואיך.",
-  },
-  {
-    icon: "rocket",
-    text:
-      "פרסום בגוגל פליי מהחשבון העסקי המאומת שלנו. אין דרישת טסטרים לחשבון עסקי. אנחנו בונים את דף החנות בעברית ובאנגלית, ממלאים Data Safety, דירוג תוכן, קהל יעד, ומגישים. בדרך כלל באוויר תוך ימים.",
-  },
-  {
-    icon: "handshake",
-    text:
-      "פרסום באפ סטור מהחשבון שלכם. אתם פותחים חשבון מפתח של אפל (99$ לשנה, בלי חברה) ומזמינים אותנו כמנהלים. אנחנו עושים את השאר מהמק שלנו: סרטיפיקטים, בנייה, העלאה, TestFlight, דף חנות, תוויות פרטיות, דירוג גיל, הגשה, ותשובות ל-App Review.",
-  },
-  {
-    // Replaced per work order #82 round 2, §C2 — no intake form exists yet.
-    // Revert to the spec's form wording once /app-publishing/send ships (#83).
-    icon: "sparkles",
-    text: "עדכונים. שולחים לנו גרסה חדשה בוואטסאפ, אנחנו מעלים ומגישים. כלול בחבילה.",
-  },
-  {
-    icon: "trending-up",
-    text: "העברה. כשתפתחו חשבון עסקי משלכם בגוגל, מעבירים את האפליקציה אליכם בתהליך הרשמי של גוגל, כולל ביקורות והורדות.",
-  },
-];
+interface Props {
+  data: WhatWeDoSectionData;
+}
+
+const { data } = Astro.props;
+const cta = data.cta.kind === "whatsapp" ? waLink(waMessage) : undefined;
 ---
 
-<section id="what-we-do" dir="rtl" class="pg-section">
+<section id={data.id} dir="rtl" class="pg-section">
   <div class="pg-wrap">
-    <h2 class="pg-h2">מה אנחנו עושים</h2>
-    <NumberedList items={items} />
+    <h2 class="pg-h2">מה אנחנו עושים בפועל</h2>
+    <NumberedList items={data.items} />
+    <p class="ap-closing-note">{data.closingNote}</p>
+    {data.cta.kind === "whatsapp" && cta && (
+      <div class="ap-cta-row">
+        <a href={cta} target="_blank" rel="noopener noreferrer" class="ah-btn ah-btn-primary" data-track="app-publishing-what-we-do-whatsapp">
+          <WhatsAppIcon class="h-[18px] w-[18px]" />
+          {data.cta.label}
+        </a>
+        <AiAnswersNote />
+      </div>
+    )}
   </div>
 </section>
+
+<style>
+  .ap-closing-note {
+    margin-top: 20px;
+    color: hsl(var(--muted-foreground));
+    line-height: 1.7;
+  }
+  .ap-cta-row {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+  }
+</style>

@@ -1,48 +1,41 @@
 ---
-/* H1 + sub + CTA. Copy verbatim from docs/specs/app-publishing/offer.md,
-   "Page 1: Landing page" (H1 / Sub / CTA / Trust line). CTA targets WhatsApp —
-   the intake form (/app-publishing/send) is out of scope for this ticket and
-   does not exist yet (resolved in work order #82).
+/* Section 1 (hero). Issue #82 round 3, design §1: the lead paragraph of an
+   advertorial, not a banner. No primary WhatsApp button here anymore (that
+   moved to what-we-do, CTA strategy §5) — only a byline strip (small crop of
+   the existing homepage portrait, next to the years-in-field line) and a
+   soft text link scrolling down to #what-we-do. Content comes from this
+   section's `HeroSectionData` entry in `sections` (src/data/app-publishing.ts)
+   — reordering or rewording the hero is a data edit now, not a component
+   edit. */
+import { homeProfile } from "@/data/home-profile";
+import type { HeroSectionData } from "@/data/app-publishing";
 
-   Styling is scoped here rather than in the shared app-publishing.css file:
-   this hero's exact shape (eyebrow, H1, sub, actions, trust line) is specific
-   to this page, not a primitive the #79 pages would reuse as-is (issue #82
-   round 2, design §A5). */
-import LucideIcon from "@/components/home/LucideIcon.astro";
-import WhatsAppIcon from "@/components/home/WhatsAppIcon.astro";
-import AiAnswersNote from "@/components/home/AiAnswersNote.astro";
-import { waLink } from "@/data/site-contact";
-import { waMessage } from "@/data/app-publishing";
+interface Props {
+  data: HeroSectionData;
+}
 
-// Visible button label stays the spec's CTA wording even though the
-// WhatsApp prefill text is the page's own diagnostic message, not this
-// literal sentence (issue #82 round 2, design §C3).
-const cta = waLink(waMessage);
+const { data } = Astro.props;
 ---
 
-<section id="hero" dir="rtl" class="ap-hero">
+<section id={data.id} dir="rtl" class="ap-hero">
   <div class="ap-hero-wrap">
-    <span class="ap-eyebrow">
-      <LucideIcon name="rocket" class="h-3 w-3" strokeWidth={3} />
-      פרסום אפליקציה בגוגל פליי ובאפ סטור
-    </span>
-    <h1 class="ap-h1">האפליקציה שלכם בחנויות תוך ימים. בלי 12 טסטרים, בלי 14 יום המתנה, בלי מק.</h1>
-    <p class="ap-sub">
-      בניתם אפליקציה עם Claude, Cursor, Lovable, Replit, Expo או Flutter, ועכשיו גוגל רוצה טסטרים ואפל רוצה Xcode.
-      אנחנו מפתחים. אנחנו בודקים שהאפליקציה מוכנה, מעלים, ממלאים את כל הטפסים, עוברים את הבדיקה, ומעדכנים כשצריך.
-      האפליקציה נשארת שלכם, עם הסכם חתום.
-    </p>
-    <div class="ap-hero-actions">
-      <a href={cta} target="_blank" rel="noopener noreferrer" class="ah-btn ah-btn-primary" data-track="app-publishing-hero-whatsapp">
-        <WhatsAppIcon class="h-[18px] w-[18px]" />
-        שלחו את האפליקציה לבדיקה חינם
-      </a>
+    <span class="ap-eyebrow">{data.eyebrow}</span>
+    <h1 class="ap-h1">{data.h1}</h1>
+    <div class="ap-byline">
+      <img
+        src="/home/alex-about.webp"
+        alt={homeProfile.firstName}
+        width="60"
+        height="60"
+        class="ap-byline-photo"
+        loading="eager"
+      />
+      <span>{homeProfile.firstName} · {homeProfile.yearsInField} שנים בתחום</span>
     </div>
-    <p class="ap-trust">
-      <LucideIcon name="circle-check-big" class="h-[18px] w-[18px]" />
-      תוך יום עסקים תקבלו תשובה: מוכנה, או מה לתקן. התשלום רק אחרי האישור שלנו.
-    </p>
-    <AiAnswersNote />
+    <p class="ap-sub">{data.sub}</p>
+    {data.cta.kind === "soft-link" && (
+      <a href={`#${data.cta.targetId}`} class="ap-soft-link">{data.cta.text}</a>
+    )}
   </div>
 </section>
 
@@ -73,37 +66,38 @@ const cta = waLink(waMessage);
     line-height: 1.18;
     letter-spacing: -0.02em;
     color: hsl(var(--foreground));
-    margin: 0 0 18px;
+    margin: 0 0 16px;
+  }
+  .ap-byline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 auto 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: hsl(var(--muted-foreground));
+  }
+  .ap-byline-photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top center;
+    flex: none;
   }
   .ap-sub {
     font-size: clamp(1rem, 1.5vw, 1.15rem);
     color: hsl(var(--muted-foreground));
     line-height: 1.7;
     max-width: 68ch;
-    margin: 0 auto 28px;
+    margin: 0 auto 20px;
   }
-  .ap-hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 14px;
-    margin-bottom: 16px;
-  }
-  .ap-trust {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 14px;
-    color: hsl(var(--muted-foreground));
-    max-width: 48ch;
-    margin: 0 auto 14px;
-  }
-  .ap-trust svg {
-    flex: none;
+  .ap-soft-link {
+    display: inline-block;
     color: hsl(var(--primary-text));
-  }
-  .ap-hero :global(.ai-note) {
-    justify-content: center;
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--primary) / 0.4);
   }
 </style>
