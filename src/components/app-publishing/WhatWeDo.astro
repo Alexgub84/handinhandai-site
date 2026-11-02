@@ -5,9 +5,12 @@
    detail into `closingNote` below the numbered list (Steps.astro is
    deleted, not kept as a tenth section). Gains this page's first real
    WhatsApp button, with the AI-answers-first disclosure next to it like
-   every other WhatsApp entry point on the site. Content comes from this
-   section's `WhatWeDoSectionData` entry in `sections`. */
+   every other WhatsApp entry point on the site, and image slot 5: the
+   five-step ProcessDiagram, visualizing the offer as a sequence before the
+   numbered list spells it out in words. Content comes from this section's
+   `WhatWeDoSectionData` entry in `sections`. */
 import NumberedList from "@/components/home/NumberedList.astro";
+import ProcessDiagram from "./ProcessDiagram.astro";
 import WhatsAppIcon from "@/components/home/WhatsAppIcon.astro";
 import AiAnswersNote from "@/components/home/AiAnswersNote.astro";
 import { waLink } from "@/data/site-contact";
@@ -24,6 +27,7 @@ const cta = data.cta.kind === "whatsapp" ? waLink(waMessage) : undefined;
 <section id={data.id} dir="rtl" class="pg-section">
   <div class="pg-wrap">
     <h2 class="pg-h2">מה אנחנו עושים בפועל</h2>
+    <ProcessDiagram />
     <NumberedList items={data.items} />
     <p class="ap-closing-note">{data.closingNote}</p>
     {data.cta.kind === "whatsapp" && cta && (

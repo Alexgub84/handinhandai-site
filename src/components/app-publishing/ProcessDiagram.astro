@@ -1,0 +1,128 @@
+---
+/* Image slot 5: the five-step process (send → check → Google → Apple →
+   updates/transfer), issue #82 round 3, design §6. One inline <svg> with two
+   internal layouts (a horizontal row ≥640px, a vertical stack <640px),
+   toggled by a plain CSS media query on each <g> — not two separate SVG
+   files/components, and no JS. Icon paths come straight from icons.ts
+   (ICONS[name]) instead of being copy-pasted here a second time, so they
+   can never drift from LucideIcon.astro's own set. Labels are real SVG
+   <text> (RTL-aware, selectable); a redundant visually-hidden <ul> repeats
+   them for screen readers that don't fully support SVG text layout. Colours
+   are all theme tokens (--primary, --border, --muted-foreground,
+   --primary-foreground) — no hardcoded hex. No animation — this is static,
+   so `prefers-reduced-motion` is a non-issue here. */
+import { ICONS, type IconName } from "@/components/home/icons";
+
+interface Node {
+  icon: IconName;
+  label: string;
+}
+
+const nodes: Node[] = [
+  { icon: "messages-square", label: "שליחה" },
+  { icon: "scan-search", label: "בדיקת מוכנות" },
+  { icon: "rocket", label: "גוגל פליי" },
+  { icon: "handshake", label: "אפ סטור" },
+  { icon: "trending-up", label: "עדכונים והעברה" },
+];
+
+const ariaLabel = `תהליך בחמישה שלבים: ${nodes.map((n) => n.label).join(", ")}`;
+
+/* Row layout (≥640px): RTL reading order, so node 1 ("שליחה") sits on the
+   right (highest x) and the flow runs right-to-left. */
+const rowNodes = nodes.map((n, i) => ({ ...n, cx: 580 - i * 130, cy: 55 }));
+/* Column layout (<640px): top to bottom regardless of text direction. */
+const colNodes = nodes.map((n, i) => ({ ...n, cx: 165, cy: 60 + i * 130 }));
+const iconScale = 28 / 24;
+---
+
+<div class="ap-process" role="img" aria-label={ariaLabel}>
+  <svg viewBox="0 0 640 170" class="ap-process-svg ap-process-row" aria-hidden="true" focusable="false">
+    <line x1="60" y1="55" x2="580" y2="55" class="ap-process-line" />
+    {rowNodes.map((n) => (
+      <g>
+        <circle cx={n.cx} cy={n.cy} r="28" class="ap-process-circle" />
+        <g transform={`translate(${n.cx - 14 * iconScale}, ${n.cy - 14 * iconScale}) scale(${iconScale})`} class="ap-process-icon">
+          {ICONS[n.icon].map(([tag, attrs]) => {
+            const Tag = tag as "path";
+            return <Tag {...attrs} />;
+          })}
+        </g>
+        <text x={n.cx} y={n.cy + 48} text-anchor="middle" class="ap-process-label">{n.label}</text>
+      </g>
+    ))}
+  </svg>
+  <svg viewBox="0 0 220 620" class="ap-process-svg ap-process-col" aria-hidden="true" focusable="false">
+    <line x1="55" y1="60" x2="55" y2="560" class="ap-process-line" />
+    {colNodes.map((n) => (
+      <g>
+        <circle cx="55" cy={n.cy} r="28" class="ap-process-circle" />
+        <g transform={`translate(${55 - 14 * iconScale}, ${n.cy - 14 * iconScale}) scale(${iconScale})`} class="ap-process-icon">
+          {ICONS[n.icon].map(([tag, attrs]) => {
+            const Tag = tag as "path";
+            return <Tag {...attrs} />;
+          })}
+        </g>
+        <text x="115" y={n.cy + 5} text-anchor="start" class="ap-process-label">{n.label}</text>
+      </g>
+    ))}
+  </svg>
+  <ul class="sr-only">
+    {nodes.map((n) => <li>{n.label}</li>)}
+  </ul>
+</div>
+
+<style>
+  .ap-process {
+    margin: 8px 0 28px;
+  }
+  .ap-process-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .ap-process-row {
+    display: block;
+  }
+  .ap-process-col {
+    display: none;
+  }
+  @media (max-width: 639px) {
+    .ap-process-row {
+      display: none;
+    }
+    .ap-process-col {
+      display: block;
+      max-width: 220px;
+      margin: 0 auto;
+    }
+  }
+  .ap-process-line {
+    stroke: hsl(var(--border));
+    stroke-width: 2;
+  }
+  .ap-process-circle {
+    fill: hsl(var(--primary));
+  }
+  .ap-process-icon {
+    fill: none;
+    stroke: hsl(var(--primary-foreground));
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .ap-process-label {
+    fill: hsl(var(--muted-foreground));
+    font-size: 13px;
+    font-weight: 700;
+    font-family: inherit;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+</style>
