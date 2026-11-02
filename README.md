@@ -81,6 +81,7 @@ Hebrew-only marketing site for Hand in Hand AI, built with Astro 5.
 | URL | Notes |
 |-----|--------|
 | `/` | `src/pages/index.astro` → `src/components/home/HomeDocument.astro` (self-contained doc, `src/styles/home/*`, Heebo + JetBrains Mono via Google Fonts) | Hero (top nav + headline with rotating word + portrait) · Services (two tracks: business systems / startup CTO) · WhyAlex (4 value cards) · About (photo + word-reveal story + years counter) · CaseStudies (sticky stack of client cards) · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer (dark, legal links) · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
+| `/app-publishing` | `src/pages/app-publishing.astro` → homepage design system via `src/components/home/HomeDocumentShell.astro` (same frozen prototype CSS/head as `/`, `src/components/app-publishing/*` sections). Sells app-store publishing (Google Play from HIH's org account, App Store from the client's own). Service + FAQPage JSON-LD. Hebrew-only, RTL, copy from `docs/specs/app-publishing/offer.md`. |
 | `/about`, `/terms`, `/privacy-sasha` | Legal pages |
 
 ---
@@ -96,6 +97,7 @@ Each page's sections in render order. Update this table whenever a page is creat
 | `/terms` | `src/pages/terms.astro` | Terms of use (identity · service description · WhatsApp terms · acceptable use · IP · liability · governing law · changes) · Hebrew section · English section |
 | `/privacy-sasha` | `src/pages/privacy-sasha.astro` | General privacy policy (website + Sasha assistant + client WhatsApp lines) · Hebrew section · English section |
 | `/404` | `src/pages/404.astro` | Not-found page (Hebrew copy, `noindex`, link back to `/`). Astro builds this to `dist/404.html`, served by Cloudflare Pages for any unmatched route. |
+| `/app-publishing` | `src/pages/app-publishing.astro` | Header (small page-specific header, not the homepage nav) · Hero (H1 + sub + CTA + trust line) · Problem ("הבעיה שאתם מכירים") · WhatWeDo (5-step service list) · WhoFor (who it's for) · WhatNot (what it isn't) · Pricing (3-column table + add-ons + exclusions) · Ownership (ownership/agreement terms) · Steps ("איך זה עובד" 7 steps) · Faq (accordion) · Footer · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/app-publishing/`. |
 
 ---
 
