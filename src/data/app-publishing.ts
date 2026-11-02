@@ -112,21 +112,36 @@ const priceFor = (columnIndex: number): string => highlightRow?.values[columnInd
 
 export const faq: FaqEntry[] = [
   {
+    // New, placed first per round 3's Facebook/Trends/PAA follow-up
+    // (docs/seo/app-publishing-queries.md, "## Round 2"): matches a real
+    // People-Also-Ask question and a real Facebook post, verbatim. Given in
+    // Hebrew spelling deliberately, as instructed — it quotes the exact
+    // phrase found in the research, overriding the Latin-script rule below
+    // for this one case. Answered from material already on the page (the
+    // readiness check + the Google step of what-we-do), no new claims.
+    question: "איך מעלים אפליקציה לגוגל פליי?",
+    answer:
+      "קודם בודקים מוכנות בחינם, לפני תשלום: טלפון אמיתי, הרשאות, פרטיות ומחיקת חשבון. אחרי האישור מעלים מהחשבון העסקי המאומת שלנו — בלי 12 טסטרים ובלי 14 יום המתנה — ממלאים Data Safety ודירוג תוכן, ומגישים. בדרך כלל האפליקציה באוויר תוך ימים.",
+  },
+  {
     question: "למה בגוגל מהחשבון שלכם ובאפל מהחשבון שלי?",
     answer:
       "גוגל מאפשרת פרסום מחשבון אחד והעברה רשמית לחשבון אחר, ולחשבון עסקי אין דרישת טסטרים, אז זה חוסך לכם שבועות. אפל רוצה שהאפליקציה תפורסם מחשבון של בעל האפליקציה, ומאפשרת להזמין אנשי מקצוע לחשבון. אז שם אתם פותחים חשבון (99$ לשנה, 20 דקות), ואנחנו עושים את העבודה.",
   },
   {
     // Question and answer-opening reworded to the bound SEO strings per work
-    // order #82 round 3, ruling 3 — replaces the old "האם אני צריך מק?"
-    question: "האם צריך מק כדי להעלות אפליקציה לאפ סטור?",
+    // order #82 round 3, ruling 3 — replaces the old "האם אני צריך מק?".
+    // Store name switched to Latin script in the question per the Round 2
+    // Trends follow-up (Israelis search "App Store", not "אפ סטור").
+    question: "האם צריך מק כדי להעלות אפליקציה ל-App Store?",
     answer:
       "לא, אפשר להעלות אפליקציה לאפ סטור בלי מק. לאנדרואיד כל מחשב מספיק. ל-iOS אנחנו בונים ומעלים מהמק שלנו, או דרך Expo EAS אם האפליקציה שלכם ב-Expo.",
   },
   {
     // Reworded to the bound SEO string per round 3, ruling 3 — replaces the
-    // old "מתי אוכל להעביר את האפליקציה בגוגל לחשבון שלי?"
-    question: "מתי אפשר להעביר את האפליקציה לחשבון מפתח גוגל פליי עסקי משלכם?",
+    // old "מתי אוכל להעביר את האפליקציה בגוגל לחשבון שלי?". Store name
+    // switched to Latin script per the Round 2 Trends follow-up.
+    question: "מתי אפשר להעביר את האפליקציה לחשבון מפתח Google Play עסקי משלכם?",
     answer:
       "כשיש לכם חשבון עסקי (עוסק או חברה ומספר D-U-N-S) או חשבון פרטי שכבר קיבל גישה לייצור. העברה לחשבון פרטי חדש לא עוקפת את דרישת הטסטרים, כי הדרישה היא על החשבון. אנחנו מלווים בפתיחת החשבון העסקי.",
   },
@@ -169,8 +184,9 @@ export const faq: FaqEntry[] = [
     // New per round 3, ruling 3 — the strongest verified price-research
     // phrase found (docs/seo/app-publishing-queries.md, #5/#6, relevance
     // 1250). Answer computed from `pricingTable` above, not retyped, so a
-    // future price change can't silently desync this answer.
-    question: "כמה עולה להעלות אפליקציה לגוגל פליי ולאפ סטור?",
+    // future price change can't silently desync this answer. Store names
+    // switched to Latin script per the Round 2 Trends follow-up.
+    question: "כמה עולה להעלות אפליקציה ל-Google Play ול-App Store?",
     answer: `${pricingTable.columns[0]}: ${priceFor(0)}. ${pricingTable.columns[1]}: ${priceFor(1)}. ${pricingTable.columns[2]}: ${priceFor(2)}. המחירים לא כוללים מע"מ, ככל שחל.`,
   },
 ];
@@ -298,7 +314,10 @@ export const sections: Section[] = [
   {
     kind: "article",
     id: "google",
-    heading: "12 טסטרים לגוגל פליי: מה הכלל, ומתי לא חל עליכם",
+    // Store name switched to Latin script per the Round 2 Trends follow-up
+    // (docs/seo/app-publishing-queries.md): Israelis search "Google Play",
+    // not "גוגל פליי", by a wide margin.
+    heading: "12 טסטרים ל-Google Play: מה הכלל, ומתי לא חל עליכם",
     paragraphs: [
       "חשבון מפתח פרטי וחדש בגוגל פליי חייב להריץ בדיקה סגורה עם 12 טסטרים במשך 14 יום רצופים, לכל אפליקציה בנפרד, ורק אחר כך לבקש גישה לייצור. הכלל חל על חשבונות שנפתחו מאז 13 בנובמבר 2023. טסטר אחד שמוחק את האפליקציה ביום העשירי מאפס את הספירה, וממשיכים מאפס.",
       "חשבון עסקי מאומת עם מספר D-U-N-S פטור מהדרישה הזו לגמרי. זה מה שאנחנו מריצים עליו: מפרסמים מהחשבון העסקי שלנו, בלי טסטרים ובלי 14 יום המתנה.",
@@ -315,9 +334,13 @@ export const sections: Section[] = [
   {
     kind: "article",
     id: "apple",
-    heading: "העלאת אפליקציה לאפ סטור: למה זה קורה מהחשבון שלכם",
+    // New heading per round 3's Facebook/Trends/PAA follow-up (ruling 4):
+    // matches a live "האם צריך מק" thread and PAA cluster, and leads with
+    // the short answer before the explanation, per the same ruling.
+    heading: "צריך מק כדי להעלות ל-App Store? התשובה הקצרה",
     paragraphs: [
-      "אפל לא עובדת כמו גוגל: אין טסטרים, אבל יש Xcode שרץ רק על מק, סרטיפיקטים, Provisioning Profiles, TestFlight ותוויות פרטיות — ו-App Review שדוחה הרבה הגשות ראשונות על סעיפים שלא ידעתם שקיימים.",
+      "לא, אתם לא צריכים מק כדי להעלות אפליקציה ל-App Store.",
+      "אפל לא עובדת כמו Google Play: אין טסטרים, אבל יש Xcode שרץ רק על מק, סרטיפיקטים, Provisioning Profiles, TestFlight ותוויות פרטיות — ו-App Review שדוחה הרבה הגשות ראשונות על סעיפים שלא ידעתם שקיימים.",
       "לפי כללי אפל, אפליקציה צריכה להיות מוגשת מהחשבון של מי שבאמת מחזיק בה (סעיף 5.2.1), וסעיף 4.2.6 דוחה אפליקציות שמגיעות משירות תבנית בלי שבעל התוכן מגיש אותן בעצמו. בגלל זה אתם פותחים חשבון מפתח של אפל (99$ לשנה, בלי חברה) ומזמינים אותנו כ-Admin, ואנחנו עושים את כל העבודה הטכנית מהחשבון שלכם.",
     ],
     image: {
@@ -390,6 +413,11 @@ export const sections: Section[] = [
     ],
     paragraphs: [
       "אנחנו לא בונים ולא מתקנים את האפליקציה שלכם. אם בדיקת המוכנות מוצאת בעיות, תקבלו רשימה מדויקת ותתקנו (או נפנה אתכם למפתח). ואנחנו לא מבטיחים אישור: ההחלטה היא של גוגל ואפל. מה שאנחנו מבטיחים: שהאפליקציה תוגש נכון, שכל דחייה תתורגם לעברית פשוטה עם מה לעשות, ושנגיש מחדש.",
+      // New per round 3's Facebook follow-up (ruling 6): names the cheap
+      // tester-broker alternative (~$15/12 testers, confirmed in
+      // docs/seo/app-publishing-queries.md "## Round 2") honestly — when it
+      // fits, and why this service exists for the people it doesn't fit.
+      "יש גם שירותי טסטרים בתשלום, בערך 15 דולר ל-12 בודקים — ואם יש לכם שבועיים וסבלנות לנהל אותם, זה פתרון לגיטימי. השירות הזה בשביל מי שאין לו את שניהם.",
     ],
     cta: { kind: "none" },
     readingWidth: true,
@@ -403,6 +431,14 @@ export const sections: Section[] = [
       "הסכם קצר חתום לפני כל העלאה, כולל זכותכם לקבל את האפליקציה בכל רגע.",
       "בגוגל פליי: העברה לחשבון שלכם היא תהליך רשמי של גוגל. באפ סטור: האפליקציה מלכתחילה על החשבון שלכם ואנחנו רק מוזמנים אליו.",
       "אף פעם לא מבקשים סיסמאות. באפל מזמינים אותנו ב-App Store Connect, בגוגל לא צריך כלום.",
+    ],
+    // New per round 3's Facebook follow-up (ruling 5): a real reply to
+    // Alex's own post asked this exact question. Names the fear plainly and
+    // answers it in his voice, from the four facts already listed above —
+    // no legal language, no promise beyond them, still no sample-agreement
+    // link (none exists, unchanged since round 1).
+    paragraphs: [
+      'זו השאלה שהכי הרבה אנשים שואלים אותי — "איך אני יודע שלא תישארו עם האפליקציה שלי?" — והתשובה היא שהאפליקציה, הקוד והמותג שלכם מהרגע הראשון, בדיוק כמו שכתוב למעלה, ואני רק מעלה אותה לחנויות.',
     ],
     cta: { kind: "none" },
     // The dark band moved to the about-him section (ruling 1, copy-change

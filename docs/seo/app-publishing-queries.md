@@ -186,3 +186,191 @@ Checked against the live page at
   just their own best guess the same way ours would be. Unknowable without
   their analytics — their existence and pricing are facts, their keyword
   strategy's success is not.
+
+## Round 2: Facebook demand, Trends, and People-also-ask
+
+Researched 2 Nov 2026, via Claude-in-Chrome driving Alex's own logged-in Chrome.
+Read-only throughout: no post, comment, like, join, or message was sent on any
+site. Facebook was searched with Facebook's own in-group search
+(`facebook.com/groups/<id>/search/?q=<term>`), which free-texts the term rather
+than matching an exact phrase, so some hits below are the engine's fuzzy match,
+not a literal occurrence — noted per row. Timestamps were read off rendered
+screenshots, not the page's text extraction, because Facebook obfuscates
+timestamps with invisible characters when the page is read as text (visible
+fine on screen, scrambled in `get_page_text`). Facebook limits each in-group
+search to what its own search surfaces, not a full-text index, so a search
+returning few results does not prove a term never appeared, only that it
+doesn't surface under that engine — flagged as "no data found" rather than
+"doesn't exist."
+
+### 1. Facebook group demand
+
+**Candidate groups** (found by scanning Alex's full joined-groups list,
+929 groups, filtered by name for developer / startup / no-code / vibe-coding /
+AI-tools / entrepreneur / freelancer relevance, before any searching began):
+
+- קלוד קוד ישראל - וייב קודינג (Claude Code Israel – Vibe Coding)
+- קלוד קוד - הקבוצה הרשמית | Claude Code Israel
+- Claude Code IL - קלוד קוד ישראל
+- פיתוח אפליקציות (App Development)
+- יזמים | סטארטאפיסטים - הקבוצה הרשמית
+- מפתחי WEB ישראל
+- דרושים בתחום Ai בינה מלאכותית
+- אוטומציה - עסקים אוטונומיים
+- AI Community Hub, Ai Israel - בינה מלאכותית, בינטק, בינה להשכיר, מדברים
+  בינה (general AI groups — candidate list only, not searched, see below)
+
+Of these, five were actually searched (time budget did not allow all).
+**Vibe Coding - Israel** and **מפתחי משחקים | Israeli Game Developers** turned
+up as relevant groups too, but only via a Google result pointing at a thread
+inside them (job 3) — not searched directly, so not in the table below.
+`קהילת העצמאים - פרסום חופשי` and `הלפטופיסטים` (freelancers/nomads) were
+promising names but Alex's join requests are still pending, so their content
+isn't visible to this account.
+
+| Group | Term searched | Threads seen | Dates (most recent first) | Quoted questions (Hebrew, verbatim) |
+|---|---|---|---|---|
+| קלוד קוד ישראל - וייב קודינג | טסטרים | 5, "End of results" | Oct 9, Oct 9, Aug 25, plus 2 more (Noam Nissan ×2) whose dates I did not capture | בנימין ויסמן: "עכשיו אם יש פה אנשי אנדרואיד שמעוניינים באפליקציה אני צריך 12 טסטרים לפני שחרור כי אלה דרישות גוגל פליי אז מוזמנים לשלוח לי את המייל שלכם ואשלח לכם קישור להורדה!" · Shay Kempler: "אשמח להמלצות איך יוצאים משלב בטא לאפליקציה באנדרואיד, אני ממש מנסה לקדם את זה אבל אני לא משיג מספיק טראפיק, איך השגתם טסטרים?" · Bar Bur: "מחפש 12 מתנדבים עם אנדרואיד... גוגל דורשת שלפני שאפליקציה של מפתח עצמאי מתפרסמת, 12 אנשים יבדקו אותה במשך 14 יום. בלי זה היא פשוט לא עולה... להישאר מחובר לבדיקה שבועיים (לא למחוק באמצע — זה מאפס לי את הספירה)" |
+| קלוד קוד ישראל - וייב קודינג | גוגל פליי | 4 relevant (plus 1 unrelated fuzzy match) | Oct 9, Sep 10, Aug 23 | שי עופר (Aug 23): "מי שמפתח אפליקציות לבד יודע — כדי לפרסם אפליקציה חדשה בגוגל פליי, גוגל דורשת 12 בודקים אמיתיים שמתקינים ופותחים את האפליקציה במשך 14 יום רצופים... קשה למצוא כל פעם 12 אנשים חדשים — במיוחד אם אין לך קהילה של מפתחים סביבך" (started a mutual-tester-help sub-effort off the back of this) · Aviv Ben Haim (Sep 10): "היי חברים, צריך 12 אנדרואידים לשבועיים... מחפש 12 בודקי אנדרואיד" |
+| קלוד קוד ישראל - וייב קודינג | חשבון מפתח / אפ סטור / App Store / בלי מק / D-U-N-S / Xcode / Play Console / דחייה מאפל | — | — | **No data found** for any of these as their own topic in this group — Facebook's fuzzy search returned only unrelated posts that happened to share a word. iOS/Apple-side pain is not showing up here the way the Android/testers pain does. |
+| קלוד קוד - הקבוצה הרשמית \| Claude Code Israel | טסטרים | 2 (1 unrelated) | not captured | Alex Guberman's own post (not organic demand, flagged separately below) |
+| פיתוח אפליקציות | טסטרים | 4, "End of results" | Aug 11, Jul 6, Apr 21, Jan 12 | Liran Goldbaum (Aug 11): "מחפש טסטרים בתשלום שינסו אפליקציה חדשה שבנינו - כלי לניהול, הפקה ותכנון חתונות. מי שמעוניין שיגיב ״אני״" (paid testers wanted, no price stated) · Noam Nissan (Jul 6): "היי חברים התייעצות קטנה. לאחרונה התחלתי להפוך אתרי ווב שנבנו עם וייב קודינג לאפליקציות נייטיב, בשביל להעלות לגוגל פליי וגם לאפ סטור... להעלות לאפ סטור זה פשוט יותר, אבל תמיד זה מגיע להעלאה לגוגל פליי - ששם צריך 12 טסטרים" (see competitive note below) · Noam Nissan (Apr 21): "פיתחתי אפליקציה נחמדה לזמני היום וזמני שבת, וגוגל פליי מחייבים 12 טסטרים, יש פה חבר'ה עם אנדרואיד שישמחו לעזור לי?" · Michal Cohen (Jan 12): "ממש אשמח לאנשים שירצו להתנסות באפליקציה ולעזור בשלבי הבדיקה בחודש הקרוב... הגיבו את כתובת המייל שלכם" |
+| יזמים \| סטארטאפיסטים - הקבוצה הרשמית | טסטרים | 2 | Aug 7, not captured | Kobi Shunak (Aug 7): "אני בודק עכשיו את Zoe העוזרת האישית שאני בונה, ואני מחפש 20 אנשים שישתמשו בה באמת ליום-יומיים" (general beta testers, not specifically the Google Play 12-tester gate) |
+
+**Offering the service / asking for a recommendation — direct competitive
+intelligence:**
+
+- **Noam Nissan**, in פיתוח אפליקציות (Jul 6 post): offers to convert
+  web apps (Lovable/Base44/Claude Code output) into native apps and take them
+  through to the Google Play and App Store listing step. States plainly that
+  the App Store side is the easy part and Google Play's 12-tester gate is
+  what actually blocks people. No price quoted in the post text captured.
+  This is upstream of Hand In Hand's offer (he also builds the native
+  wrapper) but it overlaps directly on the publishing step.
+- **שי עופר**, in קלוד קוד ישראל - וייב קודינג (Aug 23): started an
+  informal mutual-aid arrangement ("אם גם אתה מפתח ותצטרך בודקים בעתיד, אני
+  (ואחרים בקבוצה) נעזור") rather than a paid service — a free, peer-to-peer
+  alternative to both the paid tester services and a paid publishing service.
+- **Alex Guberman's own post**, in קלוד קוד - הקבוצה הרשמית (posted ~7h
+  before this research, so very recent): tested the exact offer —
+  "שוקל להציע שירות: פרסום האפליקציה שלכם בגוגל פליי מהחשבון העסקי שלי, בלי
+  12 טסטרים ובלי 14 יום המתנה." This is not organic demand (Alex wrote it),
+  but the one reply it drew is real market feedback and worth recording:
+  Eliran Bitton pushed back — "בשביל שתציע דבר כזה המערכת צריכה להיות רשומה
+  על שמך! זה לא הגיוני והיום יש חברות שמספקות את הטסטרים במחיר זול" (objects
+  that the app would need to be registered in Alex's name, calls the idea
+  not-sensible, and points at existing cheap paid-tester companies as the
+  alternative) — independently confirming the paid-tester-service competitive
+  pressure the offer doc already names (Testers Community, TesterBee, ~$15).
+  Alex replied that such a service exists elsewhere in the world and operates
+  under a written agreement; Eliran wished him luck and did not continue
+  objecting.
+
+No thread found (in the groups and terms actually searched) where someone
+quotes a specific price for app-publishing-as-a-service other than the paid
+app2store.co.il pricing already recorded in Round 1 and the unstated "טסטרים
+בתשלום" mention above.
+
+### 2. Google Trends, geo=IL, past 12 months
+
+- **`google play` (Latin) dominates `גוגל פליי` (Hebrew) heavily** — the
+  Latin term runs 40–100 on the index most weeks; the Hebrew term is flat at
+  roughly 10–20 the entire year. Screenshot:
+  `01-google-play-vs-gogel-play-IL-12mo.jpg`.
+- **`app store` (Latin) dominates `אפ סטור` (Hebrew) even more sharply** —
+  Latin runs 20–100; Hebrew shows no visible line at all (effectively zero).
+  Screenshot: `02-app-store-vs-af-store-IL-12mo.jpg`.
+- **`העלאת אפליקציה`** (upload an app) — no data ("your search doesn't have
+  enough data to show here," on its own and in combination).
+- **`פרסום אפליקציה`** (publish an app) — no time-series data, but enough
+  volume to register one subregion line (Tel Aviv District, index 100) — so
+  there is *some* search activity, just too sparse for Trends to chart weekly.
+- **`טסטרים`** (testers) — the only one of these five with a real chart: flat
+  near zero most of the year, one sharp single-week spike to 100 around
+  September 2026, and a smaller sustained plateau (roughly 15–25) in the most
+  recent few weeks of the window (partly shown as a dotted/incomplete line,
+  i.e. still being finalized by Trends). Screenshot:
+  `04-testerim-alone-IL-12mo.jpg`; the three-way comparison against the other
+  two near-empty phrases is `03-haalaat-pirsum-testerim-IL-12mo.jpg`.
+
+**Bottom line for spelling:** in Israel, people type the store names in Latin
+script (`google play`, `app store`), not Hebrew. Headings and titles should
+keep `Google Play` / `App Store` in Latin even inside Hebrew copy — matches
+what the page already does. `טסטרים` is the one Hebrew-specific term with real,
+if spiky and low-volume, search behavior; the generic verbs (`העלאת
+אפליקציה`, `פרסום אפליקציה`) essentially don't get typed into Google on
+their own in Israel — people search in fuller or more specific phrases
+instead, consistent with Round 1's autocomplete findings.
+
+### 3. People-also-ask and related searches (google.com, Hebrew, hl=iw&gl=il)
+
+Four of the five phrases returned an **AI Overview block instead of a
+classic "אנשים שאלו גם" (People also ask) accordion** — for those four, no
+PAA questions and no "אנשים חיפשו גם" (related searches) list appeared
+anywhere on the results page, confirmed by scrolling to the bottom of page 1.
+This is a real, observed behavior change from what the brief assumed, not a
+block — stated plainly rather than guessed around.
+
+- **איך להעלות אפליקציה לגוגל פליי** — AI Overview present. No PAA box, no
+  related searches. (Notable organic result: a live Facebook thread in
+  "מפרגנים לחברים שמפתחים אפליקציות" asking literally "היי חברה, אני רוצה
+  לעלות אפליקציה לגוגל פליי ואני צריך עזרה.")
+- **12 טסטרים גוגל פליי** — AI Overview present. No PAA box, no related
+  searches. (Notable: a Hebrew-language guide at `testers.alphamf.com`
+  titled "כלל 12 הטסטרים של Google Play — המדריך המלא (2026)," posted 4 days
+  before this research — a new, very recent Hebrew competitor on exactly the
+  phrase the offer doc called a content gap. Also a Facebook thread in
+  "מפתחי משחקים | Israeli Game Developers," 20+ comments, 5 months old.)
+- **האם צריך מק כדי להעלות אפליקציה** — AI Overview present. No PAA box, no
+  related searches. (Notable: a Facebook thread in "Vibe Coding - Israel,"
+  posted only ~7 hours before this research, 8 comments: "כדי לפתח אפליקציה
+  לאייפון, והעלאה לחנות, חייב מק? או שיש פתרוות על ווינדוס? ממה שהבנתי כנראה
+  שאין מנוס.")
+- **כמה עולה להעלות אפליקציה** — no AI Overview. No PAA box either. Did have
+  a related-searches block ("אנשים חיפשו גם"): `כמה עולה לפתח אפליקציה`,
+  `בניית אפליקציה בחינם`, `בניית אפליקציה ai`, `פיתוח אפליקציה`, `אפליקציה
+  חנות play`. Organic results for this exact phrase are still dominated by
+  app-*development*-cost guides, not publishing cost — matches Round 1's
+  finding that this cluster is crowded with adjacent-intent dev-cost content.
+- **חשבון מפתח גוגל פליי** — no AI Overview. **This is the one query that
+  returned a real PAA box**, "אנשים שאלו גם על": `איך פותחים חשבון גוגל
+  פליי?`, `איך אני נכנס למצב אורח במייל שלי?` (generic Gmail question,
+  unrelated), `איך אני מעלה אפליקציה לגוגל פליי?`, `איך יוצרים חשבון גוגל?`.
+  Related searches ("אנשים חיפשו גם"): `גוגל פליי קונסול`, `גוגל קלאוד
+  קונסול`, `גוגל פליי להורדה`, `גוגל קונסול`, `התקנה מחדש של גוגל פליי`,
+  `גוגל פליי למחשב`, `חנות גוגל פליי`, `גוגל מפתחים` — mostly generic
+  "Google Play the app on my phone" noise, not publishing-as-a-service intent,
+  which itself is a useful negative finding (this phrase pulls in a lot of
+  non-developer searchers).
+
+## What to change on the page
+
+Based only on what was directly observed above:
+
+- **FAQ question, exact wording, highest confidence** (matches a real PAA
+  question, a real Facebook question, and both Round 1 autocomplete and the
+  live competitor): `איך מעלים אפליקציה לגוגל פליי?` — the page's existing
+  FAQ answers this implicitly; giving it this literal question as a heading
+  would match what both Google's PAA and real Facebook posters actually type.
+- **Keep `Google Play` and `App Store` in Latin script in every heading.**
+  Trends shows Israelis search the Latin form by a wide margin over `גוגל
+  פליי` / `אפ סטור`; this is a change in Round 1's assumption (Round 1 used
+  the Hebrew spellings in its proposed FAQ strings) and should override it.
+- **New FAQ or H2, from real Facebook wording**: `12 בודקים לשבועיים —
+  למה זה כל כך קשה?` (echoes Aviv Ben Haim's and Bar Bur's actual phrasing,
+  "12 בודקים"/"12 מתנדבים", "לא למחוק באמצע — זה מאפס לי את הספירה" — the
+  reset-on-uninstall pain point is not currently named anywhere on the page
+  and is exactly the kind of concrete detail that signals the page was
+  written by someone who's actually watched this happen).
+- **New H2, Apple/Mac side** (matches a Facebook thread from the same week as
+  this research, and the "האם צריך מק" PAA cluster): `צריך מק כדי להעלות
+  לאפ סטור? התשובה הקצרה` — the Mac question is clearly live right now
+  (a thread 7 hours old at research time), and the offer doc's existing FAQ
+  answer on this already covers the content; it just needs a question-shaped
+  heading matching how people actually ask it.
+- **Competitive awareness, not page copy**: `testers.alphamf.com`'s guide on
+  the 12-testers rule is 4 days old at research time — Round 1's claim that
+  this phrase is an uncontested gap needs updating; it's thin competition,
+  not zero. Noam Nissan's app2store-adjacent offer (web-app-to-native +
+  publishing) in the פיתוח אפליקציות group is a second informal competitor
+  worth knowing about even though it's not a formal business listing.

@@ -206,6 +206,25 @@ test.describe("/app-publishing landing page", () => {
     await expect(page.locator("main .theme-dark")).toHaveCount(1);
   });
 
+  test("the Facebook/Trends follow-up's new FAQ question renders first", async ({ page }) => {
+    // docs/seo/app-publishing-queries.md, "## Round 2" — matches a real
+    // People-Also-Ask question and a real Facebook post, verbatim, in
+    // Hebrew spelling deliberately (quoting the exact phrase found).
+    expect(faq[0].question).toBe("איך מעלים אפליקציה לגוגל פליי?");
+    const firstQuestion = page.locator("#faq details summary").first();
+    await expect(firstQuestion).toHaveText("איך מעלים אפליקציה לגוגל פליי?");
+  });
+
+  test("the Apple explainer's new H2 renders, leading with the short answer", async ({ page }) => {
+    // docs/seo/app-publishing-queries.md, "## Round 2" — matches a live
+    // "האם צריך מק" thread; the section opens with the short "no" before
+    // the explanation (ruling 4).
+    const heading = page.locator("#apple h2");
+    await expect(heading).toHaveText("צריך מק כדי להעלות ל-App Store? התשובה הקצרה");
+    const firstParagraph = page.locator("#apple p").first();
+    await expect(firstParagraph).toHaveText("לא, אתם לא צריכים מק כדי להעלות אפליקציה ל-App Store.");
+  });
+
   test("at 390px: no horizontal body overflow, and all three prices are visible without scrolling", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/app-publishing");
