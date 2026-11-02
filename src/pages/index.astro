@@ -1,5 +1,60 @@
 ---
-import HomeDocument from "@components/home/HomeDocument.astro";
+/* `/` — homepage (v3, personal-brand "Alex" site). Spec:
+   docs/specs/homepage-v3/. Order follows the prototype render order.
+   The <html> chrome shared with every other page in this design system
+   lives in HomeDocumentShell.astro (issue #82); this page is a thin caller
+   of it, same calling pattern as every other page in the system
+   (page -> shell) since HomeDocument.astro was inlined here (issue #82,
+   round 2). */
+import HomeDocumentShell from "@components/home/HomeDocumentShell.astro";
+import Hero from "@components/home/Hero.astro";
+import Services from "@components/home/Services.astro";
+import WhyAlex from "@components/home/WhyAlex.astro";
+import About from "@components/home/About.astro";
+import CaseStudies from "@components/home/CaseStudies.astro";
+import WhyToggle from "@components/home/WhyToggle.astro";
+import Contact from "@components/home/Contact.astro";
+import { homeProfile } from "@/data/home-profile";
+import { buildOrganizationSchema, resolveSite } from "@/data/organization-schema";
+
+const title = "אלכס — HandInHandAI: סוכני AI ומערכות ניהול לעסקים";
+const description =
+  "אני אלכס, הופך רעיון למציאות: סוכני AI, מערכות ניהול ואפליקציות מותאמות אישית לעסקים, ושותף טכנולוגי (CTO) למיזמים וסטארטאפים. שיחת אבחון ראשונה — בלי התחייבות.";
+const ogDescription =
+  "מערכות ניהול, אפליקציות, סוכני AI ואוטומציות שנבנים סביב העסק שלכם — עם שותף טכנולוגי שחושב ביזנס.";
+const canonicalPath = "/";
+const ogImagePath = "/og/home/og.jpg";
+
+const site = resolveSite(Astro.site);
+const ogImage = new URL(ogImagePath, site).href;
+
+const jsonLd = {
+  ...buildOrganizationSchema(site.toString()),
+  image: ogImage,
+  slogan: "אני כאן כדי להפוך רעיון למציאות",
+  description:
+    "פיתוח מערכות ניהול, אפליקציות וטכנולוגיה לעסקים (Custom CRM, סוכני AI, אוטומציות) ושותפות טכנולוגית / CTO למיזמים וסטארטאפים.",
+  areaServed: { "@type": "Country", name: "Israel" },
+  availableLanguage: "he",
+  founder: { "@type": "Person", name: homeProfile.firstName, jobTitle: "מייסד, מפתח ו-CTO במיקור חוץ" },
+  knowsAbout: ["מערכות ניהול לעסקים", "פיתוח אפליקציות לאנדרואיד ול-iOS", "פיתוח אפליקציות", "Custom CRM", "סוכני AI", "אוטומציה לעסקים", "CTO במיקור חוץ", "פיתוח MVP"],
+};
 ---
 
-<HomeDocument />
+<HomeDocumentShell
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  ogImagePath={ogImagePath}
+  ogDescription={ogDescription}
+  jsonLd={jsonLd}
+>
+  <link slot="head-extra" rel="preload" as="image" href="/home/alex-hero.webp" />
+  <Hero />
+  <Services />
+  <WhyAlex />
+  <About />
+  <CaseStudies />
+  <WhyToggle />
+  <Contact />
+</HomeDocumentShell>

@@ -1,0 +1,31 @@
+---
+/* Generic numbered list: a circular index badge plus text, optionally
+   paired with a Lucide icon inline before the text. Moved out of the
+   repeated markup in app-publishing's WhatWeDo.astro and Steps.astro
+   (issue #82 round 2) so #79's three pages reuse it instead of
+   re-deriving it. */
+import LucideIcon from "./LucideIcon.astro";
+import type { IconName } from "./icons";
+
+export interface NumberedListItem {
+  text: string;
+  icon?: IconName;
+}
+
+interface Props {
+  items: NumberedListItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<ol class="pg-numbered">
+  {items.map((item, i) => (
+    <li>
+      <span class="pg-num">{i + 1}</span>
+      <p>
+        {item.icon && <LucideIcon name={item.icon} class="h-[18px] w-[18px]" strokeWidth={2} />}{item.icon ? " " : ""}{item.text}
+      </p>
+    </li>
+  ))}
+</ol>

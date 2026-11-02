@@ -1,13 +1,15 @@
 ---
 /* H2: מה זה לא — copy verbatim from the spec. Invariant: never render the
    Apple "exception you can keep quiet" paragraph — this section does not
-   mention it. */
-import LucideIcon from "../home/LucideIcon.astro";
+   mention it. The card styling is scoped here (not in the shared
+   app-publishing.css) — specific to this section's content, not a
+   primitive (issue #82 round 2, design §A5). */
+import LucideIcon from "@/components/home/LucideIcon.astro";
 ---
 
-<section id="what-not" dir="rtl" class="ap-section">
-  <div class="ap-wrap">
-    <h2 class="ap-h2">מה זה לא</h2>
+<section id="what-not" dir="rtl" class="pg-section">
+  <div class="pg-wrap">
+    <h2 class="pg-h2">מה זה לא</h2>
     <div class="ap-not-card">
       <LucideIcon name="circle-alert" class="h-[18px] w-[18px]" />
       <p>
@@ -18,3 +20,25 @@ import LucideIcon from "../home/LucideIcon.astro";
     </div>
   </div>
 </section>
+
+<style>
+  .ap-not-card {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: hsl(var(--accent) / 0.08);
+    border: 1px solid hsl(var(--accent) / 0.25);
+    border-radius: 16px;
+    padding: 22px;
+  }
+  .ap-not-card svg {
+    flex: none;
+    color: hsl(var(--accent));
+    margin-top: 2px;
+  }
+  .ap-not-card p {
+    margin: 0;
+    color: hsl(var(--foreground));
+    line-height: 1.7;
+  }
+</style>

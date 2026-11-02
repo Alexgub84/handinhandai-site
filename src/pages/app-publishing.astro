@@ -9,7 +9,7 @@
    Hebrew-only: this page never imports src/i18n/ui.ts. */
 import "@styles/home/app-publishing.css";
 import HomeDocumentShell from "@/components/home/HomeDocumentShell.astro";
-import Header from "@/components/app-publishing/Header.astro";
+import PageHeader from "@/components/home/PageHeader.astro";
 import Hero from "@/components/app-publishing/Hero.astro";
 import Problem from "@/components/app-publishing/Problem.astro";
 import WhatWeDo from "@/components/app-publishing/WhatWeDo.astro";
@@ -20,19 +20,18 @@ import Ownership from "@/components/app-publishing/Ownership.astro";
 import Steps from "@/components/app-publishing/Steps.astro";
 import Faq from "@/components/app-publishing/Faq.astro";
 import { faq } from "@/data/app-publishing";
-import { buildOrganizationSchema } from "@/data/organization-schema";
+import { buildOrganizationSchema, resolveSite } from "@/data/organization-schema";
+import { waGreeting } from "@/data/site-contact";
 
 const title = "פרסום אפליקציה בגוגל פליי ובאפ סטור בלי טסטרים ובלי מק | Hand In Hand AI";
 const description =
   "בניתם אפליקציה? אנחנו מעלים אותה לחנויות תוך ימים: גוגל פליי מחשבון עסקי מאומת בלי 12 טסטרים, אפ סטור בלי מק. בדיקת מוכנות של מפתח, הסכם, עדכונים כלולים.";
-const ogDescription = description;
-
-const site = Astro.site ?? new URL("https://handinhandai.com");
-const canonical = new URL("/app-publishing", site).href;
+const canonicalPath = "/app-publishing";
 // Temporary OG image — the real 1200x630 asset for this page doesn't exist yet.
 // Swap for /og/app-publishing/og.jpg once Alex supplies it.
-const ogImage = new URL("/og/default.jpg", site).href;
+const ogImagePath = "/og/default.jpg";
 
+const site = resolveSite(Astro.site);
 const organization = buildOrganizationSchema(site.toString());
 
 const serviceLd = {
@@ -54,18 +53,23 @@ const faqLd = {
     acceptedAnswer: { "@type": "Answer", text: entry.answer },
   })),
 };
+
+// Array order must keep the FAQPage block first and the Service block second
+// — the order the page rendered them in before HomeDocumentShell accepted an
+// array (issue #82 round 2, design §A1): faqLd used to go through the
+// shell's "head-extra" slot, which renders before the shell's own jsonLd
+// <script>, which held serviceLd.
+const jsonLd = [faqLd, serviceLd];
 ---
 
 <HomeDocumentShell
   title={title}
   description={description}
-  canonical={canonical}
-  ogImage={ogImage}
-  ogDescription={ogDescription}
-  jsonLd={serviceLd}
+  canonicalPath={canonicalPath}
+  ogImagePath={ogImagePath}
+  jsonLd={jsonLd}
 >
-  <script slot="head-extra" type="application/ld+json" set:html={JSON.stringify(faqLd)} />
-  <Header />
+  <PageHeader waMessage={waGreeting} />
   <Hero />
   <Problem />
   <WhatWeDo />

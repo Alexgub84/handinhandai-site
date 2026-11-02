@@ -4,8 +4,11 @@
    no such document exists, and a link to a contract that isn't there is
    worse than no link. The other four ownership sentences render as-is;
    adding the PDF line later is one line in this component (there is no data
-   file for it — the ownership block is static copy per the issue). */
-import LucideIcon from "../home/LucideIcon.astro";
+   file for it — the ownership block is static copy per the issue). The
+   bullet-list styling is scoped here (not in the shared app-publishing.css)
+   — specific to this section's content, not a primitive (issue #82 round 2,
+   design §A5). */
+import LucideIcon from "@/components/home/LucideIcon.astro";
 
 const bullets = [
   "האפליקציה, הקוד, השם והמותג שלכם. אנחנו מקבלים קובץ התקנה, לא קוד (באפל: גישה לקוד לצורך בנייה בלבד).",
@@ -15,9 +18,9 @@ const bullets = [
 ];
 ---
 
-<section id="ownership" dir="rtl" class="ap-section">
-  <div class="ap-wrap">
-    <h2 class="ap-h2">הבעלות שלכם, שחור על גבי לבן</h2>
+<section id="ownership" dir="rtl" class="pg-section">
+  <div class="pg-wrap">
+    <h2 class="pg-h2">הבעלות שלכם, שחור על גבי לבן</h2>
     <ul class="ap-ownership-list">
       {bullets.map((b) => (
         <li>
@@ -28,3 +31,29 @@ const bullets = [
     </ul>
   </div>
 </section>
+
+<style>
+  .ap-ownership-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .ap-ownership-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: 14px;
+    padding: 16px 18px;
+    color: hsl(var(--foreground));
+    line-height: 1.6;
+  }
+  .ap-ownership-list li svg {
+    flex: none;
+    margin-top: 2px;
+    color: hsl(var(--primary-text));
+  }
+</style>

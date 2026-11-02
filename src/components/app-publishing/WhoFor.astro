@@ -1,6 +1,8 @@
 ---
-/* H2: למי זה מתאים — 4 bullets, copy verbatim from the spec. */
-import LucideIcon from "../home/LucideIcon.astro";
+/* H2: למי זה מתאים — 4 bullets, copy verbatim from the spec. The bullet-card
+   list is scoped here (not in the shared app-publishing.css) — specific to
+   this section's content, not a primitive (issue #82 round 2, design §A5). */
+import LucideIcon from "@/components/home/LucideIcon.astro";
 
 const bullets = [
   "בניתם אפליקציה עם AI והיא עובדת, ונתקעתם על החנויות",
@@ -10,9 +12,9 @@ const bullets = [
 ];
 ---
 
-<section id="who-for" dir="rtl" class="ap-section">
-  <div class="ap-wrap">
-    <h2 class="ap-h2">למי זה מתאים</h2>
+<section id="who-for" dir="rtl" class="pg-section">
+  <div class="pg-wrap">
+    <h2 class="pg-h2">למי זה מתאים</h2>
     <ul class="ap-who-list">
       {bullets.map((b) => (
         <li>
@@ -23,3 +25,34 @@ const bullets = [
     </ul>
   </div>
 </section>
+
+<style>
+  .ap-who-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  @media (min-width: 768px) {
+    .ap-who-list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .ap-who-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: 14px;
+    padding: 14px 16px;
+    color: hsl(var(--foreground));
+    line-height: 1.55;
+  }
+  .ap-who-list li svg {
+    flex: none;
+    margin-top: 2px;
+    color: hsl(var(--primary-text));
+  }
+</style>

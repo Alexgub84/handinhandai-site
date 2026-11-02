@@ -2,10 +2,15 @@
 /* H1 + sub + CTA. Copy verbatim from docs/specs/app-publishing/offer.md,
    "Page 1: Landing page" (H1 / Sub / CTA / Trust line). CTA targets WhatsApp —
    the intake form (/app-publishing/send) is out of scope for this ticket and
-   does not exist yet (resolved in work order #82). */
-import LucideIcon from "../home/LucideIcon.astro";
-import WhatsAppIcon from "../home/WhatsAppIcon.astro";
-import AiAnswersNote from "../home/AiAnswersNote.astro";
+   does not exist yet (resolved in work order #82).
+
+   Styling is scoped here rather than in the shared app-publishing.css file:
+   this hero's exact shape (eyebrow, H1, sub, actions, trust line) is specific
+   to this page, not a primitive the #79 pages would reuse as-is (issue #82
+   round 2, design §A5). */
+import LucideIcon from "@/components/home/LucideIcon.astro";
+import WhatsAppIcon from "@/components/home/WhatsAppIcon.astro";
+import AiAnswersNote from "@/components/home/AiAnswersNote.astro";
 import { waLink } from "@/data/site-contact";
 
 const cta = waLink("שלחו את האפליקציה לבדיקה חינם");
@@ -36,3 +41,65 @@ const cta = waLink("שלחו את האפליקציה לבדיקה חינם");
     <AiAnswersNote />
   </div>
 </section>
+
+<style>
+  .ap-hero {
+    padding: clamp(40px, 8vh, 80px) 0 clamp(32px, 6vh, 64px);
+  }
+  .ap-hero-wrap {
+    width: min(900px, calc(100% - 32px));
+    margin: 0 auto;
+    text-align: center;
+  }
+  .ap-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: hsl(var(--primary-text));
+    background: hsl(var(--primary) / 0.1);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 14px;
+  }
+  .ap-h1 {
+    font-size: clamp(1.9rem, 4.4vw, 3.1rem);
+    font-weight: 900;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: hsl(var(--foreground));
+    margin: 0 0 18px;
+  }
+  .ap-sub {
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    color: hsl(var(--muted-foreground));
+    line-height: 1.7;
+    max-width: 68ch;
+    margin: 0 auto 28px;
+  }
+  .ap-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .ap-trust {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    color: hsl(var(--muted-foreground));
+    max-width: 48ch;
+    margin: 0 auto 14px;
+  }
+  .ap-trust svg {
+    flex: none;
+    color: hsl(var(--primary-text));
+  }
+  .ap-hero :global(.ai-note) {
+    justify-content: center;
+  }
+</style>

@@ -48,10 +48,14 @@ If any of these packages get bumped (Astro/Vite/Tailwind/Rollup upgrade), bump t
 
 ## Homepage (v3, personal-brand "Alex" site)
 
-`/` renders `src/components/home/HomeDocument.astro`. It is a standalone
-document (own `<html>`), ported 1:1 from the designer's prototype in
-`docs/specs/homepage-v3/alex-site-light.html` (see that folder's README for the
-spec review). Rules:
+`/` (`src/pages/index.astro`) renders directly via
+`src/components/home/HomeDocumentShell.astro` — the shared `<html>` chrome
+for every page in this design system (issue #82). It is the thin caller of
+the shell that every other page in this system also uses (`page -> shell`);
+there is no separate `HomeDocument.astro` anymore (inlined into `index.astro`
+in issue #82 round 2). The homepage content was ported 1:1 from the
+designer's prototype in `docs/specs/homepage-v3/alex-site-light.html` (see
+that folder's README for the spec review). Rules:
 
 - `src/styles/home/app.css` is the prototype CSS **verbatim** and
   `src/styles/home/tailwind.css` is the prototype's compiled Tailwind 3 utilities,
@@ -102,7 +106,7 @@ spec review). Rules:
 
 | Path | File | Notes |
 |---|---|---|
-| `/` | `src/pages/index.astro` → `components/home/HomeDocument.astro` | Homepage v3 (see section above) |
+| `/` | `src/pages/index.astro` → `components/home/HomeDocumentShell.astro` | Homepage v3 (see section above) |
 
 ## Page structure docs
 
@@ -145,9 +149,11 @@ Two document heads must link the same four files plus `/site.webmanifest`:
 design system (`/`, `/app-publishing`, …),
 `src/components/home/HomeDocumentShell.astro` — the shared `<html>` chrome
 extracted in issue #82 so a page in that system no longer has its own copy of
-this head. `HomeDocument.astro` and `app-publishing.astro` are thin callers of
-the shell and carry no favicon/manifest markup of their own. Keep the two
-heads in sync — they are separate documents.
+this head. `index.astro` and `app-publishing.astro` are thin callers of the
+shell (`page -> shell`, the only calling pattern in this system since
+`HomeDocument.astro` was inlined into `index.astro` in issue #82 round 2) and
+carry no favicon/manifest markup of their own. Keep the two heads in sync —
+they are separate documents.
 ## Visitor analytics (first party, no third-party script)
 
 Nothing on the page talks to anyone but this domain. The chain is

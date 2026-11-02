@@ -1,7 +1,9 @@
 ---
-/* H2: מה אנחנו עושים — 5 numbered items, copy verbatim from the spec. */
-import LucideIcon from "../home/LucideIcon.astro";
-import type { IconName } from "../home/icons";
+/* H2: מה אנחנו עושים — 5 numbered items, copy verbatim from the spec. The
+   numbered-badge list itself is the generic NumberedList.astro
+   (issue #82 round 2). */
+import NumberedList from "@/components/home/NumberedList.astro";
+import type { IconName } from "@/components/home/icons";
 
 const items: { icon: IconName; text: string }[] = [
   {
@@ -30,16 +32,9 @@ const items: { icon: IconName; text: string }[] = [
 ];
 ---
 
-<section id="what-we-do" dir="rtl" class="ap-section">
-  <div class="ap-wrap">
-    <h2 class="ap-h2">מה אנחנו עושים</h2>
-    <ol class="ap-numbered">
-      {items.map((item, i) => (
-        <li>
-          <span class="ap-num">{i + 1}</span>
-          <p><LucideIcon name={item.icon} class="h-[18px] w-[18px]" strokeWidth={2} /> {item.text}</p>
-        </li>
-      ))}
-    </ol>
+<section id="what-we-do" dir="rtl" class="pg-section">
+  <div class="pg-wrap">
+    <h2 class="pg-h2">מה אנחנו עושים</h2>
+    <NumberedList items={items} />
   </div>
 </section>
