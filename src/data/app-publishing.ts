@@ -19,6 +19,14 @@
  * product name anywhere, never the Apple "exception you can keep quiet"
  * paragraph (offer.md's "Platform rules and risks" — pre-launch-on-our-account
  * carve-out is deliberately not public copy).
+ *
+ * Images: `public/home/alex-byline-240.webp` (hero byline) and
+ * `alex-portrait-700.webp` (about section) are a transparent, background-
+ * free cutout, referenced below via `ImageAsset` fields rather than
+ * hardcoded in a component, same as every other piece of fillable content
+ * in this file. `alex-cutout.webp` (1188×1400, the master this pair was
+ * cropped from) is committed alongside them for a future page to use —
+ * nothing on this page references it directly.
  */
 import type { IconName } from "@/components/home/icons";
 
@@ -203,12 +211,24 @@ export interface ArticleSectionData {
   readingWidth?: boolean;
 }
 
+/** A real, already-shipped image asset (as opposed to `SectionImage`'s
+ *  "placeholder" case, for slots that don't have a real asset yet). */
+export interface ImageAsset {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
 export interface HeroSectionData {
   kind: "hero";
   id: string;
   eyebrow: string;
   h1: string;
   sub: string;
+  /** Small round avatar next to the "X שנים בתחום" byline line (ruling 3,
+   *  asset round — not a hero image). */
+  byline: ImageAsset;
   cta: SectionCta;
 }
 
@@ -267,6 +287,12 @@ export const sections: Section[] = [
     h1: "פרסום אפליקציה בגוגל פליי ובאפ סטור תוך ימים. בלי 12 טסטרים, בלי 14 יום המתנה, בלי מק.",
     sub:
       "בניתם אפליקציה בוייב קודינג — עם Claude, Cursor, Lovable, Replit, Expo, Flutter או Base44 — ועכשיו גוגל רוצה טסטרים ואפל רוצה Xcode. אנחנו מפתחים. אנחנו בודקים שהאפליקציה מוכנה, מעלים, ממלאים את כל הטפסים, עוברים את הבדיקה, ומעדכנים כשצריך. האפליקציה נשארת שלכם, עם הסכם חתום.",
+    byline: {
+      src: "/home/alex-byline-240.webp",
+      alt: "אלכס, בעלים של בית תוכנה",
+      width: 240,
+      height: 240,
+    },
     cta: { kind: "soft-link", text: "או דלגו על ההסבר ושלחו לבדיקת מוכנות", targetId: "what-we-do" },
   },
   {
@@ -379,7 +405,10 @@ export const sections: Section[] = [
       "אף פעם לא מבקשים סיסמאות. באפל מזמינים אותנו ב-App Store Connect, בגוגל לא צריך כלום.",
     ],
     cta: { kind: "none" },
-    dark: true,
+    // The dark band moved to the about-him section (ruling 1, copy-change
+    // follow-up): the new cutout is a white shirt that dissolves into the
+    // page's off-white background, and separates cleanly on dark. The page
+    // keeps exactly one dark band.
     readingWidth: true,
   },
   {
@@ -425,6 +454,15 @@ export const aboutAlex = {
     "כשעובדים איתי, לא מקבלים קופסה שחורה של קוד, אלא בנאדם שאפשר לסמוך עליו, לדבר איתו בגובה העיניים ולדעת שהפרויקט שלכם בידיים בטוחות.",
   ],
   closingSentence: "בית תוכנה שבונה מערכות, מלווה אותן גם דרך הבדיקה של גוגל ואפל.",
+  /** A transparent, background-free cutout — placed directly on the
+   *  section background (ruling 2), not inside the homepage's bordered
+   *  `object-fit: cover` card, which would defeat the transparency. */
+  portrait: {
+    src: "/home/alex-portrait-700.webp",
+    alt: "אלכס, בעלים של בית תוכנה",
+    width: 594,
+    height: 700,
+  } as ImageAsset,
   homeLinkLabel: "לאתר הראשי",
 };
 

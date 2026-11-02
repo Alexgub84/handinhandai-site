@@ -186,6 +186,26 @@ test.describe("/app-publishing landing page", () => {
     await expect(page.locator('footer a[href="/app-publishing"]')).toBeAttached();
   });
 
+  test("the hero byline avatar and the about portrait both have real, non-empty alt text", async ({ page }) => {
+    const byline = page.locator("#hero img");
+    const portrait = page.locator("#about img");
+    await expect(byline).toHaveCount(1);
+    await expect(portrait).toHaveCount(1);
+    const bylineAlt = await byline.getAttribute("alt");
+    const portraitAlt = await portrait.getAttribute("alt");
+    expect(bylineAlt?.trim()).not.toBe("");
+    expect(portraitAlt?.trim()).not.toBe("");
+  });
+
+  test("the dark band sits on the about section, not on ownership", async ({ page }) => {
+    // Moved per the asset-wiring follow-up, ruling 1: the transparent cutout's
+    // white shirt needs a dark background to separate from the page. Exactly
+    // one dark band on the page, same as every round before this one.
+    await expect(page.locator("#about")).toHaveClass(/theme-dark/);
+    await expect(page.locator("#ownership")).not.toHaveClass(/theme-dark/);
+    await expect(page.locator("main .theme-dark")).toHaveCount(1);
+  });
+
   test("at 390px: no horizontal body overflow, and all three prices are visible without scrolling", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/app-publishing");

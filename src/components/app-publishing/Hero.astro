@@ -1,14 +1,16 @@
 ---
 /* Section 1 (hero). Issue #82 round 3, design §1: the lead paragraph of an
    advertorial, not a banner. No primary WhatsApp button here anymore (that
-   moved to what-we-do, CTA strategy §5) — only a byline strip (small crop of
-   the existing homepage portrait, next to the years-in-field line) and a
-   soft text link scrolling down to #what-we-do. Content comes from this
-   section's `HeroSectionData` entry in `sections` (src/data/app-publishing.ts)
-   — reordering or rewording the hero is a data edit now, not a component
-   edit. */
-import { homeProfile } from "@/data/home-profile";
+   moved to what-we-do, CTA strategy §5) — only a byline strip and a soft
+   text link scrolling down to #what-we-do. The byline avatar is a round,
+   background-free cutout (ruling 3 of the asset-wiring follow-up): rendered
+   at 48px, the 240px asset covers retina; the face is centred in the
+   source crop, so no extra `object-position` tuning is needed here beyond
+   `cover`. Content comes from this section's `HeroSectionData` entry in
+   `sections` (src/data/app-publishing.ts) — reordering or rewording the
+   hero is a data edit now, not a component edit. */
 import type { HeroSectionData } from "@/data/app-publishing";
+import { homeProfile } from "@/data/home-profile";
 
 interface Props {
   data: HeroSectionData;
@@ -23,12 +25,12 @@ const { data } = Astro.props;
     <h1 class="ap-h1">{data.h1}</h1>
     <div class="ap-byline">
       <img
-        src="/home/alex-about.webp"
-        alt={homeProfile.firstName}
-        width="60"
-        height="60"
+        src={data.byline.src}
+        alt={data.byline.alt}
+        width={data.byline.width}
+        height={data.byline.height}
         class="ap-byline-photo"
-        loading="eager"
+        loading="lazy"
       />
       <span>{homeProfile.firstName} · {homeProfile.yearsInField} שנים בתחום</span>
     </div>
@@ -79,11 +81,10 @@ const { data } = Astro.props;
     color: hsl(var(--muted-foreground));
   }
   .ap-byline-photo {
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     object-fit: cover;
-    object-position: top center;
     flex: none;
   }
   .ap-sub {
