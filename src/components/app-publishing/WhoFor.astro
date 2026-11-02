@@ -1,0 +1,25 @@
+---
+/* H2: למי זה מתאים — 4 bullets, copy verbatim from the spec. */
+import LucideIcon from "../home/LucideIcon.astro";
+
+const bullets = [
+  "בניתם אפליקציה עם AI והיא עובדת, ונתקעתם על החנויות",
+  "יש לכם אפליקציה אבל אין מק, ואין רצון ללמוד App Store Connect",
+  "עסק קטן שהזמין אפליקציה ממפתח שנעלם, או שלא רוצה להעסיק אחד רק בשביל ההעלאה",
+  "סטארטאפ שצריך MVP בחנויות השבוע, לא בעוד חודש",
+];
+---
+
+<section id="who-for" dir="rtl" class="ap-section">
+  <div class="ap-wrap">
+    <h2 class="ap-h2">למי זה מתאים</h2>
+    <ul class="ap-who-list">
+      {bullets.map((b) => (
+        <li>
+          <LucideIcon name="circle-check-big" class="h-[18px] w-[18px]" />
+          <span>{b}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

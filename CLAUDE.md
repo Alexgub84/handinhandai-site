@@ -140,9 +140,14 @@ brand master, deliberately outside `public/` so it is never shipped) by
 | `icon-192.png` | 192 | manifest, `Header.astro` logo |
 | `icon-512.png` | 512 | manifest, JSON-LD `logo` |
 
-Both document heads (`src/layouts/Layout.astro` and
-`src/components/home/HomeDocument.astro`) must link the same four files plus
-`/site.webmanifest`. Keep them in sync — they are separate documents.
+Two document heads must link the same four files plus `/site.webmanifest`:
+`src/layouts/Layout.astro` (legal pages), and, for every page in the homepage
+design system (`/`, `/app-publishing`, …),
+`src/components/home/HomeDocumentShell.astro` — the shared `<html>` chrome
+extracted in issue #82 so a page in that system no longer has its own copy of
+this head. `HomeDocument.astro` and `app-publishing.astro` are thin callers of
+the shell and carry no favicon/manifest markup of their own. Keep the two
+heads in sync — they are separate documents.
 ## Visitor analytics (first party, no third-party script)
 
 Nothing on the page talks to anyone but this domain. The chain is

@@ -1,0 +1,21 @@
+---
+/* H2: שאלות נפוצות — rendered from src/data/app-publishing.ts's `faq` array
+   (also the source for the FAQPage JSON-LD built in src/pages/app-publishing.astro).
+   Native <details>/<summary> accordion — no script needed, matches the
+   homepage's minimal-JS convention better than reinventing toggle state. */
+import { faq } from "@/data/app-publishing";
+---
+
+<section id="faq" dir="rtl" class="ap-section">
+  <div class="ap-wrap">
+    <h2 class="ap-h2">שאלות נפוצות</h2>
+    <div class="ap-faq">
+      {faq.map((entry) => (
+        <details>
+          <summary>{entry.question}</summary>
+          <p class="ap-faq-a">{entry.answer}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

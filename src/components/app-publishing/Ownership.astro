@@ -1,0 +1,30 @@
+---
+/* H2: הבעלות שלכם, שחור על גבי לבן — copy verbatim from the spec, minus the
+   sample-agreement-PDF bullet. Ruled out in work order #82 ("הסכם לדוגמה"):
+   no such document exists, and a link to a contract that isn't there is
+   worse than no link. The other four ownership sentences render as-is;
+   adding the PDF line later is one line in this component (there is no data
+   file for it — the ownership block is static copy per the issue). */
+import LucideIcon from "../home/LucideIcon.astro";
+
+const bullets = [
+  "האפליקציה, הקוד, השם והמותג שלכם. אנחנו מקבלים קובץ התקנה, לא קוד (באפל: גישה לקוד לצורך בנייה בלבד).",
+  "הסכם קצר חתום לפני כל העלאה, כולל זכותכם לקבל את האפליקציה בכל רגע.",
+  "בגוגל פליי: העברה לחשבון שלכם היא תהליך רשמי של גוגל. באפ סטור: האפליקציה מלכתחילה על החשבון שלכם ואנחנו רק מוזמנים אליו.",
+  "אף פעם לא מבקשים סיסמאות. באפל מזמינים אותנו ב-App Store Connect, בגוגל לא צריך כלום.",
+];
+---
+
+<section id="ownership" dir="rtl" class="ap-section">
+  <div class="ap-wrap">
+    <h2 class="ap-h2">הבעלות שלכם, שחור על גבי לבן</h2>
+    <ul class="ap-ownership-list">
+      {bullets.map((b) => (
+        <li>
+          <LucideIcon name="handshake" class="h-[18px] w-[18px]" />
+          <span>{b}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

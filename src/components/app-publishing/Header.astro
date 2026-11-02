@@ -1,0 +1,22 @@
+---
+/* Small page header for /app-publishing. Not a reuse of Hero.astro's nav —
+   that nav is the homepage's own nav (homepage anchor ids, rotating-word
+   script). This page needs only a logo link back to `/` and a WhatsApp CTA. */
+import WhatsAppIcon from "../home/WhatsAppIcon.astro";
+import { siteContact } from "@/data/site-contact";
+
+const wa = siteContact.whatsappCta;
+---
+
+<header class="ap-header" dir="rtl">
+  <div class="ap-header-inner">
+    <a href="/" class="ap-logo" aria-label="HandInHandAI — לדף הבית">
+      <span class="ap-logo-mark"><span>🤝</span></span>
+      <span>Hand<b>In</b>Hand<i>AI</i></span>
+    </a>
+    <a href={wa} target="_blank" rel="noopener noreferrer" class="ah-btn ah-btn-primary !rounded-xl !px-[18px] !py-2.5 !text-[15px]" data-track="app-publishing-header-whatsapp">
+      <WhatsAppIcon class="h-[18px] w-[18px]" />
+      <span>בואו נדבר</span>
+    </a>
+  </div>
+</header>

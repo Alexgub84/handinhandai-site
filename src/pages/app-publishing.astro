@@ -1,0 +1,78 @@
+---
+/* /app-publishing — landing page selling app-store publishing (Google Play from
+   HIH's own org account, App Store from the client's own account). Issue #82.
+   Copy source of truth: docs/specs/app-publishing/offer.md, "Final website
+   package (v2, implement this)" → "Page 1: Landing page". Renders in the
+   homepage design system via HomeDocumentShell — same document chrome as `/`,
+   a different <main>. Thin: builds SEO/JSON-LD, orders the section components.
+
+   Hebrew-only: this page never imports src/i18n/ui.ts. */
+import "@styles/home/app-publishing.css";
+import HomeDocumentShell from "@/components/home/HomeDocumentShell.astro";
+import Header from "@/components/app-publishing/Header.astro";
+import Hero from "@/components/app-publishing/Hero.astro";
+import Problem from "@/components/app-publishing/Problem.astro";
+import WhatWeDo from "@/components/app-publishing/WhatWeDo.astro";
+import WhoFor from "@/components/app-publishing/WhoFor.astro";
+import WhatNot from "@/components/app-publishing/WhatNot.astro";
+import Pricing from "@/components/app-publishing/Pricing.astro";
+import Ownership from "@/components/app-publishing/Ownership.astro";
+import Steps from "@/components/app-publishing/Steps.astro";
+import Faq from "@/components/app-publishing/Faq.astro";
+import { faq } from "@/data/app-publishing";
+import { buildOrganizationSchema } from "@/data/organization-schema";
+
+const title = "פרסום אפליקציה בגוגל פליי ובאפ סטור בלי טסטרים ובלי מק | Hand In Hand AI";
+const description =
+  "בניתם אפליקציה? אנחנו מעלים אותה לחנויות תוך ימים: גוגל פליי מחשבון עסקי מאומת בלי 12 טסטרים, אפ סטור בלי מק. בדיקת מוכנות של מפתח, הסכם, עדכונים כלולים.";
+const ogDescription = description;
+
+const site = Astro.site ?? new URL("https://handinhandai.com");
+const canonical = new URL("/app-publishing", site).href;
+// Temporary OG image — the real 1200x630 asset for this page doesn't exist yet.
+// Swap for /og/app-publishing/og.jpg once Alex supplies it.
+const ogImage = new URL("/og/default.jpg", site).href;
+
+const organization = buildOrganizationSchema(site.toString());
+
+const serviceLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "פרסום אפליקציה בגוגל פליי ובאפ סטור",
+  description,
+  provider: { "@id": organization["@id"] },
+  areaServed: { "@type": "Country", name: "Israel" },
+  availableLanguage: "he",
+};
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((entry) => ({
+    "@type": "Question",
+    name: entry.question,
+    acceptedAnswer: { "@type": "Answer", text: entry.answer },
+  })),
+};
+---
+
+<HomeDocumentShell
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+  ogDescription={ogDescription}
+  jsonLd={serviceLd}
+>
+  <script slot="head-extra" type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  <Header />
+  <Hero />
+  <Problem />
+  <WhatWeDo />
+  <WhoFor />
+  <WhatNot />
+  <Pricing />
+  <Ownership />
+  <Steps />
+  <Faq />
+</HomeDocumentShell>

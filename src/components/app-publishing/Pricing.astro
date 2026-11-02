@@ -1,0 +1,52 @@
+---
+/* H2: מחירים — table, add-ons and exclusions from src/data/app-publishing.ts
+   (per MEMORY's "fillable content as data" rule and the issue's explicit ask).
+   Copy verbatim from the spec. */
+import { pricingTable, addOns, exclusions } from "@/data/app-publishing";
+---
+
+<section id="pricing" dir="rtl" class="ap-section">
+  <div class="ap-wrap">
+    <h2 class="ap-h2">מחירים</h2>
+    <div class="ap-table-scroll">
+      <table class="ap-table">
+        <thead>
+          <tr>
+            <th></th>
+            {pricingTable.columns.map((col) => <th>{col}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {pricingTable.rows.map((row) => (
+            <tr class:list={[row.highlight && "ap-row-highlight"]}>
+              <td>{row.label}</td>
+              {row.values.map((v) => <td>{v}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ap-pricing-extra">
+      <div class="ap-extra-card">
+        <h4>תוספות</h4>
+        <ul class="ap-addons">
+          {addOns.map((a) => (
+            <li>
+              <span>{a.label}</span>
+              <b>{a.price}</b>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="ap-extra-card">
+        <h4>לא כלול</h4>
+        <ul class="ap-exclusions">
+          {exclusions.map((e) => <li>{e}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <p class="ap-pricing-note">המחירים לא כוללים מע"מ, ככל שחל. התשלום אחרי בדיקת המוכנות, דרך קישור תשלום מאובטח.</p>
+  </div>
+</section>

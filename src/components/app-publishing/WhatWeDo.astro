@@ -1,0 +1,45 @@
+---
+/* H2: מה אנחנו עושים — 5 numbered items, copy verbatim from the spec. */
+import LucideIcon from "../home/LucideIcon.astro";
+import type { IconName } from "../home/icons";
+
+const items: { icon: IconName; text: string }[] = [
+  {
+    icon: "scan-search",
+    text:
+      "בדיקת מוכנות של מפתח (כלול, לפני תשלום). מתקינים על טלפון אמיתי, עוברים על ההרשאות, הפרטיות, מחיקת החשבון, גרסת ה-SDK, התשלומים, והכללים של שתי החנויות. מקבלים דוח קצר בעברית: ירוק, או רשימה ברורה של מה לתקן ואיך.",
+  },
+  {
+    icon: "rocket",
+    text:
+      "פרסום בגוגל פליי מהחשבון העסקי המאומת שלנו. אין דרישת טסטרים לחשבון עסקי. אנחנו בונים את דף החנות בעברית ובאנגלית, ממלאים Data Safety, דירוג תוכן, קהל יעד, ומגישים. בדרך כלל באוויר תוך ימים.",
+  },
+  {
+    icon: "handshake",
+    text:
+      "פרסום באפ סטור מהחשבון שלכם. אתם פותחים חשבון מפתח של אפל (99$ לשנה, בלי חברה) ומזמינים אותנו כמנהלים. אנחנו עושים את השאר מהמק שלנו: סרטיפיקטים, בנייה, העלאה, TestFlight, דף חנות, תוויות פרטיות, דירוג גיל, הגשה, ותשובות ל-App Review.",
+  },
+  {
+    icon: "sparkles",
+    text: "עדכונים. שולחים לנו גרסה חדשה דרך הטופס, אנחנו מעלים ומגישים. כלול בחבילה.",
+  },
+  {
+    icon: "trending-up",
+    text: "העברה. כשתפתחו חשבון עסקי משלכם בגוגל, מעבירים את האפליקציה אליכם בתהליך הרשמי של גוגל, כולל ביקורות והורדות.",
+  },
+];
+---
+
+<section id="what-we-do" dir="rtl" class="ap-section">
+  <div class="ap-wrap">
+    <h2 class="ap-h2">מה אנחנו עושים</h2>
+    <ol class="ap-numbered">
+      {items.map((item, i) => (
+        <li>
+          <span class="ap-num">{i + 1}</span>
+          <p><LucideIcon name={item.icon} class="h-[18px] w-[18px]" strokeWidth={2} /> {item.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

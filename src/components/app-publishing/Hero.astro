@@ -1,0 +1,38 @@
+---
+/* H1 + sub + CTA. Copy verbatim from docs/specs/app-publishing/offer.md,
+   "Page 1: Landing page" (H1 / Sub / CTA / Trust line). CTA targets WhatsApp —
+   the intake form (/app-publishing/send) is out of scope for this ticket and
+   does not exist yet (resolved in work order #82). */
+import LucideIcon from "../home/LucideIcon.astro";
+import WhatsAppIcon from "../home/WhatsAppIcon.astro";
+import AiAnswersNote from "../home/AiAnswersNote.astro";
+import { waLink } from "@/data/site-contact";
+
+const cta = waLink("שלחו את האפליקציה לבדיקה חינם");
+---
+
+<section id="hero" dir="rtl" class="ap-hero">
+  <div class="ap-hero-wrap">
+    <span class="ap-eyebrow">
+      <LucideIcon name="rocket" class="h-3 w-3" strokeWidth={3} />
+      פרסום אפליקציות בגוגל פליי ובאפ סטור
+    </span>
+    <h1 class="ap-h1">האפליקציה שלכם בחנויות תוך ימים. בלי 12 טסטרים, בלי 14 יום המתנה, בלי מק.</h1>
+    <p class="ap-sub">
+      בניתם אפליקציה עם Claude, Cursor, Lovable, Replit, Expo או Flutter, ועכשיו גוגל רוצה טסטרים ואפל רוצה Xcode.
+      אנחנו מפתחים. אנחנו בודקים שהאפליקציה מוכנה, מעלים, ממלאים את כל הטפסים, עוברים את הבדיקה, ומעדכנים כשצריך.
+      האפליקציה נשארת שלכם, עם הסכם חתום.
+    </p>
+    <div class="ap-hero-actions">
+      <a href={cta} target="_blank" rel="noopener noreferrer" class="ah-btn ah-btn-primary" data-track="app-publishing-hero-whatsapp">
+        <WhatsAppIcon class="h-[18px] w-[18px]" />
+        שלחו את האפליקציה לבדיקה חינם
+      </a>
+    </div>
+    <p class="ap-trust">
+      <LucideIcon name="circle-check-big" class="h-[18px] w-[18px]" />
+      תוך יום עסקים תקבלו תשובה: מוכנה, או מה לתקן. התשלום רק אחרי האישור שלנו.
+    </p>
+    <AiAnswersNote />
+  </div>
+</section>

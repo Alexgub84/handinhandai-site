@@ -7,6 +7,7 @@ import { siteContact } from "@/data/site-contact";
 
 const wa = siteContact.whatsappCta;
 const year = new Date().getFullYear();
+const path = Astro.url.pathname;
 const links = [
   { label: "מי אני", href: "#about" },
   { label: "מה אני בונה", href: "#services" },
@@ -29,7 +30,7 @@ const links = [
       <nav aria-label="ניווט תחתון">
         <h4>ניווט</h4>
         <ul class="ft-links">
-          {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          {links.map((l) => <li><a href={path === "/" ? l.href : `/${l.href}`}>{l.label}</a></li>)}
         </ul>
       </nav>
       <div>
@@ -40,6 +41,7 @@ const links = [
           <li><a href={`mailto:${siteContact.email}`}><LucideIcon name="mail" class="ct-i" /> <span class="ltr">{siteContact.email}</span></a></li>
         </ul>
         <ul class="ft-links ft-legal">
+          <li><a href="/app-publishing">פרסום אפליקציה</a></li>
           <li><a href="/about">אודות</a></li>
           <li><a href="/terms">תנאי שימוש</a></li>
           <li><a href="/privacy-sasha">פרטיות</a></li>
