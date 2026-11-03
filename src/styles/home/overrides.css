@@ -246,11 +246,15 @@
 }
 .ab-photo-glow {
   position: absolute;
-  inset: 10% -12% -6% -12%;
+  inset: 2% -10% -4% -10%;
   z-index: -1;
-  border-radius: 999px;
   pointer-events: none;
-  background: radial-gradient(60% 55% at 50% 65%, hsl(var(--background-deep)), transparent 72%);
+  background: radial-gradient(
+    ellipse closest-side at 50% 55%,
+    hsl(var(--background-deep) / 0.85),
+    hsl(var(--background-deep) / 0.45) 60%,
+    transparent 100%
+  );
 }
 .ab-photo-cap {
   position: static;
