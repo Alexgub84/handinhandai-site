@@ -212,3 +212,49 @@
    dashboard). Cover would slice their edges off, so show the whole image and let the
    canvas colour fill any gap. */
 .cs-shot img { object-fit: contain; object-position: center; background: hsl(var(--card)); }
+
+/* About portrait, background-free cutout (issue #90-style asset swap): app.css's
+   .ab-photo assumed an opaque object-fit:cover photo inside a bordered, shadowed card.
+   A transparent cutout fights that treatment, so this undoes the border/frame/crop and
+   gives the figure a soft dark glow instead (the site's existing .theme-dark tokens,
+   scoped to a decorative div behind the image only — not the whole section, which keeps
+   its own copy on the light background). The name/years caption used to overlay the
+   card on a darkening scrim for legibility; without the card it moves to normal flow
+   below the photo instead of floating on top of it. */
+.ab {
+  /* Clips the glow's intentional negative inset below so it can never push the page
+     into horizontal scroll, same fix as /app-publishing's .ap-about. */
+  overflow: hidden;
+}
+.ab-photo {
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+  aspect-ratio: 594 / 700; /* matches alex-portrait-700.webp, not the old crop */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.ab-photo:after {
+  content: none;
+}
+.ab-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.ab-photo-glow {
+  position: absolute;
+  inset: 10% -12% -6% -12%;
+  z-index: -1;
+  border-radius: 999px;
+  pointer-events: none;
+  background: radial-gradient(60% 55% at 50% 65%, hsl(var(--background-deep)), transparent 72%);
+}
+.ab-photo-cap {
+  position: static;
+  inset-inline: auto;
+  bottom: auto;
+  margin-top: 16px;
+}

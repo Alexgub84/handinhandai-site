@@ -62,13 +62,20 @@ const total = k;
     </div>
     <div class="ab-photo-col">
       <div class="ab-photo">
-        <img src="/home/alex-about.webp" alt={homeProfile.firstName} loading="lazy" width="700" height="895" />
-        <div class="ab-photo-cap">
-          <div><b>{homeProfile.firstName}</b><small>HandInHandAI</small></div>
-          <div class="ab-years">
-            <strong data-years={homeProfile.yearsInField}>0</strong>
-            <span>שנים בתחום</span>
-          </div>
+        <div class="ab-photo-glow theme-dark" aria-hidden="true"></div>
+        <img
+          src="/home/alex-portrait-700.webp"
+          alt="אלכס, בעלים של בית תוכנה"
+          loading="lazy"
+          width="594"
+          height="700"
+        />
+      </div>
+      <div class="ab-photo-cap">
+        <div><b>{homeProfile.firstName}</b><small>HandInHandAI</small></div>
+        <div class="ab-years">
+          <strong data-years={homeProfile.yearsInField}>0</strong>
+          <span>שנים בתחום</span>
         </div>
       </div>
     </div>

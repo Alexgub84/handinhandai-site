@@ -153,6 +153,30 @@ test.describe("homepage v3 (/)", () => {
       await expect(page.locator(`footer a[href="${href}"]`)).toBeAttached();
     }
   });
+
+  test("about section shows the background-free portrait cutout with real alt text", async ({ page }) => {
+    const portrait = page.locator("#about img");
+    await expect(portrait).toHaveCount(1);
+    await expect(portrait).toHaveAttribute("src", "/home/alex-portrait-700.webp");
+    await expect(portrait).toHaveAttribute("alt", "אלכס, בעלים של בית תוכנה");
+    await expect(portrait).toHaveAttribute("loading", "lazy");
+    await expect(portrait).toHaveAttribute("width", "594");
+    await expect(portrait).toHaveAttribute("height", "700");
+  });
+
+  test("at 390px: no horizontal body overflow anywhere on the page, including the about portrait's glow", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await page.locator("#about").scrollIntoViewIfNeeded();
+
+    const hscroll = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth
+    );
+    expect(hscroll).toBe(false);
+  });
 });
 
 test.describe("case studies on the homepage", () => {
