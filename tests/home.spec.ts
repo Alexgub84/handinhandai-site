@@ -177,6 +177,36 @@ test.describe("homepage v3 (/)", () => {
     );
     expect(hscroll).toBe(false);
   });
+
+  test("hero shows the same background-free portrait cutout as the about section, with its own dark backdrop", async ({
+    page,
+  }) => {
+    const portrait = page.locator("#top .ah-portrait img");
+    await expect(portrait).toHaveCount(1);
+    await expect(portrait).toHaveAttribute("src", "/home/alex-cutout.webp");
+    await expect(portrait).toHaveAttribute("alt", "אלכס, בעלים של בית תוכנה");
+    await expect(portrait).toHaveAttribute("width", "1188");
+    await expect(portrait).toHaveAttribute("height", "1400");
+    await expect(page.locator("#top .ah-portrait-glow")).toHaveCount(1);
+  });
+
+  test("at 390px with the hero's dark backdrop in view: still no horizontal body overflow", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+
+    const hscroll = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth
+    );
+    expect(hscroll).toBe(false);
+  });
+
+  test("the years counter reads ten everywhere it renders on the homepage", async ({ page }) => {
+    await expect(page.locator("#about [data-years]")).toHaveAttribute("data-years", "10");
+    const bodyText = await page.locator("main").innerText();
+    expect(bodyText).toContain("עשר שנים");
+    expect(bodyText).not.toContain("חמש שנים");
+  });
 });
 
 test.describe("case studies on the homepage", () => {

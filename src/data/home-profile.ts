@@ -4,7 +4,7 @@
  */
 export const homeProfile = {
   firstName: "אלכס",
-  yearsInField: 5,
+  yearsInField: 10,
   /** Prefilled WhatsApp greeting for every homepage CTA. */
   waGreeting: "היי אלכס, הגעתי מהאתר ואשמח לשיחת אבחון 🙂",
 } as const;

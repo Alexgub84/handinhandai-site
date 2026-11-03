@@ -197,6 +197,12 @@ test.describe("/app-publishing landing page", () => {
     expect(portraitAlt?.trim()).not.toBe("");
   });
 
+  test("the years-in-field count reads ten, sourced from home-profile.ts", async ({ page }) => {
+    const bodyText = await page.locator("main").innerText();
+    expect(bodyText).toContain("10 שנים בתחום");
+    expect(bodyText).not.toContain("5 שנים בתחום");
+  });
+
   test("the dark band sits on the about section, not on ownership", async ({ page }) => {
     // Moved per the asset-wiring follow-up, ruling 1: the transparent cutout's
     // white shirt needs a dark background to separate from the page. Exactly
