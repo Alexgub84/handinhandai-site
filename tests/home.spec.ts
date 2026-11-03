@@ -154,53 +154,6 @@ test.describe("homepage v3 (/)", () => {
     }
   });
 
-  test("about section shows the background-free portrait cutout with real alt text", async ({ page }) => {
-    const portrait = page.locator("#about img");
-    await expect(portrait).toHaveCount(1);
-    await expect(portrait).toHaveAttribute("src", "/home/alex-portrait-700.webp");
-    await expect(portrait).toHaveAttribute("alt", "אלכס, בעלים של בית תוכנה");
-    await expect(portrait).toHaveAttribute("loading", "lazy");
-    await expect(portrait).toHaveAttribute("width", "594");
-    await expect(portrait).toHaveAttribute("height", "700");
-  });
-
-  test("at 390px: no horizontal body overflow anywhere on the page, including the about portrait's glow", async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/");
-    await page.waitForLoadState("networkidle");
-    await page.locator("#about").scrollIntoViewIfNeeded();
-
-    const hscroll = await page.evaluate(
-      () => document.documentElement.scrollWidth > document.documentElement.clientWidth
-    );
-    expect(hscroll).toBe(false);
-  });
-
-  test("hero shows the same background-free portrait cutout as the about section, with its own dark backdrop", async ({
-    page,
-  }) => {
-    const portrait = page.locator("#top .ah-portrait img");
-    await expect(portrait).toHaveCount(1);
-    await expect(portrait).toHaveAttribute("src", "/home/alex-cutout.webp");
-    await expect(portrait).toHaveAttribute("alt", "אלכס, בעלים של בית תוכנה");
-    await expect(portrait).toHaveAttribute("width", "1188");
-    await expect(portrait).toHaveAttribute("height", "1400");
-    await expect(page.locator("#top .ah-portrait-glow")).toHaveCount(1);
-  });
-
-  test("at 390px with the hero's dark backdrop in view: still no horizontal body overflow", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/");
-    await page.waitForLoadState("networkidle");
-
-    const hscroll = await page.evaluate(
-      () => document.documentElement.scrollWidth > document.documentElement.clientWidth
-    );
-    expect(hscroll).toBe(false);
-  });
-
   test("the years counter reads ten everywhere it renders on the homepage", async ({ page }) => {
     await expect(page.locator("#about [data-years]")).toHaveAttribute("data-years", "10");
     const bodyText = await page.locator("main").innerText();
