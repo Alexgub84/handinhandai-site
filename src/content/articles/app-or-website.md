@@ -8,6 +8,14 @@ pillar: "/#services"
 cluster: "decision"
 relatedArticles: ["freelancer-or-agency", "off-the-ai-builder"]
 draft: true
+primaryQuery: "אפליקציה או אתר"
+secondaryQueries:
+  - "אפליקציה או אתר לעסק"
+  - "מתי עדיף אפליקציית ווב"
+  - "אפליקציה או אתר מותאם לנייד"
+  - "אפליקציה או אתר - מה עדיף לעסק קטן"
+  - "web app מול native app לעסק"
+answersQuestions: []
 ---
 
 ## למי זה מתאים, ולמי לא
