@@ -37,10 +37,12 @@ interface ArticleData {
   slug: string;
   publishedAt: Date;
   lastVerified?: Date;
-  /** Internal URL of the service page this article points up to. Not used
-   * as the closing CTA's destination (that CTA is WhatsApp, per spec
-   * section 8) — kept on the type because content.config.ts still requires
-   * it in frontmatter. */
+  /** Internal URL of the service page this article points up to. Rendered
+   * as one contextual inline link in the lead area (content-programme
+   * ruling: every article links up to exactly one pillar page). Not the
+   * closing CTA's destination — that CTA is WhatsApp, per spec section 8,
+   * paired with the AI-answers disclosure, which only makes sense next to
+   * a WhatsApp link. */
   pillar: string;
   cluster: string;
   relatedArticles: string[];
@@ -167,6 +169,10 @@ const waHeaderMessage = `היי אלכס, קראתי את "${article.title}" ו�
             <div class="art-answer">
               <p>{article.description}</p>
             </div>
+
+            <p class="art-pillar-link">
+              המדריך הזה חלק מהשירותים שאני מציע — <a href={article.pillar} class="art-author">לפרטים נוספים</a>.
+            </p>
           </div>
 
           <div class="art-body">

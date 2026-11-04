@@ -230,6 +230,17 @@ body {
   line-height: 1.7;
 }
 
+/* One contextual link up to the article's pillar service page, in the lead
+   area (content-programme ruling: every article links up to exactly one
+   pillar page). `.art-author` is reused verbatim for the link itself — same
+   soft-link underline treatment as the byline's author link. */
+.art-pillar-link {
+  margin: 0 0 32px;
+  font-size: 1.02rem;
+  color: hsl(var(--foreground) / 0.88);
+  line-height: 1.6;
+}
+
 /* Body prose. Copied verbatim from the bundle's own
    patterns/article-section.html: foreground at 88% opacity (not
    muted-foreground — muted-foreground is reserved for secondary/meta text),
