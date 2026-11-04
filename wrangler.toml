@@ -1,3 +1,13 @@
 name = "handinhandai-site"
 compatibility_date = "2024-01-01"
 pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "ANALYTICS_DB"
+database_name = "hih-analytics"
+database_id = "6fcd53fb-2960-43ed-95ce-4992c02f1500"
+
+[[env.preview.d1_databases]]
+binding = "ANALYTICS_DB"
+database_name = "hih-analytics"
+database_id = "6fcd53fb-2960-43ed-95ce-4992c02f1500"
