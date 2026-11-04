@@ -47,33 +47,40 @@ console. No article ships with a platform fact a language model supplied. A
 plausible generic summary is worse than no article: it is the one failure mode
 architecture cannot fix.
 
-## Required step before drafting: the keyword brief (issue #108)
+## Correction from the real Google page, 2026-11-04
 
-No article is drafted from a model's guess about what people search. Before
-drafting, read the brief off the real Google results page yourself, in a browser,
-in Hebrew, and record it:
+Read in a browser, in Hebrew, query by query. Full record:
+`docs/seo/keyword-briefs-2026-11.md`. Three things in the table below are now
+known to be wrong and are corrected there, not here, so the briefs stay the
+single source:
 
-- The primary query exactly as people type it.
-- 3-8 secondary queries.
-- The questions to answer verbatim in Hebrew, taken from Google's "אנשים שאלו גם"
-  and from autocomplete.
-- The entities the page must name to be credible (console names, form names,
-  guideline numbers, fee names).
-- Who currently ranks, and what would have to be better than what they have.
-- A verdict: OPEN, CONTESTED, or CROWDED.
+- `פרילנסר מול חברה` returns employment-law content and nothing about hiring a
+  developer. The brief carries the corrected query.
+- `עלות העלאת אפליקציה` is reclassified by Google as the cost of BUILDING an
+  app, a different and crowded market. The brief carries the corrected query.
+- `לצאת מלאבבל` is not a phrase Google recognises; it auto-corrects to an
+  unrelated word. One Hebrew competitor already owns the angle with a fresh
+  article. That slot needs a different phrasing before it is written.
 
-This has to come from the live page, not from memory and not from a keyword
-tool's guess: autocomplete, People Also Ask, related searches, who actually
-ranks, whether an AI overview appears and whom it cites — all read in the
-browser, in Hebrew. **Record the date it was read.**
+Nine of the ten queries now show an AI overview at the top of the Hebrew page,
+which is the clearest possible evidence that the answer paragraph, not the
+keyword, is what wins this market.
 
-Three of these fields are checkable later because they also live in the
-article's own frontmatter — `primaryQuery`, `secondaryQueries` (2+),
-`answersQuestions` — required on any non-draft article and enforced by
-`scripts/check-articles.mjs`. They are audit material only: never rendered on
-the page, never emitted as a meta keywords tag. The rest of the brief (entities,
-competitor read, verdict, the date it was read) is recorded on the article's
-GitHub issue, not in frontmatter.
+Revised writing order, by opportunity rather than by theme:
+
+1. `do-you-need-a-mac` — the cleanest opening of all ten. No Hebrew article
+   exists, only forum threads, and the question was asked in the target group a
+   day before this was read. This is issue #85.
+2. `who-owns-the-developer-account` — open on the ownership angle.
+3. `app-or-website` — contested, but already drafted and ready.
+4. `play-testers-requirement`, `apple-rejection-copycat` — contested; the Apple
+   one faces the single strongest incumbent found, already cited by Google's own
+   AI overview, so it must be better or it is not worth the slot.
+5. Everything else, re-judged against its brief before drafting.
+
+Two slots are now in doubt and must not be written until their query is fixed:
+the Lovable exit piece, and the construction piece, whose market shows four
+named products in Google's own answer rather than the thin field assumed.
 
 ## The ten articles
 
