@@ -4,16 +4,19 @@ import LucideIcon from "./LucideIcon.astro";
 import WhatsAppIcon from "./WhatsAppIcon.astro";
 import { siteContact } from "@/data/site-contact";
 import { homeProfile } from "@/data/home-profile";
+import { hasPublishedArticles } from "@/data/articles";
 import AiAnswersNote from "./AiAnswersNote.astro";
 
 
 const wa = siteContact.whatsappCta;
 const benefits = ["מאפיון ועד מוצר", "פתרון מותאם לצורך", "צוות מפתחים", "CTO במיקור חוץ"];
+// The מדריכים link should not point visitors at an empty index (#98).
+const showArticlesLink = await hasPublishedArticles();
 const navLinks = [
   { label: "מי אני", href: "#about", active: true },
   { label: "מה אני בונה", href: "#services" },
   { label: "דוגמה", href: "#example" },
-  { label: "מדריכים", href: "/articles" },
+  ...(showArticlesLink ? [{ label: "מדריכים", href: "/articles" }] : []),
   { label: "איך מתחילים", href: "#contact" },
 ];
 const rotating = ["למציאות.", "למערכת.", "לפיצ'ר."];
