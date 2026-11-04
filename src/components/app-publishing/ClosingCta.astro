@@ -1,0 +1,53 @@
+---
+/* Section 11: the final CTA band — the one hard ask on the page, repeated
+   once at the very end (issue #82 round 3, design/File map). Same
+   `waMessage`/copy as sections 5 and 9 (what-we-do, pricing) — every CTA on
+   this page points to the same WhatsApp conversation, never a mix of
+   competing actions. */
+import WhatsAppIcon from "@/components/home/WhatsAppIcon.astro";
+import AiAnswersNote from "@/components/home/AiAnswersNote.astro";
+import { waLink } from "@/data/site-contact";
+import { waMessage, type ClosingCtaSectionData } from "@/data/app-publishing";
+
+interface Props {
+  data: ClosingCtaSectionData;
+}
+
+const { data } = Astro.props;
+const cta = data.cta.kind === "whatsapp" ? waLink(waMessage) : undefined;
+---
+
+<section id={data.id} dir="rtl" class="pg-section ap-closing">
+  <div class="pg-wrap">
+    <p class="ap-closing-text">{data.text}</p>
+    {data.cta.kind === "whatsapp" && cta && (
+      <div class="ap-cta-row">
+        <a href={cta} target="_blank" rel="noopener noreferrer" class="ah-btn ah-btn-primary" data-track="app-publishing-closing-whatsapp">
+          <WhatsAppIcon class="h-[18px] w-[18px]" />
+          {data.cta.label}
+        </a>
+        <AiAnswersNote />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .ap-closing {
+    text-align: center;
+  }
+  .ap-closing-text {
+    max-width: 640px;
+    margin: 0 auto 24px;
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    font-weight: 700;
+    color: hsl(var(--foreground));
+    line-height: 1.6;
+  }
+  .ap-cta-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+</style>

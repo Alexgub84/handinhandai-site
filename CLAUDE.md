@@ -39,6 +39,43 @@ Fix: pin Linux x64 GNU binaries explicitly in `package.json` → `optionalDepend
 
 If any of these packages get bumped (Astro/Vite/Tailwind/Rollup upgrade), bump the matching Linux binary version in `optionalDependencies` to match and regenerate the lockfile.
 
+## AI crawler access (Cloudflare) — deliberately open
+
+Decided 2026-11-04: this site wants to be the page an AI assistant quotes, so
+it is open to AI crawlers. Do not re-block them without asking Alex first.
+
+- Cloudflare dashboard → zone `handinhandai.com` → Security → Settings → "AI
+  Crawler and Agent access policies": **Training** set to **Allow (do not
+  block)** (was "Disallow", which 403'd `GPTBot`, `ClaudeBot`, `Bytespider`
+  and others at the edge). `Search` and `Agents` were already Allow.
+- Same dialog, **"Enable Bot Preference Sync" turned OFF** and must stay off.
+  [Reason: when on, it prepends a Cloudflare-managed `robots.txt` that
+  overrides `public/robots.txt` — it was serving a `Content-Signal:
+  ai-train=no` header and `Disallow: /` for `Google-Extended` and other
+  crawlers, invisibly to anyone reading the repo file.] `curl
+  https://handinhandai.com/robots.txt` must keep matching the repo's
+  `public/robots.txt` verbatim — if it doesn't, Bot Preference Sync got
+  re-enabled somewhere.
+- AI Crawl Control → Security also has a per-crawler block list (Amazonbot,
+  ClaudeBot, GPTBot, CCBot, Bytespider, Claude-User, etc. were individually
+  toggled "Block" on top of the policy above). All toggles are off. A new
+  crawler Cloudflare adds to that list in future ships with blocking off by
+  default, so this needs no maintenance — just don't flip one back on.
+- **Bot Fight Mode stays OFF.** [Reason: it cannot be scoped by path on the
+  Free plan, challenges unverified bots indiscriminately, and would risk
+  `functions/wa/[slug].ts`'s link-preview fetchers (WhatsApp, Telegram,
+  Slack, Discord are not reliably on Cloudflare's verified-bot list) going
+  dark with nobody noticing.]
+- Scanner noise (`.php`, `/.git`, `/.env`, `wp-*`, `xmlrpc` probes) is not
+  handled by blocking bots — this site has none of those paths to protect —
+  it is background internet noise that shows up in zone analytics and is
+  ignored, not defended against with a bot control.
+- Verify after any Cloudflare change: `curl -A "GPTBot"
+  https://handinhandai.com/` (and `ClaudeBot`, `Bytespider`,
+  `Google-Extended`, `PerplexityBot`) must return `200`; a `/wa/<slug>` link
+  must still return preview HTML to `curl -A "WhatsApp/2.23"` and a `302` to
+  a plain `curl`.
+
 ## Tech stack
 
 - **Framework**: Astro 5 (file-based routing, `src/pages/`)
@@ -48,10 +85,14 @@ If any of these packages get bumped (Astro/Vite/Tailwind/Rollup upgrade), bump t
 
 ## Homepage (v3, personal-brand "Alex" site)
 
-`/` renders `src/components/home/HomeDocument.astro`. It is a standalone
-document (own `<html>`), ported 1:1 from the designer's prototype in
-`docs/specs/homepage-v3/alex-site-light.html` (see that folder's README for the
-spec review). Rules:
+`/` (`src/pages/index.astro`) renders directly via
+`src/components/home/HomeDocumentShell.astro` — the shared `<html>` chrome
+for every page in this design system (issue #82). It is the thin caller of
+the shell that every other page in this system also uses (`page -> shell`);
+there is no separate `HomeDocument.astro` anymore (inlined into `index.astro`
+in issue #82 round 2). The homepage content was ported 1:1 from the
+designer's prototype in `docs/specs/homepage-v3/alex-site-light.html` (see
+that folder's README for the spec review). Rules:
 
 - `src/styles/home/app.css` is the prototype CSS **verbatim** and
   `src/styles/home/tailwind.css` is the prototype's compiled Tailwind 3 utilities,
@@ -128,7 +169,7 @@ build (issue #108), not just remembered:
 
 | Path | File | Notes |
 |---|---|---|
-| `/` | `src/pages/index.astro` → `components/home/HomeDocument.astro` | Homepage v3 (see section above) |
+| `/` | `src/pages/index.astro` → `components/home/HomeDocumentShell.astro` | Homepage v3 (see section above) |
 
 ## Page structure docs
 
@@ -166,9 +207,15 @@ brand master, deliberately outside `public/` so it is never shipped) by
 | `icon-192.png` | 192 | manifest, `Header.astro` logo |
 | `icon-512.png` | 512 | manifest, JSON-LD `logo` |
 
-All three document heads (`src/layouts/Layout.astro`,
-`src/components/home/HomeDocument.astro`, and `src/layouts/ArticleLayout.astro`)
-must link the same four files plus `/site.webmanifest`. Keep them in sync —
+Three document heads must link the same four files plus `/site.webmanifest`:
+`src/layouts/Layout.astro` (legal pages), `src/layouts/ArticleLayout.astro`
+(articles), and, for every page in the homepage design system (`/`,
+`/app-publishing`, …), `src/components/home/HomeDocumentShell.astro` — the
+shared `<html>` chrome extracted in issue #82 so a page in that system no
+longer has its own copy of this head. `index.astro` and `app-publishing.astro`
+are thin callers of the shell (`page -> shell`, the only calling pattern in
+this system since `HomeDocument.astro` was inlined into `index.astro` in issue
+#82 round 2) and carry no favicon/manifest markup of their own. Keep the three heads in sync —
 they are separate documents.
 ## Visitor analytics (first party, no third-party script)
 
@@ -206,7 +253,8 @@ All Open Graph images (WhatsApp previews, Facebook, Twitter/X, LinkedIn) live in
 
 | Route | Image | Notes |
 |---|---|---|
-| Site default | `public/og/default.png` | Used by `Layout.astro` when no `ogImage` is passed |
+| Site default | `public/og/default.jpg` | Used by `Layout.astro`/`SEOHead.astro` when no `ogImage` is passed (legal pages), and explicitly by `/app-publishing`. Built from the homepage hero look (off-white ground, the deep-orange circle, the cut-out portrait) by `local/og-generator/generate.mjs` — regenerate with that script, never hand-edit the JPEG. |
+| Homepage (`/`) | `public/og/home/og.jpg` | Same image/bytes as the site default, kept at its own path since `index.astro` passes its own `ogImagePath`. The generator writes both paths in one run. |
 
 ### Image requirements
 

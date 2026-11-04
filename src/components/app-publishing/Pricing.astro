@@ -1,0 +1,118 @@
+---
+/* Section 9: pricing table, add-ons and exclusions from
+   src/data/app-publishing.ts (per MEMORY's "fillable content as data" rule
+   and the issue's explicit ask). Column headers are <th scope="col">, the
+   row-label cells are <th scope="row"> (issue #82 round 2, design §C5) —
+   app-publishing.css's `.ap-table thead th` rule is scoped to <thead> only so
+   that row-label <th>s keep the same look they had as <td>s. Heading comes
+   from this section's `PricingSectionData` entry — the exact bound SEO
+   string (issue #82 round 3, ruling 3), not hardcoded here.
+
+   Phone card-per-plan layout (<768px, ruling 4, design §3) built from the
+   same `pricingTable` data as the desktop table, CSS-toggled at the same
+   768px breakpoint the table's own CSS already uses — no JS. Price hoisted
+   to the top of each card, then the remaining rows. This phone layout has
+   no written spec beyond "price on top, then the rows" anywhere in the
+   three round-3 source docs — it's this order's own best-effort fill-in,
+   flagged to the manager as an open question; ship as specified, revisit if
+   a fuller spec turns up. */
+import WhatsAppIcon from "@/components/home/WhatsAppIcon.astro";
+import AiAnswersNote from "@/components/home/AiAnswersNote.astro";
+import { waLink } from "@/data/site-contact";
+import { pricingTable, addOns, exclusions, waMessage, type PricingSectionData } from "@/data/app-publishing";
+
+interface Props {
+  data: PricingSectionData;
+}
+
+const { data } = Astro.props;
+const cta = data.cta.kind === "whatsapp" ? waLink(waMessage) : undefined;
+---
+
+<section id={data.id} dir="rtl" class="pg-section">
+  <div class="pg-wrap">
+    <h2 class="pg-h2">{data.heading}</h2>
+    <div class="ap-table-scroll">
+      <table class="ap-table">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            {pricingTable.columns.map((col) => <th scope="col">{col}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {pricingTable.rows.map((row) => (
+            <tr class:list={[row.highlight && "ap-row-highlight"]}>
+              <th scope="row">{row.label}</th>
+              {row.values.map((v) => <td>{v}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ap-price-cards">
+      {pricingTable.columns.map((col, i) => {
+        const priceRow = pricingTable.rows.find((r) => r.highlight)!;
+        const otherRows = pricingTable.rows.filter((r) => !r.highlight);
+        return (
+          <article class="ap-price-card">
+            <header>
+              <h3>{col}</h3>
+              <p class="ap-price-card-price">{priceRow.values[i]}</p>
+            </header>
+            <dl>
+              {otherRows.map((row) => (
+                <>
+                  <dt>{row.label}</dt>
+                  <dd>{row.values[i]}</dd>
+                </>
+              ))}
+            </dl>
+          </article>
+        );
+      })}
+    </div>
+
+    <div class="ap-pricing-extra">
+      <div class="ap-extra-card">
+        <h4>תוספות</h4>
+        <ul class="ap-addons">
+          {addOns.map((a) => (
+            <li>
+              <span>{a.label}</span>
+              <b>{a.price}</b>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="ap-extra-card">
+        <h4>לא כלול</h4>
+        <ul class="ap-exclusions">
+          {exclusions.map((e) => <li>{e}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <p class="ap-pricing-note">המחירים לא כוללים מע"מ, ככל שחל. התשלום אחרי בדיקת המוכנות, דרך קישור תשלום מאובטח.</p>
+    {data.cta.kind === "whatsapp" && cta && (
+      <div class="ap-cta-row">
+        <a href={cta} target="_blank" rel="noopener noreferrer" class="ah-btn ah-btn-primary" data-track="app-publishing-pricing-whatsapp">
+          <WhatsAppIcon class="h-[18px] w-[18px]" />
+          {data.cta.label}
+        </a>
+        <AiAnswersNote />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .ap-cta-row {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+  }
+</style>

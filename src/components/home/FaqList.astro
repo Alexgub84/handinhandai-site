@@ -1,0 +1,26 @@
+---
+/* Generic FAQ accordion: native <details>/<summary>, no script needed —
+   matches the homepage design system's minimal-JS convention better than
+   reinventing toggle state. Moved out of
+   src/components/app-publishing/Faq.astro (issue #82 round 2) so #79's
+   three pages reuse it instead of re-deriving the accordion markup. */
+export interface FaqListEntry {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  entries: FaqListEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<div class="pg-faq">
+  {entries.map((entry) => (
+    <details>
+      <summary>{entry.question}</summary>
+      <p class="pg-faq-a">{entry.answer}</p>
+    </details>
+  ))}
+</div>

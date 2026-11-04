@@ -1,0 +1,172 @@
+/* Pricing-table styles for /app-publishing (issue #82). New markup, not a
+   tweak to the frozen prototype — lives in its own file per CLAUDE.md,
+   imported only by src/pages/app-publishing.astro. Every other section's
+   styling (hero, problem, who-for, what-not, ownership) is scoped inside
+   its own component now that the page-agnostic primitives moved to
+   src/styles/home/page.css (issue #82 round 2) — this file keeps only the
+   one page-specific block complex enough (and specific enough to this
+   page's pricing table) to stay out of a component's <style> tag, and the
+   one most likely to be reworked again when the phone-card pricing layout
+   lands separately. Reuses the existing CSS custom properties from
+   theme.css (--primary, --accent, --background, --foreground, --border,
+   --card, --muted-foreground) so colours stay in sync with the rest of the
+   homepage design system. Prefixed `ap-` to avoid colliding with the
+   prototype's own `ah-` / `ct-` / `sv-` classes and with the generic `pg-`
+   primitives in page.css. */
+
+.ap-table-scroll {
+  overflow-x: auto;
+  border-radius: 18px;
+  border: 1px solid hsl(var(--border));
+}
+.ap-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 620px;
+  background: hsl(var(--card));
+}
+.ap-table th,
+.ap-table td {
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid hsl(var(--border));
+  font-size: 14px;
+}
+.ap-table thead th {
+  background: hsl(var(--background-deep));
+  font-weight: 800;
+  color: hsl(var(--foreground));
+}
+.ap-table td:first-child,
+.ap-table th:first-child {
+  text-align: right;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+}
+.ap-table tbody tr:last-child td,
+.ap-table tbody tr:last-child th {
+  border-bottom: none;
+}
+.ap-row-highlight td,
+.ap-row-highlight th {
+  font-weight: 800;
+  color: hsl(var(--primary-text));
+  font-size: 16px;
+  background: hsl(var(--primary) / 0.06);
+}
+.ap-pricing-extra {
+  margin-top: 28px;
+  display: grid;
+  gap: 20px;
+}
+@media (min-width: 768px) {
+  .ap-pricing-extra {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.ap-extra-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+  padding: 20px;
+}
+.ap-extra-card h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 800;
+  color: hsl(var(--foreground));
+}
+.ap-addons {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.ap-addons li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  color: hsl(var(--muted-foreground));
+}
+.ap-addons li b {
+  color: hsl(var(--foreground));
+  font-weight: 700;
+  white-space: nowrap;
+}
+.ap-exclusions {
+  margin: 0;
+  padding: 0 18px 0 0;
+  display: grid;
+  gap: 8px;
+  color: hsl(var(--muted-foreground));
+  font-size: 14px;
+  line-height: 1.6;
+}
+.ap-pricing-note {
+  margin-top: 18px;
+  font-size: 13px;
+  color: hsl(var(--muted-foreground));
+}
+
+/* ---- Phone pricing cards (<768px, ruling 4, design §3) ---- */
+.ap-price-cards {
+  display: none;
+}
+@media (max-width: 767px) {
+  .ap-table-scroll {
+    display: none;
+  }
+  .ap-price-cards {
+    display: grid;
+    gap: 16px;
+  }
+}
+.ap-price-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+.ap-price-card header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid hsl(var(--border));
+}
+.ap-price-card h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: hsl(var(--foreground));
+}
+.ap-price-card-price {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: hsl(var(--primary-text));
+  white-space: nowrap;
+}
+.ap-price-card dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 8px 12px;
+}
+.ap-price-card dt {
+  margin: 0;
+  font-size: 13px;
+  color: hsl(var(--muted-foreground));
+}
+.ap-price-card dd {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  white-space: nowrap;
+}

@@ -2,12 +2,12 @@
 /* Dark footer with the outlined wordmark. Port of prototype `gu`. */
 import LucideIcon from "./LucideIcon.astro";
 import WhatsAppIcon from "./WhatsAppIcon.astro";
-import { siteContact } from "@/data/site-contact";
+import { siteContact, legal } from "@/data/site-contact";
 import { hasPublishedArticles } from "@/data/articles";
-
 
 const wa = siteContact.whatsappCta;
 const year = new Date().getFullYear();
+const path = Astro.url.pathname;
 // The מדריכים link should not point visitors at an empty index (#98).
 const showArticlesLink = await hasPublishedArticles();
 const links = [
@@ -33,7 +33,7 @@ const links = [
       <nav aria-label="ניווט תחתון">
         <h4>ניווט</h4>
         <ul class="ft-links">
-          {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          {links.map((l) => <li><a href={path === "/" ? l.href : `/${l.href}`}>{l.label}</a></li>)}
         </ul>
       </nav>
       <div>
@@ -44,6 +44,11 @@ const links = [
           <li><a href={`mailto:${siteContact.email}`}><LucideIcon name="mail" class="ct-i" /> <span class="ltr">{siteContact.email}</span></a></li>
         </ul>
         <ul class="ft-links ft-legal">
+          {path !== "/" && <li><a href="/">לאתר הראשי</a></li>}
+          {/* /app-publishing link removed — page on hold, not approved for
+              public discovery. Temporary, see
+              .claude/work-orders/82-hold-page.md; lifted by
+              .claude/work-orders/82-article.md. */}
           <li><a href="/about">אודות</a></li>
           <li><a href="/terms">תנאי שימוש</a></li>
           <li><a href="/privacy-sasha">פרטיות</a></li>
@@ -54,7 +59,7 @@ const links = [
       </button>
     </div>
     <div class="ft-word" data-text="HandInHandAI" aria-hidden="true">HandInHandAI</div>
-    <div class="ft-bottom"><span>© {year} HandInHandAI · כל הזכויות שמורות</span></div>
+    <div class="ft-bottom"><span>© {year} HandInHandAI · כל הזכויות שמורות · עוסק פטור {legal.osekNumber}</span></div>
   </div>
 </footer>
 

@@ -3,6 +3,7 @@ import { test, expect } from '@playwright/test';
 const pages = [
   { path: '/', name: 'homepage (Hebrew, SimpleLayout)' },
   { path: '/about', name: 'about (Layout)' },
+  { path: '/app-publishing', name: 'app-publishing (homepage design system)' },
 ];
 
 for (const { path, name } of pages) {

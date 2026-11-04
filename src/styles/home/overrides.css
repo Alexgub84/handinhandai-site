@@ -169,6 +169,22 @@
   .ah-visual { min-height: 176px; }
 }
 
+/* Re-checked after the orb went orange (issue #82): the badge's green core no longer
+   merges with the orb (the hues separate on their own, no ring patch needed). But the
+   badge keeps a 96px floor while the orb shrinks with the viewport, so on a wide, common
+   band of phones (measured: Galaxy S8/S9/S10e, Pixel 3, iPhone 6/7/8 Plus, iPhone
+   X/11 Pro/12 & 13 mini — roughly 355-430px wide at 700-820px tall) the badge's rotating
+   text ring, not just its core, reaches onto the orb, where the dark badge text no longer
+   reads at AA contrast (~2.5:1 against this orange, below the 4.5:1 a 10px label needs).
+   Shrinking the ring further isn't a fix — at the tightest of these sizes there is no
+   room left for any visible ring between the portrait and the orb's edge. It stays
+   decorative and steps aside here, the same way the floating chips already do below
+   1024px; measured clear with margin at every width from 850px tall up (iPhone 12-16
+   standard heights and taller, and every width at 1024px+ regardless of height). */
+@media (max-width: 1023px) and (max-height: 850px) {
+  .ah-badge { display: none; }
+}
+
 /* Case-study metrics: a long value ("₪100,000") overflowed its tile, which is sized in
    thirds. Each tile measures itself, and the value shrinks only as far as its own length
    needs — short values keep the prototype's size. */
@@ -212,3 +228,95 @@
    dashboard). Cover would slice their edges off, so show the whole image and let the
    canvas colour fill any gap. */
 .cs-shot img { object-fit: contain; object-position: center; background: hsl(var(--card)); }
+
+/* Portrait cutout treatment (hero). The cutout has no background, so the orb behind it
+   is flattened to one solid fill — a gradient that fades toward the rim would let the
+   transparent edge dissolve into the page again. Deep orange (--orb, defined in
+   theme.css), not brand green: the badge's green core, the inner ring's green dot and
+   the headline's orange underline all separate from it by hue contrast alone, so no
+   ring patch is needed around any of them (issue #82). */
+.ah-orb {
+  background: hsl(var(--orb));
+  box-shadow: none;
+}
+
+/* The cutout crops much tighter around the head than the old opaque photo did, so the
+   portrait box shrinks (100% height -> 80%/2% inset) to keep the head inside the rings
+   instead of poking out above them onto the pale page. No mask, no filter. */
+.ah-portrait {
+  height: 80%;
+  bottom: 2%;
+  aspect-ratio: 1188 / 1400;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+.ah-portrait img {
+  filter: none;
+}
+
+/* Portrait cutout treatment (About section). The opaque photo card (object-fit: cover,
+   name + years baked on as a gradient caption) can't hold a transparent cutout, so the
+   card is replaced with the hero's same flat disc, and the years counter moves into its
+   own small floating card instead of being baked onto the photo. */
+.ab-photo-ring {
+  position: relative;
+  aspect-ratio: 1 / 1.05;
+  width: min(100%, 420px);
+  margin: 0 auto;
+}
+.ab-disc {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 80%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: hsl(var(--orb));
+}
+.ab-photo-cut {
+  position: absolute;
+  left: 50%;
+  bottom: 2%;
+  height: 82%;
+  aspect-ratio: 594 / 700;
+  translate: -50% 0;
+}
+.ab-photo-cut img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+}
+.ab-card {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 10px 16px;
+  border-radius: 16px;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 14px 30px -14px hsl(var(--shadow) / var(--shadow-a));
+}
+.ab-card.years {
+  bottom: 4%;
+  right: -2%;
+  text-align: center;
+}
+.ab-card.years strong {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 900;
+  line-height: 1;
+  color: hsl(var(--primary-text));
+  direction: ltr;
+  font-variant-numeric: tabular-nums;
+}
+.ab-card.years span {
+  font-size: 11px;
+  color: hsl(var(--muted-foreground));
+}

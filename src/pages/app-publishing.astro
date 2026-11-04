@@ -1,0 +1,128 @@
+---
+/* /app-publishing — landing page selling app-store publishing (Google Play from
+   HIH's own org account, App Store from the client's own account). Issue #82.
+
+   Round 3 restructures this into a content-led ("advertorial") flow, settled
+   in docs/specs/app-publishing/landing-best-practices.md. This file lists no
+   section component by hand: it renders `sections` (src/data/app-publishing.ts)
+   in array order and dispatches on `kind` — reordering, rewording or
+   swapping a section is a data edit now, not an edit here (design §0,
+   binding). Renders in the homepage design system via HomeDocumentShell —
+   same document chrome as `/`, a different <main>.
+
+   Hebrew-only: this page never imports src/i18n/ui.ts. */
+import "@styles/home/app-publishing.css";
+import HomeDocumentShell from "@/components/home/HomeDocumentShell.astro";
+import PageHeader from "@/components/home/PageHeader.astro";
+import Hero from "@/components/app-publishing/Hero.astro";
+import ArticleSection from "@/components/app-publishing/ArticleSection.astro";
+import WhatWeDo from "@/components/app-publishing/WhatWeDo.astro";
+import About from "@/components/app-publishing/About.astro";
+import Pricing from "@/components/app-publishing/Pricing.astro";
+import Faq from "@/components/app-publishing/Faq.astro";
+import ClosingCta from "@/components/app-publishing/ClosingCta.astro";
+import { sections, faq, pricingTable, waMessage, articleDates } from "@/data/app-publishing";
+import { buildOrganizationSchema, resolveSite } from "@/data/organization-schema";
+import { legal } from "@/data/site-contact";
+
+const heroSection = sections.find((s) => s.kind === "hero");
+if (!heroSection) throw new Error("app-publishing: sections array has no hero entry");
+
+const title = "פרסום אפליקציה בגוגל פליי ובאפ סטור בלי טסטרים ובלי מק | HandInHandAI";
+const description =
+  "בניתם אפליקציה? אנחנו מעלים אותה לחנויות תוך ימים: גוגל פליי מחשבון עסקי מאומת בלי 12 טסטרים, אפ סטור בלי מק. בדיקת מוכנות של מפתח, הסכם, עדכונים כלולים.";
+const canonicalPath = "/app-publishing";
+// Temporary OG image — the real 1200x630 asset for this page doesn't exist yet.
+// Swap for /og/app-publishing/og.jpg once Alex supplies it.
+const ogImagePath = "/og/default.jpg";
+
+const site = resolveSite(Astro.site);
+const organization = buildOrganizationSchema(site.toString());
+const canonical = new URL(canonicalPath, site).href;
+
+// Three Offer entries built from the pricing data's highlighted "מחיר" row
+// (590 / 790 / 1,290 ₪), not hardcoded — issue #82 round 2, design §C6.
+const priceRow = pricingTable.rows.find((row) => row.highlight);
+const offers = priceRow
+  ? pricingTable.columns.map((name, i) => ({
+      "@type": "Offer",
+      name,
+      price: Number(priceRow.values[i].replace(/[^\d]/g, "")),
+      priceCurrency: "ILS",
+    }))
+  : [];
+
+const serviceLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "פרסום אפליקציה בגוגל פליי ובאפ סטור",
+  description,
+  url: canonical,
+  provider: { "@id": organization["@id"] },
+  areaServed: { "@type": "Country", name: "Israel" },
+  availableLanguage: "he",
+  offers,
+};
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((entry) => ({
+    "@type": "Question",
+    name: entry.question,
+    acceptedAnswer: { "@type": "Answer", text: entry.answer },
+  })),
+};
+
+// New per round 3, ruling 3. headline is the bound H1 string (kept in one
+// place, the hero section's own data entry, not retyped here). author/
+// publisher reuse the same @id pattern Service.provider already uses
+// (organization-schema.ts's buildOrganizationSchema) so Google resolves one
+// entity, not two that disagree.
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: heroSection.h1,
+  author: { "@type": "Person", name: legal.legalName.he },
+  publisher: { "@id": organization["@id"] },
+  datePublished: articleDates.datePublished,
+  dateModified: articleDates.dateModified,
+};
+
+const jsonLd = [articleLd, serviceLd, faqLd];
+---
+
+{/* TEMPORARY — page not approved for public discovery: old unconfirmed
+    prices, framing the owner rejected (see .claude/work-orders/82-hold-page.md).
+    `noindex` below (plus the sitemap exclusion in astro.config.mjs and the
+    removed footer link) keeps it reachable only by direct URL until the
+    rewrite in .claude/work-orders/82-article.md ships and this is
+    deliberately lifted. */}
+<HomeDocumentShell
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  ogImagePath={ogImagePath}
+  jsonLd={jsonLd}
+  noindex
+>
+  <PageHeader waMessage={waMessage} />
+  {sections.map((s) => {
+    switch (s.kind) {
+      case "hero":
+        return <Hero data={s} />;
+      case "article":
+        return <ArticleSection data={s} />;
+      case "what-we-do":
+        return <WhatWeDo data={s} />;
+      case "about":
+        return <About data={s} />;
+      case "pricing":
+        return <Pricing data={s} />;
+      case "faq":
+        return <Faq data={s} />;
+      case "closing-cta":
+        return <ClosingCta data={s} />;
+    }
+  })}
+</HomeDocumentShell>

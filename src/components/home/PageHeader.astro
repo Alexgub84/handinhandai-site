@@ -1,0 +1,46 @@
+---
+/* Small sticky page header for a page in the homepage design system other
+   than `/` itself (that page keeps its own full nav in Hero.astro): a logo
+   link back to `/` plus a single WhatsApp CTA. Generic across the pages in
+   issue #79 — the caller supplies the WhatsApp prefill text, since every
+   page in this system sends a different diagnostic message to WhatsApp, not
+   the homepage's own greeting. Moved out of
+   src/components/app-publishing/Header.astro (issue #82 round 2) so #79's
+   three pages reuse it instead of re-deriving it.
+
+   The wordmark reuses `.ah-logo-mark` (the frozen spinning-ring mark from
+   app.css) and the generic `.pg-logo` primitive (page.css) for the "In"/"AI"
+   colour treatment, so it matches the homepage's own wordmark exactly
+   instead of carrying a second, flat version of the same mark. */
+import WhatsAppIcon from "./WhatsAppIcon.astro";
+import { waLink } from "@/data/site-contact";
+
+interface Props {
+  /** WhatsApp prefill text for this page's header CTA. */
+  waMessage: string;
+  /** Visible button label. Defaults to the homepage nav's own CTA wording. */
+  ctaLabel?: string;
+}
+
+const { waMessage, ctaLabel = "בואו נדבר" } = Astro.props;
+const wa = waLink(waMessage);
+---
+
+<header class="pg-header" dir="rtl">
+  <div class="pg-header-inner">
+    <a href="/" dir="ltr" class="pg-logo" aria-label="HandInHandAI — לדף הבית">
+      <span class="ah-logo-mark"><span>🤝</span></span>
+      <span>Hand<b>In</b>Hand<i>AI</i></span>
+    </a>
+    <a
+      href={wa}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="ah-btn ah-btn-primary !rounded-xl !px-[18px] !py-2.5 !text-[15px]"
+      data-track="page-header-whatsapp"
+    >
+      <WhatsAppIcon class="h-[18px] w-[18px]" />
+      <span>{ctaLabel}</span>
+    </a>
+  </div>
+</header>

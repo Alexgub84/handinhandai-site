@@ -1,0 +1,153 @@
+/* Page-agnostic primitives for every page in the homepage design system
+   (frozen prototype CSS + src/components/home/ component language) besides
+   the homepage itself: a section wrapper, a section heading, a numbered
+   list, a FAQ accordion, and a small sticky page header with the brand
+   wordmark. Imported once by HomeDocumentShell.astro so it's on every page
+   in the system, not re-imported per page. Split out of
+   src/styles/home/app-publishing.css (issue #82 round 2) so the three
+   pages in issue #79 reuse this instead of re-deriving it. Prefixed `pg-`
+   to read as "page", distinct from the prototype's own `ah-` / `ct-` / `sv-`
+   classes and from `ap-` (app-publishing-specific, in app-publishing.css).
+   Reuses the existing CSS custom properties from theme.css. */
+
+.pg-section {
+  padding: clamp(48px, 8vh, 96px) 0;
+}
+.pg-wrap {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+}
+/* 860px reading-width cap (issue #82 round 3, ruling 5) for long-form text
+   blocks (explainer bodies, numbered lists, bullet lists, FAQ) — a modifier
+   on `.pg-wrap`, not a replacement, so a section keeps the same centering
+   and side padding and just narrows. The pricing block and any two-column
+   grid deliberately keep the full 1100px `.pg-wrap` instead of this. */
+.pg-wrap--reading {
+  max-width: 860px;
+}
+.pg-h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: hsl(var(--foreground));
+  margin: 0 0 14px;
+}
+
+/* ---- Page header (logo + single CTA) ---- */
+.pg-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: hsl(var(--background) / 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid hsl(var(--border));
+}
+.pg-header-inner {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+}
+.pg-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  color: hsl(var(--foreground));
+  text-decoration: none;
+}
+.pg-logo b {
+  color: hsl(var(--primary-text));
+}
+.pg-logo i {
+  font-style: normal;
+  color: hsl(var(--accent));
+}
+
+/* ---- Numbered list (what-we-do / steps, etc.) ---- */
+.pg-numbered {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+.pg-numbered li {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+.pg-num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-weight: 800;
+  font-size: 14px;
+}
+.pg-numbered p {
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.65;
+}
+
+/* ---- FAQ accordion ---- */
+.pg-faq {
+  display: grid;
+  gap: 10px;
+}
+.pg-faq details {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 14px;
+  padding: 4px 18px;
+}
+.pg-faq summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 0;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+}
+.pg-faq summary::-webkit-details-marker {
+  display: none;
+}
+.pg-faq summary::after {
+  content: "+";
+  flex: none;
+  font-size: 20px;
+  font-weight: 400;
+  color: hsl(var(--muted-foreground));
+  transition: transform 0.2s;
+}
+.pg-faq details[open] summary::after {
+  content: "\2212";
+}
+.pg-faq .pg-faq-a {
+  margin: 0 0 16px;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-faq summary::after {
+    transition: none;
+  }
+}

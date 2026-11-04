@@ -1,0 +1,91 @@
+---
+/* Generic renderer for the plain "heading + optional bullets + optional
+   paragraphs + optional image + optional soft link" shape (issue #82
+   round 3, design §2). Covers the google/apple/rejection/who-for-not/
+   ownership sections — those five genuinely share one shape; every other
+   section (hero, what-we-do, about, pricing, faq, closing-cta) carries
+   something this shape doesn't, so it keeps its own bespoke component.
+
+   `.pg-section`, `.pg-h2`, `.pg-wrap`, `.pg-wrap--reading` are the generic
+   primitives from page.css. The bullet-list look is scoped here rather than
+   in a shared file — it's this component's own rendering choice, not a
+   primitive #79's pages are required to reuse verbatim. */
+import ImagePlaceholder from "./ImagePlaceholder.astro";
+import type { ArticleSectionData } from "@/data/app-publishing";
+
+interface Props {
+  data: ArticleSectionData;
+}
+
+const { data } = Astro.props;
+---
+
+<section
+  id={data.id}
+  dir="rtl"
+  class:list={["pg-section", data.dark && "theme-dark bg-background font-sans text-foreground"]}
+>
+  <div class:list={["pg-wrap", data.readingWidth && "pg-wrap--reading"]}>
+    <h2 class="pg-h2">{data.heading}</h2>
+    {data.bullets && (
+      <ul class="ap-article-bullets">
+        {data.bullets.map((b) => <li>{b}</li>)}
+      </ul>
+    )}
+    {data.paragraphs && data.paragraphs.map((p) => <p class="ap-article-p">{p}</p>)}
+    {data.image && data.image.kind === "placeholder" && (
+      <ImagePlaceholder alt={data.image.alt} caption={data.image.caption} aspect={data.image.aspect} />
+    )}
+    {data.image && data.image.kind === "asset" && (
+      <figure class="ap-placeholder">
+        <img src={data.image.src} alt={data.image.alt} width={data.image.width} height={data.image.height} loading="lazy" />
+        {data.image.caption && <figcaption>{data.image.caption}</figcaption>}
+      </figure>
+    )}
+    {data.cta.kind === "soft-link" && (
+      <a href={`#${data.cta.targetId}`} class="ap-soft-link">{data.cta.text}</a>
+    )}
+  </div>
+</section>
+
+<style>
+  .ap-article-bullets {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .ap-article-bullets li {
+    position: relative;
+    padding-inline-end: 22px;
+    color: hsl(var(--foreground));
+    line-height: 1.6;
+  }
+  .ap-article-bullets li::before {
+    content: "";
+    position: absolute;
+    inset-inline-end: 0;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: hsl(var(--primary));
+  }
+  .ap-article-p {
+    color: hsl(var(--muted-foreground));
+    line-height: 1.75;
+    margin: 0 0 14px;
+  }
+  .ap-article-p:last-of-type {
+    margin-bottom: 0;
+  }
+  .ap-soft-link {
+    display: inline-block;
+    margin-top: 18px;
+    color: hsl(var(--primary-text));
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--primary) / 0.4);
+  }
+</style>

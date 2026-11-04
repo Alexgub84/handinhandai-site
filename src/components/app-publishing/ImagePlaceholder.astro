@@ -1,0 +1,47 @@
+---
+/* Neutral placeholder for an image slot whose real asset doesn't exist yet
+   (console screenshots, the rejection-email diagram — issue #82 round 3,
+   design §5). No <img> tag, so nothing 404s and nothing looks broken: a
+   dashed-border box sized by `aspect` to roughly match the real asset's
+   intended shape, plus a visible <figcaption> so the intended caption is
+   reviewable on the live page, not just in source. Swap for a real <img>
+   (or an `asset`-kind SectionImage rendered directly by ArticleSection) once
+   Alex supplies the real screenshot/diagram. */
+interface Props {
+  alt: string;
+  caption: string;
+  /** CSS `aspect-ratio` value, e.g. "1200/750". Defaults to a 4:2.5 box. */
+  aspect?: string;
+}
+
+const { alt, caption, aspect = "4/2.5" } = Astro.props;
+---
+
+<figure class="ap-placeholder">
+  <div class="ap-placeholder-box" role="img" aria-label={alt} style={`aspect-ratio:${aspect}`}>
+    <span>תמונה בהמתנה</span>
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<style>
+  .ap-placeholder {
+    margin: 24px 0 0;
+  }
+  .ap-placeholder-box {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    border: 1.5px dashed hsl(var(--border));
+    border-radius: 14px;
+    background: hsl(var(--card));
+    color: hsl(var(--muted-foreground));
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .ap-placeholder figcaption {
+    margin-top: 8px;
+    font-size: 13px;
+    color: hsl(var(--muted-foreground));
+  }
+</style>

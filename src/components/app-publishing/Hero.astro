@@ -1,0 +1,104 @@
+---
+/* Section 1 (hero). Issue #82 round 3, design §1: the lead paragraph of an
+   advertorial, not a banner. No primary WhatsApp button here anymore (that
+   moved to what-we-do, CTA strategy §5) — only a byline strip and a soft
+   text link scrolling down to #what-we-do. The byline avatar is a round,
+   background-free cutout (ruling 3 of the asset-wiring follow-up): rendered
+   at 48px, the 240px asset covers retina; the face is centred in the
+   source crop, so no extra `object-position` tuning is needed here beyond
+   `cover`. Content comes from this section's `HeroSectionData` entry in
+   `sections` (src/data/app-publishing.ts) — reordering or rewording the
+   hero is a data edit now, not a component edit. */
+import type { HeroSectionData } from "@/data/app-publishing";
+import { homeProfile } from "@/data/home-profile";
+
+interface Props {
+  data: HeroSectionData;
+}
+
+const { data } = Astro.props;
+---
+
+<section id={data.id} dir="rtl" class="ap-hero">
+  <div class="ap-hero-wrap">
+    <span class="ap-eyebrow">{data.eyebrow}</span>
+    <h1 class="ap-h1">{data.h1}</h1>
+    <div class="ap-byline">
+      <img
+        src={data.byline.src}
+        alt={data.byline.alt}
+        width={data.byline.width}
+        height={data.byline.height}
+        class="ap-byline-photo"
+        loading="lazy"
+      />
+      <span>{homeProfile.firstName} · {homeProfile.yearsInField} שנים בתחום</span>
+    </div>
+    <p class="ap-sub">{data.sub}</p>
+    {data.cta.kind === "soft-link" && (
+      <a href={`#${data.cta.targetId}`} class="ap-soft-link">{data.cta.text}</a>
+    )}
+  </div>
+</section>
+
+<style>
+  .ap-hero {
+    padding: clamp(40px, 8vh, 80px) 0 clamp(32px, 6vh, 64px);
+  }
+  .ap-hero-wrap {
+    width: min(900px, calc(100% - 32px));
+    margin: 0 auto;
+    text-align: center;
+  }
+  .ap-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: hsl(var(--primary-text));
+    background: hsl(var(--primary) / 0.1);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 14px;
+  }
+  .ap-h1 {
+    font-size: clamp(1.9rem, 4.4vw, 3.1rem);
+    font-weight: 900;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: hsl(var(--foreground));
+    margin: 0 0 16px;
+  }
+  .ap-byline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 auto 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: hsl(var(--muted-foreground));
+  }
+  .ap-byline-photo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex: none;
+  }
+  .ap-sub {
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    color: hsl(var(--muted-foreground));
+    line-height: 1.7;
+    max-width: 68ch;
+    margin: 0 auto 20px;
+  }
+  .ap-soft-link {
+    display: inline-block;
+    color: hsl(var(--primary-text));
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--primary) / 0.4);
+  }
+</style>

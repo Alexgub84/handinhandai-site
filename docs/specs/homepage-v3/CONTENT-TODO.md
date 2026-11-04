@@ -51,7 +51,7 @@ designed to show both colours.
 
 | Field | Current | Notes |
 |---|---|---|
-| `yearsInField` | `5` | Drives the "שנים בתחום" counter in the about section. Bump yearly. The about story also says "חמש שנים" in words, in `src/components/home/About.astro`; change both |
+| `yearsInField` | `10` | Drives the "שנים בתחום" counter in the about section. Bump yearly. The about story also says "עשר שנים" in words, in `src/components/home/About.astro`; change both |
 | `firstName` | `"אלכס"` | Used in hero, about, photo caption |
 | `waGreeting` | `"היי אלכס, הגעתי מהאתר ואשמח לשיחת אבחון 🙂"` | Prefilled WhatsApp text on every CTA |
 

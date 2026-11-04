@@ -1,0 +1,58 @@
+---
+/* Section 5: "מה אנחנו עושים בפועל" — the pivot from pure information to
+   the offer, still told as process (issue #82 round 3, design/File map).
+   Absorbs the old "איך זה עובד, צעד אחר צעד" 7-step walkthrough's remaining
+   detail into `closingNote` below the numbered list (Steps.astro is
+   deleted, not kept as a tenth section). Gains this page's first real
+   WhatsApp button, with the AI-answers-first disclosure next to it like
+   every other WhatsApp entry point on the site, and image slot 5: the
+   five-step ProcessDiagram, visualizing the offer as a sequence before the
+   numbered list spells it out in words. Content comes from this section's
+   `WhatWeDoSectionData` entry in `sections`. */
+import NumberedList from "@/components/home/NumberedList.astro";
+import ProcessDiagram from "./ProcessDiagram.astro";
+import WhatsAppIcon from "@/components/home/WhatsAppIcon.astro";
+import AiAnswersNote from "@/components/home/AiAnswersNote.astro";
+import { waLink } from "@/data/site-contact";
+import { waMessage, type WhatWeDoSectionData } from "@/data/app-publishing";
+
+interface Props {
+  data: WhatWeDoSectionData;
+}
+
+const { data } = Astro.props;
+const cta = data.cta.kind === "whatsapp" ? waLink(waMessage) : undefined;
+---
+
+<section id={data.id} dir="rtl" class="pg-section">
+  <div class="pg-wrap">
+    <h2 class="pg-h2">מה אנחנו עושים בפועל</h2>
+    <ProcessDiagram />
+    <NumberedList items={data.items} />
+    <p class="ap-closing-note">{data.closingNote}</p>
+    {data.cta.kind === "whatsapp" && cta && (
+      <div class="ap-cta-row">
+        <a href={cta} target="_blank" rel="noopener noreferrer" class="ah-btn ah-btn-primary" data-track="app-publishing-what-we-do-whatsapp">
+          <WhatsAppIcon class="h-[18px] w-[18px]" />
+          {data.cta.label}
+        </a>
+        <AiAnswersNote />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .ap-closing-note {
+    margin-top: 20px;
+    color: hsl(var(--muted-foreground));
+    line-height: 1.7;
+  }
+  .ap-cta-row {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+  }
+</style>

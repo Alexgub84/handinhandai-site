@@ -1,0 +1,24 @@
+---
+/* Section 10: FAQ — rendered from src/data/app-publishing.ts's `faq` array
+   (also the source for the FAQPage JSON-LD built in src/pages/app-publishing.astro).
+   The accordion itself is the generic FaqList.astro (issue #82 round 2).
+   Heading comes from this section's `FaqSectionData` entry. Reading-width
+   capped per ruling 5 (issue #82 round 3) — unlike the generic
+   ArticleSection, FaqSectionData has no `readingWidth` flag of its own, so
+   the class is applied directly here; FAQ is always reading-width. */
+import FaqList from "@/components/home/FaqList.astro";
+import { faq, type FaqSectionData } from "@/data/app-publishing";
+
+interface Props {
+  data: FaqSectionData;
+}
+
+const { data } = Astro.props;
+---
+
+<section id={data.id} dir="rtl" class="pg-section">
+  <div class="pg-wrap pg-wrap--reading">
+    <h2 class="pg-h2">{data.heading}</h2>
+    <FaqList entries={faq} />
+  </div>
+</section>

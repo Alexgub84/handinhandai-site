@@ -1,0 +1,119 @@
+---
+/* Shared `<html>` document chrome for every page in the homepage design system
+   (frozen prototype CSS + src/components/home/ component language). Extracted
+   from HomeDocument.astro (issue #82) so a second document in this system
+   (starting with /app-publishing) doesn't have to re-sync the favicon /
+   manifest / font / analytics set by hand. See CLAUDE.md "Favicon / app icons".
+
+   Takes the scalar SEO values plus one JSON-LD object (or an array of them,
+   rendered as one <script> per entry, in array order — issue #82 round 2,
+   so a page like /app-publishing can emit both a Service and a FAQPage block
+   without a separate raw <script> in its own "head-extra" slot). The shell
+   resolves `Astro.site` and computes the absolute canonical/OG-image URLs
+   itself from the path the caller passes in, so the `Astro.site ?? new
+   URL(...)` fallback line isn't repeated in every caller (see
+   `resolveSite()` in organization-schema.ts). `ogDescription` defaults to
+   `description` when the caller has nothing more specific to say for social
+   previews.
+
+   The default slot is the <main> content; the optional "head-extra" slot is
+   for page-specific <head> tags (e.g. the homepage's hero-image preload)
+   that don't belong in every document in this system. */
+import "@styles/home/tailwind.css";
+import "@styles/home/theme.css";
+import "@styles/home/app.css";
+import "@styles/home/overrides.css";
+import "@styles/home/page.css";
+import Analytics from "../Analytics.astro";
+import Footer from "./Footer.astro";
+import FloatingWhatsApp from "./FloatingWhatsApp.astro";
+import { resolveSite } from "@/data/organization-schema";
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  ogImagePath: string;
+  ogDescription?: string;
+  jsonLd: Record<string, unknown> | Record<string, unknown>[];
+  /** Render `<meta name="robots" content="noindex, nofollow">` instead of the
+   * default index/follow tag (default false). Same noindex idea as
+   * `SEOHead.astro`'s `noindex` prop (used by `Layout.astro` pages), applied
+   * here because this is the chrome this design system's pages actually use. */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  ogImagePath,
+  ogDescription = description,
+  jsonLd,
+  noindex = false,
+} = Astro.props;
+const site = resolveSite(Astro.site);
+const canonical = new URL(canonicalPath, site).href;
+const ogImage = new URL(ogImagePath, site).href;
+const jsonLdEntries = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+---
+
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="facebook-domain-verification" content="xbzm8v23p977iuikrwz7x2k6ciiewu" />
+    <meta name="theme-color" content="#faf8f3" />
+    <meta
+      name="robots"
+      content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"}
+    />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="he_IL" />
+    <meta property="og:site_name" content="HandInHandAI" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <slot name="head-extra" />
+
+    {jsonLdEntries.map((entry) => (
+      <script type="application/ld+json" set:html={JSON.stringify(entry)} />
+    ))}
+    <Analytics />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">דילוג לתוכן</a>
+    <main id="main" dir="rtl" class="min-h-[100dvh] bg-background text-foreground font-sans">
+      <slot />
+    </main>
+    <Footer />
+    <FloatingWhatsApp />
+  </body>
+</html>

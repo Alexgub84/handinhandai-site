@@ -9,7 +9,7 @@ import { homeProfile } from "@/data/home-profile";
 const wa = siteContact.whatsappCta;
 /* [[...]] marks highlighted phrases. */
 const story = [
-  "כבר [[חמש שנים]] שאני חי את העולם הזה. אני מת על הכלים החדשים שיוצאים היום – [[AI, אוטומציות, פתרונות חכמים]] – אבל מבחינתי הם לא שווים כלום אם הם לא עושים לכם את [[החיים קלים יותר.]]",
+  "כבר [[עשר שנים]] שאני חי את העולם הזה. אני מת על הכלים החדשים שיוצאים היום – [[AI, אוטומציות, פתרונות חכמים]] – אבל מבחינתי הם לא שווים כלום אם הם לא עושים לכם את [[החיים קלים יותר.]]",
   "כמו בניהול בית ומשפחה, גם בעסקים אני מאמין [[ביחס ישר, תקשורת פתוחה ובלי משחקים.]]",
   "כשעובדים איתי, לא מקבלים קופסה שחורה של קוד, אלא [[בנאדם שאפשר לסמוך עליו,]] לדבר איתו בגובה העיניים ולדעת שהפרויקט שלכם [[בידיים בטוחות.]]",
 ];
@@ -61,14 +61,20 @@ const total = k;
       </a>
     </div>
     <div class="ab-photo-col">
-      <div class="ab-photo">
-        <img src="/home/alex-about.webp" alt={homeProfile.firstName} loading="lazy" width="700" height="895" />
-        <div class="ab-photo-cap">
-          <div><b>{homeProfile.firstName}</b><small>HandInHandAI</small></div>
-          <div class="ab-years">
-            <strong data-years={homeProfile.yearsInField}>0</strong>
-            <span>שנים בתחום</span>
-          </div>
+      <div class="ab-photo-ring">
+        <div class="ab-disc" aria-hidden="true"></div>
+        <div class="ab-photo-cut">
+          <img
+            src="/home/alex-portrait-700.webp"
+            alt="אלכס, בעלים של בית תוכנה"
+            loading="lazy"
+            width="594"
+            height="700"
+          />
+        </div>
+        <div class="ab-card years">
+          <strong data-years={homeProfile.yearsInField}>0</strong>
+          <span>שנים בתחום</span>
         </div>
       </div>
     </div>
