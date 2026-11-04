@@ -77,6 +77,18 @@ const barTable = (title: string, rows: Row[], labelKey: string, valueKey: string
   return `<section><h2>${escape(title)}</h2><div class="scroll"><table>${body}</table></div></section>`;
 };
 
+/** How long ago a timestamp was, in the coarse words an operator reads at a glance. */
+const ago = (ms: number): string => {
+  const diff = Date.now() - ms;
+  if (diff < 0) return 'just now';
+  const minutes = Math.floor(diff / 60_000);
+  if (minutes < 1) return 'just now';
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 48) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
+};
+
 const sparkline = (rows: Row[]): string => {
   if (!rows.length) return '<p class="empty">No visits recorded yet.</p>';
   const max = Math.max(...rows.map((row) => num(row.visitors)), 1);
@@ -111,8 +123,9 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   const since = `-${days} days`;
 
   try {
-    const [daily, totals, sources, campaigns, entries, devices, countries, depth, reach, clicks, funnel] =
+    const [lastEvent, daily, totals, sources, campaigns, entries, devices, countries, depth, reach, clicks, funnel] =
       await Promise.all([
+        rowsOf(db, `SELECT MAX(ts) AS last_ts FROM events`),
         rowsOf(
           db,
           `SELECT day, COUNT(DISTINCT visitor) AS visitors, COUNT(DISTINCT session) AS sessions,
@@ -220,6 +233,15 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     const share = (value: number): string =>
       arrived ? `${Math.round((value / arrived) * 100)}%` : '-';
 
+    // The honest-failure signal (issue #117): a binding that silently stops
+    // writing looks, from outside, exactly like a quiet site. Showing when
+    // the last event actually landed turns that into something an operator
+    // can see at a glance, without reading a single row by hand.
+    const lastTs = lastEvent[0]?.last_ts != null ? num(lastEvent[0].last_ts) : null;
+    const STALE_HOURS = 12;
+    const stale = lastTs === null || Date.now() - lastTs > STALE_HOURS * 60 * 60 * 1000;
+    const lastEventLabel = lastTs === null ? 'no events recorded yet' : `last event ${ago(lastTs)}`;
+
     const tabs = DAY_OPTIONS.map(
       (option) =>
         `<a class="${option === days ? 'on' : ''}" href="?days=${option}${
@@ -248,6 +270,9 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   nav { display:flex; gap:0.35rem; }
   nav a { padding:0.25rem 0.7rem; border:1px solid var(--rule); border-radius:999px; text-decoration:none; color:var(--soft); font-size:0.85rem; }
   nav a.on { background:var(--accent); border-color:var(--accent); color:#0d1117; font-weight:600; }
+  .pulse { font-size:0.8rem; color:var(--soft); }
+  .pulse.stale { color:#c0392b; font-weight:600; }
+  @media (prefers-color-scheme: dark) { .pulse.stale { color:#ff6b5e; } }
   section { background:var(--panel); border:1px solid var(--rule); border-radius:12px; padding:1rem 1.1rem; }
   .grid { display:grid; gap:1rem; grid-template-columns:repeat(auto-fit, minmax(17rem, 1fr)); }
   .tiles { display:grid; gap:0.75rem; grid-template-columns:repeat(auto-fit, minmax(8rem,1fr)); }
@@ -272,6 +297,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 </head><body><div class="wrap">
 <header>
   <h1>Visitors — handinhandai.com</h1>
+  <span class="pulse${stale ? ' stale' : ''}" title="The timestamp of the most recent row in the events table.">${escape(lastEventLabel)}</span>
   <nav>${tabs}</nav>
 </header>
 
