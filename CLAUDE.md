@@ -237,13 +237,21 @@ Nothing on the page talks to anyone but this domain. The chain is
   `npx wrangler d1 execute hih-analytics --remote --file db/analytics-schema.sql`.
   Rows older than 180 days are pruned lazily inside the collector (~1% of
   requests) because Pages Functions have no cron handler.
-- **Bindings (Cloudflare dashboard, Production *and* Preview):** D1 binding
-  `ANALYTICS_DB`, secrets `ANALYTICS_SALT` and either `ACCESS_AUD` (Cloudflare
-  Access on `/stats*`) or `STATS_TOKEN` (`/stats?k=...`). With neither auth
-  secret set, `/stats` answers 404 — it never opens by accident.
+- **Bindings:** the D1 binding `ANALYTICS_DB` is committed in `wrangler.toml`
+  (top-level for production, `[env.preview.d1_databases]` for preview) — that
+  file is the source of truth, Cloudflare rebuilds the dashboard's binding
+  config from it on every deploy, so a binding added only in the dashboard is
+  silently wiped on the next merge to `main`. Secrets stay out of the file and
+  stay dashboard-only (Production *and* Preview): `ANALYTICS_SALT`, and either
+  `ACCESS_AUD` (Cloudflare Access on `/stats*`) or `STATS_TOKEN`
+  (`/stats?k=...`). With neither auth secret set, `/stats` answers 404 — it
+  never opens by accident.
 - **Verifying locally:** `npm run build`, then
-  `npx wrangler pages dev --binding STATS_TOKEN=x ANALYTICS_SALT=y` with a
-  temporary `[[d1_databases]]` block in `wrangler.toml` (do not commit it).
+  `npx wrangler pages dev --binding STATS_TOKEN=x ANALYTICS_SALT=y`. The real
+  `ANALYTICS_DB` binding above already covers local D1 access — don't add a
+  second, throwaway `[[d1_databases]]` block for a local run; if `wrangler
+  pages dev` ever needs a block distinct from the real binding (e.g. to point
+  at a separate local-only database), delete it before committing.
 - The privacy page (`src/pages/privacy-sasha.astro`, section 13, both languages)
   describes exactly what is collected. **Keep it in sync** with any change here.
 
