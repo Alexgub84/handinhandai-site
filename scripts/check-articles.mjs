@@ -14,6 +14,16 @@
  *   - `secondaryQueries` has fewer than 2 entries (issue #108, rule 2)
  *   - the title, description or body contains a forbidden token (see below)
  *
+ * Sibling-link guard (issue #120): `ArticleLayout.astro` renders a sibling
+ * card for every `relatedArticles` slug that resolves to a real collection
+ * entry and silently drops the rest, so a dangling slug used to ship
+ * invisibly. Every article's `relatedArticles` is checked against the set
+ * of real `slug` values (the fixture article, `fixture-markdown-devices-test`,
+ * never counts as a resolution target, published or not). On a non-draft
+ * article a dangling slug fails the build, naming the article and the slug.
+ * On a draft article it only warns — the writer sees the gap the day the
+ * article is written, not the day it's published — and the build passes.
+ *
  * Forbidden-names check: see src/content/forbidden-tokens.json for the full
  * design rationale (committed, no plaintext name, 5-hex truncated sha256
  * prefixes only). The title/description/body are lowercased and split into
@@ -62,15 +72,41 @@ function loadForbiddenTokens() {
   return new Set(raw.tokens);
 }
 
+const FIXTURE_SLUG = 'fixture-markdown-devices-test';
+
 function main() {
   const forbiddenTokens = loadForbiddenTokens();
   const files = findMarkdownFiles(articlesDir);
   const violations = [];
+  const warnings = [];
 
-  for (const filePath of files) {
+  const parsed = files.map((filePath) => {
     const fileLabel = relative(repoRoot, filePath);
     const raw = readFileSync(filePath, 'utf8');
     const { data, content } = matter(raw);
+    return { fileLabel, data, content };
+  });
+
+  // Real resolution targets for relatedArticles (issue #120): every article's
+  // own `slug`, minus the test fixture, which never counts even though it
+  // exists as a collection entry.
+  const resolvableSlugs = new Set(
+    parsed.filter(({ data }) => data.slug !== FIXTURE_SLUG).map(({ data }) => data.slug)
+  );
+
+  for (const { fileLabel, data, content } of parsed) {
+    const relatedArticles = Array.isArray(data.relatedArticles) ? data.relatedArticles : [];
+    for (const relatedSlug of relatedArticles) {
+      if (resolvableSlugs.has(relatedSlug)) {
+        continue;
+      }
+      const message = `${fileLabel}: "relatedArticles" points at "${relatedSlug}", which does not resolve to an existing article`;
+      if (data.draft === true) {
+        warnings.push(message);
+      } else {
+        violations.push(message);
+      }
+    }
 
     if (data.draft === true) {
       continue;
@@ -112,6 +148,14 @@ function main() {
         );
       }
     }
+  }
+
+  if (warnings.length > 0) {
+    console.warn('check-articles: warnings (draft articles, build still passes):\n');
+    for (const warning of warnings) {
+      console.warn(`  - ${warning}`);
+    }
+    console.warn('');
   }
 
   if (violations.length > 0) {
