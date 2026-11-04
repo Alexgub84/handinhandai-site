@@ -11,6 +11,8 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 
+import { rehypeArticleDevices } from './src/lib/rehype-article-devices.mjs';
+
 // A draft article's slug stays out of the sitemap in every build (#101) —
 // even a build that includes drafts (a Cloudflare preview deploy, a local
 // build, `astro dev`) only ever renders it as a noindexed page, never a
@@ -55,6 +57,13 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()]
+  },
+
+  // Applies the article design's three devices (term chip, aside,
+  // table + card fallback) to ordinary Markdown written by an author — see
+  // src/lib/rehype-article-devices.mjs (issue #111).
+  markdown: {
+    rehypePlugins: [rehypeArticleDevices],
   },
 
   integrations: [
