@@ -39,6 +39,43 @@ Fix: pin Linux x64 GNU binaries explicitly in `package.json` → `optionalDepend
 
 If any of these packages get bumped (Astro/Vite/Tailwind/Rollup upgrade), bump the matching Linux binary version in `optionalDependencies` to match and regenerate the lockfile.
 
+## AI crawler access (Cloudflare) — deliberately open
+
+Decided 2026-11-04: this site wants to be the page an AI assistant quotes, so
+it is open to AI crawlers. Do not re-block them without asking Alex first.
+
+- Cloudflare dashboard → zone `handinhandai.com` → Security → Settings → "AI
+  Crawler and Agent access policies": **Training** set to **Allow (do not
+  block)** (was "Disallow", which 403'd `GPTBot`, `ClaudeBot`, `Bytespider`
+  and others at the edge). `Search` and `Agents` were already Allow.
+- Same dialog, **"Enable Bot Preference Sync" turned OFF** and must stay off.
+  [Reason: when on, it prepends a Cloudflare-managed `robots.txt` that
+  overrides `public/robots.txt` — it was serving a `Content-Signal:
+  ai-train=no` header and `Disallow: /` for `Google-Extended` and other
+  crawlers, invisibly to anyone reading the repo file.] `curl
+  https://handinhandai.com/robots.txt` must keep matching the repo's
+  `public/robots.txt` verbatim — if it doesn't, Bot Preference Sync got
+  re-enabled somewhere.
+- AI Crawl Control → Security also has a per-crawler block list (Amazonbot,
+  ClaudeBot, GPTBot, CCBot, Bytespider, Claude-User, etc. were individually
+  toggled "Block" on top of the policy above). All toggles are off. A new
+  crawler Cloudflare adds to that list in future ships with blocking off by
+  default, so this needs no maintenance — just don't flip one back on.
+- **Bot Fight Mode stays OFF.** [Reason: it cannot be scoped by path on the
+  Free plan, challenges unverified bots indiscriminately, and would risk
+  `functions/wa/[slug].ts`'s link-preview fetchers (WhatsApp, Telegram,
+  Slack, Discord are not reliably on Cloudflare's verified-bot list) going
+  dark with nobody noticing.]
+- Scanner noise (`.php`, `/.git`, `/.env`, `wp-*`, `xmlrpc` probes) is not
+  handled by blocking bots — this site has none of those paths to protect —
+  it is background internet noise that shows up in zone analytics and is
+  ignored, not defended against with a bot control.
+- Verify after any Cloudflare change: `curl -A "GPTBot"
+  https://handinhandai.com/` (and `ClaudeBot`, `Bytespider`,
+  `Google-Extended`, `PerplexityBot`) must return `200`; a `/wa/<slug>` link
+  must still return preview HTML to `curl -A "WhatsApp/2.23"` and a `302` to
+  a plain `curl`.
+
 ## Tech stack
 
 - **Framework**: Astro 5 (file-based routing, `src/pages/`)
