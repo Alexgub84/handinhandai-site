@@ -1,0 +1,595 @@
+/* Article reading page (`/articles/[slug]`) — spec: docs/specs/article-page-design.md.
+   Ported from the Claude Design specimen at local/design/article-page.html
+   (issue #107). Lives alongside app.css / tailwind.css / overrides.css but is
+   its own file — app.css and tailwind.css (the designer's frozen prototype
+   CSS) are never edited; this stylesheet only reuses their existing classes
+   (`.ah-btn`, `.ah-btn-primary`, `.ah-logo-mark`) by import, verbatim.
+
+   Dependency note: the spec was written assuming `/app-publishing`'s
+   HomeDocumentShell.astro / PageHeader.astro / page.css / app-publishing.css
+   (issue #82) already existed on `main`. They don't yet — that work is still
+   on an open, unmerged PR. Every value below is still copied verbatim from
+   the spec document (which itself quotes the real source file and line), so
+   nothing here is invented; classes that would otherwise have come from
+   page.css / app-publishing.css (`.pg-header*`, `.pg-h2`, `.pg-numbered`,
+   `.pg-num`) are defined directly in this file instead of imported. Once
+   #82/#91 merges, a follow-up can delete the duplicated `.pg-header*` rules
+   here and swap in the shared PageHeader.astro component — see the note
+   above the header block below. */
+
+/* ---- Base reset for this document (there is no shared Tailwind preflight
+   here — the article page does not load tailwind.css, since nothing in this
+   file needs a Tailwind utility class). Scoped to the elements this page
+   actually renders, including the plain tags a markdown body produces
+   (h2/p/ul/ol/table) inside .art-body. The Heebo default normally comes
+   from tailwind.css's own preflight (`html{font-family:Heebo,sans-serif}`);
+   set directly here for the same reason as the `.ah-btn svg` rule below. ---- */
+body {
+  font-family: Heebo, sans-serif;
+}
+.art-page,
+.art-page * {
+  box-sizing: border-box;
+}
+.art-body :where(h2, p, ul, ol, dl, table, blockquote, figure) {
+  margin: 0;
+}
+.art-body :where(ul, ol) {
+  list-style: none;
+  padding: 0;
+}
+.art-body table {
+  border-collapse: collapse;
+}
+/* Forward-compatible named slots (#95) that no current article fills yet. */
+.art-table-slot:empty,
+.first-hand-note-slot:empty {
+  display: none;
+}
+
+/* ---- Page header. Verbatim rendered output of PageHeader.astro + page.css
+   .pg-header* (issue #82, not yet on main — see file header note). `.ah-btn`
+   / `.ah-btn-primary` / `.ah-logo-mark` below are NOT redefined here: they
+   are imported from the real app.css and used as-is. ---- */
+.pg-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: hsl(var(--background) / 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid hsl(var(--border));
+}
+.pg-header-inner {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+}
+.pg-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  color: hsl(var(--foreground));
+  text-decoration: none;
+  direction: ltr;
+}
+.pg-logo b {
+  color: hsl(var(--primary-text));
+}
+.pg-logo i {
+  font-style: normal;
+  color: hsl(var(--accent));
+}
+.pg-header .ah-btn {
+  border-radius: 0.75rem;
+  padding: 0.625rem 18px;
+  font-size: 15px;
+}
+/* `.ah-btn svg` icon sizing is normally applied via a Tailwind arbitrary
+   class (`h-[18px] w-[18px]`, see Hero.astro) — this page doesn't load
+   tailwind.css (nothing else on it needs a Tailwind utility class), so the
+   one icon size `.ah-btn` needs is set directly here instead. */
+.ah-btn svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+/* ---- Article shell. Reading width is the bundle's own existing pattern
+   (local/design-system/patterns/article-section.html: "width: min(680px, …)"),
+   reused verbatim rather than the wider 860px .pg-wrap--reading, which is
+   sized for a bullet/FAQ section, not a full column of running prose. ---- */
+.art-page {
+  padding-bottom: clamp(56px, 8vh, 96px);
+}
+.art-wrap {
+  width: min(680px, calc(100% - 32px));
+  margin: 0 auto;
+}
+.art-head {
+  padding-top: clamp(40px, 6vh, 64px);
+}
+
+/* H1 — copied verbatim from app-publishing/Hero.astro .ap-h1 (issue #82, not
+   yet on main — defined here directly instead of imported, same dependency
+   note as the header above). The class itself carries no text-align —
+   centering on the hero came from .ap-hero-wrap, its parent — so reused
+   here, un-centered, it is already correctly start-aligned for an article
+   column with zero edits. */
+.art-h1 {
+  font-size: clamp(1.9rem, 4.4vw, 3.1rem);
+  font-weight: 900;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: hsl(var(--foreground));
+  margin: 0 0 18px;
+}
+
+/* Byline. Author link reuses .ap-soft-link's underline treatment verbatim.
+   The "last verified" pill reuses .ct-ai-badge verbatim (overrides.css,
+   imported, not redefined) — same chip the homepage uses for its own small
+   trust/status badges. */
+.art-byline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 0 0 30px;
+  font-size: 14px;
+  color: hsl(var(--muted-foreground));
+}
+.art-byline a.art-author {
+  color: hsl(var(--primary-text));
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--primary) / 0.4);
+}
+.art-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: hsl(var(--muted-foreground) / 0.6);
+  flex: none;
+}
+.art-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: hsl(var(--primary) / 0.14);
+  color: hsl(var(--primary-text));
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.art-verified svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Draft-state label. Invented combination: the dashed-border tint of
+   .ai-note--panel (overrides.css) read as a pill instead of a full-width
+   panel, recoloured from primary to accent. Accent has no existing semantic
+   meaning on this site — repurposed here deliberately because
+   destructive/red would read as "broken," not "not live yet." */
+.art-draft-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border: 1px dashed hsl(var(--accent) / 0.55);
+  border-radius: 999px;
+  background: hsl(var(--accent) / 0.08);
+  color: hsl(var(--accent));
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.art-draft-badge svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* Answer box. Eyebrow pill is .ap-eyebrow verbatim. Tint (primary/0.06) is
+   .ap-row-highlight's background verbatim. Radius 16px is .pg-numbered li's
+   radius verbatim. The one-sided border-inline-start is invented — no
+   existing component uses a directional accent border; .ai-note--panel
+   already owns the all-around dashed border for a different meaning (a
+   light, collapsible note), so this needed a visually heavier, distinct
+   device for "the one block an AI lifts." */
+.art-answer-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: hsl(var(--primary-text));
+  background: hsl(var(--primary) / 0.1);
+  border-radius: 999px;
+  padding: 6px 14px;
+  margin-bottom: 14px;
+}
+.art-answer {
+  background: hsl(var(--primary) / 0.06);
+  border-inline-start: 4px solid hsl(var(--primary));
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin: 0 0 40px;
+}
+.art-answer p {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  line-height: 1.7;
+}
+
+/* One contextual link up to the article's pillar service page, in the lead
+   area (content-programme ruling: every article links up to exactly one
+   pillar page). `.art-author` is reused verbatim for the link itself — same
+   soft-link underline treatment as the byline's author link. */
+.art-pillar-link {
+  margin: 0 0 32px;
+  font-size: 1.02rem;
+  color: hsl(var(--foreground) / 0.88);
+  line-height: 1.6;
+}
+
+/* Body prose. Copied verbatim from the bundle's own
+   patterns/article-section.html: foreground at 88% opacity (not
+   muted-foreground — muted-foreground is reserved for secondary/meta text),
+   1.05rem, line-height 1.75. Targets the bare <p> a markdown body produces
+   inside .art-body, not a per-paragraph class. */
+.art-body p {
+  font-size: 1.05rem;
+  color: hsl(var(--foreground) / 0.88);
+  line-height: 1.75;
+  margin: 0 0 20px;
+}
+.art-body > p:last-child,
+.art-body > *:last-child p:last-child {
+  margin-bottom: 0;
+}
+
+/* H2 rhythm. .pg-h2 verbatim (page.css, issue #82 — see dependency note at
+   the top of this file). The margin-top is .pg-section's own clamp()
+   verbatim, applied directly to the heading (the markdown body has no
+   wrapping <section>) — this is what makes an H2 genuinely break the flow
+   instead of sitting one line under the previous paragraph. */
+.pg-h2,
+.art-body h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: hsl(var(--foreground));
+  margin: clamp(48px, 8vh, 96px) 0 14px;
+}
+
+/* List — .ap-article-bullets verbatim. .art-list is the explicit class for
+   hand-authored markup; `.art-body ul` is the bare-tag fallback so a plain
+   markdown "- item" list renders identically with no class needed. */
+.art-list,
+.art-body ul {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.art-list li,
+.art-body ul li {
+  position: relative;
+  padding-inline-end: 22px;
+  color: hsl(var(--foreground) / 0.88);
+  line-height: 1.6;
+  font-size: 1.02rem;
+}
+.art-list li::before,
+.art-body ul li::before {
+  content: "";
+  position: absolute;
+  inset-inline-end: 0;
+  top: 0.6em;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: hsl(var(--primary));
+}
+
+/* Aside — the one light editorial line per section. Invented: no existing
+   aside/pull-quote component in the repo. Deliberately the LIGHTEST device
+   on the page — a 2px inline-start rule (vs. the answer box's 4px),
+   muted-foreground (not foreground), slightly smaller size. No italic:
+   Heebo has no true italic and a faux-oblique Heebo looks broken, so
+   weight/colour/size carry the distinction instead. Produced at build time
+   from an ordinary Markdown blockquote (`> text`) by the rehype plugin in
+   astro.config.mjs (src/lib/rehype-article-devices.mjs, issue #111); a
+   single inner paragraph is unwrapped so the text sits directly inside the
+   `<aside>`, which is why the rule below targets the element itself and not
+   a child `<p>`. */
+.art-aside {
+  margin: 26px 0;
+  padding-inline-start: 16px;
+  border-inline-start: 2px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  font-size: 15.5px;
+  line-height: 1.7;
+}
+/* A multi-paragraph blockquote isn't unwrapped (only a single inner <p> is)
+   — reset its child <p> margins so a rare multi-line aside still reads as
+   one block instead of inheriting .art-body p's 20px bottom margin. */
+.art-aside p {
+  margin: 0 0 10px;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+.art-aside p:last-child {
+  margin-bottom: 0;
+}
+
+/* Inline Latin-term treatment. Background/border opacity (.035 / .14) and
+   the 8px radius are copied verbatim from .sb-badge (overrides.css) and the
+   "8px — small chip" literal (the smallest recurring radius in the system).
+   unicode-bidi: isolate + direction: ltr is the actual RTL fix (not
+   decoration) — without it a multi-character Latin run inside a Hebrew
+   sentence can pick up the paragraph's base direction and reorder with its
+   neighbours. white-space: nowrap is required, not optional: a two-word
+   term otherwise line-wraps inside its own chip and the browser draws a
+   separate border fragment per line. Produced at build time from ordinary
+   Markdown inline code (single backticks) by the rehype plugin in
+   astro.config.mjs (src/lib/rehype-article-devices.mjs, issue #111) — an
+   author writes `` `Play Console` `` at the point the term appears in the
+   Hebrew sentence, nothing more. */
+.art-term {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.86em;
+  color: hsl(var(--foreground));
+  background: hsl(var(--foreground) / 0.035);
+  border: 1px solid hsl(var(--foreground) / 0.14);
+  border-radius: 8px;
+  padding: 1px 7px;
+  unicode-bidi: isolate;
+  direction: ltr;
+  white-space: nowrap;
+}
+
+/* Comparison table — desktop table is .ap-table* verbatim, phone cards are
+   .ap-price-card* verbatim (both app-publishing.css, issue #82 — see
+   dependency note at the top of this file), same 767/768px breakpoint the
+   real pricing table already uses to solve the exact "cramped at 390px"
+   problem for a different table. Both the `.art-table-scroll`/`.art-table`
+   wrapper AND the `.art-cards` fallback are generated at build time from a
+   single ordinary Markdown table by the rehype plugin in astro.config.mjs
+   (src/lib/rehype-article-devices.mjs, issue #111): the table's first
+   column is read as the row label (promoted to `<th scope="row">`), every
+   other header becomes one card, and each body row becomes one `dt`/`dd`
+   pair inside every card. An author writes one plain Markdown table and
+   nothing else — no HTML, no second hand-authored card markup. */
+.art-table-scroll {
+  overflow-x: auto;
+  border-radius: 18px;
+  border: 1px solid hsl(var(--border));
+}
+.art-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 560px;
+  background: hsl(var(--card));
+}
+.art-table th,
+.art-table td {
+  padding: 13px 14px;
+  text-align: center;
+  border-bottom: 1px solid hsl(var(--border));
+  font-size: 13.5px;
+}
+.art-table thead th {
+  background: hsl(var(--background-deep));
+  font-weight: 800;
+  color: hsl(var(--foreground));
+}
+.art-table td:first-child,
+.art-table th:first-child {
+  text-align: right;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+}
+.art-table tbody tr:last-child td,
+.art-table tbody tr:last-child th {
+  border-bottom: none;
+}
+.art-row-highlight td,
+.art-row-highlight th {
+  font-weight: 800;
+  color: hsl(var(--primary-text));
+  background: hsl(var(--primary) / 0.06);
+}
+.art-cards {
+  display: none;
+}
+@media (max-width: 767px) {
+  .art-table-scroll {
+    display: none;
+  }
+  .art-cards {
+    display: grid;
+    gap: 14px;
+  }
+}
+.art-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+  padding: 16px 18px;
+}
+.art-card header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid hsl(var(--border));
+}
+.art-card h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: hsl(var(--foreground));
+}
+.art-card dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 7px 12px;
+}
+.art-card dt {
+  margin: 0;
+  font-size: 12.5px;
+  color: hsl(var(--muted-foreground));
+}
+.art-card dd {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  text-align: start;
+}
+.art-card dd.is-strong {
+  color: hsl(var(--primary-text));
+}
+
+/* Procedure — .pg-numbered / .pg-num verbatim (page.css, issue #82 — see
+   dependency note at the top of this file). Hand-authored as
+   `<ol class="pg-numbered"><li><span class="pg-num">N</span><p>…</p></li>` —
+   same reasoning as the table above: the numbered badge is a real element,
+   not a bare <ol> counter, so an author writes it once per step. */
+.pg-numbered {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.pg-numbered li {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+  padding: 16px 18px;
+}
+.pg-num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-weight: 800;
+  font-size: 13.5px;
+}
+.pg-numbered p {
+  margin: 0;
+  color: hsl(var(--foreground) / 0.88);
+  line-height: 1.6;
+}
+
+/* Single closing CTA + WhatsApp disclosure. `.ai-note` itself is imported
+   verbatim from overrides.css via the real AiAnswersNote.astro component —
+   not redefined here. */
+.art-cta {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+/* Sibling links. Card chrome assembled from existing literals: 16px radius
+   (.pg-numbered li), hover shadow "0 12px 24px -12px hsl(var(--shadow)/var(--shadow-a))"
+   is the documented "small card lift" value (foundations/spacing-radius-shadow.html),
+   border tint on hover is primary/0.4 (.ap-soft-link's underline tint,
+   reused as a border colour). */
+.art-siblings-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: hsl(var(--muted-foreground));
+  margin: 0 0 14px;
+}
+.art-sibling-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 640px) {
+  .art-sibling-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.art-sibling-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+  padding: 18px 20px;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 0.2s,
+    border-color 0.2s,
+    box-shadow 0.3s;
+}
+.art-sibling-card:hover {
+  transform: translateY(-2px);
+  border-color: hsl(var(--primary) / 0.4);
+  box-shadow: 0 12px 24px -12px hsl(var(--shadow) / var(--shadow-a));
+}
+.art-sibling-kicker {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: hsl(var(--primary-text));
+}
+.art-sibling-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: hsl(var(--foreground));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.art-sibling-title svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  color: hsl(var(--primary-text));
+}
+.art-sibling-desc {
+  font-size: 13.5px;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.55;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ah-logo-mark,
+  .ah-btn-primary,
+  .art-sibling-card {
+    animation: none !important;
+    transition: none !important;
+  }
+}

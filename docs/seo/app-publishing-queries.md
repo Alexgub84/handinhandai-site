@@ -374,3 +374,200 @@ Based only on what was directly observed above:
   not zero. Noam Nissan's app2store-adjacent offer (web-app-to-native +
   publishing) in the פיתוח אפליקציות group is a second informal competitor
   worth knowing about even though it's not a formal business listing.
+
+## Round 3: demand sizing (how many people actually search)
+
+Researched 2 Nov 2026. The honest framing first: real monthly search-volume
+numbers for Hebrew app-related phrases need Google Keyword Planner, which
+needs Alex's own Google Ads login — not available here. Nothing below is a
+search-volume number. What follows is the best obtainable *relative* evidence
+(Google Trends' own index, autocomplete depth, and who is paying for ads),
+chained and cross-checked as carefully as the brief asks, with every
+inference flagged as an inference.
+
+**Method note, stated plainly because it changed mid-task:** the
+Claude-in-Chrome browser extension (used for Round 2's Trends screenshots and
+Facebook search) disconnected partway through this round and did not
+reconnect after several retries over several minutes. Two things filled the
+gap: (1) Google Trends' own data endpoint
+(`trends.google.com/trends/api/explore` +
+`.../api/widgetdata/multiline`/`relatedsearches`) was queried directly — this
+returns the exact same index numbers that render into the on-screen chart, so
+it is not a visual estimate, it's the same data read by code instead of by
+eye. Three comparisons were still screenshotted (saved in
+`/private/tmp/claude-501/-Users-alexguberman-Projects-handinhandai-site/a4ad3975-b7ea-49b5-bb28-e7fef60f0cdf/scratchpad/trends-r3/`)
+using a second, working headed browser tool, confirming the numeric findings
+visually. (2) Google's own results pages were reachable — unlike Round 1's
+blocked `curl` attempt — via that same headed browser, logged into Alex's
+real Google account, giving real ad and organic data for section 3 below.
+Facebook could **not** be revisited this round (no logged-in session was
+reachable once the extension dropped) — Round 2's Facebook findings stand
+unrefreshed; see "what still cannot be known."
+
+### 1. The ladder: Google Trends, region Israel, chained against an anchor
+
+Anchor: **`בניית אתרים`** (building websites) — a Hebrew search topic whose
+real-world volume is broadly known to be large. Trends rescales its 0–100
+index independently **per comparison query**, so a value from one query is
+not on the same scale as a value from another — chaining across queries is
+an explicit inference, marked below. Within one query, the ratios are a
+direct, reliable reading of Trends' own chart data (52 weeks, Israel).
+
+| Phrase | Value in its Trends query (peak / avg, 0–100 scale) | What it implies | Screenshot |
+|---|---|---|---|
+| `בניית אתרים` (anchor) | peak 100, avg 56.7 | the reference point | `01-anchor-devapps-vs-bniyat-atarim.png` |
+| `פיתוח אפליקציות` (vs. anchor) | peak 4, avg 0.2 | **≈4% of the anchor's peak week — roughly 25x smaller than "building websites"** | `01-anchor-devapps-vs-bniyat-atarim.png` |
+| `פיתוח אפליקציות` (vs. בניית אפליקציה) | peak 14, avg 0.5 | same term, different comparison set — the 4 vs. 14 difference is Trends' per-query rescaling, not a contradiction | (API data, no screenshot) |
+| `בניית אפליקציה` (vs. פיתוח אפליקציות) | peak 100, avg 2.5 | **≈7x `פיתוח אפליקציות`'s peak in that same query** — chained through the row above: ≈7 × 4% ≈ **29% of the anchor's peak, by inference (two-hop, flagged)** | (API data, no screenshot) |
+| `אפליקציה לעסק` | 0 in every comparison tried; alone, Trends returns no data at all (0 data points) | **too small for Trends to measure, period** | — |
+| `מפתח אפליקציות` | same — 0 everywhere, 0 data points alone | **too small for Trends to measure** | — |
+| `העלאת אפליקציה` | 0 in comparison; alone, 0 data points | **too small for Trends to measure** — repeats Round 2's identical finding | — |
+| `גוגל פליי` (Hebrew spelling) | peak 14 | — | `04-storenames-testers-vs-devapps.png` (companion run) |
+| `google play` (Latin) | peak 100 in the same query as the row above | **≈7x the Hebrew spelling's peak** — confirms Round 2's screenshot-based finding with an exact ratio instead of an eyeballed chart | same |
+| `אפ סטור` (Hebrew) | 0, washed out entirely | **too small to register next to the Latin form** | `04-storenames-testers-vs-devapps.png` |
+| `app store` (Latin) | peak 100, avg 53.5 — the single largest term measured on its own axis anywhere in this project | sets the ceiling for its own comparison | `04-storenames-testers-vs-devapps.png` |
+| `טסטרים` | peak 5 next to `app store`; peak 100 (self-scaled) when run alone, avg 2.8, spiky | small but real and recurring — matches Round 2's Trends chart and the Facebook quotes already on file | `04-storenames-testers-vs-devapps.png` |
+| `Base44` | peak 100 — the ceiling of its own 5-term query | **the single highest Trends value found anywhere in this project, including the store-name terms**, when compared directly against Hebrew app-dev language | `05-aibuilders-vs-anchor.png` |
+| `Lovable` | peak 84 in the same query | essentially tied with Base44 — Israel's two biggest AI-app-builder brand searches | `05-aibuilders-vs-anchor.png` |
+| `וייב קודינג` (Hebrew) | peak 9 in the same query; no related-queries list even generated | an order of magnitude below the brand names | `05-aibuilders-vs-anchor.png` |
+| `vibe coding` (English) | peak 13 in the same query | same order of magnitude as the Hebrew term, still far below the brands | `05-aibuilders-vs-anchor.png` |
+| `בניית אפליקציה עם AI` | 0, even against a `פיתוח אפליקציות` that was itself the only other term in that query | **too small to measure even against a small reference term** | — |
+
+**Related/rising queries, pulled from the same Trends calls (free signal, no
+extra cost):** `פיתוח אפליקציות`'s own top related queries are
+`פיתוח אפליקציות לאייפון` (100), `פיתוח אפליקציות מובייל` (87),
+`חברות פיתוח אפליקציות` (76) — i.e., people hunting for an iOS-specific
+developer or a company, not a publishing step. `Base44`'s related queries
+include `lovable` (47) and, oddly, `wix` (39) — Israelis appear to
+cross-shop AI app builders against Wix in their heads. `Lovable`'s related
+queries skew commercial — `lovable discount code`, `lovable promo code`,
+`lovable free` all appear in its own top-8, a genuine "hunting for a deal"
+signal that `פיתוח אפליקציות` never shows. Rising-query percentages for the
+store-name and brand terms run into the thousands or tens of thousands of
+percent (e.g. `lovable discount code` +248,500%) — this is a known Trends
+artifact of a near-zero starting base, not literal; flagged, not used as
+evidence of scale. The full raw API responses are saved at
+`/private/tmp/claude-501/-Users-alexguberman-Projects-handinhandai-site/a4ad3975-b7ea-49b5-bb28-e7fef60f0cdf/scratchpad/trends-r3/raw_results.json`.
+
+### 2. Topic map: the branches of Hebrew app-related search
+
+Built from two curl passes over Google's autocomplete endpoint (same method
+as Round 1), roughly 35 seed phrases, `hl=iw&gl=il`.
+
+- **Build it yourself / with AI (no-code, AI builders) — the fattest branch
+  by every signal gathered this round.** `בניית אפליקציה`, `בניית אפליקציה
+  בחינם` (its own #1 suggestion), `בניית אפליקציה עם/ai`, `בניית אפליקציה
+  ללא קוד`, `בניית אפליקציה בעצמך`, plus the brand names `Base44` and
+  `Lovable` and the term `וייב קודינג`/`vibe coding`. This branch carries the
+  highest Trends peaks (Base44/Lovable), the deepest autocomplete tree, and
+  (section 3) the most ad spend of anything tested.
+- **Hire a company to build it (professional dev).** `פיתוח אפליקציות`,
+  `מפתח אפליקציות`, `חברה לפיתוח אפליקציות`, `דרושים` (hiring/jobs),
+  `פיתוח אפליקציות קורס`. Real but consistently smaller than the branch
+  above whenever the two were compared head-to-head.
+- **Cost.** `כמה עולה אפליקציה`, `כמה עולה לפתח אפליקציה`, `כמה עולה
+  להקים אפליקציה`, `עלות פיתוח אפליקציה`. Confirms Round 1: this cluster is
+  almost entirely development-cost intent, not publishing-cost, and (section
+  3) it is the single most heavily advertised cluster found this round.
+- **Publish / upload to a store — this project's current target.**
+  `העלאת אפליקציה לגוגל פליי/לאפסטור/לאנדרואיד`, `פרסום אפליקציה`,
+  `חשבון מפתח גוגל/אפל`, `גוגל פליי קונסול`. Thin autocomplete signal, zero
+  Trends signal even alone, zero ads anywhere tested (section 3) — the
+  smallest branch measured.
+- **Business-specific use.** `אפליקציה לעסק`, `אפליקציה לעסקים קטנים`,
+  `אפליקציה לניהול עסק`. Real autocomplete depth but zero independent Trends
+  signal (too small to chart even alone) — likely folds into the "build" or
+  "cost" branches rather than standing on its own.
+- **Fix / troubleshoot.** `אפליקציה לא עובדת`, `אפליקציה קורסת`,
+  `תיקון אפליקציה`. Almost entirely about specific *consumer* apps (Leumi,
+  Bit, BYD, government apps) — ordinary users complaining about an existing
+  app, not developers needing a repair service. Low relevance to this
+  client's funnel.
+- **Hire a freelancer.** `מפתח אפליקציות פרילנסר`, `דרושים מתכנת
+  אפליקציות`. Present but shallow — a handful of completions, no standalone
+  Trends signal tested.
+
+### 3. Ads and competition, five phrases, real Google results
+
+Fetched via a logged-in headed browser (Alex's own Google account; Round 1's
+plain `curl` was blocked by Google's JS/consent wall, this was not). Ad
+counts come from each result page's own "תוצאות ממומנות" (sponsored results)
+heading.
+
+| Phrase | Ads seen | Advertiser domains | Israeli organic competitors |
+|---|---|---|---|
+| `פיתוח אפליקציות` | 4 (+ a local map-pack ad) | imoon.co.il, level-app.com (L&A Technologies), **lovable.dev**, misterbit.co.il | ~6: dogma.co.il, webitnow.co.il, any-app.com, lastartup.co.il, svcollege.co.il, misterbit.co.il |
+| `בניית אפליקציה` | 6, across two separate ad blocks on one page | **lovable.dev**, level-app.com (appears twice), **fiverr.com**, **hercules.app**, **rankaibuilder.com** | andromo.com (a free no-code builder), dogma.co.il, lastartup.co.il, wix.com, microsoft.com (Power Apps), any-app.com — plus 3 Hebrew YouTube tutorials ranking organically on Lovable/Claude/Gemini app-building |
+| `כמה עולה לפתח אפליקציה` | 4, across two ad blocks | level-app.com, **lovable.dev**, misterbit.co.il, mrcoral.co.il | onezero.co.il, globalbit.co.il, webitnow.co.il, two-solutions.com, msapps.mobi — 5+, the most crowded organic field of anything tested |
+| `Base44` (brand name itself) | 5–6 | **base44.com** (defensive bidding on its own name), **lovable.dev** (bidding on a rival's brand name) | — |
+| `העלאת אפליקציה לגוגל פליי` | **0** | none | android developer docs (not Israeli), **aiterra.co.il** (new — not found in Round 1 or 2), **Bdika** (new — not found in Round 1 or 2), plus the Round-1-known mrcoral.co.il-style guide and the fxp.co.il forum thread — roughly 5 |
+
+The standout fact: **Lovable**, an international AI-app-builder, is bidding
+on the plain Hebrew phrases `פיתוח אפליקציות`, `בניית אפליקציה`, `כמה עולה
+לפתח אפליקציה`, and even on its direct rival's brand name `Base44` — on every
+phrase checked except the publishing one. Nobody — not even app2store.co.il,
+Round 1's direct competitor — is bidding on `העלאת אפליקציה לגוגל פליי`.
+Two Hebrew competitor sites not seen in Round 1 or 2 — **aiterra.co.il** and
+**Bdika** — now rank organically for that exact publishing phrase; whether
+they are new entrants or sites Round 1/2 simply missed is not established
+here (would need a Wayback Machine date check, not done this round).
+
+### 4. What this means for the page
+
+- The publishing niche this project is building for (`/app-publishing`) is
+  real, but it is, by every measure gathered across three rounds now, the
+  **smallest** branch of this topic: the only one with zero paid ads on its
+  most natural phrase, the only one Trends can't chart even standing alone,
+  and still only a handful of Hebrew competitors.
+- **Do not abandon it** — the content is already built, zero ad competition
+  is a genuine opening for organic ranking, and the FAQ work from Rounds 1–2
+  still stands. But the page's own research keeps pointing at a bigger,
+  adjacent branch one step earlier in the funnel: people who just built
+  something with **Base44** or **Lovable** and now need to get it into a
+  store. Base44 registered the single highest Trends value found in this
+  entire project (bigger, by this measure, than `google play` or
+  `app store` themselves when compared directly against Hebrew app-dev
+  language) — and Round 1 already flagged that this page never names Base44
+  even once. That gap is the highest-leverage single change this research
+  has found across all three rounds.
+- A second, genuinely bigger branch surfaced this round that sits **outside**
+  this page's current offer: `כמה עולה לפתח אפליקציה` (cost of
+  *development*, not publishing) is the single most commercially fought-over
+  cluster measured — the heaviest ad presence, the most organic competitors.
+  That is a different product (building an app, not publishing one) and is
+  flagged here only as a fact worth knowing, not a recommendation to build
+  it now.
+
+### 5. What still cannot be known
+
+- **Actual monthly search volume**, for any phrase in this file or the two
+  before it. Every number above is a relative index or a ranking position,
+  never a count.
+- **Whether the chained ladder ratios hold up against a real, single-scale
+  measurement.** Trends rescales 0–100 per query, so chaining `בניית אתרים`
+  → `פיתוח אפליקציות` → `בניית אפליקציה` across two separate queries is a
+  two-hop inference, not a direct reading — flagged throughout section 1.
+  Keyword Planner would show every phrase on one shared scale at once,
+  settling every "which is bigger" question this file could only answer by
+  inference.
+- **Facebook group content and sizes, refreshed for this round.** The
+  Claude-in-Chrome browser extension used for Round 2's Facebook search
+  disconnected partway through this session and did not reconnect after
+  several retries; no logged-in Facebook session was reachable by any other
+  tool available here. Round 2's Facebook evidence (group names, member
+  quotes, the 12-tester pain points) stands as the most recent data and was
+  not extended or re-verified this round.
+- **How old `aiterra.co.il` and `Bdika` actually are** — flagged above as
+  "new" only in the sense of "not found by Round 1 or 2's searches," not
+  dated independently.
+- **Ad spend or bid level behind any advertiser.** Presence in the sponsored
+  block proves someone is paying to be there; it says nothing about budget
+  or whether that spend is profitable for them.
+
+**What ten minutes in Google Ads would settle:** signing into Keyword
+Planner would turn every row in section 1's ladder into an actual monthly
+search-volume range (even Google's own bucketed ranges beat an inferred
+ratio), put every phrase — Hebrew and Latin, brand names and generic terms —
+on one shared scale at once, and show suggested bid/competition data that
+would make it possible to rank all the clusters in this file by commercial
+value instead of by inference chains.

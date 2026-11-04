@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '@layouts/ArticleLayout.astro';
+import { includeDrafts } from '@/lib/build-env';
+
+// On the production branch, a draft entry gets no page and no sitemap
+// entry — a thin headline with no article should never be publicly
+// reachable (#98). Every other build (a Cloudflare preview deploy, a local
+// build, `astro dev`) renders every entry, drafts included, so a writer can
+// read a draft before it ships (#101). `includeDrafts()` decides which
+// build this is from Cloudflare's own build-branch variable.
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => {
+    return includeDrafts() || !data.draft;
+  });
+  return articles.map((article) => ({
+    params: { slug: article.data.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+---
+
+<ArticleLayout article={article.data} noindex={article.data.draft}>
+  <Content />
+</ArticleLayout>

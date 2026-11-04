@@ -1,6 +1,7 @@
 ---
 import { type Lang } from '@i18n/ui';
 import { useTranslations, getLocalizedPath } from '@i18n/utils';
+import { hasPublishedArticles } from '@/data/articles';
 
 interface Props {
   lang: Lang;
@@ -8,6 +9,8 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+// The מדריכים link should not point visitors at an empty index (#98).
+const showArticlesLink = await hasPublishedArticles();
 ---
 
 <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -31,6 +34,14 @@ const t = useTranslations(lang);
         >
           {t('nav.about')}
         </a>
+        {showArticlesLink && (
+          <a
+            href={getLocalizedPath('/articles', lang)}
+            class="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+          >
+            {t('nav.articles')}
+          </a>
+        )}
         <a
           href={getLocalizedPath('/privacy-sasha', lang)}
           class="text-gray-600 hover:text-gray-900 font-medium transition-colors"
@@ -81,6 +92,14 @@ const t = useTranslations(lang);
       >
         {t('nav.about')}
       </a>
+      {showArticlesLink && (
+        <a
+          href={getLocalizedPath('/articles', lang)}
+          class="block px-4 py-3 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+        >
+          {t('nav.articles')}
+        </a>
+      )}
       <a
         href={getLocalizedPath('/privacy-sasha', lang)}
         class="block px-4 py-3 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"

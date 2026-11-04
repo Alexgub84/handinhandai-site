@@ -1,0 +1,80 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { defaultLang } from '@i18n/ui';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { includeDrafts } from '@/lib/build-env';
+
+type Cluster = CollectionEntry<'articles'>['data']['cluster'];
+
+// Static service headings per the settled content architecture
+// (docs/seo/content-programme-2026-11.md) — one per article cluster.
+const CLUSTER_ORDER: Cluster[] = ['decision', 'publishing', 'whatsapp', 'construction'];
+const CLUSTER_HEADINGS: Record<Cluster, string> = {
+  decision: 'החלטות לפני שמתחילים',
+  publishing: 'פרסום אפליקציות',
+  whatsapp: 'עוזרי AI בוואטסאפ',
+  construction: 'פיקוח ובקרת איכות בבנייה',
+};
+
+// On the production branch the index lists only published entries, exactly
+// as proved in #98. On a build that includes drafts (a Cloudflare preview
+// deploy, a local build, `astro dev`) it also lists drafts, visually
+// distinct and labelled, so a reviewer sees what is pending (#101).
+const showDrafts = includeDrafts();
+const articles = await getCollection('articles', ({ data }) => showDrafts || !data.draft);
+const publishedCount = articles.filter((a) => !a.data.draft).length;
+
+const groups = CLUSTER_ORDER.map((cluster) => ({
+  cluster,
+  heading: CLUSTER_HEADINGS[cluster],
+  entries: articles.filter((a) => a.data.cluster === cluster),
+})).filter((group) => group.entries.length > 0);
+
+// Zero published articles is a real, expected state right after #98 (the
+// seed stays draft) — the index must not invite search engines to a page
+// with nothing published on it yet. A listed draft (preview builds only)
+// doesn't change this: the page is still noindexed until something is
+// actually published.
+const noindex = publishedCount === 0;
+---
+
+<Layout
+  lang={defaultLang}
+  title="מדריכים | handinhand"
+  description="מדריכים מעשיים על בחירת טכנולוגיה, פרסום אפליקציות וסוכני AI בוואטסאפ לעסקים קטנים ובינוניים."
+  noindex={noindex}
+>
+  <section dir="rtl" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">מדריכים</h1>
+    <p class="text-gray-600 mb-10">מדריכים מעשיים, מבוססי ניסיון תפעולי בפועל.</p>
+
+    {groups.length === 0 && (
+      <p class="text-gray-500">בקרוב — המדריכים הראשונים בדרך.</p>
+    )}
+
+    {groups.map((group) => (
+      <div class="mb-10">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">{group.heading}</h2>
+        <ul class="space-y-2">
+          {group.entries.map((entry) => (
+            <li class="flex flex-wrap items-center gap-2">
+              <a
+                href={`/articles/${entry.data.slug}/`}
+                class={entry.data.draft
+                  ? 'text-gray-500 underline'
+                  : 'text-blue-600 hover:text-blue-800 underline'}
+              >
+                {entry.data.title}
+              </a>
+              {entry.data.draft && (
+                <span class="inline-block text-xs font-semibold text-amber-800 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded">
+                  טיוטה — לא פורסם
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+</Layout>

@@ -1,0 +1,221 @@
+---
+/* Article reading page document. Spec: docs/specs/article-page-design.md
+   (issue #107). Standalone `<html>` document in the homepage design system
+   — same pattern as HomeDocument.astro — instead of the generic
+   Layout.astro + Tailwind `global.css` the page used before: that's what
+   let the page carry the site's own Heebo/JetBrains Mono brand chrome
+   (theme.css tokens, app.css primitives) instead of generic grey Tailwind
+   defaults.
+
+   Dependency note: the spec assumes `/app-publishing`'s HomeDocumentShell.astro
+   and PageHeader.astro (issue #82) already exist on `main`. They don't yet —
+   that work is still an open, unmerged PR, so this document's `<head>` and
+   the `.pg-header` block below are a faithful duplicate of what those
+   components render (see src/styles/home/article.css's own file-header
+   note), not an import of them. Once #82 merges, a follow-up should swap
+   this duplicate for the real shared components. */
+import SEOHead from '@components/SEOHead.astro';
+import Analytics from '@components/Analytics.astro';
+import Footer from '@components/Footer.astro';
+import WhatsAppIcon from '@components/home/WhatsAppIcon.astro';
+import LucideIcon from '@components/home/LucideIcon.astro';
+import AiAnswersNote from '@components/home/AiAnswersNote.astro';
+import { defaultLang } from '@i18n/ui';
+import { waLink } from '@/data/site-contact';
+import { buildArticleSchema } from '@/data/article-schema';
+import { getCollection } from 'astro:content';
+
+import '@styles/global.css';
+import '@styles/home/theme.css';
+import '@styles/home/app.css';
+import '@styles/home/overrides.css';
+import '@styles/home/article.css';
+
+interface ArticleData {
+  title: string;
+  description: string;
+  slug: string;
+  publishedAt: Date;
+  lastVerified?: Date;
+  /** Internal URL of the service page this article points up to. Rendered
+   * as one contextual inline link in the lead area (content-programme
+   * ruling: every article links up to exactly one pillar page). Not the
+   * closing CTA's destination — that CTA is WhatsApp, per spec section 8,
+   * paired with the AI-answers disclosure, which only makes sense next to
+   * a WhatsApp link. */
+  pillar: string;
+  cluster: string;
+  relatedArticles: string[];
+  draft: boolean;
+}
+
+interface Props {
+  article: ArticleData;
+  /** Render `<meta name="robots" content="noindex">` (default false). Set for a draft article on a build that includes drafts (#101). */
+  noindex?: boolean;
+}
+
+const { article, noindex = false } = Astro.props;
+
+const SITE_FALLBACK = 'https://handinhandai.com';
+const siteOrigin = Astro.site?.toString().replace(/\/$/, '') || SITE_FALLBACK;
+
+const articleSchema = buildArticleSchema(siteOrigin, {
+  title: article.title,
+  description: article.description,
+  slug: article.slug,
+  publishedAt: article.publishedAt,
+  lastVerified: article.lastVerified,
+});
+
+const dateFormatter = new Intl.DateTimeFormat('he-IL', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+const publishedDisplay = dateFormatter.format(article.publishedAt);
+const verifiedDisplay = article.lastVerified ? dateFormatter.format(article.lastVerified) : null;
+
+// Sibling cards need a real title + description to render the two-line card
+// the spec asks for. `relatedArticles` deliberately stores plain slugs, not
+// `reference()` (content.config.ts) — most sibling slugs don't exist as
+// collection entries yet. Resolve what we can; skip what we can't, rather
+// than inventing card copy for an article that isn't written.
+const allArticles = await getCollection('articles');
+const siblingCards = article.relatedArticles
+  .map((slug) => allArticles.find((entry) => entry.data.slug === slug))
+  .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
+
+const waHeaderMessage = `היי אלכס, קראתי את "${article.title}" ואשמח לעוד פרטים`;
+---
+
+<!doctype html>
+<html lang={defaultLang} dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="facebook-domain-verification" content="xbzm8v23p977iuikrwz7x2k6ciiewu" />
+    <meta name="theme-color" content="#faf8f3" />
+
+    <SEOHead lang={defaultLang} title={article.title} description={article.description} noindex={noindex} />
+    <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap"
+    />
+    <Analytics />
+  </head>
+  <body>
+    <header class="pg-header" dir="rtl">
+      <div class="pg-header-inner">
+        <a href="/" dir="ltr" class="pg-logo" aria-label="HandInHandAI — לדף הבית">
+          <span class="ah-logo-mark"><span>🤝</span></span>
+          <span>Hand<b>In</b>Hand<i>AI</i></span>
+        </a>
+        <a
+          href={waLink(waHeaderMessage)}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="ah-btn ah-btn-primary"
+          data-track="article-header-whatsapp"
+        >
+          <WhatsAppIcon />
+          <span>בואו נדבר</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="art-page" dir="rtl">
+      <div class="art-wrap">
+        <article>
+          <div class="art-head">
+            <h1 class="art-h1">{article.title}</h1>
+
+            <div class="art-byline">
+              <a href="/about" class="art-author">מאת אלכס גוברמן</a>
+              {article.draft ? (
+                <span class="art-draft-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" stroke-dasharray="3 3"></circle>
+                  </svg>
+                  טיוטה — טרם פורסם
+                </span>
+              ) : (
+                <>
+                  <span class="art-dot"></span>
+                  <span>פורסם {publishedDisplay}</span>
+                  {verifiedDisplay && (
+                    <>
+                      <span class="art-dot"></span>
+                      <span class="art-verified">
+                        <LucideIcon name="circle-check-big" strokeWidth={2.5} />
+                        נבדק לאחרונה {verifiedDisplay}
+                      </span>
+                    </>
+                  )}
+                </>
+              )}
+            </div>
+
+            <span class="art-answer-eyebrow">בקצרה</span>
+            <div class="art-answer">
+              <p>{article.description}</p>
+            </div>
+
+            <p class="art-pillar-link">
+              המדריך הזה חלק מהשירותים שאני מציע — <a href={article.pillar} class="art-author">לפרטים נוספים</a>.
+            </p>
+          </div>
+
+          <div class="art-body">
+            <slot />
+          </div>
+
+          <div class="art-table-slot">
+            <slot name="table" />
+          </div>
+
+          <div class="first-hand-note-slot">
+            <slot name="first-hand-note" />
+          </div>
+
+          <div class="art-cta">
+            <a href={waLink()} target="_blank" rel="noopener noreferrer" class="ah-btn ah-btn-primary" data-track="article-closing-whatsapp">
+              <WhatsAppIcon />
+              <span>בואו נדבר על זה</span>
+            </a>
+            <AiAnswersNote />
+          </div>
+
+          {siblingCards.length > 0 && (
+            <nav aria-label="מדריכים קשורים">
+              <p class="art-siblings-label">מדריכים נוספים</p>
+              <div class="art-sibling-grid">
+                {siblingCards.map((entry) => (
+                  <a href={`/articles/${entry.data.slug}/`} class="art-sibling-card">
+                    <span class="art-sibling-kicker">למידה</span>
+                    <span class="art-sibling-title">
+                      <LucideIcon name="arrow-left" strokeWidth={2} />
+                      {entry.data.title}
+                    </span>
+                    <p class="art-sibling-desc">{entry.data.description}</p>
+                  </a>
+                ))}
+              </div>
+            </nav>
+          )}
+        </article>
+      </div>
+    </main>
+
+    <Footer lang={defaultLang} />
+  </body>
+</html>
