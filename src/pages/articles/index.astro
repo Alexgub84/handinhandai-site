@@ -22,12 +22,18 @@ const groups = CLUSTER_ORDER.map((cluster) => ({
   heading: CLUSTER_HEADINGS[cluster],
   entries: articles.filter((a) => a.data.cluster === cluster),
 })).filter((group) => group.entries.length > 0);
+
+// Zero published articles is a real, expected state right after #98 (the
+// seed stays draft) — the index must not invite search engines to a page
+// with nothing on it yet.
+const noindex = articles.length === 0;
 ---
 
 <Layout
   lang={defaultLang}
   title="מדריכים | handinhand"
   description="מדריכים מעשיים על בחירת טכנולוגיה, פרסום אפליקציות וסוכני AI בוואטסאפ לעסקים קטנים ובינוניים."
+  noindex={noindex}
 >
   <section dir="rtl" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
     <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">מדריכים</h1>
