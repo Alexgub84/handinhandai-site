@@ -245,7 +245,19 @@ Nothing on the page talks to anyone but this domain. The chain is
   stay dashboard-only (Production *and* Preview): `ANALYTICS_SALT`, and either
   `ACCESS_AUD` (Cloudflare Access on `/stats*`) or `STATS_TOKEN`
   (`/stats?k=...`). With neither auth secret set, `/stats` answers 404 — it
-  never opens by accident.
+  never opens by accident. Confirmed against the Cloudflare Pages API
+  (issue #117): the top-level `[[d1_databases]]` block **does** apply to the
+  Production environment on its own — no `[[env.production.d1_databases]]`
+  block is needed. A fresh deploy can take a short time (single-digit
+  minutes) to roll the new binding out across the whole edge network; a
+  write tested in the first minute or two after a deploy finishes can still
+  fail even though the binding is correctly configured and will work shortly
+  after. That propagation lag, not a config mistake, was the actual cause
+  behind #117.
+- **Staleness signal:** `/stats` shows "last event …m/h/d ago" in the header,
+  in red once the most recent row is more than 12 hours old (or if there are
+  no rows at all) — so a dead counter is visible without running a query.
+  This reads `MAX(ts)` only; it changes nothing about what is collected.
 - **Verifying locally:** `npm run build`, then
   `npx wrangler pages dev --binding STATS_TOKEN=x ANALYTICS_SALT=y`. The real
   `ANALYTICS_DB` binding above already covers local D1 access — don't add a
