@@ -10,6 +10,8 @@
  * For every article where `draft` is not `true`, fails if:
  *   - `lastVerified` is missing
  *   - `relatedArticles` has fewer than 2 entries
+ *   - `primaryQuery` is missing (issue #108, rule 2 — the keyword brief)
+ *   - `secondaryQueries` has fewer than 2 entries (issue #108, rule 2)
  *   - the title, description or body contains a forbidden token (see below)
  *
  * Forbidden-names check: see src/content/forbidden-tokens.json for the full
@@ -82,6 +84,19 @@ function main() {
     if (relatedCount < 2) {
       violations.push(
         `${fileLabel}: "relatedArticles" has ${relatedCount} entr${relatedCount === 1 ? 'y' : 'ies'}, needs exactly 2 on a published article`
+      );
+    }
+
+    if (!data.primaryQuery) {
+      violations.push(
+        `${fileLabel}: missing "primaryQuery" (required on any non-draft article — the keyword brief, issue #108)`
+      );
+    }
+
+    const secondaryCount = Array.isArray(data.secondaryQueries) ? data.secondaryQueries.length : 0;
+    if (secondaryCount < 2) {
+      violations.push(
+        `${fileLabel}: "secondaryQueries" has ${secondaryCount} entr${secondaryCount === 1 ? 'y' : 'ies'}, needs at least 2 on a published article`
       );
     }
 

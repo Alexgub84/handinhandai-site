@@ -22,6 +22,21 @@ const articles = defineCollection({
     cluster: z.enum(['publishing', 'decision', 'whatsapp', 'construction']),
     relatedArticles: z.array(z.string()),
     draft: z.boolean().default(false),
+    /**
+     * The keyword brief (issue #108, rule 2) — audit material only, read off
+     * the real Google results page before drafting (rule 3). Never rendered
+     * on the page and never emitted as a meta keywords tag.
+     *
+     * Optional only on a draft. The build guard requires `primaryQuery` and
+     * at least 2 `secondaryQueries` on anything published, same pattern as
+     * `lastVerified`.
+     */
+    /** The primary search query exactly as people type it. */
+    primaryQuery: z.string().optional(),
+    /** 3-8 secondary queries the article should also answer. */
+    secondaryQueries: z.array(z.string()).default([]),
+    /** The verbatim Hebrew questions the article answers (from "אנשים שאלו גם" + autocomplete). */
+    answersQuestions: z.array(z.string()).default([]),
   }),
 });
 
