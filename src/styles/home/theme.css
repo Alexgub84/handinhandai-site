@@ -16,6 +16,10 @@
   --destructive: 355 68% 50%;
   --shadow: 231 30% 25%;
   --shadow-a: 0.22;
+  /* Deep orange disc behind the background-free portrait cutout (hero + About,
+     issue #82). Its own token, never --primary (that stays brand green
+     everywhere else — nav, buttons, badges). Flat fill only, no gradient. */
+  --orb: 24 88% 42%;
 }
 .theme-dark {
   --background: 235 32% 7%;
