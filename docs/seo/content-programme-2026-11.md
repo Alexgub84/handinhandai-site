@@ -47,6 +47,34 @@ console. No article ships with a platform fact a language model supplied. A
 plausible generic summary is worse than no article: it is the one failure mode
 architecture cannot fix.
 
+## Required step before drafting: the keyword brief (issue #108)
+
+No article is drafted from a model's guess about what people search. Before
+drafting, read the brief off the real Google results page yourself, in a browser,
+in Hebrew, and record it:
+
+- The primary query exactly as people type it.
+- 3-8 secondary queries.
+- The questions to answer verbatim in Hebrew, taken from Google's "אנשים שאלו גם"
+  and from autocomplete.
+- The entities the page must name to be credible (console names, form names,
+  guideline numbers, fee names).
+- Who currently ranks, and what would have to be better than what they have.
+- A verdict: OPEN, CONTESTED, or CROWDED.
+
+This has to come from the live page, not from memory and not from a keyword
+tool's guess: autocomplete, People Also Ask, related searches, who actually
+ranks, whether an AI overview appears and whom it cites — all read in the
+browser, in Hebrew. **Record the date it was read.**
+
+Three of these fields are checkable later because they also live in the
+article's own frontmatter — `primaryQuery`, `secondaryQueries` (2+),
+`answersQuestions` — required on any non-draft article and enforced by
+`scripts/check-articles.mjs`. They are audit material only: never rendered on
+the page, never emitted as a meta keywords tag. The rest of the brief (entities,
+competitor read, verdict, the date it was read) is recorded on the article's
+GitHub issue, not in frontmatter.
+
 ## The ten articles
 
 Revised 2026-11-04 after reading 52,400-member Hebrew group "Vibe Coding - Israel"

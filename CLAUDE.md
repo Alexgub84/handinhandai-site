@@ -98,6 +98,32 @@ spec review). Rules:
   them; the anonymous construction app does not, because its name never appears
   here and a failed search reads as a bluff.
 
+## Articles (`/articles`)
+
+Long-form Hebrew guides, collection schema in `src/content.config.ts`, layout in
+`src/layouts/ArticleLayout.astro`, plan and gates in
+`docs/seo/content-programme-2026-11.md`. Three standing rules, enforced by the
+build (issue #108), not just remembered:
+
+- **Hebrew is right-to-left, always.** Every Hebrew page is `lang="he"` and
+  `dir="rtl"` on `<html>`, layout uses logical properties
+  (`margin-inline`/`padding-inline`/`border-inline-start`), and only an isolated
+  Latin run (a term, a code span, a URL) may be `direction: ltr`, with
+  `unicode-bidi: isolate` so it can't flip the sentence around it. `npm run build`
+  checks this against the built HTML under `dist/articles/` (`scripts/check-rtl.mjs`).
+- **Every article carries a keyword brief, written before the article.** No
+  article is drafted from a model's guess about what people search. The brief's
+  `primaryQuery`, `secondaryQueries` (2+) and `answersQuestions` live in the
+  article's frontmatter (`src/content.config.ts`) — required on any non-draft
+  article, enforced by `scripts/check-articles.mjs`, same pattern as
+  `lastVerified`. Audit material only: never rendered on the page, never emitted
+  as a meta keywords tag.
+- **The brief comes from the real Google page.** Read it off Google itself in a
+  browser, in Hebrew — autocomplete, "אנשים שאלו גם", related searches, who
+  actually ranks, whether an AI overview appears and whom it cites — never from
+  memory or a keyword tool's guess, and record the date it was read. See
+  `docs/seo/content-programme-2026-11.md` for the required step.
+
 ## Routes
 
 | Path | File | Notes |
