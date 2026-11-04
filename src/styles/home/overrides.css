@@ -237,6 +237,18 @@
   box-shadow: 0 0 0 4px hsl(var(--background)), 0 0 30px hsl(var(--primary) / 0.7);
 }
 
+/* The two small satellite dots on the rings float at a fixed radius from the
+   same centre as the orb, so the inner ring's dot (primary green, same hue as
+   the now-flat orb) always sits close to the orb's edge, just like the badge.
+   At small sizes the gap between them reads as barely-there since both are
+   the same colour — the outer ring's dot stays untouched because it's the
+   accent colour and already contrasts against the orb. Same flat,
+   background-coloured ring as the badge; the glow after it is the dot's
+   pre-existing, untouched design, restated because box-shadow isn't additive. */
+.ah-ring-1 .ah-sat {
+  box-shadow: 0 0 0 3px hsl(var(--background)), 0 0 16px hsl(var(--primary));
+}
+
 /* The cutout crops much tighter around the head than the old opaque photo did, so the
    portrait box shrinks (100% height -> 80%/2% inset) to keep the head inside the rings
    instead of poking out above them onto the pale page. No mask, no filter. */
