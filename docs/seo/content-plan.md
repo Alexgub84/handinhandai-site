@@ -1,5 +1,7 @@
 # Content plan — making the site findable and quotable
 
+> This document predates `docs/seo/content-programme-2026-11.md`; that file is the plan of record for the ten-article work.
+
 Scope: content strategy only. No code, copy, or data file was changed to produce
 this document. Builds on `.claude/work-orders/seo-audit-repo.md` (technical/markup
 bugs: hreflang, canonical, `/en` duplication, JSON-LD split identity) and
