@@ -308,8 +308,12 @@ body {
    on the page — a 2px inline-start rule (vs. the answer box's 4px),
    muted-foreground (not foreground), slightly smaller size. No italic:
    Heebo has no true italic and a faux-oblique Heebo looks broken, so
-   weight/colour/size carry the distinction instead. Hand-authored as
-   `<aside class="art-aside">` directly in the markdown body. */
+   weight/colour/size carry the distinction instead. Produced at build time
+   from an ordinary Markdown blockquote (`> text`) by the rehype plugin in
+   astro.config.mjs (src/lib/rehype-article-devices.mjs, issue #111); a
+   single inner paragraph is unwrapped so the text sits directly inside the
+   `<aside>`, which is why the rule below targets the element itself and not
+   a child `<p>`. */
 .art-aside {
   margin: 26px 0;
   padding-inline-start: 16px;
@@ -317,6 +321,18 @@ body {
   color: hsl(var(--muted-foreground));
   font-size: 15.5px;
   line-height: 1.7;
+}
+/* A multi-paragraph blockquote isn't unwrapped (only a single inner <p> is)
+   — reset its child <p> margins so a rare multi-line aside still reads as
+   one block instead of inheriting .art-body p's 20px bottom margin. */
+.art-aside p {
+  margin: 0 0 10px;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+.art-aside p:last-child {
+  margin-bottom: 0;
 }
 
 /* Inline Latin-term treatment. Background/border opacity (.035 / .14) and
@@ -327,9 +343,11 @@ body {
    sentence can pick up the paragraph's base direction and reorder with its
    neighbours. white-space: nowrap is required, not optional: a two-word
    term otherwise line-wraps inside its own chip and the browser draws a
-   separate border fragment per line. Hand-authored as
-   `<span class="art-term">` directly in the markdown body, at the point
-   the term is written. */
+   separate border fragment per line. Produced at build time from ordinary
+   Markdown inline code (single backticks) by the rehype plugin in
+   astro.config.mjs (src/lib/rehype-article-devices.mjs, issue #111) — an
+   author writes `` `Play Console` `` at the point the term appears in the
+   Hebrew sentence, nothing more. */
 .art-term {
   font-family: "JetBrains Mono", monospace;
   font-size: 0.86em;
@@ -347,11 +365,14 @@ body {
    .ap-price-card* verbatim (both app-publishing.css, issue #82 — see
    dependency note at the top of this file), same 767/768px breakpoint the
    real pricing table already uses to solve the exact "cramped at 390px"
-   problem for a different table. Hand-authored as a literal
-   `<div class="art-table-scroll">…</div><div class="art-cards">…</div>`
-   pair directly in the markdown body — a markdown table alone cannot
-   produce the phone-card fallback, so both forms are written once by the
-   author and toggled by CSS, exactly like the real pricing table. */
+   problem for a different table. Both the `.art-table-scroll`/`.art-table`
+   wrapper AND the `.art-cards` fallback are generated at build time from a
+   single ordinary Markdown table by the rehype plugin in astro.config.mjs
+   (src/lib/rehype-article-devices.mjs, issue #111): the table's first
+   column is read as the row label (promoted to `<th scope="row">`), every
+   other header becomes one card, and each body row becomes one `dt`/`dd`
+   pair inside every card. An author writes one plain Markdown table and
+   nothing else — no HTML, no second hand-authored card markup. */
 .art-table-scroll {
   overflow-x: auto;
   border-radius: 18px;
