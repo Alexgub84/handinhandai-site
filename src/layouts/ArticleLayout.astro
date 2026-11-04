@@ -1,7 +1,35 @@
 ---
-import Layout from '@layouts/Layout.astro';
+/* Article reading page document. Spec: docs/specs/article-page-design.md
+   (issue #107). Standalone `<html>` document in the homepage design system
+   — same pattern as HomeDocument.astro — instead of the generic
+   Layout.astro + Tailwind `global.css` the page used before: that's what
+   let the page carry the site's own Heebo/JetBrains Mono brand chrome
+   (theme.css tokens, app.css primitives) instead of generic grey Tailwind
+   defaults.
+
+   Dependency note: the spec assumes `/app-publishing`'s HomeDocumentShell.astro
+   and PageHeader.astro (issue #82) already exist on `main`. They don't yet —
+   that work is still an open, unmerged PR, so this document's `<head>` and
+   the `.pg-header` block below are a faithful duplicate of what those
+   components render (see src/styles/home/article.css's own file-header
+   note), not an import of them. Once #82 merges, a follow-up should swap
+   this duplicate for the real shared components. */
+import SEOHead from '@components/SEOHead.astro';
+import Analytics from '@components/Analytics.astro';
+import Footer from '@components/Footer.astro';
+import WhatsAppIcon from '@components/home/WhatsAppIcon.astro';
+import LucideIcon from '@components/home/LucideIcon.astro';
+import AiAnswersNote from '@components/home/AiAnswersNote.astro';
 import { defaultLang } from '@i18n/ui';
+import { waLink } from '@/data/site-contact';
 import { buildArticleSchema } from '@/data/article-schema';
+import { getCollection } from 'astro:content';
+
+import '@styles/global.css';
+import '@styles/home/theme.css';
+import '@styles/home/app.css';
+import '@styles/home/overrides.css';
+import '@styles/home/article.css';
 
 interface ArticleData {
   title: string;
@@ -9,8 +37,14 @@ interface ArticleData {
   slug: string;
   publishedAt: Date;
   lastVerified?: Date;
+  /** Internal URL of the service page this article points up to. Not used
+   * as the closing CTA's destination (that CTA is WhatsApp, per spec
+   * section 8) — kept on the type because content.config.ts still requires
+   * it in frontmatter. */
   pillar: string;
+  cluster: string;
   relatedArticles: string[];
+  draft: boolean;
 }
 
 interface Props {
@@ -39,99 +73,143 @@ const dateFormatter = new Intl.DateTimeFormat('he-IL', {
 });
 const publishedDisplay = dateFormatter.format(article.publishedAt);
 const verifiedDisplay = article.lastVerified ? dateFormatter.format(article.lastVerified) : null;
+
+// Sibling cards need a real title + description to render the two-line card
+// the spec asks for. `relatedArticles` deliberately stores plain slugs, not
+// `reference()` (content.config.ts) — most sibling slugs don't exist as
+// collection entries yet. Resolve what we can; skip what we can't, rather
+// than inventing card copy for an article that isn't written.
+const allArticles = await getCollection('articles');
+const siblingCards = article.relatedArticles
+  .map((slug) => allArticles.find((entry) => entry.data.slug === slug))
+  .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
+
+const waHeaderMessage = `היי אלכס, קראתי את "${article.title}" ואשמח לעוד פרטים`;
 ---
 
-<Layout lang={defaultLang} title={article.title} description={article.description} noindex={noindex}>
-  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
-  <article dir="rtl" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 article">
-    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">{article.title}</h1>
+<!doctype html>
+<html lang={defaultLang} dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="facebook-domain-verification" content="xbzm8v23p977iuikrwz7x2k6ciiewu" />
+    <meta name="theme-color" content="#faf8f3" />
 
-    <p class="answer-box">{article.description}</p>
+    <SEOHead lang={defaultLang} title={article.title} description={article.description} noindex={noindex} />
+    <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 
-    <div class="byline">
-      <a href="/about">מאת אלכס גוברמן</a>
-      <span>פורסם: {publishedDisplay}</span>
-      {verifiedDisplay && <span>נבדק לאחרונה: {verifiedDisplay}</span>}
-    </div>
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
-    <div class="article-body">
-      <slot />
-    </div>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap"
+    />
+    <Analytics />
+  </head>
+  <body>
+    <header class="pg-header" dir="rtl">
+      <div class="pg-header-inner">
+        <a href="/" dir="ltr" class="pg-logo" aria-label="HandInHandAI — לדף הבית">
+          <span class="ah-logo-mark"><span>🤝</span></span>
+          <span>Hand<b>In</b>Hand<i>AI</i></span>
+        </a>
+        <a
+          href={waLink(waHeaderMessage)}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="ah-btn ah-btn-primary"
+          data-track="article-header-whatsapp"
+        >
+          <WhatsAppIcon />
+          <span>בואו נדבר</span>
+        </a>
+      </div>
+    </header>
 
-    <div class="article-table-slot">
-      <slot name="table" />
-    </div>
+    <main class="art-page" dir="rtl">
+      <div class="art-wrap">
+        <article>
+          <div class="art-head">
+            <h1 class="art-h1">{article.title}</h1>
 
-    <div class="first-hand-note-slot">
-      <slot name="first-hand-note" />
-    </div>
+            <div class="art-byline">
+              <a href="/about" class="art-author">מאת אלכס גוברמן</a>
+              {article.draft ? (
+                <span class="art-draft-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" stroke-dasharray="3 3"></circle>
+                  </svg>
+                  טיוטה — טרם פורסם
+                </span>
+              ) : (
+                <>
+                  <span class="art-dot"></span>
+                  <span>פורסם {publishedDisplay}</span>
+                  {verifiedDisplay && (
+                    <>
+                      <span class="art-dot"></span>
+                      <span class="art-verified">
+                        <LucideIcon name="circle-check-big" strokeWidth={2.5} />
+                        נבדק לאחרונה {verifiedDisplay}
+                      </span>
+                    </>
+                  )}
+                </>
+              )}
+            </div>
 
-    <p class="pillar-cta">
-      <a href={article.pillar}>למידע נוסף על השירות</a>
-    </p>
+            <span class="art-answer-eyebrow">בקצרה</span>
+            <div class="art-answer">
+              <p>{article.description}</p>
+            </div>
+          </div>
 
-    {article.relatedArticles.length > 0 && (
-      <nav class="sibling-links" aria-label="מדריכים קשורים">
-        <h2>מדריכים נוספים</h2>
-        <ul>
-          {article.relatedArticles.map((slug) => (
-            <li>{slug}</li>
-          ))}
-        </ul>
-      </nav>
-    )}
-  </article>
-</Layout>
+          <div class="art-body">
+            <slot />
+          </div>
 
-<style>
-  .article {
-    color: #1f2937;
-    line-height: 1.75;
-  }
-  .answer-box {
-    background: #f3f4f6;
-    border-radius: 0.5rem;
-    padding: 1rem 1.25rem;
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-  }
-  .byline {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1rem;
-    font-size: 0.875rem;
-    color: #6b7280;
-    margin-bottom: 2rem;
-  }
-  .byline a {
-    color: #2563eb;
-    text-decoration: underline;
-  }
-  .article-table-slot:empty,
-  .first-hand-note-slot:empty {
-    display: none;
-  }
-  .pillar-cta {
-    margin: 2rem 0;
-  }
-  .pillar-cta a {
-    display: inline-block;
-    background: #2563eb;
-    color: #fff;
-    padding: 0.625rem 1.25rem;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .sibling-links h2 {
-    font-size: 1.125rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-  .sibling-links ul {
-    padding-inline-start: 1.5rem;
-  }
-  .sibling-links li {
-    list-style: disc;
-  }
-</style>
+          <div class="art-table-slot">
+            <slot name="table" />
+          </div>
+
+          <div class="first-hand-note-slot">
+            <slot name="first-hand-note" />
+          </div>
+
+          <div class="art-cta">
+            <a href={waLink()} target="_blank" rel="noopener noreferrer" class="ah-btn ah-btn-primary" data-track="article-closing-whatsapp">
+              <WhatsAppIcon />
+              <span>בואו נדבר על זה</span>
+            </a>
+            <AiAnswersNote />
+          </div>
+
+          {siblingCards.length > 0 && (
+            <nav aria-label="מדריכים קשורים">
+              <p class="art-siblings-label">מדריכים נוספים</p>
+              <div class="art-sibling-grid">
+                {siblingCards.map((entry) => (
+                  <a href={`/articles/${entry.data.slug}/`} class="art-sibling-card">
+                    <span class="art-sibling-kicker">למידה</span>
+                    <span class="art-sibling-title">
+                      <LucideIcon name="arrow-left" strokeWidth={2} />
+                      {entry.data.title}
+                    </span>
+                    <p class="art-sibling-desc">{entry.data.description}</p>
+                  </a>
+                ))}
+              </div>
+            </nav>
+          )}
+        </article>
+      </div>
+    </main>
+
+    <Footer lang={defaultLang} />
+  </body>
+</html>
