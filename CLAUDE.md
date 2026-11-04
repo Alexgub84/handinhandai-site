@@ -166,9 +166,10 @@ brand master, deliberately outside `public/` so it is never shipped) by
 | `icon-192.png` | 192 | manifest, `Header.astro` logo |
 | `icon-512.png` | 512 | manifest, JSON-LD `logo` |
 
-Both document heads (`src/layouts/Layout.astro` and
-`src/components/home/HomeDocument.astro`) must link the same four files plus
-`/site.webmanifest`. Keep them in sync — they are separate documents.
+All three document heads (`src/layouts/Layout.astro`,
+`src/components/home/HomeDocument.astro`, and `src/layouts/ArticleLayout.astro`)
+must link the same four files plus `/site.webmanifest`. Keep them in sync —
+they are separate documents.
 ## Visitor analytics (first party, no third-party script)
 
 Nothing on the page talks to anyone but this domain. The chain is
