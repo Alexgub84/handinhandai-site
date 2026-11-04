@@ -5,13 +5,14 @@ This directory contains OG images for social media previews (WhatsApp, Facebook,
 ## Generated Images
 
 ### 1. Homepage (`home/og.jpg`)
-- **Size**: 1200 × 630 px (57KB)
-- **Content**: 
-  - Title: "Hand in Hand AI"
-  - Hebrew tagline: "תפסיקו לרוץ אחרי המערכות, תתחילו לנהל עסק"
-  - Hebrew subtitle: "צוות AI מותאם אישית שעובד מסביב לשעון"
-  - Colors: Blue (#2563EB), Purple (#7C3AED), Green (#10B981)
+- **Size**: 1200 × 630 px (~33KB)
+- **Content** (matches the homepage hero look, issue #82):
+  - Off-white ground (the site's own background, not white)
+  - Flat deep-orange circle with the cut-out portrait (`public/home/alex-cutout.webp`) standing in it, bottom-anchored
+  - Hebrew headline: "אני אלכס," (name) + "אני כאן כדי להפוך רעיון למציאות" (the homepage's own leading line)
+  - The `HandInHandAI` wordmark, top right
 - **Use**: Main homepage and general marketing
+- **Byte-identical to `default.jpg`** — same generator run writes both paths.
 
 ### 2. Privacy Page (`privacy/og.jpg`)
 - **Size**: 1200 × 630 px (32KB)
@@ -22,12 +23,12 @@ This directory contains OG images for social media previews (WhatsApp, Facebook,
 - **Use**: Privacy policy page
 
 ### 3. Default Fallback (`default.jpg`)
-- **Size**: 1200 × 630 px (40KB)
-- **Content**:
-  - Title: "Hand in Hand AI"
-  - Hebrew tagline: "בווטסאפ לסטודיו בוטיק AI עוזר"
-  - Green AI badge icon
-- **Use**: Generic fallback for pages without specific OG images
+- **Size**: 1200 × 630 px (~33KB)
+- **Content**: same image as `home/og.jpg` above (homepage hero look: off-white
+  ground, deep-orange circle, cut-out portrait, name + leading line, wordmark).
+- **Use**: Fallback for pages that pass no `ogImage` of their own (legal pages
+  via `Layout.astro`/`SEOHead.astro`), and the image `/app-publishing`
+  explicitly points at.
 
 ## Technical Specifications
 
@@ -40,13 +41,23 @@ This directory contains OG images for social media previews (WhatsApp, Facebook,
 
 ## Regenerating Images
 
-To regenerate all OG images:
+`home/og.jpg` and `default.jpg` (the homepage hero look, issue #82) are built
+from an HTML/CSS card screenshotted with headless Chromium, not drawn by hand
+or by Canvas:
 
 ```bash
-npm run generate:og
+node local/og-generator/generate.mjs
 ```
 
-This runs the `scripts/generate-og-images.js` script which uses Node.js Canvas to programmatically generate the images.
+The script lives under `local/` (never committed into `src/`) and writes both
+paths in one run. It screenshots `local/og-generator/og-card.html` at exactly
+1200×630, converts to JPEG, and keeps lowering quality until the file is
+under 300KB. Edit the HTML/CSS template inside the script to change the
+image, then re-run it — never hand-edit the JPEGs.
+
+`privacy/og.jpg` is unrelated and still comes from
+`scripts/generate-og-images.js` (`npm run generate:og`), which uses Node.js
+Canvas.
 
 ## Image Usage in Astro
 

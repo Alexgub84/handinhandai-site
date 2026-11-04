@@ -160,6 +160,26 @@ test.describe("homepage v3 (/)", () => {
     expect(bodyText).toContain("עשר שנים");
     expect(bodyText).not.toContain("חמש שנים");
   });
+
+  test("no horizontal overflow at 390px", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+
+    const hscroll = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth
+    );
+    expect(hscroll).toBe(false);
+  });
+
+  test("hero image is the background-free cutout with non-empty alt text", async ({ page }) => {
+    const img = page.locator("#top .ah-portrait img");
+    await expect(img).toHaveAttribute("src", "/home/alex-cutout.webp");
+    const alt = await img.getAttribute("alt");
+    expect(alt).toBeTruthy();
+    expect(alt).not.toBe("");
+    expect(alt).toContain("אלכס");
+  });
 });
 
 test.describe("case studies on the homepage", () => {
