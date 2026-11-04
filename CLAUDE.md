@@ -190,7 +190,8 @@ All Open Graph images (WhatsApp previews, Facebook, Twitter/X, LinkedIn) live in
 
 | Route | Image | Notes |
 |---|---|---|
-| Site default | `public/og/default.png` | Used by `Layout.astro` when no `ogImage` is passed |
+| Site default | `public/og/default.jpg` | Used by `Layout.astro`/`SEOHead.astro` when no `ogImage` is passed (legal pages), and explicitly by `/app-publishing`. Built from the homepage hero look (off-white ground, the deep-orange circle, the cut-out portrait) by `local/og-generator/generate.mjs` — regenerate with that script, never hand-edit the JPEG. |
+| Homepage (`/`) | `public/og/home/og.jpg` | Same image/bytes as the site default, kept at its own path since `index.astro` passes its own `ogImagePath`. The generator writes both paths in one run. |
 
 ### Image requirements
 
