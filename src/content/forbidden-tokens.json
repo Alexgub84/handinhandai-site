@@ -1,0 +1,5 @@
+{
+  "note": "No readable name lives here, ever. Each token is the first 5 hex characters of sha256(word.toLowerCase()) for one string that must never appear in a published article's title, description or body. 5 hex characters is 20 bits, so a wordlist attack returns many candidate words and identifies nothing — see scripts/check-articles.mjs and the issue #95 work order for the full reasoning. The real plaintext list for the anonymous construction client lives in the vault, not in this repository, and is populated by a later issue, not by this file's creation. Ship this file with ONLY 5-hex prefixes, never a full digest and never a plaintext word.",
+  "algorithm": "sha256-lowercase-first-5-hex",
+  "tokens": ["b92bf"]
+}

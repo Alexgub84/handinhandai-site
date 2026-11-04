@@ -1,0 +1,135 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { defaultLang } from '@i18n/ui';
+import { buildArticleSchema } from '@/data/article-schema';
+
+interface ArticleData {
+  title: string;
+  description: string;
+  slug: string;
+  publishedAt: Date;
+  lastVerified?: Date;
+  pillar: string;
+  relatedArticles: string[];
+}
+
+interface Props {
+  article: ArticleData;
+}
+
+const { article } = Astro.props;
+
+const SITE_FALLBACK = 'https://handinhandai.com';
+const siteOrigin = Astro.site?.toString().replace(/\/$/, '') || SITE_FALLBACK;
+
+const articleSchema = buildArticleSchema(siteOrigin, {
+  title: article.title,
+  description: article.description,
+  slug: article.slug,
+  publishedAt: article.publishedAt,
+  lastVerified: article.lastVerified,
+});
+
+const dateFormatter = new Intl.DateTimeFormat('he-IL', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+const publishedDisplay = dateFormatter.format(article.publishedAt);
+const verifiedDisplay = article.lastVerified ? dateFormatter.format(article.lastVerified) : null;
+---
+
+<Layout lang={defaultLang} title={article.title} description={article.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  <article dir="rtl" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 article">
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">{article.title}</h1>
+
+    <p class="answer-box">{article.description}</p>
+
+    <div class="byline">
+      <a href="/about">מאת אלכס גוברמן</a>
+      <span>פורסם: {publishedDisplay}</span>
+      {verifiedDisplay && <span>נבדק לאחרונה: {verifiedDisplay}</span>}
+    </div>
+
+    <div class="article-body">
+      <slot />
+    </div>
+
+    <div class="article-table-slot">
+      <slot name="table" />
+    </div>
+
+    <div class="first-hand-note-slot">
+      <slot name="first-hand-note" />
+    </div>
+
+    <p class="pillar-cta">
+      <a href={article.pillar}>למידע נוסף על השירות</a>
+    </p>
+
+    {article.relatedArticles.length > 0 && (
+      <nav class="sibling-links" aria-label="מדריכים קשורים">
+        <h2>מדריכים נוספים</h2>
+        <ul>
+          {article.relatedArticles.map((slug) => (
+            <li>{slug}</li>
+          ))}
+        </ul>
+      </nav>
+    )}
+  </article>
+</Layout>
+
+<style>
+  .article {
+    color: #1f2937;
+    line-height: 1.75;
+  }
+  .answer-box {
+    background: #f3f4f6;
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+  .byline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
+  }
+  .byline a {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+  .article-table-slot:empty,
+  .first-hand-note-slot:empty {
+    display: none;
+  }
+  .pillar-cta {
+    margin: 2rem 0;
+  }
+  .pillar-cta a {
+    display: inline-block;
+    background: #2563eb;
+    color: #fff;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .sibling-links h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .sibling-links ul {
+    padding-inline-start: 1.5rem;
+  }
+  .sibling-links li {
+    list-style: disc;
+  }
+</style>

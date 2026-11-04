@@ -1,0 +1,58 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { defaultLang } from '@i18n/ui';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+type Cluster = CollectionEntry<'articles'>['data']['cluster'];
+
+// Static service headings per the settled content architecture
+// (docs/seo/content-programme-2026-11.md) — one per article cluster.
+const CLUSTER_ORDER: Cluster[] = ['decision', 'publishing', 'whatsapp', 'construction'];
+const CLUSTER_HEADINGS: Record<Cluster, string> = {
+  decision: 'החלטות לפני שמתחילים',
+  publishing: 'פרסום אפליקציות',
+  whatsapp: 'עוזרי AI בוואטסאפ',
+  construction: 'פיקוח ובקרת איכות בבנייה',
+};
+
+const articles = await getCollection('articles', ({ data }) => !data.draft);
+
+const groups = CLUSTER_ORDER.map((cluster) => ({
+  cluster,
+  heading: CLUSTER_HEADINGS[cluster],
+  entries: articles.filter((a) => a.data.cluster === cluster),
+})).filter((group) => group.entries.length > 0);
+---
+
+<Layout
+  lang={defaultLang}
+  title="מדריכים | handinhand"
+  description="מדריכים מעשיים על בחירת טכנולוגיה, פרסום אפליקציות וסוכני AI בוואטסאפ לעסקים קטנים ובינוניים."
+>
+  <section dir="rtl" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">מדריכים</h1>
+    <p class="text-gray-600 mb-10">מדריכים מעשיים, מבוססי ניסיון תפעולי בפועל.</p>
+
+    {groups.length === 0 && (
+      <p class="text-gray-500">בקרוב — המדריכים הראשונים בדרך.</p>
+    )}
+
+    {groups.map((group) => (
+      <div class="mb-10">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">{group.heading}</h2>
+        <ul class="space-y-2">
+          {group.entries.map((entry) => (
+            <li>
+              <a
+                href={`/articles/${entry.data.slug}/`}
+                class="text-blue-600 hover:text-blue-800 underline"
+              >
+                {entry.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+</Layout>

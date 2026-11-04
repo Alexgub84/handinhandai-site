@@ -4,7 +4,7 @@
   "version": "0.0.9",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro check && node scripts/check-articles.mjs && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro",
@@ -38,6 +38,7 @@
     "@playwright/test": "1.58.1",
     "@types/node": "25.2.0",
     "canvas": "^3.2.3",
+    "gray-matter": "4.0.3",
     "typescript": "5.9.3"
   }
 }
