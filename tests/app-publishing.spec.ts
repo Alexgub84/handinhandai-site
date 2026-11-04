@@ -182,8 +182,19 @@ test.describe("/app-publishing landing page", () => {
     expect(bodyText).not.toContain("טופס");
   });
 
-  test("footer links back to this page", async ({ page }) => {
-    await expect(page.locator('footer a[href="/app-publishing"]')).toBeAttached();
+  // Changed from "footer links back to this page" — the page is on hold
+  // (.claude/work-orders/82-hold-page.md): not approved for public
+  // discovery, so the footer link was removed site-wide. This asserts the
+  // removal instead of the old link.
+  test("the footer does not link to this page (it's on hold, not approved for public discovery)", async ({ page }) => {
+    await expect(page.locator('footer a[href="/app-publishing"]')).toHaveCount(0);
+  });
+
+  // New per .claude/work-orders/82-hold-page.md: the page stays reachable by
+  // its exact URL but must tell crawlers not to index it or follow its
+  // links, until the rewrite in .claude/work-orders/82-article.md ships.
+  test("is not indexable (on hold, not approved for public discovery)", async ({ page }) => {
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
   });
 
   test("the hero byline avatar and the about portrait both have real, non-empty alt text", async ({ page }) => {

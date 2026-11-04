@@ -36,9 +36,22 @@ interface Props {
   ogImagePath: string;
   ogDescription?: string;
   jsonLd: Record<string, unknown> | Record<string, unknown>[];
+  /** Render `<meta name="robots" content="noindex, nofollow">` instead of the
+   * default index/follow tag (default false). Same noindex idea as
+   * `SEOHead.astro`'s `noindex` prop (used by `Layout.astro` pages), applied
+   * here because this is the chrome this design system's pages actually use. */
+  noindex?: boolean;
 }
 
-const { title, description, canonicalPath, ogImagePath, ogDescription = description, jsonLd } = Astro.props;
+const {
+  title,
+  description,
+  canonicalPath,
+  ogImagePath,
+  ogDescription = description,
+  jsonLd,
+  noindex = false,
+} = Astro.props;
 const site = resolveSite(Astro.site);
 const canonical = new URL(canonicalPath, site).href;
 const ogImage = new URL(ogImagePath, site).href;
@@ -54,7 +67,7 @@ const jsonLdEntries = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
     <meta name="theme-color" content="#faf8f3" />
     <meta
       name="robots"
-      content="index, follow, max-image-preview:large"
+      content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"}
     />
 
     <title>{title}</title>

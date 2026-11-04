@@ -18,6 +18,12 @@ export default defineConfig({
 
   integrations: [
     react(),
-    sitemap(),
+    // /app-publishing is excluded: unapproved for public discovery (old,
+    // unconfirmed prices; rejected framing). Temporary — see
+    // .claude/work-orders/82-hold-page.md; lifted by
+    // .claude/work-orders/82-article.md.
+    sitemap({
+      filter: (page) => !page.includes('/app-publishing'),
+    }),
   ],
 });

@@ -92,12 +92,19 @@ const articleLd = {
 const jsonLd = [articleLd, serviceLd, faqLd];
 ---
 
+{/* TEMPORARY — page not approved for public discovery: old unconfirmed
+    prices, framing the owner rejected (see .claude/work-orders/82-hold-page.md).
+    `noindex` below (plus the sitemap exclusion in astro.config.mjs and the
+    removed footer link) keeps it reachable only by direct URL until the
+    rewrite in .claude/work-orders/82-article.md ships and this is
+    deliberately lifted. */}
 <HomeDocumentShell
   title={title}
   description={description}
   canonicalPath={canonicalPath}
   ogImagePath={ogImagePath}
   jsonLd={jsonLd}
+  noindex
 >
   <PageHeader waMessage={waMessage} />
   {sections.map((s) => {
