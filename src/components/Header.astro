@@ -32,6 +32,12 @@ const t = useTranslations(lang);
           {t('nav.about')}
         </a>
         <a
+          href={getLocalizedPath('/articles', lang)}
+          class="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+        >
+          {t('nav.articles')}
+        </a>
+        <a
           href={getLocalizedPath('/privacy-sasha', lang)}
           class="text-gray-600 hover:text-gray-900 font-medium transition-colors"
         >
@@ -80,6 +86,12 @@ const t = useTranslations(lang);
         class="block px-4 py-3 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
       >
         {t('nav.about')}
+      </a>
+      <a
+        href={getLocalizedPath('/articles', lang)}
+        class="block px-4 py-3 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+      >
+        {t('nav.articles')}
       </a>
       <a
         href={getLocalizedPath('/privacy-sasha', lang)}

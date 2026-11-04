@@ -2,6 +2,11 @@
 import Layout from '@layouts/Layout.astro';
 import { defaultLang } from '@i18n/ui';
 import { legal, siteContact } from '@/data/site-contact';
+import { buildPersonSchema } from '@/data/person-schema';
+
+const SITE_FALLBACK = 'https://handinhandai.com';
+const siteOrigin = Astro.site?.toString().replace(/\/$/, '') || SITE_FALLBACK;
+const personSchema = buildPersonSchema(siteOrigin);
 ---
 
 <Layout
@@ -9,6 +14,7 @@ import { legal, siteContact } from '@/data/site-contact';
   title="אודות handinhand"
   description="אודות handinhand — מערכות AI מותאמות לעסקים קטנים ובינוניים, ופרטי ההתקשרות הרשמיים של העסק."
 >
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
     <section dir="rtl" class="policy">
       <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">אודות handinhand</h1>
