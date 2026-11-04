@@ -15,9 +15,11 @@ interface ArticleData {
 
 interface Props {
   article: ArticleData;
+  /** Render `<meta name="robots" content="noindex">` (default false). Set for a draft article on a build that includes drafts (#101). */
+  noindex?: boolean;
 }
 
-const { article } = Astro.props;
+const { article, noindex = false } = Astro.props;
 
 const SITE_FALLBACK = 'https://handinhandai.com';
 const siteOrigin = Astro.site?.toString().replace(/\/$/, '') || SITE_FALLBACK;
@@ -39,7 +41,7 @@ const publishedDisplay = dateFormatter.format(article.publishedAt);
 const verifiedDisplay = article.lastVerified ? dateFormatter.format(article.lastVerified) : null;
 ---
 
-<Layout lang={defaultLang} title={article.title} description={article.description}>
+<Layout lang={defaultLang} title={article.title} description={article.description} noindex={noindex}>
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
   <article dir="rtl" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 article">
     <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">{article.title}</h1>
