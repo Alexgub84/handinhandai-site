@@ -1,0 +1,58 @@
+---
+/* "שואלים אותי. עניתי בכתב." — the homepage guides band, between CaseStudies
+   and the contact block (#124). Mirrors CaseStudies.astro's own precedent:
+   heading, a subtitle that switches wording on the entry count, a link to
+   /articles beside the heading, at most 3 cards. Content comes from the
+   `articles` collection (src/content/articles/) via getHomepageGuides(),
+   same draft/fixture gate as the מדריכים nav link — see src/data/articles.ts.
+
+   Markup and the new .gd-* CSS (src/styles/home/overrides.css) are a
+   verbatim port of the approved Claude Design specimen
+   ("Hand in Hand AI Site" project, patterns/guides-band.html). */
+import LucideIcon from "./LucideIcon.astro";
+import { getHomepageGuides } from "@/data/articles";
+
+const guides = await getHomepageGuides();
+
+/* One guide reads as a single lead article, several as a collection —
+   same reasoning CaseStudies applies to caseStudies.length. */
+const subtitle =
+  guides.length === 1
+    ? "המדריך הראשון באוויר — תשובה ארוכה בעברית להחלטה שחוזרת כמעט בכל פרויקט."
+    : "מדריכים ארוכים בעברית על ההחלטות שחוזרות כמעט בכל פרויקט — מה שואלים אותי, ומה התשובה המלאה.";
+const readLabel = guides.length === 1 ? "לקרוא את המדריך" : "לקרוא";
+---
+
+{guides.length > 0 && (
+  <section class="gd" id="guides" aria-labelledby="gd-title" dir="rtl">
+    <div class="gd-bg" aria-hidden="true"></div>
+    <div class="cs-wrap">
+      <header class="cs-head">
+        <div>
+          <h2 class="cs-title" id="gd-title">שואלים אותי. <em>עניתי בכתב.</em></h2>
+          <p class="cs-sub">{subtitle}</p>
+        </div>
+        <a class="cs-link" href="/articles">
+          כל המדריכים
+          <LucideIcon name="arrow-left" class="cs-i" />
+        </a>
+      </header>
+
+      <ul class="gd-grid" data-count={String(guides.length)}>
+        {guides.map((g, i) => (
+          <li>
+            <a class="gd-card" href={`/articles/${g.slug}/`}>
+              <span class="cs-no" dir="ltr" style="unicode-bidi:isolate">{String(i + 1).padStart(2, "0")}</span>
+              <h3 class="gd-q">{g.title}</h3>
+              <p class="gd-a">{g.answer}</p>
+              <span class="cs-link">
+                {readLabel}
+                <LucideIcon name="arrow-left" class="cs-i" />
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}

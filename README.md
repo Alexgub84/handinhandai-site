@@ -92,7 +92,7 @@ Each page's sections in render order. Update this table whenever a page is creat
 
 || Page | File | Sections (in order) |
 |------|------|---------------------|
-| `/` | `src/pages/index.astro` → `src/components/home/HomeDocumentShell.astro` | Hero (top nav + rotating headline + portrait + benefit chips) · Services (two tracks) · WhyAlex (value cards) · About (photo + story + years counter) · CaseStudies (sticky stack of client cards) · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
+| `/` | `src/pages/index.astro` → `src/components/home/HomeDocumentShell.astro` | Hero (top nav + rotating headline + portrait + benefit chips) · Services (two tracks) · WhyAlex (value cards) · About (photo + story + years counter) · CaseStudies (sticky stack of client cards) · Guides (up to 3 guide cards, gated on a published or, off `main`, draft article existing — #124) · WhyToggle (dark "היום / אפשרי" switch) · Contact (methods + WhatsApp/mail form) · Footer · FloatingWhatsApp. Hebrew-only, RTL, spec in `docs/specs/homepage-v3/`. |
 | `/about` | `src/pages/about.astro` | Legal-identity page (brand → legal entity + full contact block incl. address) · Hebrew section · English section |
 | `/terms` | `src/pages/terms.astro` | Terms of use (identity · service description · WhatsApp terms · acceptable use · IP · liability · governing law · changes) · Hebrew section · English section |
 | `/privacy-sasha` | `src/pages/privacy-sasha.astro` | General privacy policy (website + Sasha assistant + client WhatsApp lines) · Hebrew section · English section |
