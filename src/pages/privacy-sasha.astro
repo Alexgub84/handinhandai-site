@@ -4,8 +4,8 @@ import { defaultLang } from '@i18n/ui';
 import { legal, siteContact } from '@/data/site-contact';
 
 const lang = defaultLang;
-const lastUpdated = '02.07.2026';
-const lastUpdatedEn = '2026-07-02';
+const lastUpdated = '04.11.2026';
+const lastUpdatedEn = '2026-11-04';
 ---
 
 <Layout
@@ -61,14 +61,13 @@ const lastUpdatedEn = '2026-07-02';
       <h2>6. שרשרת העיבוד הטכנית</h2>
       <p>לצורך שקיפות, אלה הגורמים שדרכם המידע עובר:</p>
       <ol>
-        <li><strong>Meta / WhatsApp</strong> — הפלטפורמה שבה השיחה מתבצעת</li>
-        <li><strong>Green API</strong> — שירות צד שלישי המחבר את חשבון הוואטסאפ למערכת שלי</li>
+        <li><strong>Meta / WhatsApp</strong> — הפלטפורמה שבה השיחה מתבצעת, דרך WhatsApp Business Platform (Cloud API), הממשק הרשמי של Meta שמחבר את חשבון הוואטסאפ העסקי למערכת שלי</li>
         <li><strong>השרת שלי</strong> — מערכת Node.js המתארחת ב-Railway, המעבדת ושומרת את היסטוריית השיחות בבסיס נתונים מוצפן</li>
         <li><strong>ספק עיבוד AI</strong> — תוכן ההודעות שלך נשלח לעיבוד אצל <strong>Anthropic (Claude)</strong> או <strong>OpenAI (GPT)</strong>, בהתאם לנתב הפנימי של המערכת. שני הספקים מתחייבים שלא לאמן את המודלים שלהם על תוכן השיחות שלך.</li>
       </ol>
 
       <h2>7. העברת מידע לחו"ל</h2>
-      <p>חלק מהספקים המפורטים לעיל (Anthropic, OpenAI, Railway, Green API) ממוקמים מחוץ לישראל, בעיקר בארצות הברית ובאיחוד האירופי. המשמעות היא שהמידע שלך עובר עיבוד גם בחו"ל. הספקים הללו פועלים תחת תקני אבטחת מידע מקובלים בתעשייה (לרבות SOC 2 או מקבילים).</p>
+      <p>חלק מהספקים המפורטים לעיל (Meta, Anthropic, OpenAI, Railway) ממוקמים מחוץ לישראל, בעיקר בארצות הברית ובאיחוד האירופי. המשמעות היא שהמידע שלך עובר עיבוד גם בחו"ל. הספקים הללו פועלים תחת תקני אבטחת מידע מקובלים בתעשייה (לרבות SOC 2 או מקבילים).</p>
 
       <h2>8. אמצעי אבטחה</h2>
       <p>המידע מוגן באמצעים הבאים:</p>
@@ -82,7 +81,7 @@ const lastUpdatedEn = '2026-07-02';
 
       <h2>9. משך שמירת המידע</h2>
       <p>היסטוריית השיחה נשמרת בבסיס הנתונים שלי <strong>למשך עד 6 חודשים מההודעה האחרונה שהוחלפה איתך</strong>. לאחר תקופה זו, השיחה נמחקת באופן אוטומטי. אם תפנה שוב במהלך התקופה, השעון מתאפס.</p>
-      <p>המידע השמור אצל ספקי צד שלישי (Meta, Green API, Anthropic, OpenAI) כפוף למדיניות השמירה שלהם.</p>
+      <p>המידע השמור אצל ספקי צד שלישי (Meta, Anthropic, OpenAI) כפוף למדיניות השמירה שלהם.</p>
 
       <h2>10. קטינים</h2>
       <p>השירות מיועד לבעלי עסקים ואנשי מקצוע בגירים בלבד, ואינו מיועד למשתמשים מתחת לגיל 18. אני לא אוסף ביודעין מידע מקטינים. אם נודע לך שקטין פנה לסשה, אנא צור איתי קשר ואני אמחק את המידע באופן מיידי.</p>
@@ -166,14 +165,13 @@ const lastUpdatedEn = '2026-07-02';
       <h2>6. Technical Processing Chain</h2>
       <p>For transparency, these are the parties through which your data passes:</p>
       <ol>
-        <li><strong>Meta / WhatsApp</strong> — the platform where the conversation takes place</li>
-        <li><strong>Green API</strong> — a third-party service connecting the WhatsApp account to my system</li>
+        <li><strong>Meta / WhatsApp</strong> — the platform where the conversation takes place, through the WhatsApp Business Platform (Cloud API), Meta’s official interface connecting the WhatsApp Business account to my system</li>
         <li><strong>My server</strong> — a Node.js system hosted on Railway, which processes and stores conversation history in an encrypted database</li>
         <li><strong>AI processing provider</strong> — your message content is sent for processing to either <strong>Anthropic (Claude)</strong> or <strong>OpenAI (GPT)</strong>, depending on my system's internal routing. Both providers commit to not training their models on your conversation content.</li>
       </ol>
 
       <h2>7. International Data Transfer</h2>
-      <p>Some of the providers listed above (Anthropic, OpenAI, Railway, Green API) are located outside Israel, primarily in the United States and the European Union. This means your data is processed abroad as well. These providers operate under industry-standard security frameworks (including SOC 2 or equivalents).</p>
+      <p>Some of the providers listed above (Meta, Anthropic, OpenAI, Railway) are located outside Israel, primarily in the United States and the European Union. This means your data is processed abroad as well. These providers operate under industry-standard security frameworks (including SOC 2 or equivalents).</p>
 
       <h2>8. Security Measures</h2>
       <p>The information is protected by the following measures:</p>
@@ -187,7 +185,7 @@ const lastUpdatedEn = '2026-07-02';
 
       <h2>9. Data Retention</h2>
       <p>Conversation history is stored in my database <strong>for up to 6 months from the last message exchanged with you</strong>. After this period, the conversation is automatically deleted. If you contact me again within that window, the clock resets.</p>
-      <p>Data held by third-party providers (Meta, Green API, Anthropic, OpenAI) is subject to their own retention policies.</p>
+      <p>Data held by third-party providers (Meta, Anthropic, OpenAI) is subject to their own retention policies.</p>
 
       <h2>10. Minors</h2>
       <p>This service is intended for adult business owners and professionals only and is not intended for users under 18. I do not knowingly collect data from minors. If you become aware that a minor has interacted with Sasha, please contact me and I will delete the data immediately.</p>
