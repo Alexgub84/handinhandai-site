@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { siteContact } from "../src/data/site-contact";
+import { siteContact, legal } from "../src/data/site-contact";
 import { caseStudies } from "../src/data/case-studies";
 
 const WA = siteContact.whatsapp.replace("https://", "");
@@ -152,6 +152,14 @@ test.describe("homepage v3 (/)", () => {
     for (const href of ["/about", "/terms", "/privacy-sasha"]) {
       await expect(page.locator(`footer a[href="${href}"]`)).toBeAttached();
     }
+  });
+
+  /* Meta Business Verification reads the homepage for the legal name — it must be in
+     visible text, not just on /about, /terms or /privacy-sasha (issue: legal-name-homepage). */
+  test("footer carries the legal business name and osek number in visible text", async ({ page }) => {
+    const footerText = await page.locator("footer.ft .ft-bottom").innerText();
+    expect(footerText).toContain(legal.legalName.he);
+    expect(footerText).toContain(legal.osekNumber);
   });
 
   test("the years counter reads ten everywhere it renders on the homepage", async ({ page }) => {
