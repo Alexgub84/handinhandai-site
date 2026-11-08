@@ -14,6 +14,7 @@ interface Env {
   ANALYTICS_DB?: D1Database;
   ACCESS_AUD?: string;
   STATS_TOKEN?: string;
+  ANALYTICS_SALT?: string;
 }
 
 interface Row {
@@ -242,6 +243,11 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     const stale = lastTs === null || Date.now() - lastTs > STALE_HOURS * 60 * 60 * 1000;
     const lastEventLabel = lastTs === null ? 'no events recorded yet' : `last event ${ago(lastTs)}`;
 
+    // Issue #138: the collector fails closed and writes nothing when the
+    // salt secret is absent. Say so here, next to the pulse, so the
+    // dashboard reads as "paused, here's why" instead of just looking quiet.
+    const saltMissing = !env.ANALYTICS_SALT;
+
     const tabs = DAY_OPTIONS.map(
       (option) =>
         `<a class="${option === days ? 'on' : ''}" href="?days=${option}${
@@ -298,6 +304,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 <header>
   <h1>Visitors — handinhandai.com</h1>
   <span class="pulse${stale ? ' stale' : ''}" title="The timestamp of the most recent row in the events table.">${escape(lastEventLabel)}</span>
+  ${saltMissing ? '<span class="pulse stale" title="The ANALYTICS_SALT secret is not set on this environment — the collector fails closed and writes no rows.">ANALYTICS_SALT is not set — collection is paused</span>' : ''}
   <nav>${tabs}</nav>
 </header>
 

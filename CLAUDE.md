@@ -242,6 +242,17 @@ Nothing on the page talks to anyone but this domain. The chain is
 - **No cookies.** Session id lives in `sessionStorage`; the visitor id is
   `sha256(ip + ua + ANALYTICS_SALT + UTC day)` computed in the collector, so it
   rotates daily and no IP is ever written. `DNT=1` disables collection entirely.
+- **Fails closed without `ANALYTICS_SALT` (issue #138).** There is no
+  generated or repo-committed fallback salt. If the secret is missing, the
+  collector (`functions/api/e.ts`) returns its normal silent 204 to the
+  browser's beacon but writes nothing to D1 — a visitor hashed with a salt
+  anyone could read in this public repo's history is worse than not counting
+  them at all. The absence is logged once per isolate lifetime (a module-scope
+  flag; Cloudflare can evict and respawn an isolate, so this is "once per
+  isolate", not "once ever") as `[ANALYTICS_COLLECTOR] ANALYTICS_SALT is not
+  set — collection is paused`. The 180-day retention prune still runs on its
+  usual ~1% chance even while collection is paused, so old rows keep getting
+  deleted — it no longer depends on a write having happened first.
 - **Events:** `view`, `section` (IntersectionObserver, first reach + dwell),
   `depth` (max scroll %), `click`, `end` (engaged ms). Batched and sent with
   `navigator.sendBeacon` on tab hide; depth and engaged time are cumulative, so
@@ -274,6 +285,11 @@ Nothing on the page talks to anyone but this domain. The chain is
   in red once the most recent row is more than 12 hours old (or if there are
   no rows at all) — so a dead counter is visible without running a query.
   This reads `MAX(ts)` only; it changes nothing about what is collected.
+- **Salt-missing signal:** when `ANALYTICS_SALT` is not set on this
+  environment, `/stats` shows a second red line next to the staleness pulse —
+  "ANALYTICS_SALT is not set — collection is paused" — so the dashboard says
+  why it's quiet instead of just looking quiet. This is a plain env check
+  (`!env.ANALYTICS_SALT`), no DB query.
 - **Verifying locally:** `npm run build`, then
   `npx wrangler pages dev --binding STATS_TOKEN=x ANALYTICS_SALT=y`. The real
   `ANALYTICS_DB` binding above already covers local D1 access — don't add a
