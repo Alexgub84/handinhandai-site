@@ -1,7 +1,20 @@
-import { createCanvas, registerFont } from 'canvas';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+let createCanvas, registerFont;
+try {
+  ({ createCanvas, registerFont } = await import('canvas'));
+} catch {
+  console.error(
+    'generate-og-canvas.mjs needs the "canvas" package, which is deliberately NOT a\n' +
+    'project dependency (see CLAUDE.md, "Cloudflare Pages — Linux native binaries").\n' +
+    'It is a one-off, hand-run install — install it locally and re-run this script:\n\n' +
+    '  npm install --no-save canvas@3.2.3\n' +
+    '  node scripts/generate-og-canvas.mjs\n'
+  );
+  process.exit(1);
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
