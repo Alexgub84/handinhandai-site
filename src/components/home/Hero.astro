@@ -10,13 +10,16 @@ import AiAnswersNote from "./AiAnswersNote.astro";
 
 const wa = siteContact.whatsappCta;
 const benefits = ["מאפיון ועד מוצר", "פתרון מותאם לצורך", "צוות מפתחים", "CTO במיקור חוץ"];
-// The מדריכים link should not point visitors at an empty index (#98).
+// The מדריכים link should not point visitors at an empty band (#98). On the
+// homepage itself it jumps to the guides band (#guides, Guides.astro) rather
+// than off-page to /articles (#124) — same gate, so it only appears when the
+// band does.
 const showArticlesLink = await hasPublishedArticles();
 const navLinks = [
   { label: "מי אני", href: "#about", active: true },
   { label: "מה אני בונה", href: "#services" },
   { label: "דוגמה", href: "#example" },
-  ...(showArticlesLink ? [{ label: "מדריכים", href: "/articles" }] : []),
+  ...(showArticlesLink ? [{ label: "מדריכים", href: "#guides" }] : []),
   { label: "איך מתחילים", href: "#contact" },
 ];
 const rotating = ["למציאות.", "למערכת.", "לפיצ'ר."];

@@ -320,3 +320,113 @@
   font-size: 11px;
   color: hsl(var(--muted-foreground));
 }
+
+/* Guides band (#124). Reuses the frozen case-studies primitives from app.css
+   (.cs-wrap, .cs-head, .cs-title, .cs-sub, .cs-link, .cs-no, .cs-i) by setting
+   --tc on the band, which is all .cs-no / .cs-link need to recolour. These
+   eight .gd-* rules are the whole visual change, ported verbatim from the
+   approved specimen (Claude Design "Hand in Hand AI Site",
+   patterns/guides-band.html). */
+
+/* 1. The band. background-deep separates it from the case-studies band above
+      and the contact block below without a new colour. container-type lets
+      the card grid answer the band's own width rather than the viewport. */
+.gd {
+  --tc: var(--cyan);
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  container-type: inline-size;
+  container-name: gd;
+  background: hsl(var(--background-deep));
+  padding: clamp(56px, 8vh, 104px) 0 clamp(56px, 8vh, 104px);
+  font-family: Heebo, "Noto Sans Hebrew", "Arial Hebrew", system-ui, sans-serif;
+  color: hsl(var(--foreground));
+}
+/* 2. The same 64px hairline grid the case-studies band carries, so the two
+      read as siblings. */
+.gd-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background-image:
+    linear-gradient(hsl(var(--foreground) / .03) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--foreground) / .03) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(#000, transparent 85%);
+}
+/* 3. The row. At most three, so the count is explicit — no auto-fit guessing. */
+.gd-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(14px, 1.6vw, 22px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+.gd-grid[data-count="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* 4. One guide published (launch day). The lone card takes a reading measure
+      and starts at the inline-start edge, under the heading — a featured
+      single, not a third of a row. justify-content:start in RTL anchors it
+      to the right, aligned with the title. */
+.gd-grid[data-count="1"] { grid-template-columns: minmax(0, 720px); justify-content: start; }
+/* 5. The card. 14px radius and the shadow are the existing card values from
+      app.css. */
+.gd-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: clamp(20px, 2.2vw, 28px);
+  border: 1px solid hsl(var(--border));
+  border-radius: 14px;
+  background: hsl(var(--card));
+  text-decoration: none;
+  color: inherit;
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+.gd-card:hover {
+  transform: translateY(-2px);
+  border-color: hsl(var(--tc) / .45);
+  box-shadow: 0 -20px 60px -30px hsl(var(--shadow) / var(--shadow-a));
+}
+.gd-card:focus-visible { outline: 2px solid hsl(var(--tc)); outline-offset: 3px; }
+/* 6. The reader's question. Two lines are expected; the reserved height
+      keeps every answer in the row on one baseline even when a title runs to
+      a single line. */
+.gd-q {
+  margin: 14px 0 0;
+  font-weight: 900;
+  line-height: 1.3;
+  font-size: clamp(1.05rem, 1.35vw, 1.28rem);
+  min-height: 2.6em;
+}
+/* 7. The one-sentence answer, above a hairline that separates it from the
+      read affordance. */
+.gd-a {
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  line-height: 1.65;
+  font-size: .95rem;
+}
+/* 8. The featured single gets one step more type; nothing else about it
+      changes. */
+.gd-grid[data-count="1"] .gd-q { font-size: clamp(1.3rem, 2vw, 1.75rem); min-height: 0; }
+.gd-grid[data-count="1"] .gd-a { font-size: 1.05rem; }
+
+/* Phone: one column, and the lone card stops pretending to be wide. */
+@container gd (max-width: 760px) {
+  .gd-grid,
+  .gd-grid[data-count="2"],
+  .gd-grid[data-count="1"] { grid-template-columns: minmax(0, 1fr); }
+  .cs-head { align-items: flex-start; }
+  .gd-q { min-height: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gd-card, .cs-link .cs-i { transition: none; }
+  .gd-card:hover { transform: none; }
+}
