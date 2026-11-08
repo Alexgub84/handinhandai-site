@@ -50,6 +50,11 @@ const PRUNE_CHANCE = 0.01;
 
 const BOT = /bot|crawler|spider|crawling|headless|preview|facebookexternalhit|slurp|curl|wget|python-|monitor|lighthouse|pingdom|uptime/i;
 
+// Logged once per isolate lifetime, not once ever — an isolate can be evicted
+// and respawned, so this flag resets with it. That's the best this runtime
+// allows without persisting state outside the request.
+let loggedMissingSalt = false;
+
 const noContent = (): Response =>
   new Response(null, { status: 204, headers: { 'Cache-Control': 'no-store' } });
 
@@ -90,6 +95,24 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const db = env.ANALYTICS_DB;
     if (!db) return noContent(); // Not configured yet: accept and drop.
 
+    // Retention cleanup runs regardless of whether the salt is present, so
+    // old rows keep getting pruned even on an environment where collection
+    // below is paused and no new rows are being written.
+    if (Math.random() < PRUNE_CHANCE) {
+      await db
+        .prepare(`DELETE FROM events WHERE day < date('now', ?1)`)
+        .bind(`-${RETENTION_DAYS} days`)
+        .run();
+    }
+
+    if (!env.ANALYTICS_SALT) {
+      if (!loggedMissingSalt) {
+        loggedMissingSalt = true;
+        console.error('[ANALYTICS_COLLECTOR] ANALYTICS_SALT is not set — collection is paused');
+      }
+      return noContent();
+    }
+
     // Same-origin only. A beacon from the page always carries our own Origin;
     // anything else is someone else's page posting to our collector.
     const origin = request.headers.get('origin');
@@ -110,7 +133,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const now = Date.now();
     const day = new Date(now).toISOString().slice(0, 10);
     const ip = request.headers.get('cf-connecting-ip') ?? '';
-    const salt = env.ANALYTICS_SALT ?? 'unsalted-dev';
+    const salt = env.ANALYTICS_SALT;
     const visitor = await hashVisitor(ip, ua, salt, day);
 
     const cf = request.cf as IncomingRequestCfProperties | undefined;
@@ -163,13 +186,6 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
     if (!rows.length) return noContent();
     await db.batch(rows);
-
-    if (Math.random() < PRUNE_CHANCE) {
-      await db
-        .prepare(`DELETE FROM events WHERE day < date('now', ?1)`)
-        .bind(`-${RETENTION_DAYS} days`)
-        .run();
-    }
 
     return noContent();
   } catch (error) {
