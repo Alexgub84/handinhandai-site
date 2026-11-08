@@ -30,7 +30,9 @@ adjacent briefs already in the programme.
 
 ## 1. App publishing — "getting an app into Google Play and the App Store"
 
-read on 2026-11-08
+first read on 2026-11-08, approx. 20:47-20:55 UTC; re-read on 2026-11-08,
+21:09-21:12 UTC after a second reader reported a contradiction (see "Second
+reading, 2026-11-08 21:09 UTC" below)
 
 ```
 primaryQuery: איך מעלים אפליקציה לחנויות
@@ -95,8 +97,9 @@ appear and was expanded; the three questions it surfaced, verbatim:
   original `app-publishing-costs` query in `keyword-briefs-2026-11.md`, so this
   is a recurring competitor across the whole store-publishing cluster
 - **Sponsored: Base44** — "Launch Your App Today - AI for Mobile App
-  Development" — Base44 both ranks #1 organically *and* buys the ad on this
-  exact query
+  Development" — present on the first read (see "Second reading" below: the
+  ad was **not** present ~2 hours later, so "Base44 buys the ad on this exact
+  query" is a first-read observation, not a standing fact)
 - Reddit r/SaaS — "איך אני בונה אפליקציות ומפרסם אותן בחנויות האפליקציות של
   גוגל..." (4 comments, 1 year old) — "אין לי שום רקע ב-IT", the same
   no-technical-background framing the Facebook group demand research found
@@ -108,6 +111,49 @@ appear and was expanded; the three questions it surfaced, verbatim:
   לעסקים (2026)" (19 Oct 2026)
 - sys-tech.co.il — "פיתוח אפליקציה לעסקים: מדריך שלם מהרעיון ועד ההשקה
   בחנויות"
+
+**Second reading, 2026-11-08 21:09 UTC (same exact query string, `איך מעלים
+אפליקציה לחנויות`, typed character-by-character into a fresh `google.co.il`
+page, same headed-browser profile, ~2 hours after the first read).** This
+re-read was triggered by an independent checker who reported, for "the
+app-publishing primary query," an organic order of קורל טכנולוגיות, AskPavel,
+shareit.co.il, Reddit r/androiddev, Apple's own listing page, Reddit r/swift,
+Google Help, digiapps.co.il, dogma.co.il — no Base44 anywhere (no organic, no
+ad, no AI Overview citation), only digiapps.co.il overlapping with the set
+above. The checker's message did not quote the exact string they searched.
+
+Re-reading `איך מעלים אפליקציה לחנויות` itself produced the **identical
+9-result organic order, verbatim snippets included**, as the first read above
+— **Base44 Docs still #1**, then itayost.com, Android Developers,
+aiterra.co.il, Reddit r/SaaS, level-app.com, digiapps.co.il,
+appdevelopment.co.il, sys-tech.co.il, in the same order. Two things did
+change: the **sponsored Base44 ad was gone** (no "תוצאה ממומנת" block at all
+on the re-read), and the **AI Overview's inline citation list changed** — the
+first read's overview text named Base44 by name; the second read's overview
+text cites digiapps.co.il, aiterra.co.il, Android Developers, Andromo and
+itayost.com, with no Base44 mention in the prose (Base44 still appears
+organically below it, unaffected).
+
+Since the checker's reported organic order shares only one result
+(digiapps.co.il) with either of my two reads of the literal primary query —
+and digiapps.co.il recurs across several queries in this cluster, so is weak
+evidence of a match — and since my own re-read reproduced the first read's
+organic ranking exactly, word for word, the most likely explanation is a
+**query-string mismatch**: the checker was almost certainly reading a
+different phrasing (something closer to a bare "להעלות/איך מעלים אפליקציה"
+without "לחנויות," or a more Apple/iOS-leaning phrasing, given "Apple's own
+listing page" and "Reddit r/swift" in their result set), not the string this
+brief's `primaryQuery` field actually names. That could not be confirmed
+either way without the checker's literal query string, which was not
+supplied.
+
+**What this means for the claim below:** Base44 ranking organic #1 on
+`איך מעלים אפליקציה לחנויות` is **confirmed**, reproduced twice, ~2 hours
+apart, word for word. Base44 running a **paid ad** on this exact query, and
+being **named in the AI Overview's prose**, are **not** stable — both were
+true on the first read and both were absent on the second. The brief below is
+corrected to reflect this: the organic-ranking claim stands; the ad and
+in-prose-citation claims are stated as first-read-only observations.
 
 **Secondary-query findings worth carrying into the article:**
 - `כמה זמן לוקח לאשר אפליקציה באפסטור` — AI Overview states Apple's own figures
@@ -140,26 +186,29 @@ Closed/Internal Testing, `Submit for Review`.
   ownership. This subject assumes the account already exists and is about the
   mechanics of actually getting an app through both stores.
 - The one genuinely new finding none of briefs 5/7/8 surfaced: **Base44's own
-  publishing docs now rank #1 organically and run a paid ad on the generic "how
-  do I publish" query.** The no-code AI-builder platforms (Base44, and by
-  extension Lovable) have effectively claimed this query for their own users,
-  which the 2026-11-04 research (predating this read) did not have to contend
-  with on this exact phrasing.
+  publishing docs now rank #1 organically** on the generic "how do I publish"
+  query — reproduced twice, ~2 hours apart, word for word (see "Second
+  reading" above). On the first read only, Base44 also ran a paid ad and was
+  named in the AI Overview's prose; neither held up on the re-read, so those
+  two narrower claims are reported as first-read-only, not as a standing
+  fact. The organic #1 ranking is the part of this finding to trust.
 
-**Who ranks / what beats them:** Base44's own docs and ad own the literal
-query; four to five fresh (2026) Hebrew agency guides (itayost.com,
-aiterra.co.il, appdevelopment.co.il, sys-tech.co.il, level-app.com) already
-cover the generic procedure competently; Android/Apple's own docs own the
-literal step-by-step. None of them states the irreversible traps up front
-(package name can never be reused, EU DSA trader verification, the account
-landing on the wrong person's name) or ties the procedure to a desk that
-actually does this as a paid service rather than a no-code builder's
-documentation page.
+**Who ranks / what beats them:** Base44's own docs own the literal query's
+top organic slot (confirmed on two independent reads); four to five fresh
+(2026) Hebrew agency guides (itayost.com, aiterra.co.il, appdevelopment.co.il,
+sys-tech.co.il, level-app.com) already cover the generic procedure
+competently; Android/Apple's own docs own the literal step-by-step. None of
+them states the irreversible traps up front (package name can never be
+reused, EU DSA trader verification, the account landing on the wrong person's
+name) or ties the procedure to a desk that actually does this as a paid
+service rather than a no-code builder's documentation page.
 
-**Verdict: CONTESTED.** Real, fresh, competent Hebrew competition plus an
-AI-builder platform that now owns both the top organic slot and the ad slot on
-the generic phrasing. Not open, but not closed either — the angle that beats
-it is the cross-platform account-ownership and irreversible-mistakes framing,
+**Verdict: CONTESTED.** Real, fresh, competent Hebrew competition plus a
+no-code AI-builder platform that owns the top organic slot on the generic
+phrasing (confirmed twice; its paid ad and AI Overview citation were present
+once and gone on the re-check, so treat those two as volatile, not the
+organic ranking). Not open, but not closed either — the angle that beats it
+is the cross-platform account-ownership and irreversible-mistakes framing,
 which nothing on page one states plainly.
 
 **Recommended slug:** `publish-app-to-stores`.
@@ -187,16 +236,36 @@ answersQuestions:
 ```
 
 **Primary query:** `אימות עסק בפייסבוק` — **not** `אימות עסק מטא`. The literal
-word "מטא" (Meta, written in Hebrew letters) has **near-zero recognition**:
-typing `אימות עסק מטא` produced autocomplete suggestions for `מטאור` (meteor)
-and `מטאפורה` (metaphor) — Google does not parse "מטא" as the company name in
-this context at all. Typing the stem `אימות עסק` alone and letting Google
-complete it surfaces `אימות עסק בפייסבוק` / `אימות עסק פייסבוק` as the real,
-exact-match phrasing — Israelis searching for this still say **"פייסבוק,"**
-not "מטא," exactly the same pattern `keyword-briefs-2026-11.md` already found
-for `פרילנסר מול חברה` (wrong query) → `פרילנסר או חברת פיתוח` (right query).
-**This is a correction the programme should carry: name the article's primary
-target `אימות עסק בפייסבוק`, not any phrasing built on "מטא."**
+word "מטא" (Meta, written in Hebrew letters) is **unstable and comparatively
+weak**, not reliably zero — this was checked four separate times today, and
+produced four different suggestion sets:
+- First read (2026-11-08, ~20:55 UTC): `מטאור` (meteor), `מטאפורה`
+  (metaphor) — no form of "מטא" itself offered back.
+- An independent second reader's own check (reported, not reproduced here;
+  exact timestamp not given): 7 suggestions, 4 of which were "מטא" forms,
+  including `אימות עסק במטא` directly.
+- My own re-check #1 just now (2026-11-08, 21:11 UTC, same headed-browser
+  profile): a **single** suggestion — the typed string itself, `אימות עסק
+  מטא`, echoed back with no elaboration.
+- My own re-check #2, seconds later, retyped from a fresh page load: three
+  suggestions — `מטאבו`, `מטאטא` (broom), and the literal `מטא` again. No
+  `אימות עסק במטא` variant appeared in either of my two re-checks.
+
+So across four independent reads, "מטא" ranged from a dead rewrite (מטאור/
+מטאפורה), to a weak literal echo, to — per the second reader only — a real
+`במטא` variant appearing in 4 of 7 slots. The direction of the finding holds
+every time it was checked: typing the stem `אימות עסק` alone and letting
+Google complete it reliably and repeatedly surfaces `אימות עסק בפייסבוק` /
+`אימות עסק פייסבוק` as exact-match, stable suggestions — reproduced
+identically on every read today, including the fresh one just now — while
+"מטא" has never once produced a stable, repeatable suggestion set. Israelis
+searching for this still say **"פייסבוק"** more reliably than "מטא," the
+same pattern `keyword-briefs-2026-11.md` already found for `פרילנסר מול
+חברה` (wrong query) → `פרילנסר או חברת פיתוח` (right query) — but say
+precisely that "מטא" is unstable/weak, not that it is dead. **This is a
+correction the programme should carry: name the article's primary target
+`אימות עסק בפייסבוק`, not any phrasing built on "מטא," because `פייסבוק` is
+the one of the two that reads the same way every time.**
 
 **Secondary queries tested (each a separate real search):** `חיבור וואטסאפ API
 לעסק`, `אימות עסק מטא נדחה`, `כמה זמן לוקח אימות עסק בפייסבוק`, `WhatsApp
@@ -341,19 +410,51 @@ being classified as.
 
 - **The subject itself should never be keyworded on "מטא."** The working
   assumption going into this research was that Israelis search using the
-  company's name, "Meta." They do not — they still say "פייסבוק" for anything
-  to do with Business Manager / Business Suite, three years after the
-  rebrand. Any future brief, slug, or H1 for this subject must be built on
-  `פייסבוק`, not `מטא`.
-- **Base44 (the no-code AI builder) now owns both the top organic result and
-  the paid ad slot** on the generic "how do I publish my app" query — a
-  finding the original 2026-11-04 research did not have to contend with on
-  this exact phrasing, and worth flagging to whoever drafts the stores article:
-  the competitor to beat on this specific query is not a Hebrew agency blog,
-  it is Base44's own documentation.
+  company's name, "Meta." The autocomplete evidence for "מטא" turned out to
+  be unstable across four separate reads today (dead rewrite, weak literal
+  echo, or a real `במטא` variant in 4 of 7 slots, depending on the read) —
+  but "פייסבוק" was stable and exact-match on every single read, including a
+  fresh one just now. The directional correction holds even though "מטא" is
+  not flatly dead: any future brief, slug, or H1 for this subject should be
+  built on `פייסבוק`, the one of the two phrasings that reads the same way
+  every time.
+- **Base44 (the no-code AI builder) owns the top organic result** on the
+  generic "how do I publish my app" query — reproduced word for word on two
+  independent reads of the literal primary query, ~2 hours apart. An
+  independent checker, reading what they called "the app-publishing primary
+  query" without quoting the exact string, found a completely different
+  organic set with no Base44 at all; a re-read of this brief's actual
+  `primaryQuery` string did not reproduce that set, so the likeliest
+  explanation is the checker used a different phrasing, not that the organic
+  ranking is unstable. What **is** unstable, confirmed by the same re-read:
+  Base44's paid ad and its name-check inside the AI Overview's prose — both
+  present on the first read, both absent ~2 hours later. Report both facts
+  precisely: organic #1 confirmed twice; ad and in-prose citation seen once,
+  not twice.
 - **No PAA box appeared for any of the nine Meta-verification-side queries**,
   despite real attempts at five different phrasings (declarative, rejection-
   framed, comparison-framed, "stuck"-framed, definitional). The app-publishing
   side surfaced a PAA box easily by contrast. This is reported as-is rather
   than padded with invented questions; the substitute verbatim questions above
   are sourced from real page titles, not from memory.
+
+## Checked by a second reader, 2026-11-08
+
+An independent checker re-read three claims live on 2026-11-08 and reported
+back the same day; this file was then re-read live a second time by the
+original author to resolve the one contradiction. What survived: the
+מטא-vs-פייסבוק direction (tightened above — "מטא" is unstable, not flatly
+dead; "פייסבוק" is the stable one), the absence of a PAA box on `אימות עסק
+בפייסבוק`, the `Meta One` sponsored ad, and most of the organic set on that
+query (Facebook's own help pages, funner.co.il, mumble.co.il, smoove). What
+did not survive as stated: Base44 running a paid ad and being named in the
+AI Overview's prose on the app-publishing primary query — both were real on
+the first read and absent on a same-string re-read ~2 hours later, so they
+are now reported as first-read-only observations, not standing facts. What
+survived a direct challenge and was reproduced twice, word for word, on the
+literal primary query this brief actually names: **Base44 ranking organic
+#1**. The checker's contradicting organic set for "the app-publishing
+primary query" could not be reconciled with any read of the literal
+`primaryQuery` string above and most likely reflects a different query
+string, not a different moment in time — see "Second reading, 2026-11-08
+21:09 UTC" under subject 1 for the full comparison.
