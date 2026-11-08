@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
-import { readFileSync, rmSync } from 'node:fs';
+import { readFileSync, readdirSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { shortAnswer, capGuides, sortGuides } from '../src/data/guides-format';
+import matter from 'gray-matter';
+import { shortAnswer, capGuides, sortGuides, FIXTURE_SLUG } from '../src/data/guides-format';
 
 // Issue #124 — homepage guides band: absent on the production branch while
 // every article is still a draft, present (with the real draft guides) on
@@ -11,6 +12,25 @@ import { shortAnswer, capGuides, sortGuides } from '../src/data/guides-format';
 // primary WhatsApp button.
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
+const articlesDir = join(repoRoot, 'src', 'content', 'articles');
+
+/**
+ * The band's own card count, read from the same source the page reads
+ * (the real `.md` files, same `FIXTURE_SLUG` gate `getHomepageGuides()`
+ * applies) instead of a hardcoded number. `astro dev` never sets
+ * `CF_PAGES_BRANCH` (#101), so this dev-server test always runs in
+ * "include drafts" mode — every real, non-fixture article counts, capped
+ * at 3 by `capGuides()`. This must keep passing as the catalogue grows
+ * past 3 real articles: add a 4th, it still reports 3; remove one, back
+ * to the real count.
+ */
+function realGuideCount(): number {
+  const files = readdirSync(articlesDir).filter((entry) => entry.endsWith('.md'));
+  const realSlugs = files
+    .map((file) => matter(readFileSync(join(articlesDir, file), 'utf8')).data.slug as string)
+    .filter((slug) => slug !== FIXTURE_SLUG);
+  return capGuides(realSlugs).length;
+}
 
 test.describe('guides-format pure helpers', () => {
   test('shortAnswer strips the standard lede and takes the first sentence', () => {
@@ -60,8 +80,9 @@ test.describe('guides band — branch mode (dev server always includes drafts, #
     expect(order[1], '#guides should come after #example').toBeGreaterThan(order[0]);
     expect(order[2], '#why should come after #guides').toBeGreaterThan(order[1]);
 
-    await expect(band.locator('.gd-card')).toHaveCount(2);
-    await expect(band.locator('.gd-grid')).toHaveAttribute('data-count', '2');
+    const expectedCount = realGuideCount();
+    await expect(band.locator('.gd-card')).toHaveCount(expectedCount);
+    await expect(band.locator('.gd-grid')).toHaveAttribute('data-count', String(expectedCount));
     await expect(band).toContainText('אפליקציה או אתר');
     await expect(band).toContainText('פרילנסר או חברת פיתוח');
   });
