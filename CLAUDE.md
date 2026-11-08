@@ -39,6 +39,22 @@ Fix: pin Linux x64 GNU binaries explicitly in `package.json` → `optionalDepend
 
 If any of these packages get bumped (Astro/Vite/Tailwind/Rollup upgrade), bump the matching Linux binary version in `optionalDependencies` to match and regenerate the lockfile.
 
+## `canvas` is deliberately not a dependency (issue #139)
+
+`scripts/generate-og-canvas.mjs` draws OG images with the `canvas` package, a
+native graphics library (it bundles Cairo/pixman and compiles from source
+whenever no matching prebuilt binary exists for the runner's Node/OS/arch).
+Nothing else imports it, and CI never runs this script — yet while it sat in
+`devDependencies`, every `npm ci` on GitHub Actions had to resolve and build
+it, so a documentation-only PR could fail CI on a native-build error with no
+code changed (the runner image moved and the prebuilt Linux binary stopped
+matching). `canvas` is not in `package.json` or `package-lock.json`: install
+it by hand, once, only when you need to regenerate an OG image —
+`npm install --no-save canvas@3.2.3` — then run the script and let `npm
+install` drop it again on the next `npm ci`. If the import is missing, the
+script prints that exact command and exits non-zero instead of throwing a raw
+module-not-found error.
+
 ## AI crawler access (Cloudflare) — deliberately open
 
 Decided 2026-11-04: this site wants to be the page an AI assistant quotes, so
