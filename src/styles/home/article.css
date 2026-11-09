@@ -286,7 +286,7 @@ body {
 .art-list li,
 .art-body ul li {
   position: relative;
-  padding-inline-end: 22px;
+  padding-inline-start: 22px;
   color: hsl(var(--foreground) / 0.88);
   line-height: 1.6;
   font-size: 1.02rem;
@@ -295,12 +295,52 @@ body {
 .art-body ul li::before {
   content: "";
   position: absolute;
-  inset-inline-end: 0;
+  inset-inline-start: 0;
   top: 0.6em;
   width: 8px;
   height: 8px;
   border-radius: 999px;
   background: hsl(var(--primary));
+}
+
+/* Ordered list — bare markdown "1. item" gets the same circular badge
+   device as `.pg-numbered`/`.pg-num` (page.css), reused here as a ::before
+   counter so a plain numbered list needs no hand-authored markup (issue
+   #156). The base reset at the top of this file already strips the native
+   counter via `.art-body :where(ul, ol) { list-style: none; padding: 0; }`
+   — this block restores a marker, on the logical start side. */
+.art-body ol {
+  list-style: none;
+  counter-reset: art-ol;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.art-body ol li {
+  position: relative;
+  counter-increment: art-ol;
+  padding-inline-start: 34px;
+  color: hsl(var(--foreground) / 0.88);
+  line-height: 1.6;
+  font-size: 1.02rem;
+}
+.art-body ol li::before {
+  content: counter(art-ol);
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  display: grid;
+  place-items: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
 }
 
 /* Aside — the one light editorial line per section. Invented: no existing
@@ -398,7 +438,7 @@ body {
 }
 .art-table td:first-child,
 .art-table th:first-child {
-  text-align: right;
+  text-align: start;
   font-weight: 700;
   color: hsl(var(--foreground));
 }

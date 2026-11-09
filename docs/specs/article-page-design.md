@@ -152,9 +152,28 @@ weight (vs. body's default 400), the heading now reads as a hard break, not
 a slightly-bigger paragraph.
 
 List (`.art-list`) = `.ap-article-bullets` verbatim
-(`app-publishing/ArticleSection.astro`): dot markers on `inset-inline-end`
-(right side in RTL, correctly "before" the text in reading order), 8px
-primary-coloured dots, 10px row gap.
+(`app-publishing/ArticleSection.astro`): dot markers, 8px primary-coloured
+dots, 10px row gap.
+
+**Correction (issue #156):** the original build of this device put the dot
+on `inset-inline-end` / `padding-inline-end`, on the theory that "end" meant
+"before the text" in RTL. It does not — `inset-inline-end` in an RTL
+document resolves to the physical **left**, the far side from the Hebrew
+text it is meant to sit beside. The marker must sit on the logical **start**
+side (`inset-inline-start` / `padding-inline-start`), which is the physical
+right in RTL — the side reading actually starts from. Every list device on
+this page (`.art-list`, `.art-body ul`, and `.ap-article-bullets` in
+`ArticleSection.astro`) uses `-start`, not `-end`.
+
+**Ordered lists** (`.art-body ol`, a bare markdown `1. item` list) get the
+same circular badge device as `.pg-numbered`/`.pg-num`, reused as a `::before`
+counter so a plain numbered list needs no hand-authored markup: a 24px
+primary-coloured circle holding the number, `inset-inline-start: 0`, with a
+34px `padding-inline-start` hanging indent so a wrapped second line aligns
+under the text, not under the badge. Before this fix a bare `<ol>` rendered
+with no marker at all — the base reset (`.art-body :where(ul, ol) {
+list-style: none; padding: 0 }`) strips the native counter for both tags and
+nothing restored one for `<ol>`.
 
 Aside (`.art-aside`) is the one fully new block:
 
