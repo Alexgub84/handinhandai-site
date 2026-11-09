@@ -99,8 +99,8 @@ answersQuestions:
 
 ## אותו תהליך, כתוסף התקנה לעוזר קוד
 
-כל הצעדים שלמעלה — גם האימות, גם חיבור ה-`Cloud API` — קיימים גם כתוסף (`skill`) שמתקינים לתוך עוזר קוד שתומך בפרוטוקול `MCP`, ומריצים אותו שלב-שלב בתוך שיחה ממשית, לא רק קוראים עליו. ההתקנה היא שורת פקודה אחת:
+כל הצעדים שלמעלה — גם האימות, גם חיבור ה-`Cloud API` — קיימים גם כתוסף (`skill`) שמתקינים לתוך עוזר קוד שתומך בפרוטוקול `MCP`, ומריצים אותו שלב-שלב בתוך שיחה ממשית, לא רק קוראים עליו. ההתקנה היא שורת פקודה אחת, בטרמינל:
 
-`/plugin marketplace add Alexgub84/claude-skills`
+`/plugin marketplace add` `Alexgub84/claude-skills`
 
 התוסף עצמו נקרא `meta-whatsapp-cloud-api`, ונמצא בריפו הציבורי [github.com/Alexgub84/claude-skills](https://github.com/Alexgub84/claude-skills). הוא נבדק מול המסכים האמיתיים לאחרונה ב-8 בנובמבר 2026; אם מסך השתנה ואין התאמה למה שכתוב בו, אפשר לפתוח [issue ישירות בריפו](https://github.com/Alexgub84/claude-skills/issues).
