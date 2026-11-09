@@ -86,7 +86,7 @@ answersQuestions:
 
 ## הצעד הבא: אותו תהליך כ־Skill להתקנה
 
-כל מה שתואר כאן — מהחשבון ועד הלחיצה שאין ממנה חזרה — קיים גם כ־`Skill` מותקן ל־`Claude Code`, בשם `store-publishing`, בריפוזיטורי ציבורי: `github.com/Alexgub84/claude-skills`. התקנה: `/plugin marketplace add Alexgub84/claude-skills`. מי שמתקין אותו מקבל את כל התהליך הזה כמסמך שקלוד עוקב אחריו צעד אחר צעד בזמן שהוא עובד — כולל הטיפול בדחייה ובעדכון — בלי להעתיק אף שורה ממנו ביד.
+כל מה שתואר כאן — מהחשבון ועד הלחיצה שאין ממנה חזרה — קיים גם כ־`Skill` מותקן ל־`Claude Code`, בשם `store-publishing`, בריפוזיטורי ציבורי בכתובת github.com/Alexgub84/claude-skills. פקודת ההתקנה, בתוך Claude Code: /plugin marketplace add Alexgub84/claude-skills. מי שמתקין אותו מקבל את כל התהליך הזה כמסמך שקלוד עוקב אחריו צעד אחר צעד בזמן שהוא עובד — כולל הטיפול בדחייה ובעדכון — בלי להעתיק אף שורה ממנו ביד.
 
 ## הערה מהשטח
 
