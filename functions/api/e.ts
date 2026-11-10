@@ -13,7 +13,12 @@
  *   becomes a different value tomorrow.
  * - Rows older than RETENTION_DAYS are pruned lazily on a small share of
  *   requests, because Pages Functions have no scheduled handler.
+ * - Every row is tagged `env: 'live' | 'preview'` (issue #149) from the
+ *   request's own Host header, so `/stats` can tell a real visit from our
+ *   own branch-review/Playwright traffic apart without a second database.
  */
+
+import { classifyEnvironment } from '../lib/environment.mjs';
 
 interface Env {
   ANALYTICS_DB?: D1Database;
@@ -115,8 +120,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
     // Same-origin only. A beacon from the page always carries our own Origin;
     // anything else is someone else's page posting to our collector.
+    const requestHost = new URL(request.url).host;
     const origin = request.headers.get('origin');
-    if (origin && new URL(origin).host !== new URL(request.url).host) return noContent();
+    if (origin && new URL(origin).host !== requestHost) return noContent();
+    const environment = classifyEnvironment(requestHost);
 
     const ua = request.headers.get('user-agent') ?? '';
     if (!ua || BOT.test(ua)) return noContent();
@@ -149,13 +156,14 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       utmCampaign: str(utm.c, 60),
       country,
       device: device && DEVICES.has(device) ? device : null,
+      env: environment,
     };
 
     const insert = db.prepare(
       `INSERT INTO events
          (ts, day, visitor, session, type, path, lang, ref_host,
-          utm_source, utm_medium, utm_campaign, country, device, section, label, href, value)
-       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17)`,
+          utm_source, utm_medium, utm_campaign, country, device, section, label, href, value, env)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18)`,
     );
 
     const rows = events
@@ -181,6 +189,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
           event.t === 'click' ? str(event.k, 80) : null,
           str(event.h, 200),
           int(event.v, 86_400_000),
+          common.env,
         ),
       );
 

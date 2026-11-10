@@ -10,6 +10,8 @@
  * the numbers leave the edge.
  */
 
+import { formatDownloadCount, sumDownloads } from './lib/github-releases.mjs';
+
 interface Env {
   ANALYTICS_DB?: D1Database;
   ACCESS_AUD?: string;
@@ -22,6 +24,85 @@ interface Row {
 }
 
 const DAY_OPTIONS = [7, 30, 90, 180] as const;
+
+// Per-guide funnel (issue #149 / the funnel half of #155). `functions/stats.ts`
+// has no access to Astro's content collection — it's a standalone edge
+// function reading D1 only — so the guide list is a small hardcoded config,
+// one line to extend when a third guide ships.
+//
+// `clickLabels` matches both today's plain-Markdown hand-off link (the
+// visible link text, which the existing click-tracking fallback chain
+// already lands on as the label) and the `data-track` string
+// `SkillHandoff.astro` sets once issue 155-2 ships
+// (`skill-handoff-download-<skill-key>`) — so this query needs no change the
+// moment that component replaces the Markdown paragraph.
+const GUIDES = [
+  {
+    path: '/articles/publish-app-to-stores',
+    title: 'Publish an app to the stores',
+    asset: 'store-publishing.zip',
+    clickLabels: ['github.com/Alexgub84/claude-skills', 'skill-handoff-download-store-publishing'],
+  },
+  {
+    path: '/articles/get-verified-for-whatsapp-cloud-api',
+    title: 'Get verified for the WhatsApp Cloud API',
+    asset: 'meta-whatsapp-cloud-api.zip',
+    clickLabels: ['github.com/Alexgub84/claude-skills', 'skill-handoff-download-meta-whatsapp-cloud-api'],
+  },
+] as const;
+
+// `SkillHandoff.astro` (155-2) carries `data-track-section="skill-handoff"`
+// on its root element — the manager's ruling on this order amended 155-2 to
+// add it, specifically so "reached the hand-off" has something to observe.
+// Until that component ships (or until it does, if this order lands first),
+// this section id doesn't exist in any row yet, so "reached" reads zero —
+// expected, not a bug.
+const HANDOFF_SECTION = 'skill-handoff';
+
+const GITHUB_RELEASES_URL = 'https://api.github.com/repos/Alexgub84/claude-skills/releases';
+const GITHUB_CACHE_MS = 5 * 60 * 1000;
+
+// Module-scope cache: resets whenever Cloudflare evicts and respawns the
+// isolate, same "not a persistent cache" pattern `functions/api/e.ts`
+// documents for `loggedMissingSalt`. Keeps this well under GitHub's 60
+// req/hour unauthenticated limit for a low-traffic, operator-only page.
+let githubCache: { at: number; releases: unknown[] } | null = null;
+
+interface GithubRelease {
+  assets?: Array<{ name?: string; download_count?: number }>;
+}
+
+/**
+ * Fetches every release once per cache window and sums each guide's asset
+ * downloads across all of them. Never throws: on any fetch failure, non-200,
+ * or unparseable body it returns `null` for every guide, and the caller
+ * renders the dash/fail-soft text — this must never block the rest of the
+ * page (same contract the file already documents for a D1 query failure).
+ */
+const downloadCountsByAsset = async (): Promise<Record<string, number | null> | null> => {
+  try {
+    const now = Date.now();
+    let releases: unknown[];
+    if (githubCache && now - githubCache.at < GITHUB_CACHE_MS) {
+      releases = githubCache.releases;
+    } else {
+      const response = await fetch(GITHUB_RELEASES_URL, {
+        headers: { 'User-Agent': 'handinhandai-site-stats', Accept: 'application/vnd.github+json' },
+      });
+      if (!response.ok) return null;
+      releases = (await response.json()) as unknown[];
+      githubCache = { at: now, releases };
+    }
+    const result: Record<string, number | null> = {};
+    for (const guide of GUIDES) {
+      result[guide.asset] = sumDownloads(releases as GithubRelease[], guide.asset);
+    }
+    return result;
+  } catch (error) {
+    console.error('[ANALYTICS_DASHBOARD] GitHub release fetch failed', error instanceof Error ? error.message : error);
+    return null;
+  }
+};
 
 const notFound = (): Response =>
   new Response('Not found', { status: 404, headers: { 'Cache-Control': 'no-store' } });
@@ -123,116 +204,227 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   const days = DAY_OPTIONS.includes(requested as (typeof DAY_OPTIONS)[number]) ? requested : 30;
   const since = `-${days} days`;
 
+  // Issue #149: every `rowsOf` query below hides `env = 'preview'` rows by
+  // default — a row with no recorded environment (`env IS NULL`, the 601
+  // rows that predate this column) is shown as "unknown", never silently
+  // reclassified as either. `?preview=1` brings preview rows back.
+  const previewOn = url.searchParams.get('preview') === '1';
+  const previewParam = previewOn ? 1 : 0;
+  const ENV_CLAUSE = `(env = 'live' OR env IS NULL OR ?2 = 1)`;
+
+  /** Escapes a static, hardcoded (never user-supplied) SQL string literal. */
+  const sqlStr = (value: string): string => `'${value.replace(/'/g, "''")}'`;
+
   try {
-    const [lastEvent, daily, totals, sources, campaigns, entries, devices, countries, depth, reach, clicks, funnel] =
-      await Promise.all([
-        rowsOf(db, `SELECT MAX(ts) AS last_ts FROM events`),
-        rowsOf(
-          db,
-          `SELECT day, COUNT(DISTINCT visitor) AS visitors, COUNT(DISTINCT session) AS sessions,
-                  SUM(CASE WHEN type = 'view' THEN 1 ELSE 0 END) AS views
-             FROM events WHERE day >= date('now', ?1) GROUP BY day ORDER BY day`,
-          since,
-        ),
-        rowsOf(
-          db,
-          `SELECT COUNT(DISTINCT visitor) AS visitors, COUNT(DISTINCT session) AS sessions,
-                  SUM(CASE WHEN type = 'view' THEN 1 ELSE 0 END) AS views,
-                  (SELECT ROUND(AVG(best) / 1000.0) FROM (
-                     SELECT MAX(value) AS best FROM events
-                      WHERE type = 'end' AND day >= date('now', ?1) GROUP BY session)) AS avg_seconds,
-                  (SELECT ROUND(AVG(best)) FROM (
-                     SELECT MAX(value) AS best FROM events
-                      WHERE type = 'depth' AND day >= date('now', ?1) GROUP BY session)) AS avg_depth
-             FROM events WHERE day >= date('now', ?1)`,
-          since,
-        ),
-        rowsOf(
-          db,
-          `SELECT COALESCE(NULLIF(utm_source, ''), NULLIF(ref_host, ''), 'direct') AS source,
-                  COUNT(DISTINCT session) AS sessions
-             FROM events WHERE type = 'view' AND day >= date('now', ?1)
-            GROUP BY source ORDER BY sessions DESC LIMIT 15`,
-          since,
-        ),
-        rowsOf(
-          db,
-          `SELECT utm_campaign AS campaign, COUNT(DISTINCT session) AS sessions
-             FROM events WHERE type = 'view' AND utm_campaign IS NOT NULL AND day >= date('now', ?1)
-            GROUP BY campaign ORDER BY sessions DESC LIMIT 10`,
-          since,
-        ),
-        rowsOf(
-          db,
-          `SELECT path, COUNT(DISTINCT session) AS sessions
-             FROM events WHERE type = 'view' AND day >= date('now', ?1)
-            GROUP BY path ORDER BY sessions DESC LIMIT 10`,
-          since,
-        ),
-        rowsOf(
-          db,
-          `SELECT COALESCE(device, 'unknown') AS device, COUNT(DISTINCT session) AS sessions
-             FROM events WHERE type = 'view' AND day >= date('now', ?1)
-            GROUP BY device ORDER BY sessions DESC`,
-          since,
-        ),
-        rowsOf(
-          db,
-          `SELECT COALESCE(country, '??') AS country, COUNT(DISTINCT session) AS sessions
-             FROM events WHERE type = 'view' AND day >= date('now', ?1)
-            GROUP BY country ORDER BY sessions DESC LIMIT 10`,
-          since,
-        ),
-        rowsOf(
-          db,
-          `SELECT bucket, COUNT(*) AS sessions FROM (
-             SELECT CASE
-                      WHEN MAX(value) >= 90 THEN '90-100%'
-                      WHEN MAX(value) >= 75 THEN '75-89%'
-                      WHEN MAX(value) >= 50 THEN '50-74%'
-                      WHEN MAX(value) >= 25 THEN '25-49%'
-                      ELSE '0-24%'
-                    END AS bucket
-               FROM events WHERE type = 'depth' AND day >= date('now', ?1) GROUP BY session)
-            GROUP BY bucket ORDER BY bucket DESC`,
-          since,
-        ),
-        rowsOf(
-          db,
-          `SELECT section, COUNT(DISTINCT session) AS sessions,
-                  ROUND(AVG(NULLIF(value, 0)) / 1000.0, 1) AS avg_seconds
-             FROM events WHERE type = 'section' AND section IS NOT NULL AND day >= date('now', ?1)
-            GROUP BY section ORDER BY sessions DESC LIMIT 20`,
-          since,
-        ),
-        rowsOf(
-          db,
-          `SELECT label, COALESCE(section, '-') AS section, COUNT(*) AS clicks,
-                  COUNT(DISTINCT session) AS sessions
-             FROM events WHERE type = 'click' AND day >= date('now', ?1)
-            GROUP BY label, section ORDER BY clicks DESC LIMIT 20`,
-          since,
-        ),
-        rowsOf(
-          db,
-          `SELECT
-             COUNT(DISTINCT session) AS arrived,
-             COUNT(DISTINCT CASE WHEN session IN (
-               SELECT session FROM events WHERE type = 'section' AND section LIKE '%contact%'
-                AND day >= date('now', ?1)) THEN session END) AS reached_contact,
-             COUNT(DISTINCT CASE WHEN session IN (
-               SELECT session FROM events WHERE type = 'click' AND href LIKE '%wa.me%'
-                AND day >= date('now', ?1)) THEN session END) AS opened_whatsapp
-             FROM events WHERE type = 'view' AND day >= date('now', ?1)`,
-          since,
-        ),
-      ]);
+    const [
+      lastEvent,
+      daily,
+      totals,
+      sources,
+      campaigns,
+      entries,
+      devices,
+      countries,
+      depth,
+      reach,
+      clicks,
+      funnel,
+      guideArrived,
+      guideReached,
+      guideClicked,
+      guideSources,
+      downloadCounts,
+    ] = await Promise.all([
+      rowsOf(db, `SELECT MAX(ts) AS last_ts FROM events WHERE env = 'live' OR env IS NULL OR ?1 = 1`, previewParam),
+      rowsOf(
+        db,
+        `SELECT day, COUNT(DISTINCT visitor) AS visitors, COUNT(DISTINCT session) AS sessions,
+                SUM(CASE WHEN type = 'view' THEN 1 ELSE 0 END) AS views
+           FROM events WHERE day >= date('now', ?1) AND ${ENV_CLAUSE} GROUP BY day ORDER BY day`,
+        since,
+        previewParam,
+      ),
+      rowsOf(
+        db,
+        `SELECT COUNT(DISTINCT visitor) AS visitors, COUNT(DISTINCT session) AS sessions,
+                SUM(CASE WHEN type = 'view' THEN 1 ELSE 0 END) AS views,
+                (SELECT ROUND(AVG(best) / 1000.0) FROM (
+                   SELECT MAX(value) AS best FROM events
+                    WHERE type = 'end' AND day >= date('now', ?1) AND ${ENV_CLAUSE} GROUP BY session)) AS avg_seconds,
+                (SELECT ROUND(AVG(best)) FROM (
+                   SELECT MAX(value) AS best FROM events
+                    WHERE type = 'depth' AND day >= date('now', ?1) AND ${ENV_CLAUSE} GROUP BY session)) AS avg_depth
+           FROM events WHERE day >= date('now', ?1) AND ${ENV_CLAUSE}`,
+        since,
+        previewParam,
+      ),
+      rowsOf(
+        db,
+        `SELECT COALESCE(NULLIF(utm_source, ''), NULLIF(ref_host, ''), 'direct') AS source,
+                COUNT(DISTINCT session) AS sessions
+           FROM events WHERE type = 'view' AND day >= date('now', ?1) AND ${ENV_CLAUSE}
+          GROUP BY source ORDER BY sessions DESC LIMIT 15`,
+        since,
+        previewParam,
+      ),
+      rowsOf(
+        db,
+        `SELECT utm_campaign AS campaign, COUNT(DISTINCT session) AS sessions
+           FROM events WHERE type = 'view' AND utm_campaign IS NOT NULL AND day >= date('now', ?1) AND ${ENV_CLAUSE}
+          GROUP BY campaign ORDER BY sessions DESC LIMIT 10`,
+        since,
+        previewParam,
+      ),
+      rowsOf(
+        db,
+        `SELECT path, COUNT(DISTINCT session) AS sessions
+           FROM events WHERE type = 'view' AND day >= date('now', ?1) AND ${ENV_CLAUSE}
+          GROUP BY path ORDER BY sessions DESC LIMIT 10`,
+        since,
+        previewParam,
+      ),
+      rowsOf(
+        db,
+        `SELECT COALESCE(device, 'unknown') AS device, COUNT(DISTINCT session) AS sessions
+           FROM events WHERE type = 'view' AND day >= date('now', ?1) AND ${ENV_CLAUSE}
+          GROUP BY device ORDER BY sessions DESC`,
+        since,
+        previewParam,
+      ),
+      rowsOf(
+        db,
+        `SELECT COALESCE(country, '??') AS country, COUNT(DISTINCT session) AS sessions
+           FROM events WHERE type = 'view' AND day >= date('now', ?1) AND ${ENV_CLAUSE}
+          GROUP BY country ORDER BY sessions DESC LIMIT 10`,
+        since,
+        previewParam,
+      ),
+      rowsOf(
+        db,
+        `SELECT bucket, COUNT(*) AS sessions FROM (
+           SELECT CASE
+                    WHEN MAX(value) >= 90 THEN '90-100%'
+                    WHEN MAX(value) >= 75 THEN '75-89%'
+                    WHEN MAX(value) >= 50 THEN '50-74%'
+                    WHEN MAX(value) >= 25 THEN '25-49%'
+                    ELSE '0-24%'
+                  END AS bucket
+             FROM events WHERE type = 'depth' AND day >= date('now', ?1) AND ${ENV_CLAUSE} GROUP BY session)
+          GROUP BY bucket ORDER BY bucket DESC`,
+        since,
+        previewParam,
+      ),
+      rowsOf(
+        db,
+        `SELECT section, COUNT(DISTINCT session) AS sessions,
+                ROUND(AVG(NULLIF(value, 0)) / 1000.0, 1) AS avg_seconds
+           FROM events WHERE type = 'section' AND section IS NOT NULL AND day >= date('now', ?1) AND ${ENV_CLAUSE}
+          GROUP BY section ORDER BY sessions DESC LIMIT 20`,
+        since,
+        previewParam,
+      ),
+      rowsOf(
+        db,
+        `SELECT label, COALESCE(section, '-') AS section, COUNT(*) AS clicks,
+                COUNT(DISTINCT session) AS sessions
+           FROM events WHERE type = 'click' AND day >= date('now', ?1) AND ${ENV_CLAUSE}
+          GROUP BY label, section ORDER BY clicks DESC LIMIT 20`,
+        since,
+        previewParam,
+      ),
+      rowsOf(
+        db,
+        `SELECT
+           COUNT(DISTINCT session) AS arrived,
+           COUNT(DISTINCT CASE WHEN session IN (
+             SELECT session FROM events WHERE type = 'section' AND section LIKE '%contact%'
+              AND day >= date('now', ?1) AND ${ENV_CLAUSE}) THEN session END) AS reached_contact,
+           COUNT(DISTINCT CASE WHEN session IN (
+             SELECT session FROM events WHERE type = 'click' AND href LIKE '%wa.me%'
+              AND day >= date('now', ?1) AND ${ENV_CLAUSE}) THEN session END) AS opened_whatsapp
+           FROM events WHERE type = 'view' AND day >= date('now', ?1) AND ${ENV_CLAUSE}`,
+        since,
+        previewParam,
+      ),
+      // Per-guide funnel (issue #149 / funnel half of #155). Each of the
+      // next three is one UNION ALL query across GUIDES, guaranteeing a row
+      // per guide (even a guide with zero matches) instead of GROUP BY
+      // silently omitting an absent path.
+      rowsOf(
+        db,
+        GUIDES.map(
+          (guide) => `SELECT ${sqlStr(guide.path)} AS path, COUNT(DISTINCT session) AS n
+             FROM events
+            WHERE type = 'view' AND path = ${sqlStr(guide.path)} AND day >= date('now', ?1) AND ${ENV_CLAUSE}`,
+        ).join(' UNION ALL '),
+        since,
+        previewParam,
+      ),
+      rowsOf(
+        db,
+        GUIDES.map(
+          (guide) => `SELECT ${sqlStr(guide.path)} AS path, COUNT(DISTINCT session) AS n
+             FROM events
+            WHERE type = 'section' AND section = ${sqlStr(HANDOFF_SECTION)} AND path = ${sqlStr(guide.path)}
+              AND day >= date('now', ?1) AND ${ENV_CLAUSE}`,
+        ).join(' UNION ALL '),
+        since,
+        previewParam,
+      ),
+      rowsOf(
+        db,
+        GUIDES.map(
+          (guide) => `SELECT ${sqlStr(guide.path)} AS path, COUNT(DISTINCT session) AS n
+             FROM events
+            WHERE type = 'click' AND path = ${sqlStr(guide.path)}
+              AND label IN (${guide.clickLabels.map(sqlStr).join(', ')})
+              AND day >= date('now', ?1) AND ${ENV_CLAUSE}`,
+        ).join(' UNION ALL '),
+        since,
+        previewParam,
+      ),
+      // Top referrer per guide path: ordered by (path, sessions DESC) so the
+      // first row seen per path while iterating in order is that path's top
+      // referrer — no window function needed for D1 compatibility.
+      rowsOf(
+        db,
+        `SELECT path, COALESCE(NULLIF(utm_source, ''), NULLIF(ref_host, ''), 'direct') AS source,
+                COUNT(DISTINCT session) AS sessions
+           FROM events
+          WHERE type = 'view' AND day >= date('now', ?1) AND ${ENV_CLAUSE}
+            AND path IN (${GUIDES.map((guide) => sqlStr(guide.path)).join(', ')})
+          GROUP BY path, source ORDER BY path, sessions DESC`,
+        since,
+        previewParam,
+      ),
+      downloadCountsByAsset(),
+    ]);
 
     const total = totals[0] ?? {};
     const steps = funnel[0] ?? {};
     const arrived = num(steps.arrived);
     const share = (value: number): string =>
       arrived ? `${Math.round((value / arrived) * 100)}%` : '-';
+
+    const guideCount = (rows: Row[], path: string): number => num(rows.find((row) => row.path === path)?.n ?? 0);
+    const guideTopSource = (path: string): string | null => {
+      const row = guideSources.find((r) => r.path === path);
+      return row ? String(row.source ?? 'direct') : null;
+    };
+    const guideStats = GUIDES.map((guide) => {
+      const guideArrivedCount = guideCount(guideArrived, guide.path);
+      const guideShare = (value: number): string =>
+        guideArrivedCount ? `${Math.round((value / guideArrivedCount) * 100)}%` : '-';
+      return {
+        guide,
+        arrived: guideArrivedCount,
+        reached: guideCount(guideReached, guide.path),
+        clicked: guideCount(guideClicked, guide.path),
+        share: guideShare,
+        topSource: guideTopSource(guide.path),
+        downloads: downloadCounts ? downloadCounts[guide.asset] ?? null : null,
+      };
+    });
 
     // The honest-failure signal (issue #117): a binding that silently stops
     // writing looks, from outside, exactly like a quiet site. Showing when
@@ -254,6 +446,20 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
           url.searchParams.get('k') ? `&k=${encodeURIComponent(url.searchParams.get('k') ?? '')}` : ''
         }">${option}d</a>`,
     ).join('');
+
+    // Issue #149: the only link that ever brings preview-tagged rows back —
+    // preserves `k` and `days` exactly like the day tabs above.
+    const kParam = url.searchParams.get('k');
+    const previewToggleHref = (() => {
+      const params = new URLSearchParams();
+      if (kParam) params.set('k', kParam);
+      params.set('days', String(days));
+      if (!previewOn) params.set('preview', '1');
+      return `?${params.toString()}`;
+    })();
+    const previewToggle = `<a class="${previewOn ? 'on' : ''}" href="${previewToggleHref}">${
+      previewOn ? 'preview rows: shown' : 'preview rows: hidden'
+    }</a>`;
 
     const html = `<!doctype html>
 <html lang="en"><head>
@@ -298,6 +504,9 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   .funnel { display:flex; flex-direction:column; gap:0.5rem; }
   .step { display:grid; grid-template-columns:11rem 1fr 4rem; gap:0.6rem; align-items:center; font-size:0.9rem; }
   .step .bar { height:22px; border-radius:5px; background:var(--accent); }
+  .note { color:var(--soft); font-size:0.8rem; margin:0; }
+  .downloads { color:var(--soft); font-size:0.85rem; margin:0.6rem 0 0; }
+  .guides { display:flex; flex-direction:column; gap:1rem; }
   footer { color:var(--soft); font-size:0.8rem; }
 </style>
 </head><body><div class="wrap">
@@ -306,7 +515,9 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   <span class="pulse${stale ? ' stale' : ''}" title="The timestamp of the most recent row in the events table.">${escape(lastEventLabel)}</span>
   ${saltMissing ? '<span class="pulse stale" title="The ANALYTICS_SALT secret is not set on this environment — the collector fails closed and writes no rows.">ANALYTICS_SALT is not set — collection is paused</span>' : ''}
   <nav>${tabs}</nav>
+  <nav>${previewToggle}</nav>
 </header>
+<p class="note">Preview rows (our own branch-review and Playwright traffic) are hidden by default. Rows with no recorded environment — written before issue #149 — are shown as unknown, never silently reclassified as live or preview.</p>
 
 <section>
   <h2>Last ${days} days</h2>
@@ -382,6 +593,30 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         : '<tr><td class="label" colspan="4">No clicks recorded yet.</td></tr>'
     }
   </table></div>
+</section>
+
+<section>
+  <h2>Per guide</h2>
+  <div class="guides">
+    ${guideStats
+      .map(
+        (stat) => `<section>
+      <h2>${escape(stat.guide.title)}</h2>
+      <div class="funnel">
+        <div class="step"><span>Arrived</span><div class="bar" style="width:100%"></div><span>${stat.arrived}</span></div>
+        <div class="step"><span>Reached hand-off</span><div class="bar" style="width:${
+          stat.arrived ? (stat.reached / stat.arrived) * 100 : 0
+        }%"></div><span>${stat.share(stat.reached)}</span></div>
+        <div class="step"><span>Clicked GitHub</span><div class="bar" style="width:${
+          stat.arrived ? (stat.clicked / stat.arrived) * 100 : 0
+        }%"></div><span>${stat.share(stat.clicked)}</span></div>
+      </div>
+      <p class="empty">Top referrer: ${stat.topSource ? escape(stat.topSource) : 'no sessions yet'}</p>
+      <p class="downloads">${escape(stat.guide.asset)} — ${escape(formatDownloadCount(stat.downloads))} downloads from GitHub</p>
+    </section>`,
+      )
+      .join('')}
+  </div>
 </section>
 
 <footer>First-party data, collected by this site only. Visitor ids rotate daily; no IP addresses, cookies or form contents are stored. Rows older than 180 days are deleted.</footer>
