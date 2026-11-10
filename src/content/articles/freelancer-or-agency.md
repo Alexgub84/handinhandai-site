@@ -7,7 +7,7 @@ lastVerified: 2026-11-05
 pillar: "/#services"
 cluster: "decision"
 relatedArticles: ["app-or-website", "off-the-ai-builder"]
-draft: true
+draft: false
 primaryQuery: "פרילנסר או חברת פיתוח"
 secondaryQueries:
   - "פרילנסר מול חברה"

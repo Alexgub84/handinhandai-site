@@ -7,7 +7,7 @@ lastVerified: 2026-11-05
 pillar: "/#services"
 cluster: "decision"
 relatedArticles: ["app-or-website", "freelancer-or-agency"]
-draft: true
+draft: false
 primaryQuery: "לצאת מלאבבל"
 secondaryQueries:
   - "Lovable לייצור"

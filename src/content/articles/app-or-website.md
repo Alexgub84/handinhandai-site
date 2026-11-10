@@ -7,7 +7,7 @@ lastVerified: 2026-11-05
 pillar: "/#services"
 cluster: "decision"
 relatedArticles: ["freelancer-or-agency", "off-the-ai-builder"]
-draft: true
+draft: false
 primaryQuery: "אפליקציה או אתר"
 secondaryQueries:
   - "אפליקציה או אתר לעסק"
