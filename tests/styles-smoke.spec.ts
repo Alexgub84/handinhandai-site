@@ -3,7 +3,14 @@ import { test, expect } from '@playwright/test';
 test.describe('Homepage (/) CSS smoke tests', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    // Every test below reads a computed CSS property, so wait for the page's
+    // own stylesheet to be injected (the shared underlying condition all
+    // three tests depend on) instead of for network silence.
+    await page.waitForFunction(
+      () =>
+        document.querySelectorAll('link[rel="stylesheet"][href*="/_astro/"]').length > 0 ||
+        document.querySelectorAll('style[data-vite-dev-id]').length > 0
+    );
   });
 
   test('top nav has a visible border (prototype utility classes applied)', async ({ page }) => {

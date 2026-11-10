@@ -9,7 +9,13 @@ const pages = [
 for (const { path, name } of pages) {
   test(`${name} has CSS stylesheets injected (/_astro/ links or Vite dev style tags)`, async ({ page }) => {
     await page.goto(path);
-    await page.waitForLoadState('networkidle');
+    // Wait for exactly the condition this test is about to assert — either
+    // kind of stylesheet marker present — instead of for network silence.
+    await page.waitForFunction(
+      () =>
+        document.querySelectorAll('link[rel="stylesheet"][href*="/_astro/"]').length > 0 ||
+        document.querySelectorAll('style[data-vite-dev-id]').length > 0
+    );
 
     // Production builds inject <link rel="stylesheet" href="/_astro/...css">
     // Dev server (Vite) injects <style data-vite-dev-id="..."> inline style blocks
