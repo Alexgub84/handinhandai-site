@@ -181,6 +181,22 @@ build (issue #108), not just remembered:
   memory or a keyword tool's guess, and record the date it was read. See
   `docs/seo/content-programme-2026-11.md` for the required step.
 
+**The sitemap must never list a noindexed page — Google flagged exactly this
+contradiction on 2026-11-09 (issue #160).** `/articles/` sets
+`<meta name="robots" content="noindex">` in `src/pages/articles/index.astro`
+when the collection has no published (non-draft) article — a real state right
+after an article programme starts, and again any time every article is pulled
+back to draft. `astro.config.mjs`'s sitemap `filter` excludes that same URL
+under the identical condition, read from `src/lib/articles-index-noindex.mjs`
+(`isArticlesIndexNoindexed`) — the one function both the page and the config
+call, so they cannot drift apart the way they did on 2026-11-09. The config
+can't call `getCollection()` (it runs outside the content-collections
+runtime), so it reads each article's `draft` flag off disk with `gray-matter`
+instead and passes that array into the same shared function. **Never
+hardcode `/articles/` into the filter's exclusion list** — the day a guide is
+published this condition must flip the sitemap back on with no further edit,
+and a hardcoded path would silently stop doing that.
+
 ## Routes
 
 | Path | File | Notes |

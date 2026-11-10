@@ -3,6 +3,7 @@ import Layout from '@layouts/Layout.astro';
 import { defaultLang } from '@i18n/ui';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { includeDrafts } from '@/lib/build-env';
+import { isArticlesIndexNoindexed } from '@/lib/articles-index-noindex.mjs';
 
 type Cluster = CollectionEntry<'articles'>['data']['cluster'];
 
@@ -21,8 +22,10 @@ const CLUSTER_HEADINGS: Record<Cluster, string> = {
 // deploy, a local build, `astro dev`) it also lists drafts, visually
 // distinct and labelled, so a reviewer sees what is pending (#101).
 const showDrafts = includeDrafts();
-const articles = await getCollection('articles', ({ data }) => showDrafts || !data.draft);
-const publishedCount = articles.filter((a) => !a.data.draft).length;
+// Unfiltered: the noindex decision below needs every article's draft flag,
+// not just the ones this build is allowed to show.
+const allArticles = await getCollection('articles');
+const articles = showDrafts ? allArticles : allArticles.filter(({ data }) => !data.draft);
 
 const groups = CLUSTER_ORDER.map((cluster) => ({
   cluster,
@@ -34,8 +37,10 @@ const groups = CLUSTER_ORDER.map((cluster) => ({
 // seed stays draft) — the index must not invite search engines to a page
 // with nothing published on it yet. A listed draft (preview builds only)
 // doesn't change this: the page is still noindexed until something is
-// actually published.
-const noindex = publishedCount === 0;
+// actually published. astro.config.mjs reads this same condition (off disk,
+// not off the collection — see src/lib/articles-index-noindex.mjs) to keep
+// this page out of the sitemap at the same time (#160).
+const noindex = isArticlesIndexNoindexed(allArticles.map((a) => a.data.draft));
 ---
 
 <Layout

@@ -12,6 +12,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 
 import { rehypeArticleDevices } from './src/lib/rehype-article-devices.mjs';
+import { isArticlesIndexNoindexed } from './src/lib/articles-index-noindex.mjs';
 
 // A draft article's slug stays out of the sitemap in every build (#101) —
 // even a build that includes drafts (a Cloudflare preview deploy, a local
@@ -23,8 +24,15 @@ import { rehypeArticleDevices } from './src/lib/rehype-article-devices.mjs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const articlesDir = join(__dirname, 'src', 'content', 'articles');
 
-/** @returns {string[]} */
-function draftArticleSlugs() {
+// astro.config.mjs runs before the content-collections runtime exists, so
+// it can't call getCollection() like src/pages/articles/index.astro does —
+// it reads the same frontmatter straight off disk instead. One read feeds
+// both the per-article draft-slug exclusion (#101) and, via
+// isArticlesIndexNoindexed, the /articles index exclusion (#160): that
+// shared function is the single place the "noindex" condition lives, so
+// this file and the page can't drift apart on what it means.
+/** @returns {{ slug: string | undefined, draft: boolean }[]} */
+function articleFrontmatters() {
   /** @type {string[]} */
   let files = [];
   try {
@@ -34,19 +42,37 @@ function draftArticleSlugs() {
   } catch {
     return [];
   }
-  return files
-    .map((file) => matter(readFileSync(join(articlesDir, file), 'utf8')).data)
-    .filter((data) => data.draft === true && typeof data.slug === 'string')
-    .map((data) => /** @type {string} */ (data.slug));
+  return files.map((file) => {
+    const data = matter(readFileSync(join(articlesDir, file), 'utf8')).data;
+    return {
+      slug: typeof data.slug === 'string' ? data.slug : undefined,
+      draft: data.draft === true,
+    };
+  });
 }
 
-const draftSlugs = new Set(draftArticleSlugs());
+const articleFrontmatter = articleFrontmatters();
+
+const draftSlugs = new Set(
+  articleFrontmatter.filter((a) => a.draft && a.slug).map((a) => /** @type {string} */ (a.slug))
+);
 
 /** @param {string} page */
 function isDraftArticlePage(page) {
   const pathname = new URL(page).pathname.replace(/\/$/, '');
   const match = pathname.match(/^\/articles\/(.+)$/);
   return match ? draftSlugs.has(match[1]) : false;
+}
+
+// Mirrors src/pages/articles/index.astro's own noindex decision (#160):
+// that page sets <meta name="robots" content="noindex"> when the articles
+// collection has no published entry, and the sitemap must agree or Google
+// gets a page that invites a crawl it then refuses.
+const articlesIndexNoindexed = isArticlesIndexNoindexed(articleFrontmatter.map((a) => a.draft));
+
+/** @param {string} page */
+function isArticlesIndexPage(page) {
+  return new URL(page).pathname.replace(/\/$/, '') === '/articles';
 }
 
 // Canonical production domain. The live site is currently served at
@@ -72,9 +98,14 @@ export default defineConfig({
     // unconfirmed prices; rejected framing). Temporary — see
     // .claude/work-orders/82-hold-page.md; lifted by
     // .claude/work-orders/82-article.md.
-    // Draft article pages are excluded too (#101) — see isDraftArticlePage above.
+    // Draft article pages are excluded too (#101) — see isDraftArticlePage
+    // above. The /articles index itself is excluded while it has nothing
+    // published (#160) — see articlesIndexNoindexed above.
     sitemap({
-      filter: (page) => !page.includes('/app-publishing') && !isDraftArticlePage(page),
+      filter: (page) =>
+        !page.includes('/app-publishing') &&
+        !isDraftArticlePage(page) &&
+        !(articlesIndexNoindexed && isArticlesIndexPage(page)),
     }),
   ],
 });
