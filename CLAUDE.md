@@ -376,6 +376,16 @@ Nothing on the page talks to anyone but this domain. The chain is
   "ANALYTICS_SALT is not set — collection is paused" — so the dashboard says
   why it's quiet instead of just looking quiet. This is a plain env check
   (`!env.ANALYTICS_SALT`), no DB query.
+- **Headless browsers are invisible on purpose.** The collector
+  (`functions/api/e.ts`) deliberately drops any request whose User-Agent
+  contains `headless`, and still answers the browser's beacon with its normal
+  silent 204 — so a headless-browser walk of the site records nothing while
+  looking completely successful from the browser's side. This is correct
+  behaviour and must stay: a headless visit is a bot, not a visitor.
+  **Collection can only be verified end to end with a headed browser** — a
+  headless walk proves nothing about the funnel. [Reason: on 2026-11-10 a
+  session lost an hour checking the funnel with a headless browser and seeing
+  nothing recorded.]
 - **Verifying locally:** `npm run build`, then
   `npx wrangler pages dev --binding STATS_TOKEN=x ANALYTICS_SALT=y`. The real
   `ANALYTICS_DB` binding above already covers local D1 access — don't add a
