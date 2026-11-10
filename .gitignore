@@ -31,3 +31,6 @@ pnpm-debug.log*
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# wrangler local state (sqlite/d1 persistence, logs)
+.wrangler/
