@@ -597,6 +597,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
 <section>
   <h2>Per guide</h2>
+  <p class="note">GitHub's own count lags by tens of minutes and includes downloads made while testing — a floor on real interest, not a count of readers.</p>
   <div class="guides">
     ${guideStats
       .map(
