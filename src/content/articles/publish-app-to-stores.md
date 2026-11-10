@@ -7,7 +7,7 @@ lastVerified: 2026-11-08
 pillar: "/#services"
 cluster: "publishing"
 relatedArticles: ["app-or-website", "freelancer-or-agency"]
-draft: true
+draft: false
 primaryQuery: "איך מעלים אפליקציה לחנויות"
 secondaryQueries:
   - "איך מעלים אפליקציה לגוגל פליי"

@@ -6,9 +6,9 @@ import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import { shortAnswer, capGuides, sortGuides, FIXTURE_SLUG } from '../src/data/guides-format';
 
-// Issue #124 — homepage guides band: absent on the production branch while
-// every article is still a draft, present (with the real draft guides) on
-// any other build, capped at 3 cards, read affordance is a link not the
+// Issue #124 — homepage guides band: present (with the real published
+// guides) on the production branch now that articles are published, same
+// on any other build, capped at 3 cards, read affordance is a link not the
 // primary WhatsApp button.
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -30,6 +30,21 @@ function realGuideCount(): number {
     .map((file) => matter(readFileSync(join(articlesDir, file), 'utf8')).data.slug as string)
     .filter((slug) => slug !== FIXTURE_SLUG);
   return capGuides(realSlugs).length;
+}
+
+/**
+ * Same idea as `realGuideCount()`, but for the production branch: only
+ * non-draft, non-fixture articles count there (`hasPublishedArticles()` /
+ * `getHomepageGuides()` in src/data/articles.ts), so a draft article never
+ * inflates this count the way it does in dev/"include drafts" mode.
+ */
+function publishedGuideCount(): number {
+  const files = readdirSync(articlesDir).filter((entry) => entry.endsWith('.md'));
+  const publishedSlugs = files
+    .map((file) => matter(readFileSync(join(articlesDir, file), 'utf8')).data)
+    .filter((data) => data.slug !== FIXTURE_SLUG && !data.draft)
+    .map((data) => data.slug as string);
+  return capGuides(publishedSlugs).length;
 }
 
 test.describe('guides-format pure helpers', () => {
@@ -116,7 +131,7 @@ test.describe('guides band — branch mode (dev server always includes drafts, #
   });
 });
 
-test.describe('guides band — production branch (#124: absent while every article is a draft)', () => {
+test.describe('guides band — production branch (#124: present now that guides are published)', () => {
   const outDir = 'dist-test-production';
 
   test.beforeAll(() => {
@@ -135,9 +150,15 @@ test.describe('guides band — production branch (#124: absent while every artic
     rmSync(join(repoRoot, outDir), { recursive: true, force: true });
   });
 
-  test('the built homepage has no guides band and no מדריכים nav entry', () => {
+  test('the built homepage has the guides band and a מדריכים nav entry, with real published guides', () => {
     const html = readFileSync(join(repoRoot, outDir, 'index.html'), 'utf8');
-    expect(html).not.toContain('id="guides"');
-    expect(html).not.toContain('מדריכים');
+    expect(html).toContain('id="guides"');
+    expect(html).toContain('מדריכים');
+
+    const expectedCount = publishedGuideCount();
+    expect(expectedCount).toBeGreaterThan(0);
+    const cardMatches = html.match(/class="gd-card"/g) ?? [];
+    expect(cardMatches.length).toBe(expectedCount);
+    expect(cardMatches.length).toBeLessThanOrEqual(3);
   });
 });

@@ -7,7 +7,7 @@ lastVerified: 2026-11-05
 pillar: "/#services"
 cluster: "construction"
 relatedArticles: ["custom-vs-off-the-shelf-construction", "app-or-website"]
-draft: true
+draft: false
 primaryQuery: "תוכנה לניהול אתר בנייה"
 secondaryQueries:
   - "תוכנה לניהול פרויקטים בבניה"

@@ -7,7 +7,7 @@ lastVerified: 2026-11-05
 pillar: "/#services"
 cluster: "construction"
 relatedArticles: ["off-the-ai-builder", "app-or-website"]
-draft: true
+draft: false
 primaryQuery: "מערכת ניהול לחברת בנייה"
 secondaryQueries:
   - "מערכת מדף או פיתוח מותאם אישית"
