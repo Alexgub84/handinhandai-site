@@ -6,6 +6,13 @@ const WA = siteContact.whatsapp.replace("https://", "");
 // Bound verbatim per work order #82 round 3, ruling 3.
 const H1 = "פרסום אפליקציה בגוגל פליי ובאפ סטור תוך ימים. בלי 12 טסטרים, בלי 14 יום המתנה, בלי מק.";
 
+// Issue #104, Design item 4: this page's own hero carries no CSS entrance
+// animation today (unlike the homepage's ah-rise/ah-draw), but the layout
+// tests below must test the settled page deliberately, not by luck — same
+// discipline as home.spec.ts, sized down since there is no known animation
+// to outlast here.
+const LAYOUT_SETTLE_MS = 300;
+
 // Narrow, structural shapes for just the JSON-LD fields these tests read —
 // avoids `any` (project convention) while still reading arbitrary JSON off
 // the page (issue #82 round 2, design §A6).
@@ -60,7 +67,10 @@ async function collectJsonLd(page: Page): Promise<unknown[]> {
 test.describe("/app-publishing landing page", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/app-publishing");
-    await page.waitForLoadState("networkidle");
+    /* The first test below asserts this exact locator; every other test in
+       this block also operates on the rendered page, so wait on it instead
+       of network silence. */
+    await expect(page.locator("#hero h1")).toBeVisible();
   });
 
   test("renders the H1 from the spec", async ({ page }) => {
@@ -245,7 +255,9 @@ test.describe("/app-publishing landing page", () => {
   test("at 390px: no horizontal body overflow, and all three prices are visible without scrolling", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/app-publishing");
-    await page.waitForLoadState("networkidle");
+    /* ".ap-price-cards" is what the second half of this test asserts against. */
+    await expect(page.locator(".ap-price-cards")).toBeVisible();
+    await page.waitForTimeout(LAYOUT_SETTLE_MS);
 
     const hscroll = await page.evaluate(
       () => document.documentElement.scrollWidth > document.documentElement.clientWidth
@@ -264,7 +276,9 @@ test.describe("/app-publishing landing page", () => {
   test("at 1440px: every reading-width block stays within 860px", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/app-publishing");
-    await page.waitForLoadState("networkidle");
+    /* ".pg-wrap--reading" is exactly what this test measures below. */
+    await expect(page.locator(".pg-wrap--reading").first()).toBeVisible();
+    await page.waitForTimeout(LAYOUT_SETTLE_MS);
 
     const widths = await page.locator(".pg-wrap--reading").evaluateAll((els) =>
       els.map((el) => el.getBoundingClientRect().width)

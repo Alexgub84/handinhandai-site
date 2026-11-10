@@ -5,11 +5,24 @@ import { caseStudies } from "../src/data/case-studies";
 const WA = siteContact.whatsapp.replace("https://", "");
 const TITLE = "אלכס — HandInHandAI: סוכני AI ומערכות ניהול לעסקים";
 
+// Issue #104, Design item 4: the hero's headline lines rise in via the
+// `ah-rise` CSS keyframe (app.css) — up to a 0.24s stagger plus a 0.9s
+// duration, ~1.14s worst case. A test that measures boundingBox/scrollWidth
+// before that settles is testing a mid-animation frame by luck. 1500ms gives
+// a safety margin. This does NOT wait for the hero's *other*, infinite
+// decorative animations (orbiting rings, floating chips) — those never
+// finish, so waiting on them would hang the test forever; this is a fixed,
+// derived settle window, not an animation-completion poll.
+const HERO_ENTRANCE_SETTLE_MS = 1500;
+
 test.describe("homepage v3 (/)", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    /* Dev server loads component scripts as separate modules; wait for them before interacting. */
-    await page.waitForLoadState("networkidle");
+    /* Dev server loads component scripts as separate modules; every test in this
+       block operates on the rendered homepage, so wait for its first visible
+       content (the hero headline, asserted directly by the first test below)
+       rather than for the network to go quiet. */
+    await expect(page.locator("#top h1")).toBeVisible();
   });
 
   test("renders the hero headline with the rotating word", async ({ page }) => {
@@ -89,7 +102,10 @@ test.describe("homepage v3 (/)", () => {
   test("mobile hero orders headline, portrait, buttons, benefit chips", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    /* ".ah-bench" is the last element this test measures (asserted below), so
+       waiting on it proves the whole hero chain above it has rendered. */
+    await expect(page.locator("#top .ah-bench")).toBeVisible();
+    await page.waitForTimeout(HERO_ENTRANCE_SETTLE_MS);
 
     const headline = await page.locator("#top h1").boundingBox();
     const portrait = await page.locator("#top .ah-visual").boundingBox();
@@ -113,13 +129,15 @@ test.describe("homepage v3 (/)", () => {
   test("short phone screens still fit the whole hero above the fold", async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 640 });
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await expect(page.locator("#top .ah-bench")).toBeVisible();
+    await page.waitForTimeout(HERO_ENTRANCE_SETTLE_MS);
 
     const bench = await page.locator("#top .ah-bench").boundingBox();
     expect(bench!.y + bench!.height).toBeLessThanOrEqual(640);
   });
 
   test("desktop hero keeps the headline beside the portrait", async ({ page }) => {
+    await page.waitForTimeout(HERO_ENTRANCE_SETTLE_MS);
     const headline = await page.locator("#top h1").boundingBox();
     const portrait = await page.locator("#top .ah-visual").boundingBox();
     /* RTL: text column on the right, portrait on the left, vertically overlapping. */
@@ -172,7 +190,8 @@ test.describe("homepage v3 (/)", () => {
   test("no horizontal overflow at 390px", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await expect(page.locator("#top .ah-bench")).toBeVisible();
+    await page.waitForTimeout(HERO_ENTRANCE_SETTLE_MS);
 
     const hscroll = await page.evaluate(
       () => document.documentElement.scrollWidth > document.documentElement.clientWidth
@@ -193,7 +212,9 @@ test.describe("homepage v3 (/)", () => {
 test.describe("case studies on the homepage", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    /* Every test below reads the case-studies section; wait for its cards
+       (asserted directly further down) rather than for network silence. */
+    await expect(page.locator("#example .cs-card").first()).toBeVisible();
   });
 
   test("the section sits between About and the why toggle", async ({ page }) => {

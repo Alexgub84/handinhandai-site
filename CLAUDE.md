@@ -240,6 +240,16 @@ GitHub Actions workflow at `.github/workflows/test.yml` runs on every PR to `mai
 - `npm run test:ui` — Playwright UI mode
 - `npm run test:headed` — headed browser
 
+**Local/concurrent-session port (issue #104).** `playwright.config.ts` derives
+its own dev-server port per git worktree (a hash of `git rev-parse
+--show-toplevel` into 4400-4499, passed to `astro dev --port` and threaded
+into `webServer.url`/`use.baseURL` from one value) instead of the fixed 4321
+`npm run dev` uses. Two worktrees running the suite at once now get two
+servers, each reused only by the worktree that started it — a run in
+worktree B can no longer silently assert against worktree A's server and
+report a false pass. `npm run dev` still serves plain 4321, unchanged.
+Nothing in the suite may hardcode 4321 again.
+
 ## Retired pages
 
 `/fitness-studio` and `/fitness-chain` (plus their non-default-language variants) were removed on 2026-10-13 along with `FitnessLayout`, the vendored WhatsApp chat mock and `src/styles/fitness.css`. `public/_redirects` 301s those paths to `/`. Do not recreate them without a new spec.

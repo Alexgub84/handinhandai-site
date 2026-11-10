@@ -44,7 +44,16 @@ const hide = async (page: Page): Promise<void> => {
     Object.defineProperty(document, 'visibilityState', { value: 'hidden', configurable: true });
     document.dispatchEvent(new Event('visibilitychange'));
   });
-  await page.waitForTimeout(250);
+  // Issue #104, Design item 3: the mocked sendBeacon above reads the Blob
+  // body via `.text()`, an async read, so the push into `window.__beacons`
+  // lands a tick after `visibilitychange` returns — wait for that push
+  // (what every caller of `hide()` goes on to assert against) instead of a
+  // flat delay. Bounded, and swallowed on timeout: the DNT test calls
+  // `hide()` too and legitimately expects zero beacons forever, so this must
+  // not hang when none ever arrives.
+  await page
+    .waitForFunction(() => (window.__beacons?.length ?? 0) > 0, undefined, { timeout: 2000 })
+    .catch(() => {});
 };
 
 const batches = async (page: Page): Promise<Batch[]> =>
@@ -72,9 +81,14 @@ test('reports scroll depth, section reach and engaged time on leave', async ({ p
   await captureBeacons(page);
   await page.goto('/');
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  // Wait for the observer to actually report the last section rather than for a
-  // fixed delay — the page grew when the case studies moved onto it.
   await page.locator('#contact').scrollIntoViewIfNeeded();
+  // Issue #104, Design item 3: left as a fixed wait, named here with the
+  // reason — Analytics.astro (out of this order's file map) only counts a
+  // section as "reached" once real wall-clock dwell exceeds its own 500ms
+  // threshold (`if (ms > 500) push({ t: 'section', ... })`), tracked in a
+  // closure with nothing exposed on `window` to poll. There is no DOM-visible
+  // signal of "500ms of dwell has elapsed" to wait on instead; 900ms clears
+  // that threshold with margin.
   await page.waitForTimeout(900);
   await hide(page);
 

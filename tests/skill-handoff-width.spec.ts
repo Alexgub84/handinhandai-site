@@ -14,11 +14,19 @@ const PAGES = [
   '/install-skill/',
 ];
 
+// Issue #104, Design item 4: these article/install pages carry no CSS
+// entrance animation (unlike the homepage hero), but the settle discipline
+// still applies deliberately rather than by luck.
+const LAYOUT_SETTLE_MS = 300;
+
 for (const path of PAGES) {
   test(`at 390px: ${path} has no horizontal overflow`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(path);
-    await page.waitForLoadState('networkidle');
+    /* "main" is the content region every one of these pages renders into;
+       wait on it instead of network silence. */
+    await expect(page.locator('main')).toBeVisible();
+    await page.waitForTimeout(LAYOUT_SETTLE_MS);
 
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
     expect(scrollWidth).toBeLessThanOrEqual(390);

@@ -100,7 +100,9 @@ test.describe('guides-format pure helpers', () => {
 test.describe('guides band — branch mode (dev server always includes drafts, #101/#105)', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    /* The first test below asserts this exact locator is attached; wait on
+       it instead of network silence. */
+    await expect(page.locator('#guides')).toBeAttached();
   });
 
   test('the band renders between the case studies and the dark switch, with the real draft guides', async ({
