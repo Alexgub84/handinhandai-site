@@ -24,3 +24,8 @@
 # now live on `/` itself, so send the hand-shared link to the section.
 /examples      /#example  301
 /examples/     /#example  301
+
+# Old /contact links (bookmark, business card) land on the homepage contact
+# section instead of a dead page.
+/contact      /#contact   301
+/en/contact   /#contact   301
