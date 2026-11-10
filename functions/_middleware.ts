@@ -13,9 +13,9 @@
  * `X-Robots-Tag: noindex` so a search engine never indexes a duplicate.
  */
 
-interface Env {}
+import { PRODUCTION_HOSTNAME } from './lib/environment.mjs';
 
-const PRODUCTION_HOSTNAME = 'handinhandai.com';
+interface Env {}
 
 export const onRequest: PagesFunction<Env> = async (context) => {
   const response = await context.next();

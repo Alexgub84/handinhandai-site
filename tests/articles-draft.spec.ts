@@ -16,14 +16,17 @@ test('draft article page serves at 200 and is noindexed in a draft-including bui
   await expect(robots).toHaveAttribute('content', 'noindex');
 });
 
-test('articles index lists the draft with its unpublished label in a draft-including build', async ({
+test('articles index never lists the build fixture, even in a draft-including build', async ({
   page,
 }) => {
+  // The dossier-list redesign (work order `guides-flow`) reads its rows
+  // from `getGuidesIndex()` (src/data/articles.ts), which excludes
+  // `FIXTURE_SLUG` outright — same gate the homepage guides band uses —
+  // so the test fixture's page still serves (see the test above) but
+  // never appears as a row here, draft or not.
   await page.goto('/articles/');
 
-  const draftLink = page.getByRole('link', { name: 'Fixture: Markdown devices (not a real article)' });
-  await expect(draftLink).toBeVisible();
-
-  const draftItem = page.locator('li', { has: draftLink });
-  await expect(draftItem).toContainText('טיוטה');
+  await expect(
+    page.getByText('Fixture: Markdown devices (not a real article)')
+  ).toHaveCount(0);
 });
