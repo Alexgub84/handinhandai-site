@@ -8,6 +8,7 @@ pillar: "/#services"
 cluster: "publishing"
 relatedArticles: ["app-or-website", "freelancer-or-agency"]
 draft: false
+skill: "store-publishing"
 primaryQuery: "איך מעלים אפליקציה לחנויות"
 secondaryQueries:
   - "איך מעלים אפליקציה לגוגל פליי"
@@ -86,13 +87,7 @@ answersQuestions:
 
 באפל יש גם מלכודת תזמון: אי אפשר לפתוח שורת גרסה חדשה כל עוד גרסה קודמת יושבת ב־`Prepare for Submission` או מחכה לבדיקה. צריך לסגור אותה, להגיש אותה, או לדחוף אותה קדימה במקום — לפני שפותחים את הבאה.
 
-## אותו תהליך, כתוסף התקנה ל־Claude Code
-
-כל מה שתואר כאן — מהחשבון ועד הלחיצה שאין ממנה חזרה — קיים גם כתוסף (`skill`) שמתקינים לתוך `Claude Code`. ההתקנה היא שורת פקודה אחת, בטרמינל:
-
-`/plugin marketplace add` `Alexgub84/claude-skills`
-
-התוסף עצמו נקרא `store-publishing`, ונמצא בריפו הציבורי [github.com/Alexgub84/claude-skills](https://github.com/Alexgub84/claude-skills). מי שמתקין אותו מקבל את כל התהליך הזה כמסמך שקלוד עוקב אחריו צעד אחר צעד בזמן שהוא עובד — כולל הטיפול בדחייה ובעדכון — בלי להעתיק אף שורה ממנו ביד.
+התהליך הזה קיים גם כקובץ אחד להורדה, בלי טרמינל — ההתקנה בדפדפן מוסברת ב[עמוד ההתקנה](/install-skill/).
 
 ## הערה מהשטח
 

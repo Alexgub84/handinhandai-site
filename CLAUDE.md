@@ -197,6 +197,26 @@ hardcode `/articles/` into the filter's exclusion list** — the day a guide is
 published this condition must flip the sitemap back on with no further edit,
 and a hardcoded path would silently stop doing that.
 
+**Skill hand-off (issue #155, second half).** An article whose frontmatter
+sets `skill` (a key into the registry at `src/data/skills.ts`) gets
+`SkillHandoff.astro` rendered right after its body — a download button for
+that skill's release ZIP, a link to `/install-skill` (the one dated page
+that teaches the three browser clicks every skill-carrying guide links to
+instead of narrating them itself), and the developer command line as the
+secondary route. The registry is the only place the release-asset URL shape
+is encoded; a hand-typed asset URL anywhere else is drift the council's
+decision record (`docs/council/2026-11-09-skill-distribution.md`) already
+refused. The card's `data-track` label is always computed from the prop —
+`skill-handoff-download-${skillKey}` — never hand-typed per guide, so a
+future third skill gets it for free; its root element also carries
+`data-track-section="skill-handoff"` so the analytics dashboard can tell a
+reader *reached* the card from a reader who clicked the download. A shell
+command or a repo path never goes inside `.art-term` (it has no
+`overflow-x` and no `direction` on its own container, so a run that long
+pushes the page past the viewport at 390px) — use the
+`.skill-cmd-row`/`.skill-cmd` (and `.skill-repo-row`/`.skill-repo`)
+primitives in `src/styles/home/article.css` instead.
+
 ## Routes
 
 | Path | File | Notes |

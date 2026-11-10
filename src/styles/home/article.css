@@ -401,6 +401,134 @@ body {
   white-space: nowrap;
 }
 
+/* Skill hand-off card + install page (issue #155, second half). Ported from
+   the Claude Design specimen (`.skillblock-a` variant,
+   /private/tmp/.../scratchpad/specimen/skill-block.html) — chrome only, its
+   fictional content isn't what ships. Reuses --primary/--card/--border,
+   already in this file; no new visual language.
+
+   The bidi-safe command-line primitive, used by both SkillHandoff.astro and
+   install-skill.astro: a shell command or a repo path is NEVER put inside
+   `.art-term` above — that chip has no `overflow-x` and no `direction` on
+   its own container, so a run this long (the two developer lines below are
+   both well past 390px of monospace text) pushes the whole page past the
+   phone viewport instead of wrapping or scrolling. Exactly the regression
+   `tests/skill-handoff-width.spec.ts` guards. The CONTAINER needs
+   `direction: ltr`, not just the text inside it — in this dir="rtl"
+   document an overflow:auto box with no direction of its own inherits rtl,
+   which flips which edge "scrolled to the start" means and opens already
+   scrolled past the first token. Copied verbatim from the specimen, found
+   there by testing the real overflow at 390px, not assumed. */
+.skill-cmd-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  direction: ltr;
+}
+.skill-cmd {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  color: hsl(var(--foreground));
+  /* `white-space: normal`, not `nowrap`: found empirically (390px
+     screenshot, not assumed) that the longer of the two real commands —
+     "/plugin marketplace add Alexgub84/claude-skills" — is wider than the
+     card at 390px, and `nowrap` silently clips it inside the row's own
+     `overflow-x: auto` with no visible scrollbar, instead of overflowing
+     the page (which the page-width test would have caught). Letting the
+     line wrap at its natural space boundaries shows the whole command on
+     two lines instead; `overflow-x: auto` on the row stays as a fallback
+     for a single token with no spaces that's wider than the card. */
+  white-space: normal;
+  word-break: break-word;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.skill-repo-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  direction: ltr;
+}
+.skill-repo {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+  direction: ltr;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* Card shell — specimen variant A, with the primary action swapped for a
+   download button (`.ah-btn.ah-btn-primary`, imported from app.css,
+   reused verbatim — not redefined here). */
+.skill-handoff {
+  width: 100%;
+  margin: 28px 0;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+  padding: 20px 22px;
+}
+.skill-handoff-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: hsl(var(--muted-foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: 999px;
+  padding: 3px 10px;
+  margin: 0 0 14px;
+}
+.skill-handoff-eyebrow .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: hsl(var(--primary));
+  flex: none;
+}
+.skill-handoff-desc {
+  font-size: 0.98rem;
+  color: hsl(var(--foreground) / 0.9);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+.skill-handoff-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 0 0 18px;
+}
+.skill-handoff-install-link {
+  font-size: 0.92rem;
+  color: hsl(var(--primary-text));
+  text-decoration: underline;
+}
+.skill-handoff-dev-label {
+  font-size: 0.85rem;
+  color: hsl(var(--muted-foreground));
+  margin: 0 0 8px;
+}
+.skill-handoff-dev .skill-cmd-row {
+  background: hsl(var(--background-deep));
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 0 0 8px;
+}
+.skill-handoff-dev .skill-cmd-row:last-child {
+  margin-bottom: 0;
+}
+
 /* Comparison table — desktop table is .ap-table* verbatim, phone cards are
    .ap-price-card* verbatim (both app-publishing.css, issue #82 — see
    dependency note at the top of this file), same 767/768px breakpoint the

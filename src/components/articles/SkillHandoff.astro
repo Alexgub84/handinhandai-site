@@ -1,0 +1,53 @@
+---
+/**
+ * The guide's hand-off card (issue #155, second half). A quiet card, not a
+ * paragraph: a download button is the primary action, a text link beside
+ * it points to `/install-skill` (the one dated page that teaches the three
+ * browser clicks), and the developer command line sits underneath as the
+ * secondary route. Everything derived (name, description, the asset URL)
+ * comes from `src/data/skills.ts` — this component hand-types nothing but
+ * the two developer command strings, which are not derived from the
+ * version and never change with it.
+ *
+ * `data-track-section="skill-handoff"` on the root element is what lets the
+ * analytics dashboard say a reader *reached* the card (not just clicked the
+ * download) — see CLAUDE.md's "Labelling a CTA" convention: sections come
+ * from `section[id]` or `data-track-section`.
+ */
+import LucideIcon from "@components/home/LucideIcon.astro";
+import { SKILLS, skillAssetUrl, type SkillKey } from "@/data/skills";
+
+interface Props {
+  skillKey: SkillKey;
+}
+
+const { skillKey } = Astro.props;
+const skill = SKILLS[skillKey];
+const assetUrl = skillAssetUrl(skillKey);
+// Computed, never hand-typed per guide — a future third skill gets this for
+// free. See CLAUDE.md's Articles section for the convention.
+const downloadTrack = `skill-handoff-download-${skillKey}`;
+---
+
+<div class="skill-handoff" data-track-section="skill-handoff">
+  <span class="skill-handoff-eyebrow"><span class="dot"></span>סקיל להתקנה</span>
+  <p class="skill-handoff-desc">{skill.description}</p>
+
+  <div class="skill-handoff-actions">
+    <a href={assetUrl} class="ah-btn ah-btn-primary" data-track={downloadTrack} download>
+      <LucideIcon name="download" />
+      <span>הורדת הסקיל (ZIP)</span>
+    </a>
+    <a href="/install-skill/" class="skill-handoff-install-link">איך מתקינים בלי טרמינל?</a>
+  </div>
+
+  <div class="skill-handoff-dev">
+    <p class="skill-handoff-dev-label">למי שעובד מהטרמינל:</p>
+    <div class="skill-cmd-row">
+      <span class="skill-cmd">/plugin marketplace add Alexgub84/claude-skills</span>
+    </div>
+    <div class="skill-cmd-row">
+      <span class="skill-cmd">npx skills add Alexgub84/claude-skills</span>
+    </div>
+  </div>
+</div>

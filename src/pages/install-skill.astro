@@ -1,0 +1,125 @@
+---
+/**
+ * The one dated page that teaches the three browser clicks to install a
+ * Claude skill with no terminal (issue #155, second half). Every guide that
+ * hands a reader a skill links here instead of narrating the click-path
+ * itself, so a menu move on Anthropic's side is a one-page fix.
+ *
+ * Reuses `ArticleLayout` completely unmodified, as a plain `.astro` page —
+ * not a collection entry (see the work order's Design section for why:
+ * this page needs a loop over the skill registry and the same bidi-safe
+ * command primitive the hand-off card uses, both easier to get right in
+ * Astro than through the Markdown→rehype pipeline built for prose).
+ * `ArticleLayout`'s own `ArticleData` interface types `cluster` as a plain
+ * `string`, not the articles collection's stricter enum, so this page never
+ * trips `scripts/check-articles.mjs`'s draft/lastVerified/keyword-brief
+ * guards — confirmed by reading that interface before writing this file.
+ */
+import ArticleLayout from '@layouts/ArticleLayout.astro';
+import LucideIcon from '@components/home/LucideIcon.astro';
+import { SKILLS, SKILLS_REPO, skillAssetUrl, type SkillKey } from '@/data/skills';
+
+const skillKeys = Object.keys(SKILLS) as SkillKey[];
+
+const article = {
+  title: 'איך מתקינים סקיל של Claude בדפדפן, בלי טרמינל',
+  description:
+    'סקיל הוא תיקייה עם קובץ הוראות אחד ש־Claude עוקב אחריו שלב־אחר־שלב, בלי להמציא את הדרך בכל שיחה מחדש. בעמוד הזה מוסבר איך מתקינים אחד — בדפדפן, בלי טרמינל ובלי חשבון GitHub.',
+  slug: 'install-skill',
+  publishedAt: new Date('2026-11-10'),
+  // The date this route was last walked in a real browser, not a
+  // publication date for prose — see the manager's ruling (work order
+  // 155-2): the install steps below were read off Anthropic's own help
+  // page on this date.
+  lastVerified: new Date('2026-11-10'),
+  pillar: '/#services',
+  cluster: 'install',
+  relatedArticles: ['publish-app-to-stores', 'get-verified-for-whatsapp-cloud-api'],
+  draft: false,
+};
+---
+
+<ArticleLayout article={article}>
+  <p>
+    שני המדריכים באתר הזה מלמדים תהליך, ומוסרים אותו גם כקובץ — סקיל שמורידים
+    ומעלים ל־<span class="art-term">Claude</span>. העמוד הזה מסביר את ההתקנה פעם
+    אחת, כך שכל שינוי בתפריט של <span class="art-term">Claude</span> מתוקן כאן
+    בלבד, ולא בכל מדריך מחדש.
+  </p>
+
+  <h2>שלושה צעדים בדפדפן</h2>
+  <ol>
+    <li>
+      בהגדרות — <a href="https://claude.ai/settings/capabilities"><span class="art-term">Settings → Capabilities</span></a> —
+      ודאו שהרצת קוד מופעלת (<span class="art-term">Code execution and file creation</span>,
+      ובגרסת התפריט המעודכנת: <span class="art-term">Create and edit files</span>). בלי זה,
+      <span class="art-term">Skills</span> לא מופיע בתפריט בכלל.
+    </li>
+    <li>
+      עברו ל־<a href="https://claude.ai/customize/skills"><span class="art-term">Customize → Skills</span></a>,
+      לחצו על כפתור ה־<span class="art-term">+</span>, ואז על
+      <span class="art-term">Create skill</span>.
+    </li>
+    <li>
+      בחרו <span class="art-term">Upload a skill</span>, והעלו את קובץ ה־ZIP כמו שהוא —
+      בלי לחלץ אותו. השורש של הקובץ הוא תיקיית הסקיל עצמה. הסקיל יופיע ברשימה
+      שלכם, ואפשר להדליק או לכבות אותו.
+    </li>
+  </ol>
+
+  <p>
+    הצעדים האלה נקראו ב<a href="https://support.claude.com/en/articles/12512180-use-skills-in-claude">עמוד
+    העזרה של Anthropic</a> בתאריך הבדיקה האחרונה שמופיע למעלה. לא ביצענו הליך
+    התקנה אמיתי בחשבון כלשהו כדי לכתוב את הצעדים — קראנו אותם מהעמוד הרשמי,
+    ומעדכנים את התאריך בכל פעם שהם נקראים מחדש.
+  </p>
+
+  <h2>הורדת הקבצים</h2>
+  <p>שני הסקילים זמינים כקובץ, אחד לכל מדריך:</p>
+
+  {skillKeys.map((key) => (
+    <div class="skill-handoff" data-track-section="skill-handoff">
+      <span class="skill-handoff-eyebrow"><span class="dot"></span>{SKILLS[key].name}</span>
+      <p class="skill-handoff-desc">{SKILLS[key].description}</p>
+      <div class="skill-handoff-actions">
+        <a
+          href={skillAssetUrl(key)}
+          class="ah-btn ah-btn-primary"
+          data-track={`skill-handoff-download-${key}`}
+          download
+        >
+          <LucideIcon name="download" />
+          <span>הורדת הסקיל (ZIP)</span>
+        </a>
+      </div>
+    </div>
+  ))}
+
+  <h2>למי שעובד מהטרמינל</h2>
+  <p>אותם שני הסקילים מותקנים גם בלי הורדה, כתוסף (plugin) ל־Claude Code:</p>
+  <div class="skill-cmd-row">
+    <span class="skill-cmd">/plugin marketplace add Alexgub84/claude-skills</span>
+  </div>
+  <div class="skill-cmd-row">
+    <span class="skill-cmd">npx skills add Alexgub84/claude-skills</span>
+  </div>
+  <div class="skill-repo-row">
+    <span class="skill-repo">github.com/{SKILLS_REPO}</span>
+  </div>
+
+  <h2>שלוש עובדות שכדאי לדעת לפני ההתקנה</h2>
+  <ul>
+    <li>עותק שהורדתם לא מתעדכן לבד — הוא נשאר מדויק ליום ההורדה, ולא לאחריו.</li>
+    <li>הסקיל לא עושה שום דבר שהמדריך שלידו הוא מקושר לא מלמד ביד, שלב־אחר־שלב.</li>
+    <li>
+      התאריך "נבדק לאחרונה" שבראש העמוד הזה הוא התאריך שבו הצעדים האלה נקראו
+      בעמוד הרשמי של Anthropic בפועל — לא תאריך פרסום, ולא הבטחה שהם יישארו
+      נכונים לנצח.
+    </li>
+  </ul>
+
+  <p>
+    מסך שלא תואם למה שמתואר כאן אפשר לדווח עליו
+    <a href={`https://github.com/${SKILLS_REPO}/issues`}>ישירות בריפו הציבורי</a>.
+  </p>
+</ArticleLayout>
