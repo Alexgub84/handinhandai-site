@@ -20,9 +20,11 @@ import Footer from '@components/Footer.astro';
 import WhatsAppIcon from '@components/home/WhatsAppIcon.astro';
 import LucideIcon from '@components/home/LucideIcon.astro';
 import AiAnswersNote from '@components/home/AiAnswersNote.astro';
+import SkillHandoff from '@components/articles/SkillHandoff.astro';
 import { defaultLang } from '@i18n/ui';
 import { waLink } from '@/data/site-contact';
 import { buildArticleSchema } from '@/data/article-schema';
+import type { SkillKey } from '@/data/skills';
 import { getCollection } from 'astro:content';
 
 import '@styles/global.css';
@@ -47,6 +49,8 @@ interface ArticleData {
   cluster: string;
   relatedArticles: string[];
   draft: boolean;
+  /** Mounts the hand-off card (download + install link + dev command) right after the body. */
+  skill?: SkillKey;
 }
 
 interface Props {
@@ -178,6 +182,8 @@ const waHeaderMessage = `היי אלכס, קראתי את "${article.title}" ו�
           <div class="art-body">
             <slot />
           </div>
+
+          {article.skill && <SkillHandoff skillKey={article.skill} />}
 
           <div class="art-table-slot">
             <slot name="table" />
