@@ -6,7 +6,7 @@ publishedAt: 2026-11-08
 lastVerified: 2026-11-08
 pillar: "/#services"
 cluster: "whatsapp"
-relatedArticles: ["whatsapp-ai-cloud-api", "publish-app-to-stores"]
+relatedArticles: ["publish-app-to-stores"]
 draft: false
 primaryQuery: "אימות עסק בפייסבוק"
 secondaryQueries:
