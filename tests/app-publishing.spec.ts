@@ -6,12 +6,22 @@ const WA = siteContact.whatsapp.replace("https://", "");
 // Bound verbatim per work order #82 round 3, ruling 3.
 const H1 = "פרסום אפליקציה בגוגל פליי ובאפ סטור תוך ימים. בלי 12 טסטרים, בלי 14 יום המתנה, בלי מק.";
 
-// Issue #104, Design item 4: this page's own hero carries no CSS entrance
-// animation today (unlike the homepage's ah-rise/ah-draw), but the layout
-// tests below must test the settled page deliberately, not by luck — same
-// discipline as home.spec.ts, sized down since there is no known animation
-// to outlast here.
-const LAYOUT_SETTLE_MS = 300;
+// Issue #104, Design item 4 (verifier round 2): wait for the page's own
+// running animations to actually finish rather than guess a duration — see
+// home.spec.ts for the full reasoning. This page's hero carries no CSS
+// entrance animation today, so `document.getAnimations()` returns nothing
+// finite and this resolves immediately; `capMs` only guards against one
+// Playwright can't observe correctly.
+async function waitForEntranceAnimations(page: Page, capMs = 2000): Promise<void> {
+  await page.evaluate(async (cap) => {
+    const finite = document
+      .getAnimations()
+      .filter((a) => a.effect?.getTiming().iterations !== Infinity);
+    const settled = Promise.all(finite.map((a) => a.finished.catch(() => undefined)));
+    const capped = new Promise<void>((resolve) => setTimeout(resolve, cap));
+    await Promise.race([settled, capped]);
+  }, capMs);
+}
 
 // Narrow, structural shapes for just the JSON-LD fields these tests read —
 // avoids `any` (project convention) while still reading arbitrary JSON off
@@ -257,7 +267,7 @@ test.describe("/app-publishing landing page", () => {
     await page.goto("/app-publishing");
     /* ".ap-price-cards" is what the second half of this test asserts against. */
     await expect(page.locator(".ap-price-cards")).toBeVisible();
-    await page.waitForTimeout(LAYOUT_SETTLE_MS);
+    await waitForEntranceAnimations(page);
 
     const hscroll = await page.evaluate(
       () => document.documentElement.scrollWidth > document.documentElement.clientWidth
@@ -278,7 +288,7 @@ test.describe("/app-publishing landing page", () => {
     await page.goto("/app-publishing");
     /* ".pg-wrap--reading" is exactly what this test measures below. */
     await expect(page.locator(".pg-wrap--reading").first()).toBeVisible();
-    await page.waitForTimeout(LAYOUT_SETTLE_MS);
+    await waitForEntranceAnimations(page);
 
     const widths = await page.locator(".pg-wrap--reading").evaluateAll((els) =>
       els.map((el) => el.getBoundingClientRect().width)

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 // Issue #155, second half — regression guard. The old narrated "install as
 // a plugin" paragraph hand-wrote its developer command inside `.art-term`
@@ -14,10 +14,22 @@ const PAGES = [
   '/install-skill/',
 ];
 
-// Issue #104, Design item 4: these article/install pages carry no CSS
-// entrance animation (unlike the homepage hero), but the settle discipline
-// still applies deliberately rather than by luck.
-const LAYOUT_SETTLE_MS = 300;
+// Issue #104, Design item 4 (verifier round 2): wait for the page's own
+// running animations to actually finish rather than guess a duration — see
+// home.spec.ts for the full reasoning. These article/install pages carry no
+// CSS entrance animation, so `document.getAnimations()` returns nothing
+// finite and this resolves immediately; `capMs` only guards against one
+// Playwright can't observe correctly.
+async function waitForEntranceAnimations(page: Page, capMs = 2000): Promise<void> {
+  await page.evaluate(async (cap) => {
+    const finite = document
+      .getAnimations()
+      .filter((a) => a.effect?.getTiming().iterations !== Infinity);
+    const settled = Promise.all(finite.map((a) => a.finished.catch(() => undefined)));
+    const capped = new Promise<void>((resolve) => setTimeout(resolve, cap));
+    await Promise.race([settled, capped]);
+  }, capMs);
+}
 
 for (const path of PAGES) {
   test(`at 390px: ${path} has no horizontal overflow`, async ({ page }) => {
@@ -26,7 +38,7 @@ for (const path of PAGES) {
     /* "main" is the content region every one of these pages renders into;
        wait on it instead of network silence. */
     await expect(page.locator('main')).toBeVisible();
-    await page.waitForTimeout(LAYOUT_SETTLE_MS);
+    await waitForEntranceAnimations(page);
 
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
     expect(scrollWidth).toBeLessThanOrEqual(390);

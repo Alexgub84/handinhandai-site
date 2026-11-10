@@ -1,19 +1,31 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { siteContact, legal } from "../src/data/site-contact";
 import { caseStudies } from "../src/data/case-studies";
 
 const WA = siteContact.whatsapp.replace("https://", "");
 const TITLE = "אלכס — HandInHandAI: סוכני AI ומערכות ניהול לעסקים";
 
-// Issue #104, Design item 4: the hero's headline lines rise in via the
-// `ah-rise` CSS keyframe (app.css) — up to a 0.24s stagger plus a 0.9s
-// duration, ~1.14s worst case. A test that measures boundingBox/scrollWidth
-// before that settles is testing a mid-animation frame by luck. 1500ms gives
-// a safety margin. This does NOT wait for the hero's *other*, infinite
-// decorative animations (orbiting rings, floating chips) — those never
-// finish, so waiting on them would hang the test forever; this is a fixed,
-// derived settle window, not an animation-completion poll.
-const HERO_ENTRANCE_SETTLE_MS = 1500;
+// Issue #104, Design item 4 (verifier round 2): a layout-measuring test must
+// test the settled page, not a mid-animation frame — but a fixed delay is
+// just a smaller guess about machine speed, the exact failure mode this
+// issue exists to remove. Ask the page itself instead: `document
+// .getAnimations()` returns every animation and each has a `.finished`
+// promise. The hero also runs several *infinite* decorative animations
+// (orbiting rings, floating chips, app.css's ah-spin/ah-bob/ah-float/etc.) —
+// those never finish, so this filters them out by their own timing
+// (`iterations === Infinity`) rather than waiting on them. `capMs` is a
+// safety net for an animation Playwright can't observe correctly, not the
+// primary wait; a page with no finite animation running resolves immediately.
+async function waitForEntranceAnimations(page: Page, capMs = 2000): Promise<void> {
+  await page.evaluate(async (cap) => {
+    const finite = document
+      .getAnimations()
+      .filter((a) => a.effect?.getTiming().iterations !== Infinity);
+    const settled = Promise.all(finite.map((a) => a.finished.catch(() => undefined)));
+    const capped = new Promise<void>((resolve) => setTimeout(resolve, cap));
+    await Promise.race([settled, capped]);
+  }, capMs);
+}
 
 test.describe("homepage v3 (/)", () => {
   test.beforeEach(async ({ page }) => {
@@ -105,7 +117,7 @@ test.describe("homepage v3 (/)", () => {
     /* ".ah-bench" is the last element this test measures (asserted below), so
        waiting on it proves the whole hero chain above it has rendered. */
     await expect(page.locator("#top .ah-bench")).toBeVisible();
-    await page.waitForTimeout(HERO_ENTRANCE_SETTLE_MS);
+    await waitForEntranceAnimations(page);
 
     const headline = await page.locator("#top h1").boundingBox();
     const portrait = await page.locator("#top .ah-visual").boundingBox();
@@ -130,14 +142,14 @@ test.describe("homepage v3 (/)", () => {
     await page.setViewportSize({ width: 360, height: 640 });
     await page.goto("/");
     await expect(page.locator("#top .ah-bench")).toBeVisible();
-    await page.waitForTimeout(HERO_ENTRANCE_SETTLE_MS);
+    await waitForEntranceAnimations(page);
 
     const bench = await page.locator("#top .ah-bench").boundingBox();
     expect(bench!.y + bench!.height).toBeLessThanOrEqual(640);
   });
 
   test("desktop hero keeps the headline beside the portrait", async ({ page }) => {
-    await page.waitForTimeout(HERO_ENTRANCE_SETTLE_MS);
+    await waitForEntranceAnimations(page);
     const headline = await page.locator("#top h1").boundingBox();
     const portrait = await page.locator("#top .ah-visual").boundingBox();
     /* RTL: text column on the right, portrait on the left, vertically overlapping. */
@@ -191,7 +203,7 @@ test.describe("homepage v3 (/)", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
     await expect(page.locator("#top .ah-bench")).toBeVisible();
-    await page.waitForTimeout(HERO_ENTRANCE_SETTLE_MS);
+    await waitForEntranceAnimations(page);
 
     const hscroll = await page.evaluate(
       () => document.documentElement.scrollWidth > document.documentElement.clientWidth
