@@ -115,6 +115,16 @@ body {
   padding-top: clamp(40px, 6vh, 64px);
 }
 
+/* Unconditional breadcrumb back to the guides list (work order
+   `guides-flow`, design §3: "every guide page links back to the list page
+   in its own chrome"). `.art-author` is reused verbatim for the link
+   itself, same soft-link treatment as the byline/pillar links; this rule
+   only sets the small gap above the H1. */
+.art-back-link {
+  margin: 0 0 14px;
+  font-size: 0.92rem;
+}
+
 /* H1 — copied verbatim from app-publishing/Hero.astro .ap-h1 (issue #82, not
    yet on main — defined here directly instead of imported, same dependency
    note as the header above). The class itself carries no text-align —

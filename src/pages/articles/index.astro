@@ -1,37 +1,35 @@
 ---
-import Layout from '@layouts/Layout.astro';
-import { defaultLang } from '@i18n/ui';
-import { getCollection, type CollectionEntry } from 'astro:content';
-import { includeDrafts } from '@/lib/build-env';
-import { isArticlesIndexNoindexed } from '@/lib/articles-index-noindex.mjs';
+/* /articles — the מדריכים list page. Work order `.claude/work-orders/guides-flow.md`.
+   Replaces the plain `<h1>` + underlined link list with the approved "dossier"
+   design (owner-chosen after seeing 3 variants; local/guides-list/README.md),
+   staged in the design system as local/design-system/patterns/guides-list.html.
+   A vertical case list: each guide is a docket row with a stamped seal
+   (alternating brand green / deep orange --orb, same token as the homepage
+   portrait disc), a dashed spine line, a cluster tab, the publish date as a
+   case-open stamp, and "זמן עיון" (review time) instead of a generic
+   reading-time label. New CSS lives in `src/styles/home/articles-list.css`,
+   prefixed `.dk-` (dossier), ported from the specimen — `app.css` / `tailwind.css`
+   stay frozen.
 
-type Cluster = CollectionEntry<'articles'>['data']['cluster'];
+   Renders through the homepage design system (HomeDocumentShell +
+   PageHeader), same as `/app-publishing` and `/`, so this reads as a bigger
+   sibling of the homepage guides band, not a different site — instead of the
+   old generic Layout.astro + Tailwind `global.css`.
 
-// Static service headings per the settled content architecture
-// (docs/seo/content-programme-2026-11.md) — one per article cluster.
-const CLUSTER_ORDER: Cluster[] = ['decision', 'publishing', 'whatsapp', 'construction'];
-const CLUSTER_HEADINGS: Record<Cluster, string> = {
-  decision: 'החלטות לפני שמתחילים',
-  publishing: 'פרסום אפליקציות',
-  whatsapp: 'עוזרי AI בוואטסאפ',
-  construction: 'פיקוח ובקרת איכות בבנייה',
-};
+   Content comes entirely from `getGuidesIndex()` (src/data/articles.ts):
+   publishing a guide adds a row with no change here. The build's own test
+   fixture never appears (same `FIXTURE_SLUG` gate the homepage band uses). */
+import "@styles/home/articles-list.css";
+import HomeDocumentShell from "@/components/home/HomeDocumentShell.astro";
+import PageHeader from "@/components/home/PageHeader.astro";
+import LucideIcon from "@/components/home/LucideIcon.astro";
+import { getCollection } from "astro:content";
+import { getGuidesIndex } from "@/data/articles";
+import { CLUSTER_HEADINGS } from "@/data/guides-format";
+import { resolveSite } from "@/data/organization-schema";
+import { isArticlesIndexNoindexed } from "@/lib/articles-index-noindex.mjs";
 
-// On the production branch the index lists only published entries, exactly
-// as proved in #98. On a build that includes drafts (a Cloudflare preview
-// deploy, a local build, `astro dev`) it also lists drafts, visually
-// distinct and labelled, so a reviewer sees what is pending (#101).
-const showDrafts = includeDrafts();
-// Unfiltered: the noindex decision below needs every article's draft flag,
-// not just the ones this build is allowed to show.
-const allArticles = await getCollection('articles');
-const articles = showDrafts ? allArticles : allArticles.filter(({ data }) => !data.draft);
-
-const groups = CLUSTER_ORDER.map((cluster) => ({
-  cluster,
-  heading: CLUSTER_HEADINGS[cluster],
-  entries: articles.filter((a) => a.data.cluster === cluster),
-})).filter((group) => group.entries.length > 0);
+const guides = await getGuidesIndex();
 
 // Zero published articles is a real, expected state right after #98 (the
 // seed stays draft) — the index must not invite search engines to a page
@@ -39,47 +37,96 @@ const groups = CLUSTER_ORDER.map((cluster) => ({
 // doesn't change this: the page is still noindexed until something is
 // actually published. astro.config.mjs reads this same condition (off disk,
 // not off the collection — see src/lib/articles-index-noindex.mjs) to keep
-// this page out of the sitemap at the same time (#160).
+// this page out of the sitemap at the same time (#160). Unfiltered: the
+// noindex decision needs every article's draft flag, not just the ones
+// this build is allowed to show.
+const allArticles = await getCollection("articles");
 const noindex = isArticlesIndexNoindexed(allArticles.map((a) => a.data.draft));
+
+const title = "מדריכים | HandInHandAI";
+const description = "מדריכים מעשיים, מבוססי ניסיון תפעולי בפועל — החלטות שחוזרות כמעט בכל פרויקט.";
+const canonicalPath = "/articles";
+const ogImagePath = "/og/default.jpg";
+
+const site = resolveSite(Astro.site);
+
+const dateFormatter = new Intl.DateTimeFormat("en-GB", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}); // DD/MM/YYYY -> reformatted to DD.MM.YYYY below, matching the specimen.
+const formatCaseDate = (d: Date) => dateFormatter.format(d).replace(/\//g, ".");
+
+const caseTag =
+  guides.length === 1
+    ? "תיק עבודה · מדריך פתוח אחד"
+    : `תיק עבודה · ${String(guides.length).padStart(2, "0")} מדריכים פתוחים`;
+
+const itemListLd =
+  guides.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        itemListElement: guides.map((g, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          url: new URL(`/articles/${g.slug}/`, site).href,
+          name: g.title,
+        })),
+      }
+    : null;
 ---
 
-<Layout
-  lang={defaultLang}
-  title="מדריכים | handinhand"
-  description="מדריכים מעשיים על בחירת טכנולוגיה, פרסום אפליקציות וסוכני AI בוואטסאפ לעסקים קטנים ובינוניים."
+<HomeDocumentShell
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  ogImagePath={ogImagePath}
+  jsonLd={itemListLd ? [itemListLd] : []}
   noindex={noindex}
 >
-  <section dir="rtl" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">מדריכים</h1>
-    <p class="text-gray-600 mb-10">מדריכים מעשיים, מבוססי ניסיון תפעולי בפועל.</p>
+  <PageHeader slot="head-extra" waMessage="היי אלכס, הגעתי מדף המדריכים ואשמח לעוד פרטים" />
 
-    {groups.length === 0 && (
-      <p class="text-gray-500">בקרוב — המדריכים הראשונים בדרך.</p>
-    )}
+  <section class="dk" id="guides-index" dir="rtl" aria-labelledby="dk-title">
+    <div class="cs-wrap">
+      <div class="dk-head">
+        <span class="dk-tag">{caseTag}</span>
+        <h1 class="cs-title" id="dk-title">מדריכים<br /><em>שנכתבו כדי שתחליטו מהר יותר.</em></h1>
+        <p class="cs-sub">מדריכים מעשיים, מבוססי ניסיון תפעולי בפועל.</p>
+      </div>
 
-    {groups.map((group) => (
-      <div class="mb-10">
-        <h2 class="text-xl font-semibold text-gray-900 mb-4">{group.heading}</h2>
-        <ul class="space-y-2">
-          {group.entries.map((entry) => (
-            <li class="flex flex-wrap items-center gap-2">
-              <a
-                href={`/articles/${entry.data.slug}/`}
-                class={entry.data.draft
-                  ? 'text-gray-500 underline'
-                  : 'text-blue-600 hover:text-blue-800 underline'}
-              >
-                {entry.data.title}
+      {guides.length === 0 ? (
+        <p class="dk-empty">בקרוב — המדריכים הראשונים בדרך.</p>
+      ) : (
+        <ul class="dk-list">
+          {guides.map((g, i) => (
+            <li class="dk-row" style={`--i:${i}`}>
+              <a class="dk-link" href={`/articles/${g.slug}/`}>
+                <span class="dk-seal" dir="ltr">{String(i + 1).padStart(2, "0")}</span>
+                <div class="dk-main">
+                  <div class="dk-stat-row">
+                    <span class="dk-tab">{CLUSTER_HEADINGS[g.cluster] ?? g.cluster}</span>
+                    <span class="dk-date">נפתח {formatCaseDate(g.publishedAt)}</span>
+                    {g.draft && <span class="dk-draft">טיוטה — לא פורסם</span>}
+                  </div>
+                  <h3 class="dk-q">{g.title}</h3>
+                  <p class="dk-a">{g.description}</p>
+                  <div class="dk-foot">
+                    <span class="dk-review">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                      זמן עיון: {g.reviewMinutes} דק'
+                    </span>
+                    <span class="dk-go">
+                      פתיחת התיק
+                      <LucideIcon name="arrow-left" strokeWidth={2.5} />
+                    </span>
+                  </div>
+                </div>
               </a>
-              {entry.data.draft && (
-                <span class="inline-block text-xs font-semibold text-amber-800 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded">
-                  טיוטה — לא פורסם
-                </span>
-              )}
             </li>
           ))}
         </ul>
-      </div>
-    ))}
+      )}
+    </div>
   </section>
-</Layout>
+</HomeDocumentShell>

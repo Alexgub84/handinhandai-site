@@ -4,7 +4,13 @@ import { readFileSync, readdirSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
-import { shortAnswer, capGuides, sortGuides, FIXTURE_SLUG } from '../src/data/guides-format';
+import {
+  shortAnswer,
+  capGuides,
+  sortGuides,
+  estimateReviewMinutes,
+  FIXTURE_SLUG,
+} from '../src/data/guides-format';
 
 // Issue #124 — homepage guides band: present (with the real published
 // guides) on the production branch now that articles are published, same
@@ -21,8 +27,8 @@ const articlesDir = join(repoRoot, 'src', 'content', 'articles');
  * `CF_PAGES_BRANCH` (#101), so this dev-server test always runs in
  * "include drafts" mode — every real, non-fixture article counts, capped
  * at 3 by `capGuides()`. This must keep passing as the catalogue grows
- * past 3 real articles: add a 4th, it still reports 3; remove one, back
- * to the real count.
+ * past 3 real articles (acceptance criterion 2): add a 4th, it still
+ * reports 3; remove it, back to the real count.
  */
 function realGuideCount(): number {
   const files = readdirSync(articlesDir).filter((entry) => entry.endsWith('.md'));
@@ -74,6 +80,20 @@ test.describe('guides-format pure helpers', () => {
       { slug: 'z', publishedAt: new Date('2026-01-01') },
     ];
     expect(sortGuides(entries).map((e) => e.slug)).toEqual(['z', 'a', 'b']);
+  });
+
+  test('estimateReviewMinutes counts words, strips Markdown noise, and never goes below 1', () => {
+    expect(estimateReviewMinutes('')).toBe(1);
+    expect(estimateReviewMinutes('מילה אחת')).toBe(1);
+
+    // 340 words of body text ignoring markup -> 2 minutes at 170 wpm.
+    const body = Array.from({ length: 340 }, () => 'מילה').join(' ');
+    expect(estimateReviewMinutes(body)).toBe(2);
+
+    // Code fence, inline code, a link and a heading marker are stripped
+    // before the count, not treated as extra words.
+    const withMarkup = `# כותרת\n\n${'מילה '.repeat(170)}[קישור](https://example.com) \`code\`\n\n\`\`\`\nconst x = 1;\n\`\`\``;
+    expect(estimateReviewMinutes(withMarkup)).toBe(1);
   });
 });
 

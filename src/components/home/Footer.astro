@@ -33,7 +33,16 @@ const links = [
       <nav aria-label="ניווט תחתון">
         <h4>ניווט</h4>
         <ul class="ft-links">
-          {links.map((l) => <li><a href={path === "/" ? l.href : `/${l.href}`}>{l.label}</a></li>)}
+          {links.map((l) => {
+            // Most entries are same-page hash anchors ("#about"), which need
+            // the root prefixed back on when we're not already on "/" (so
+            // they still resolve to a homepage section from another page).
+            // The guides-index link already added above is a real absolute
+            // path ("/articles") — prefixing "/" onto that would double the
+            // slash (#guides-flow). Only a "#"-href ever needs the prefix.
+            const href = l.href.startsWith("#") && path !== "/" ? `/${l.href}` : l.href;
+            return <li><a href={href}>{l.label}</a></li>;
+          })}
         </ul>
       </nav>
       <div>
