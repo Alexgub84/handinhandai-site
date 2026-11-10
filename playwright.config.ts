@@ -8,7 +8,8 @@ import { defineConfig, devices } from '@playwright/test';
 // assert against worktree A's code and report a pass — a false pass, not a
 // collision. Deriving the port from the worktree root means two checkouts
 // running the suite at the same time get two servers, each reused by (and
-// only by) the worktree that started it. Do not hardcode 4321 here again.
+// only by) the worktree that started it. Do not hardcode `npm run dev`'s
+// own fixed port back into this file.
 const WORKTREE_ROOT = execSync('git rev-parse --show-toplevel').toString().trim();
 const PORT = 4400 + (createHash('sha256').update(WORKTREE_ROOT).digest().readUInt32BE(0) % 100);
 const BASE_URL = `http://localhost:${PORT}`;
