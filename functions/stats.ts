@@ -613,6 +613,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       </div>
       <p class="empty">Top referrer: ${stat.topSource ? escape(stat.topSource) : 'no sessions yet'}</p>
       <p class="downloads">${escape(stat.guide.asset)} — ${escape(formatDownloadCount(stat.downloads))} downloads from GitHub</p>
+      <p class="note">GitHub's own count lags by tens of minutes and includes downloads made while testing — a floor on real interest, not a count of readers.</p>
     </section>`,
       )
       .join('')}

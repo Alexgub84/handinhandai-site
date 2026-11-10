@@ -1,6 +1,9 @@
 # 2026-11-10 — is GitHub's `download_count` trustworthy?
 
-Issue #167. Evidence only; no code changed.
+Issue #167. The investigation below is evidence-only — no code was touched to
+produce the series. The one code change in this PR (a one-line caveat on
+`/stats`) was decided afterward, by the manager, on the strength of this
+evidence; it is described at the end, not part of the method.
 
 ## The observation to explain
 
@@ -68,27 +71,64 @@ The untouched control asset (`store-publishing.zip`) read 5 at the start and
 5 at the end of the run — ruling out a transient API-wide glitch; only the
 asset that was actually downloaded moved.
 
-## What moved, and what that does not prove
+## What moved, and the +2 that lag alone does not explain
 
 The count is **not** frozen: it moved twice during this 30-minute run —
 once between T+1 and T+5 (6→7), and again between T+10 and T+20 (7→8).
 
-Only **one** download was made in this entire run (at 12:00:48Z), yet the
-counter rose by **two**. That second rise cannot be attributed to this run's
-download — it either reflects GitHub finally crediting one of the two
-genuine downloads from earlier in the day that the original observation
-caught mid-delay, or independent organic traffic (the hand-off card is live
-on the production site). Either way, the counter's updates are not
-synchronous with the download event and do not arrive in lockstep, one
-increment per event, within a predictable window — they are delayed and
-appear to be applied out of step with when the download actually happened.
+Only **one** download was made in this entire run (at 12:00:48Z). A count
+rising by one, once, with some delay, would be fully explained by lag. A
+count rising by **two** while exactly one download happened is an
+**unexplained excess of 1** that "GitHub is just slow" does not by itself
+account for. Three candidates, none eliminated by each other:
 
-This was read from the **direct API call** at every checkpoint, never through
-`/stats` or its cache — so the delay is upstream, on GitHub's side, not in
-this repo's code.
+1. **A real stranger downloaded the asset independently**, from the live
+   hand-off card on handinhandai.com, sometime in this run's 30-minute
+   window. The GitHub releases API gives only the running total — it names
+   no downloader, no timestamp, no IP, no referrer per download. **Cannot be
+   confirmed or ruled out from the data gathered in this run.** Doing either
+   would need this site's own click analytics for that exact window, which
+   this evidence run did not query (it was out of scope for this order, and
+   reading it now was not part of the method this note is reporting on).
+2. **A single `curl -sL` GET was counted twice** — once for the
+   `releases/download/...` hop, once for the signed CDN URL it redirects to.
+   Exactly one `curl -sL` call was made (confirmed above: one 200, one file
+   on disk, one SHA-256). That is the same request shape an ordinary browser
+   click produces, so if GitHub double-counted it, every normal download of
+   every GitHub release asset would read double — which is not the commonly
+   reported behavior of this API. That is a reason to doubt this candidate,
+   not proof against it: this run captured no verbose/request-level trace
+   of how many hits GitHub's own server logged for the one click made, so
+   **it cannot be ruled out from the data in hand**, only argued against.
+3. **One of the two pre-baseline genuine downloads landed late, during this
+   run's window**, independent of anything done in this run. This is the
+   only candidate with direct supporting evidence already inside this
+   dataset: the baseline itself (6) was already one higher than the "flat
+   at 5" the original observation recorded hours earlier, proving at least
+   one of those two earlier downloads had already landed late before this
+   run even started. It is plausible the second one landed during the
+   30-minute window measured here. But the API gives no per-event
+   timestamp — only a running total — so **this cannot be pinned to either
+   specific increment (6→7 or 7→8) from the data gathered**, it can only be
+   said to be consistent with the one piece of corroborating evidence this
+   dataset already contains.
+
+**Net:** none of the three can be ruled out from this run's data, and none
+should be picked as "the" answer without that proof. What the data does
+support without qualification: the delay is real, it is read on the direct
+API call (never through `/stats` or its cache), so it is upstream on
+GitHub's side; and the magnitude of the discrepancy (+1 beyond the single
+download made) means the dashboard should not present this number as if it
+were a precise, current count of real readers.
 
 ## Verdict
 
-GitHub's `download_count` itself is delayed/eventually-consistent — our
-5-minute `functions/stats.ts` cache is not the cause of the flat reading the
-original observation saw, and no code in this repo needs to change.
+GitHub's `download_count` is delayed and, on this evidence, also moves by
+more than the known download events in a given window — it is not a bug in
+this repo's 5-minute `functions/stats.ts` cache (every reading above bypassed
+that cache entirely), but it is not a trustworthy exact count either. Per the
+manager's decision, the dashboard now carries a one-line caveat next to this
+figure instead of presenting a bare number (`functions/stats.ts`, in the
+per-guide section): the count lags by tens of minutes and includes downloads
+made while testing, so it is a floor on real interest, not a count of
+readers.
