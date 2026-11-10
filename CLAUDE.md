@@ -299,7 +299,57 @@ Nothing on the page talks to anyone but this domain. The chain is
 - **Schema:** `db/analytics-schema.sql`. Apply with
   `npx wrangler d1 execute hih-analytics --remote --file db/analytics-schema.sql`.
   Rows older than 180 days are pruned lazily inside the collector (~1% of
-  requests) because Pages Functions have no cron handler.
+  requests) because Pages Functions have no cron handler. Any later,
+  non-idempotent change to the table (a new column, a new index that isn't
+  `CREATE INDEX IF NOT EXISTS`) goes in its own file under
+  `db/migrations/NNNN-description.sql`, applied to the remote database by
+  hand once — never folded into the re-runnable `CREATE TABLE IF NOT EXISTS`
+  above, which only has to match what a fresh local/dev bootstrap produces.
+- **Environment tagging (issue #149).** Every row carries `env`: `'live'`
+  when the request's Host header is `handinhandai.com`
+  (`PRODUCTION_HOSTNAME`, exported from `functions/lib/environment.mjs`'s
+  `classifyEnvironment(host)`), `'preview'` otherwise (the pages.dev preview
+  alias, a branch preview, local `wrangler pages dev`), and `NULL` on any row
+  written before this column existed — read by `/stats` as "unknown", never
+  silently reclassified as either. `functions/_middleware.ts` keeps its own
+  copy of the same hostname literal for an unrelated purpose (the noindex
+  guard); import `PRODUCTION_HOSTNAME` from `functions/lib/environment.mjs`
+  instead of adding a third copy. **Migration-before-deploy, always:** the
+  collector's `INSERT` names its columns explicitly, so a collector that
+  writes `env` deployed before `db/migrations/0001-add-env-column.sql` is
+  applied to the remote database fails every write with a D1 error that its
+  own catch-all swallows silently — collection looks fine from outside while
+  nothing is being recorded. Apply the migration (`npx wrangler d1 execute
+  hih-analytics --remote --file db/migrations/0001-add-env-column.sql`)
+  first, deploy the collector second, every time.
+- **Preview rows are hidden by default.** `/stats` shows a row when `env` is
+  `'live'`, `NULL` ("unknown"), or when `?preview=1` is on the URL (a toggle
+  next to the day-range tabs, preserving `k`/`days`) — `'preview'` rows are
+  the only thing ever hidden by default, and a note next to the toggle says
+  once that unknown-environment rows are shown, not hidden.
+- **Per-guide funnel.** A "Per guide" section on `/stats` shows, per entry in
+  `functions/stats.ts`'s hardcoded `GUIDES` array (no access to Astro's
+  content collection from a standalone edge function — one line to extend
+  by hand when a third guide ships): arrived, reached the hand-off section
+  (`data-track-section="skill-handoff"`, owned by `SkillHandoff.astro` —
+  issue 155-2 — not duplicated here), clicked through to GitHub, the top
+  referrer, and the GitHub release's total download count for that guide's
+  asset. Each guide's `clickLabels` matches **both** the plain-Markdown
+  hand-off link's visible text (today) and the `data-track` label
+  `SkillHandoff.astro` sets once it ships, so this needs no follow-up query
+  change the moment that component replaces the Markdown paragraph.
+- **GitHub download count.** `functions/lib/github-releases.mjs` sums
+  `download_count` for a named asset across *every* release returned by
+  `GET https://api.github.com/repos/Alexgub84/claude-skills/releases` (a
+  filename's count resets to 0 on a new release carrying a same-named asset,
+  so only a release-wide sum is accurate). The actual `fetch()` — with a
+  required `User-Agent` header (GitHub 403s an unauthenticated request
+  without one) and a 5-minute module-scope cache, same "resets on isolate
+  eviction" pattern as `loggedMissingSalt` above — lives inline in
+  `functions/stats.ts`, to stay under GitHub's 60 req/hour unauthenticated
+  limit. On any fetch failure, non-200, or no matching asset, the dashboard
+  renders a dash and a short note instead of blocking the rest of the page —
+  same fail-soft contract as a D1 query failure.
 - **Bindings:** the D1 binding `ANALYTICS_DB` is committed in `wrangler.toml`
   (top-level for production, `[env.preview.d1_databases]` for preview) — that
   file is the source of truth, Cloudflare rebuilds the dashboard's binding
