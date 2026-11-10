@@ -23,9 +23,11 @@ CREATE TABLE IF NOT EXISTS events (
   section      TEXT,              -- section id: which one was reached, or where a click happened
   label        TEXT,              -- click label
   href         TEXT,              -- click target
-  value        INTEGER            -- depth %, section dwell ms, engaged ms
+  value        INTEGER,           -- depth %, section dwell ms, engaged ms
+  env          TEXT               -- 'live' | 'preview', NULL on rows written before issue #149
 );
 
 CREATE INDEX IF NOT EXISTS events_day ON events (day);
 CREATE INDEX IF NOT EXISTS events_type_day ON events (type, day);
 CREATE INDEX IF NOT EXISTS events_session ON events (session);
+CREATE INDEX IF NOT EXISTS events_env ON events (env);
