@@ -18,6 +18,19 @@ answersQuestions:
   - "איך אני מעלים אפליקציה לאפסטור?"
   - "איך אני יכול להעלות אפליקציה לגוגל פליי?"
   - "איך מפעילים עדכון אוטומטי של אפליקציות?"
+parts:
+  - id: "who-is-this-for"
+    heading: "למי המדריך הזה, ולמי לא"
+  - id: "comparison"
+    heading: "ההבדלים שקובעים: Google Play מול App Store"
+  - id: "prepare"
+    heading: "להכין לפני שמעלים בכלל"
+  - id: "procedure"
+    heading: "צעד אחר צעד: להעלות ל־Google Play"
+  - id: "review"
+    heading: "מה הבדיקה באמת בודקת, ומה דוחים הכי הרבה"
+  - id: "field-note"
+    heading: "הערה מהשטח"
 ---
 
 ## למי המדריך הזה, ולמי לא

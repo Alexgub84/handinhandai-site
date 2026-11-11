@@ -22,6 +22,19 @@ answersQuestions:
   - "מה ההבדל בין WhatsApp Business לבין WhatsApp API?"
   - "וואטסאפ עסקי או WhatsApp API? מה ההבדל, ומי צריך מה?"
   - "מה זה WhatsApp Business API ובמה הוא שונה מאפליקציית הוואטסאפ העסקי?"
+parts:
+  - id: "verification-basics"
+    heading: "איך מאמתים עסק בפייסבוק ועוברים לערוץ הרשמי של WhatsApp Cloud API"
+  - id: "app-vs-api"
+    heading: "האפליקציה העסקית מול ממשק התכנות — מה ההבדל בפועל"
+  - id: "limits"
+    heading: "כמה אפשר לשלוח לפני אימות, וכמה אחרי"
+  - id: "rejections"
+    heading: "למה הבקשה לאימות עסק נדחית, ומה עושים אחרי דחייה"
+  - id: "procedure"
+    heading: "התהליך בפועל: מה קורה מרגע שנכנסים ל-Security Center"
+  - id: "after-verification"
+    heading: "מה קורה אחרי אימות העסק: חיבור ה-Cloud API"
 ---
 
 ## איך מאמתים עסק בפייסבוק ועוברים לערוץ הרשמי של WhatsApp Cloud API
