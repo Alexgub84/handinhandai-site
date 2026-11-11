@@ -9,6 +9,7 @@ cluster: "whatsapp"
 relatedArticles: ["publish-app-to-stores", "freelancer-or-agency"]
 draft: false
 skill: "meta-whatsapp-cloud-api"
+handoffAfter: "rejections"
 primaryQuery: "אימות עסק בפייסבוק"
 secondaryQueries:
   - "חיבור וואטסאפ API לעסק"
@@ -35,6 +36,21 @@ parts:
     heading: "התהליך בפועל: מה קורה מרגע שנכנסים ל-Security Center"
   - id: "after-verification"
     heading: "מה קורה אחרי אימות העסק: חיבור ה-Cloud API"
+diagramSteps:
+  - label: "בחירת סוג האימות ומילוי Business info ב-Security Center"
+    actor: "העסק"
+  - label: "אימות אנושי: CAPTCHA, ואישור או דחיית התאמה מרישום ציבורי"
+    actor: "העסק"
+  - label: "בחירת ערוץ אישור (אימייל / טלפון / SMS / וואטסאפ / דומיין) והעלאת המסמכים שהוא מבקש"
+    actor: "העסק"
+  - label: "הגשת הבקשה לאימות"
+    actor: "העסק"
+  - label: "בדיקת Meta *"
+    actor: "Meta"
+    wait: "יום–יומיים עד 14 יום עסקים *"
+  - label: "אימות העסק מאושר, או נדחה עם סיבה"
+    actor: "Meta"
+diagramNote: "לא מאומת / מצב תלוי: זמן הבדיקה תלוי בערוץ שנבחר — לפי המדריך, ערוץ שמבוסס טלפון, אימייל או דומיין לוקח בדרך כלל יום עד יומיים עסקים, וערוץ שמבוסס מסמכים לוקח שלושה עד שבעה ימי עסקים, ולפעמים עד 14 ימי עסקים; הדיאגרמה מציגה את שני הקצוות ולא את כל הטווח המדורג. אין שדה עמלה בדיאגרמה הזו — המדריך לא מזכיר שום תשלום ישיר על תהליך האימות עצמו."
 ---
 
 ## איך מאמתים עסק בפייסבוק ועוברים לערוץ הרשמי של WhatsApp Cloud API

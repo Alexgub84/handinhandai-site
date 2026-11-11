@@ -9,6 +9,7 @@ cluster: "publishing"
 relatedArticles: ["app-or-website", "freelancer-or-agency"]
 draft: false
 skill: "store-publishing"
+handoffAfter: "prepare"
 primaryQuery: "איך מעלים אפליקציה לחנויות"
 secondaryQueries:
   - "איך מעלים אפליקציה לגוגל פליי"
@@ -31,6 +32,23 @@ parts:
     heading: "מה הבדיקה באמת בודקת, ומה דוחים הכי הרבה"
   - id: "field-note"
     heading: "הערה מהשטח"
+diagramSteps:
+  - label: "פתיחת חשבון מפתח ב-Google Play"
+    actor: "מפרסם"
+    fee: "חד־פעמי, $25 בהרשמה"
+  - label: "מילוי טפסי האפליקציה: מדיניות פרטיות, Data safety, דירוג תוכן"
+    actor: "מפרסם"
+  - label: "בדיקה סגורה — 12 בודקים לפחות *"
+    actor: "מפרסם + בודקים"
+    wait: "14 יום רצופים *"
+  - label: "הגשת חבילה חתומה (AAB) ובקשה למעבר לייצור"
+    actor: "מפרסם"
+  - label: "בדיקת Google Play"
+    actor: "Google Play"
+    wait: "יום עד שבוע"
+  - label: "Start rollout — פרסום בפועל, אין כפתור ״בטל״"
+    actor: "מפרסם"
+diagramNote: "לא מאומת / מצב תלוי: שלב הבדיקה הסגורה (12 בודקים, 14 יום) חל, לפי המדריך, רק על חשבון אישי חדש שנפתח אחרי 13 בנובמבר 2023 — חשבון עסקי מאומת פטור ממנו בדרך כלל, כך שהוא לא שלב קבוע לכל מפרסם. הדיאגרמה מציגה את מסלול Google Play בלבד; מסלול App Store (עמלה שנתית של 99$, בלי דרישת בודקים, זמן בדיקה יום עד שלושה) מופיע בטבלת ההשוואה במדריך."
 ---
 
 ## למי המדריך הזה, ולמי לא
