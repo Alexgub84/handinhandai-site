@@ -250,15 +250,25 @@ GitHub Actions workflow at `.github/workflows/test.yml` runs on every PR to `mai
 - `npm run test:ui` — Playwright UI mode
 - `npm run test:headed` — headed browser
 
-**Local/concurrent-session port (issue #104).** `playwright.config.ts` derives
-its own dev-server port per git worktree (a hash of `git rev-parse
---show-toplevel` into 4400-4499, passed to `astro dev --port` and threaded
-into `webServer.url`/`use.baseURL` from one value) instead of the fixed 4321
-`npm run dev` uses. Two worktrees running the suite at once now get two
-servers, each reused only by the worktree that started it — a run in
-worktree B can no longer silently assert against worktree A's server and
-report a false pass. `npm run dev` still serves plain 4321, unchanged.
-Nothing in the suite may hardcode 4321 again.
+**Local/concurrent-session port (issue #104, widened in #194).**
+`playwright.config.ts` derives its own dev-server port per git worktree (a
+hash of `git rev-parse --show-toplevel` into 4400-5399 — widened from the
+original 100-slot 4400-4499 range after two worktrees collided on the same
+port in production use — passed to `astro dev --port` and threaded into
+`webServer.url`/`use.baseURL` from one value) instead of the fixed 4321
+`npm run dev` uses. `npm run dev` still serves plain 4321, unchanged. Nothing
+in the suite may hardcode 4321 again.
+
+The suite never reuses a server: `reuseExistingServer` is `false`, so a run
+only ever talks to the server it just started, never one left running by
+another worktree or a stale process. If the derived port is already taken,
+Playwright refuses to start and the run fails immediately, naming the busy
+port, with zero tests executed — that failure means another worktree's
+server probably holds the port, not that the suite is broken. Do not set
+this back to `true` and do not add a fallback that silently retries on
+another port; either one re-opens the exact hazard #104 and #194 were
+written to remove: a run quietly asserting against the wrong worktree's
+code and reporting a false result.
 
 ## Retired pages
 
