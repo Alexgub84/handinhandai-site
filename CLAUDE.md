@@ -159,7 +159,7 @@ that folder's README for the spec review). Rules:
 
 Long-form Hebrew guides, collection schema in `src/content.config.ts`, layout in
 `src/layouts/ArticleLayout.astro`, plan and gates in
-`docs/seo/content-programme-2026-11.md`. Three standing rules, enforced by the
+`docs/seo/content-programme-2026-11.md`. Four standing rules, enforced by the
 build (issue #108), not just remembered:
 
 - **Hebrew is right-to-left, always.** Every Hebrew page is `lang="he"` and
@@ -175,6 +175,16 @@ build (issue #108), not just remembered:
   article, enforced by `scripts/check-articles.mjs`, same pattern as
   `lastVerified`. Audit material only: never rendered on the page, never emitted
   as a meta keywords tag.
+- **A guide may declare `parts` to track engagement inside the body (issue
+  #174).** An ordered `{ id, heading }[]` in frontmatter: `id` a short English
+  slug, `heading` the exact H2 text that starts that part, 4-6 body parts.
+  `scripts/check-articles.mjs` fails the build when a declared `heading` isn't
+  an H2 in the body, or when two parts share an `id`. Each declared part gets
+  wrapped in a tracked `<section data-track-section="<id>">` at build time
+  (`src/lib/rehype-article-devices.mjs`'s `rehypeArticleParts`). `parts` is
+  optional — a guide that declares none still tracks exactly 3 fixed parts
+  (`answer`, `closing`, `related`) plus `skill-handoff` when it carries a
+  skill, never zero.
 - **The brief comes from the real Google page.** Read it off Google itself in a
   browser, in Hebrew — autocomplete, "אנשים שאלו גם", related searches, who
   actually ranks, whether an AI overview appears and whom it cites — never from
@@ -348,6 +358,17 @@ Nothing on the page talks to anyone but this domain. The chain is
   hand-off link's visible text (today) and the `data-track` label
   `SkillHandoff.astro` sets once it ships, so this needs no follow-up query
   change the moment that component replaces the Markdown paragraph.
+- **Per-part funnel (issue #174).** Under that same per-guide card, a row per
+  declared body part: reach as a count and as % of arrived, median dwell in
+  seconds where dwell was recorded. Filtered by the guide's own path, so two
+  guides reusing a part id (`procedure` appears on both skill guides today)
+  never merge into one number. This is a single query grouped by `(path,
+  section)`, with a window function ranking each group's dwell values for the
+  median — **not** a `UNION ALL` branch per (guide, part) pair: that was the
+  first implementation, and D1 (confirmed locally) refuses a compound
+  `SELECT` past 5 terms, which 2 guides × 6 parts already exceeds. Do not go
+  back to one branch per part as the guide/part count grows; extend the
+  single grouped query instead.
 - **GitHub download count.** `functions/lib/github-releases.mjs` sums
   `download_count` for a named asset across *every* release returned by
   `GET https://api.github.com/repos/Alexgub84/claude-skills/releases` (a
