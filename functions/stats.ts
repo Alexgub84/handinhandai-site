@@ -60,9 +60,6 @@ const GUIDES = [
   },
 ] as const;
 
-/** Every (guide, part id) pair, flattened once for the UNION ALL queries below. */
-const GUIDE_PARTS = GUIDES.flatMap((guide) => guide.parts.map((part) => ({ guide, part })));
-
 // `SkillHandoff.astro` (155-2) carries `data-track-section="skill-handoff"`
 // on its root element — the manager's ruling on this order amended 155-2 to
 // add it, specifically so "reached the hand-off" has something to observe.
@@ -410,37 +407,52 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         since,
         previewParam,
       ),
-      // Per-part funnel (issue #174). One row per declared (guide, part) id
-      // — reach (distinct sessions that reached the section) and median
-      // dwell in seconds, scoped to that guide's own path so two guides
-      // reusing a part id (e.g. "procedure" on both skill guides) never
-      // merge, unlike the site-wide "Section reach" table above. Median via
-      // ORDER BY + LIMIT/OFFSET rather than a window function, matching the
-      // existing "no window function needed for D1 compatibility" choice
-      // made for the top-referrer query above.
-      GUIDE_PARTS.length
-        ? rowsOf(
-            db,
-            GUIDE_PARTS.map(({ guide, part }) => {
-              const scoped = `(SELECT MAX(value) AS ms FROM events
-                   WHERE type = 'section' AND section = ${sqlStr(part)} AND path = ${sqlStr(guide.path)}
-                     AND value > 0 AND day >= date('now', ?1) AND ${ENV_CLAUSE}
-                   GROUP BY session)`;
-              return `SELECT ${sqlStr(guide.path)} AS path, ${sqlStr(part)} AS part,
-                   (SELECT COUNT(DISTINCT session) FROM events
-                      WHERE type = 'section' AND section = ${sqlStr(part)} AND path = ${sqlStr(guide.path)}
-                        AND day >= date('now', ?1) AND ${ENV_CLAUSE}) AS reach,
-                   (SELECT ROUND(AVG(ms) / 1000.0, 1) FROM (
-                      SELECT ms FROM ${scoped}
-                       ORDER BY ms
-                       LIMIT 2 - ((SELECT COUNT(*) FROM ${scoped}) % 2)
-                      OFFSET ((SELECT COUNT(*) FROM ${scoped}) - 1) / 2
-                    )) AS median_seconds`;
-            }).join(' UNION ALL '),
-            since,
-            previewParam,
-          )
-        : Promise.resolve([] as Row[]),
+      // Per-part funnel (issue #174). One row per (path, section) pair that
+      // actually occurred among the guide paths — reach (distinct sessions
+      // that reached the section) and median dwell in seconds, scoped to
+      // that guide's own path so two guides reusing a part id (e.g.
+      // "procedure" on both skill guides) never merge, unlike the
+      // site-wide "Section reach" table above. A single query grouped by
+      // (path, section), not a UNION ALL per (guide, part) pair — D1's
+      // local emulator (and, per its docs, the hosted service) caps a
+      // compound SELECT at a handful of terms, which the guide×part count
+      // here (12 today) already exceeds; this also naturally covers the
+      // fixed layout ids (answer, closing, related, skill-handoff) on the
+      // same path, which the JS lookup below simply never reads for a
+      // guide that didn't declare them as a body part. Median is computed
+      // with a window function over just the dwell-qualifying rows
+      // (value > 500ms) — confirmed to work against this D1 instance,
+      // unlike the ORDER BY/LIMIT/OFFSET trick the top-referrer query above
+      // uses for an unrelated reason (avoiding a window function there was
+      // a style choice, not a compatibility requirement found while
+      // building this).
+      rowsOf(
+        db,
+        `WITH reach_scoped AS (
+           SELECT path, section AS part, session
+             FROM events
+            WHERE type = 'section' AND path IN (${GUIDES.map((guide) => sqlStr(guide.path)).join(', ')})
+              AND day >= date('now', ?1) AND ${ENV_CLAUSE}
+            GROUP BY path, section, session
+         ),
+         dwell_ranked AS (
+           SELECT path, section AS part, MAX(value) AS ms,
+                  ROW_NUMBER() OVER (PARTITION BY path, section ORDER BY MAX(value)) AS rn,
+                  COUNT(*) OVER (PARTITION BY path, section) AS cnt
+             FROM events
+            WHERE type = 'section' AND path IN (${GUIDES.map((guide) => sqlStr(guide.path)).join(', ')})
+              AND value > 0 AND day >= date('now', ?1) AND ${ENV_CLAUSE}
+            GROUP BY path, section, session
+         )
+         SELECT r.path AS path, r.part AS part, COUNT(*) AS reach,
+                (SELECT ROUND(AVG(d.ms) / 1000.0, 1) FROM dwell_ranked d
+                  WHERE d.path = r.path AND d.part = r.part
+                    AND d.rn IN ((d.cnt + 1) / 2, (d.cnt + 2) / 2)) AS median_seconds
+           FROM reach_scoped r
+          GROUP BY r.path, r.part`,
+        since,
+        previewParam,
+      ),
       downloadCountsByAsset(),
     ]);
 
