@@ -21,6 +21,7 @@ import WhatsAppIcon from '@components/home/WhatsAppIcon.astro';
 import LucideIcon from '@components/home/LucideIcon.astro';
 import AiAnswersNote from '@components/home/AiAnswersNote.astro';
 import SkillHandoff from '@components/articles/SkillHandoff.astro';
+import ProcessDiagram from '@components/ProcessDiagram.astro';
 import { defaultLang } from '@i18n/ui';
 import { waLink } from '@/data/site-contact';
 import { buildArticleSchema } from '@/data/article-schema';
@@ -49,17 +50,69 @@ interface ArticleData {
   cluster: string;
   relatedArticles: string[];
   draft: boolean;
-  /** Mounts the hand-off card (download + install link + dev command) right after the body. */
+  /** Mounts the hand-off card (download + install link + dev command) right after the body, unless `handoffAfter` moves it mid-body. */
   skill?: SkillKey;
+  /** The `parts[].id` the hand-off card renders right after (issue #185, Ruling 1). Absent keeps the card at the end of the body. */
+  handoffAfter?: string;
+  /** The per-guide process diagram's steps (issue #185, Ruling 3). Empty renders nothing. */
+  diagramSteps?: { label: string; actor: string; wait?: string; fee?: string }[];
+  /** An optional caveat shown under the diagram. */
+  diagramNote?: string;
 }
 
 interface Props {
   article: ArticleData;
   /** Render `<meta name="robots" content="noindex">` (default false). Set for a draft article on a build that includes drafts (#101). */
   noindex?: boolean;
+  /**
+   * The article's rendered body HTML string (`entry.rendered.html` from
+   * `astro:content` — populated by the glob loader with the full rehype
+   * pipeline already applied, `data-track-section` wrappers included).
+   * Only read when `article.handoffAfter` is set, to split the body at the
+   * `<div data-handoff-slot>` marker `rehypeArticleHandoffMarker` emits
+   * (issue #185, Ruling 2) and mount `<SkillHandoff>` between the two
+   * halves in true document order — CSS `order` is refused. Unused (and
+   * unnecessary) for an article with no `handoffAfter`, which keeps the
+   * untouched `<Content />`-via-`<slot />` path below so its output stays
+   * byte-identical to before this prop existed.
+   */
+  renderedHtml?: string;
 }
 
-const { article, noindex = false } = Astro.props;
+const { article, noindex = false, renderedHtml } = Astro.props;
+
+// Ruling 2's split, done once here rather than inline in the template: the
+// marker's exact serialized form is an implementation detail of hast's
+// stringifier (a bare boolean attribute like `hidden` serializes with no
+// `=""`, an unrecognized `data-*` property does carry one) — observed
+// directly off a real build rather than assumed, and matched with a regex
+// tolerant of either form so a hast/rehype version bump can't silently
+// break the split.
+const HANDOFF_MARKER = /<div data-handoff-slot(?:="")? hidden(?:="")?><\/div>/;
+let handoffBeforeHtml = '';
+let handoffAfterHtml = '';
+if (article.handoffAfter) {
+  const html = renderedHtml ?? '';
+  const parts = html.split(HANDOFF_MARKER);
+  if (parts.length !== 2) {
+    throw new Error(
+      `ArticleLayout: article "${article.slug}" declares handoffAfter "${article.handoffAfter}" but its rendered body HTML does not contain exactly one <div data-handoff-slot> marker (found ${parts.length - 1})`
+    );
+  }
+  [handoffBeforeHtml, handoffAfterHtml] = parts;
+}
+
+/* Template note (can't live inline below without changing rendered output):
+   the `{diagramSteps}` and `{handoffAfter}` expressions below are packed
+   against each other with no whitespace-only text node between `)}` and
+   the following `{`, and between a `<>` and the tag right after it —
+   because Astro collapses any such text node to one rendered space, and an
+   article with neither field must produce byte-identical HTML to before
+   this feature existed: one space before `.art-body`, not three. Proven by
+   diffing this page's build output against `main` for a guide with no
+   `diagramSteps`/`handoffAfter` (issue #185's acceptance run). Resist the
+   urge to reformat this block for readability — reformatting changes the
+   whitespace nodes, which changes the output. */
 
 const SITE_FALLBACK = 'https://handinhandai.com';
 const siteOrigin = Astro.site?.toString().replace(/\/$/, '') || SITE_FALLBACK;
@@ -182,11 +235,20 @@ const waHeaderMessage = `היי אלכס, קראתי את "${article.title}" ו�
             </p>
           </div>
 
-          <div class="art-body">
-            <slot />
-          </div>
+          {article.diagramSteps && article.diagramSteps.length > 0 && (
+            <ProcessDiagram steps={article.diagramSteps} note={article.diagramNote} />
+          )}{article.handoffAfter ? (
+            <>
+              <div class="art-body" set:html={handoffBeforeHtml} />
+              {article.skill && <SkillHandoff skillKey={article.skill} />}
+              <div class="art-body" set:html={handoffAfterHtml} />
+            </>
+          ) : (<><div class="art-body">
+                <slot />
+              </div>
 
-          {article.skill && <SkillHandoff skillKey={article.skill} />}
+              {article.skill && <SkillHandoff skillKey={article.skill} />}</>
+          )}
 
           <div class="art-table-slot">
             <slot name="table" />

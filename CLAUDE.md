@@ -159,7 +159,7 @@ that folder's README for the spec review). Rules:
 
 Long-form Hebrew guides, collection schema in `src/content.config.ts`, layout in
 `src/layouts/ArticleLayout.astro`, plan and gates in
-`docs/seo/content-programme-2026-11.md`. Four standing rules, enforced by the
+`docs/seo/content-programme-2026-11.md`. Six standing rules, enforced by the
 build (issue #108), not just remembered:
 
 - **Hebrew is right-to-left, always.** Every Hebrew page is `lang="he"` and
@@ -185,6 +185,32 @@ build (issue #108), not just remembered:
   optional — a guide that declares none still tracks exactly 3 fixed parts
   (`answer`, `closing`, `related`) plus `skill-handoff` when it carries a
   skill, never zero.
+- **A guide may declare `handoffAfter` to move the skill hand-off card mid-body,
+  to the decide/do hinge (issue #185, Ruling 1).** The id of one of the
+  article's own `parts[].id` — the card renders right after that part
+  instead of at the end of the body. `scripts/check-articles.mjs` fails the
+  build when `handoffAfter` doesn't match a declared part, or when it's set
+  on an article with no `skill` (nothing to place). The move happens in
+  TRUE document order, never CSS `order` (an accessibility ruling, not a
+  style choice): `rehypeArticleHandoffMarker`
+  (`src/lib/rehype-article-devices.mjs`) emits a `<div data-handoff-slot
+  hidden>` marker right after the hinge part's `</section>`;
+  `ArticleLayout.astro` splits the article's rendered body HTML string
+  (`entry.rendered.html` — proven to carry the full rehype pipeline output)
+  at that marker and mounts `<SkillHandoff>` between the two halves.
+  `handoffAfter` is optional — absent, the card stays at the end of the
+  body exactly as before this field existed, and the build output for that
+  guide is unchanged.
+- **A guide may declare `diagramSteps` for a per-guide process diagram (issue
+  #185, Ruling 3).** An ordered `{ label, actor, wait?, fee? }[]` in
+  frontmatter, rendered by `src/components/ProcessDiagram.astro` as static
+  HTML right after the pillar link and before the body — no image, no
+  client JS, no animation. `wait`/`fee` are shown only on the step that has
+  one; an optional `diagramNote` string renders as a footnote for a figure
+  that's conditional rather than a flat guarantee (both of today's two
+  diagrams need one). `diagramSteps` is optional and empty by default — a
+  guide that declares none renders no diagram, unchanged from before this
+  field existed.
 - **The brief comes from the real Google page.** Read it off Google itself in a
   browser, in Hebrew — autocomplete, "אנשים שאלו גם", related searches, who
   actually ranks, whether an AI overview appears and whom it cites — never from

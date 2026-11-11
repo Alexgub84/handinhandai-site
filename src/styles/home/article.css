@@ -251,6 +251,174 @@ body {
   line-height: 1.6;
 }
 
+/* Process diagram (issue #185, Ruling 3). Ported from
+   local/design-system/components/process-diagram.html — round 2, after the
+   manager caught a real defect in round 1's applied pass: at 1024px+, the
+   real article column is 680px (`.art-wrap`), not a wider demo frame, and
+   six cards in one row left no width for a two-word actor label
+   ("מפרסם + בודקים"), which wrapped into a lopsided 3-line pill next to
+   every flat single-line chip. The specimen was fixed first (rendered at
+   its real 680px width so the defect was visible there too), then applied
+   here. One value differs from the specimen on purpose: its one-off
+   `border-radius: 0 10px 10px 0` on `.pd-footnote` (a physical shorthand)
+   is expressed below with the logical `border-start-*-radius`/
+   `border-end-*-radius` pair instead, per this file's own RTL rule
+   (CLAUDE.md: logical properties only).
+
+   Sits right after `.art-pillar-link`, before `.art-body`, rendered only
+   when the article declares a non-empty `diagramSteps`.
+
+   Mobile (<1024px): steps stack vertically, connector arrow rotated to
+   point down — unchanged from round 1.
+
+   1024px and up: a 3-per-row, right-to-left GRID (two rows for six steps)
+   instead of round 1's single row of six. `.pd-steps` becomes a CSS grid
+   with an explicit 5-track row template — step, arrow, step, arrow, step —
+   so three step cards and the two arrows between them fill exactly one
+   row; `direction: rtl` places the first step of each row on the right
+   with no manual column placement (grid auto-placement does it). The ONE
+   arrow that would sit between step 3 and step 4 — a row break, not a
+   same-row connector — needs to disappear, and the next one between step 6
+   and step 7, and so on: `.pd-steps > li:nth-child(6n)` is the general
+   rule (every step/arrow pair takes 2 list items, so the arrow right after
+   step 3, 6, 9… is always list-item 6, 12, 18…), not a hard-coded
+   `:nth-child(6)` that would only work for a 6-step diagram. A
+   `display: none` list item is skipped entirely by grid auto-placement, so
+   the remaining items still fill exactly 5 per row. Each row still reads
+   right-to-left, matching every other breakpoint's "forward" direction;
+   rows stack top to bottom like ordinary RTL paragraph lines, so the
+   overall order is still 1-2-3 then 4-5-6. `.pd-step-num` (the small "01"
+   badge every card carries) is what carries that order across the row
+   break, since no arrow does there. */
+.pd-diagram {
+  margin: 0 0 40px;
+}
+.pd-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pd-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.pd-arrow svg {
+  color: hsl(var(--primary) / 0.55);
+  transform: rotate(-90deg);
+}
+.pd-step {
+  flex: 1;
+  min-width: 0;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pd-step-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+/* The step number: a plain position count ("01"-"06"), not data-declared —
+   computed from the step's index in `diagramSteps`. Needed once steps can
+   wrap onto a second row (the 1024px+ grid below): without it, the row
+   break between step 3 and step 4 has no arrow to carry the eye, and
+   "which one comes after the last one in row 1" stops being obvious at a
+   glance. */
+.pd-step-num {
+  flex: none;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: hsl(var(--muted-foreground) / 0.7);
+  letter-spacing: 0.02em;
+}
+.pd-actor {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 5px;
+  font-family: "JetBrains Mono", monospace;
+  /* One step smaller than round 1 (was 10.5px) and never wraps — see the
+     file-header note above for why. */
+  font-size: 9.5px;
+  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: hsl(var(--primary-text));
+  background: hsl(var(--primary) / 0.1);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+.pd-step.is-counterpart .pd-actor {
+  color: hsl(var(--cyan));
+  background: hsl(var(--cyan) / 0.12);
+}
+.pd-label {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  line-height: 1.45;
+}
+.pd-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
+.pd-meta svg {
+  flex: none;
+  color: hsl(var(--muted-foreground));
+}
+.pd-meta.pd-fee {
+  color: hsl(var(--accent));
+}
+.pd-meta.pd-fee svg {
+  color: hsl(var(--accent));
+}
+@media (min-width: 1024px) {
+  .pd-steps {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    direction: rtl;
+    row-gap: 28px;
+    column-gap: 6px;
+  }
+  .pd-steps > li:nth-child(6n) {
+    display: none;
+  }
+  .pd-arrow svg {
+    transform: none;
+  }
+  .pd-step {
+    flex: 1 1 0;
+  }
+}
+.pd-footnote {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  background: hsl(var(--background-deep));
+  border-inline-start: 3px solid hsl(var(--accent) / 0.55);
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: 10px;
+  border-end-end-radius: 10px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: hsl(var(--muted-foreground));
+  max-width: 72ch;
+}
+
 /* Body prose. Copied verbatim from the bundle's own
    patterns/article-section.html: foreground at 88% opacity (not
    muted-foreground — muted-foreground is reserved for secondary/meta text),

@@ -1,0 +1,93 @@
+---
+/**
+ * The per-guide process diagram (issue #185, Ruling 3). Data-declared
+ * (`diagramSteps: { label, actor, wait?, fee? }[]` on the article's
+ * frontmatter, `src/content.config.ts`), rendered once at build time into
+ * static HTML — no raster image, no client JS, no animation. Matches
+ * `local/design-system/components/process-diagram.html` (the approved
+ * specimen): a vertical stack below 1024px (connector arrow rotated to
+ * point down), a right-to-left horizontal row at 1024px and above (the
+ * connector already points left, the site's existing RTL "forward"
+ * direction — no rotation needed there).
+ *
+ * `is-counterpart` styling (the cyan actor chip): a step's actor is
+ * compared to the FIRST step's actor, not hand-tagged per step in the
+ * frontmatter — in both of today's two diagrams, every step performed by
+ * someone other than the guide's primary actor (a reviewer, the platform
+ * itself) is exactly the set of steps whose actor differs from the first
+ * step's. This keeps `diagramSteps` to the four fields Ruling 3 names, with
+ * no fifth "is this the counterpart" flag an author would have to set by
+ * hand and could get wrong.
+ *
+ * Accessible name (Ruling 3: "a real alt / accessible name that reads the
+ * steps in order"): built from the steps themselves rather than a new,
+ * per-guide frontmatter title field, so a third guide's diagram needs no
+ * extra data to be accessible. The connector arrows are `aria-hidden`, so
+ * they drop out of the list's accessible item count — only the real steps
+ * are announced, in document order, exactly as a screen reader reads any
+ * other `<ol>`.
+ *
+ * Round 2 (caught in review on the real page, fixed in the specimen first —
+ * local/design-system/components/process-diagram.html): the real article
+ * column is 680px (`.art-wrap`), not the wider frame a diagram demo might
+ * suggest. Six cards in one row at 680px leaves no room for a two-word
+ * actor label, so at 1024px and above this now lays out as a 3-per-row
+ * grid (two rows for six steps) instead of one row of six — see the
+ * `.pd-steps`/`.pd-step-num` rules in article.css for the mechanics (CSS
+ * grid auto-placement, the row-break arrow hidden on
+ * `:nth-child(6n)`). Every card prints its own `01`-style position
+ * (`.pd-step-head`) because the row break removes the one visual cue
+ * (an arrow) that used to carry the order from one card to the next.
+ */
+import LucideIcon from "@components/home/LucideIcon.astro";
+
+interface DiagramStep {
+  label: string;
+  actor: string;
+  wait?: string;
+  fee?: string;
+}
+
+interface Props {
+  steps: DiagramStep[];
+  note?: string;
+}
+
+const { steps, note } = Astro.props;
+const primaryActor = steps[0]?.actor;
+const diagramLabel = `תהליך בן ${steps.length} שלבים לפי הסדר: ${steps.map((step) => step.label).join("; ")}`;
+---
+
+<div class="pd-diagram" data-track-section="process-diagram">
+  <ol class="pd-steps" aria-label={diagramLabel}>
+    {steps.map((step, index) => (
+      <>
+        <li class:list={["pd-step", { "is-counterpart": step.actor !== primaryActor }]}>
+          <div class="pd-step-head">
+            <span class="pd-actor">{step.actor}</span>
+            <span class="pd-step-num">{String(index + 1).padStart(2, "0")}</span>
+          </div>
+          <span class="pd-label">{step.label}</span>
+          {step.wait && (
+            <span class="pd-meta">
+              <LucideIcon name="clock" size={13} />
+              {step.wait}
+            </span>
+          )}
+          {step.fee && (
+            <span class="pd-meta pd-fee">
+              <LucideIcon name="circle-dollar-sign" size={13} />
+              {step.fee}
+            </span>
+          )}
+        </li>
+        {index < steps.length - 1 && (
+          <li class="pd-arrow" aria-hidden="true">
+            <LucideIcon name="arrow-left" size={20} strokeWidth={2.5} />
+          </li>
+        )}
+      </>
+    ))}
+  </ol>
+</div>
+{note && <p class="pd-footnote">{note}</p>}
