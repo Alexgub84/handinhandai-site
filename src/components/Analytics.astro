@@ -160,7 +160,12 @@
                 seen.add(id);
                 push({ t: 'section', k: id, v: 0 });
               }
-              openedAt.set(el, now);
+              // Start the clock only on the transition into view. The
+              // observer fires repeatedly while a section stays on screen
+              // (several ratio thresholds, re-triggered by ordinary
+              // scrolling) — a callback that fires while the section is
+              // already open must not touch its clock (issue #176).
+              if (!openedAt.has(el)) openedAt.set(el, now);
             } else {
               closeSection(el, now);
             }
