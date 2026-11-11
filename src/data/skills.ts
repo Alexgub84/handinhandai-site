@@ -16,12 +16,13 @@
 export const SKILLS_REPO = "Alexgub84/claude-skills";
 
 /**
- * The release currently live. `v1.0.0`'s two assets were confirmed
+ * The release currently live. `v1.0.1`'s two assets were confirmed
  * returning HTTP 200 from
- * https://github.com/Alexgub84/claude-skills/releases/download/v1.0.0/ on
- * 2026-11-10 (manager's ruling, work order 155-2).
+ * https://github.com/Alexgub84/claude-skills/releases/download/v1.0.1/ on
+ * 2026-11-11 (issue #198 — the prior release's links were stale after
+ * v1.0.1 shipped the footer and API-version fix).
  */
-const VERSION = "1.0.0";
+const VERSION = "1.0.1";
 
 export interface SkillEntry {
   /** Display name — also the skill's folder name in the public repo. */
