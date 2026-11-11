@@ -251,6 +251,119 @@ body {
   line-height: 1.6;
 }
 
+/* Process diagram (issue #185, Ruling 3). Ported verbatim from
+   local/design-system/components/process-diagram.html — one value changed:
+   the specimen's one-off `border-radius: 0 10px 10px 0` on `.pd-footnote`
+   (a physical shorthand) is expressed below with the logical
+   `border-start-*-radius`/`border-end-*-radius` pair instead, per this
+   file's own RTL rule (CLAUDE.md: logical properties only). Sits right
+   after `.art-pillar-link`, before `.art-body`, rendered only when the
+   article declares a non-empty `diagramSteps`. Mobile: steps stack
+   vertically, connector arrow rotated to point down. 1024px and up: a
+   right-to-left row — the connector's `arrow-left` icon already points
+   left, the site's existing RTL "forward" direction, so no rotation is
+   needed at that breakpoint. */
+.pd-diagram {
+  margin: 0 0 40px;
+}
+.pd-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pd-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.pd-arrow svg {
+  color: hsl(var(--primary) / 0.55);
+  transform: rotate(-90deg);
+}
+.pd-step {
+  flex: 1;
+  min-width: 0;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pd-actor {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 5px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: hsl(var(--primary-text));
+  background: hsl(var(--primary) / 0.1);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+.pd-step.is-counterpart .pd-actor {
+  color: hsl(var(--cyan));
+  background: hsl(var(--cyan) / 0.12);
+}
+.pd-label {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  line-height: 1.45;
+}
+.pd-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
+.pd-meta svg {
+  flex: none;
+  color: hsl(var(--muted-foreground));
+}
+.pd-meta.pd-fee {
+  color: hsl(var(--accent));
+}
+.pd-meta.pd-fee svg {
+  color: hsl(var(--accent));
+}
+@media (min-width: 1024px) {
+  .pd-steps {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .pd-arrow svg {
+    transform: none;
+  }
+  .pd-step {
+    flex: 1 1 0;
+  }
+}
+.pd-footnote {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  background: hsl(var(--background-deep));
+  border-inline-start: 3px solid hsl(var(--accent) / 0.55);
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: 10px;
+  border-end-end-radius: 10px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: hsl(var(--muted-foreground));
+  max-width: 72ch;
+}
+
 /* Body prose. Copied verbatim from the bundle's own
    patterns/article-section.html: foreground at 88% opacity (not
    muted-foreground — muted-foreground is reserved for secondary/meta text),
