@@ -62,6 +62,77 @@ const batches = async (page: Page): Promise<Batch[]> =>
 const eventsOf = (all: Batch[], type: string) =>
   all.flatMap((batch) => batch.e).filter((event) => event.t === type);
 
+// Issue #104, Design item 4 (verifier round 2) / issue #190: a layout- or
+// scroll-driven test must test the settled page, not a mid-animation frame
+// — but a fixed delay is just a smaller guess about machine speed, the
+// exact failure mode #190 exists to remove. Ask the page itself instead:
+// `document.getAnimations()` returns every animation and each has a
+// `.finished` promise. The hero also runs several *infinite* decorative
+// animations — those never finish, so this filters them out by their own
+// timing (`iterations === Infinity`) rather than waiting on them. `capMs`
+// is a safety net for an animation Playwright can't observe correctly, not
+// the primary wait; a page with no finite animation running resolves
+// immediately. Duplicated from tests/home.spec.ts rather than shared,
+// because this work order's file map is this spec file only.
+const waitForEntranceAnimations = async (page: Page, capMs = 2000): Promise<void> => {
+  await page.evaluate(async (cap) => {
+    const finite = document
+      .getAnimations()
+      .filter((a) => a.effect?.getTiming().iterations !== Infinity);
+    const settled = Promise.all(finite.map((a) => a.finished.catch(() => undefined)));
+    const capped = new Promise<void>((resolve) => setTimeout(resolve, cap));
+    await Promise.race([settled, capped]);
+  }, capMs);
+};
+
+// Issue #190: the test must not assume a scroll landed in time — it must
+// know. This runs a second, independent IntersectionObserver against the
+// same element, using the identical "reached" condition Analytics.astro's
+// own observer uses (ratio >= 0.5, or the section covers half the
+// viewport), and resolves the moment the real browser reports that
+// condition true. That is the earliest moment the production observer
+// could have started the section's dwell clock, so pausing-to-read only
+// after this resolves means the measured dwell is never shortened by
+// however long the scroll animation or the observer's own callback took to
+// catch up under load. `capMs` is a generous fallback so a part that
+// somehow never registers (e.g. the element genuinely does not exist)
+// cannot hang the test; the floor assertions after flush will fail loudly
+// in that case, which is correct.
+const waitForPartReached = async (page: Page, sectionId: string, capMs = 8000): Promise<void> => {
+  await page.evaluate(
+    ({ id, cap }) =>
+      new Promise<void>((resolve) => {
+        const el = document.querySelector<HTMLElement>(`[data-track-section="${id}"]`);
+        if (!el) {
+          resolve();
+          return;
+        }
+        const reached = (entry: IntersectionObserverEntry): boolean =>
+          entry.isIntersecting &&
+          (entry.intersectionRatio >= 0.5 ||
+            entry.intersectionRect.height >= window.innerHeight * 0.5);
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (reached(entry)) {
+                observer.disconnect();
+                resolve();
+                return;
+              }
+            }
+          },
+          { threshold: [0, 0.25, 0.5, 0.75, 1] },
+        );
+        observer.observe(el);
+        setTimeout(() => {
+          observer.disconnect();
+          resolve();
+        }, cap);
+      }),
+    { id: sectionId, cap: capMs },
+  );
+};
+
 test('reports a pageview with the page context', async ({ page }) => {
   await captureBeacons(page);
   await page.goto('/');
@@ -140,6 +211,21 @@ test('records dwell for every part of a guide, not only the one left open at flu
   // real intersection ratio actually transits through the observer's
   // thresholds, the way the reader's scroll did — then pauses "reading"
   // each part well past the 500ms dwell floor before moving to the next.
+  //
+  // Issue #190: under heavy machine load the browser's IntersectionObserver
+  // callbacks and the page's own work lag, so a part could be considered
+  // "entered" later than the scroll, leaving its measured dwell under the
+  // floor, or the flush could race the last part. Two fixes: wait for the
+  // part to actually be reported as intersecting (`waitForPartReached`)
+  // before starting the "reading" pause, instead of assuming a fixed wait
+  // covered the scroll; and make that pause several multiples of the
+  // 500ms floor so load jitter cannot eat the margin. The walk also waits
+  // for the page's own entrance animations to finish first (the same
+  // `document.getAnimations()` wait the suite already uses for measuring
+  // tests, issue #104) so the observer is not fighting layout motion from
+  // the moment the page loads.
+  test.setTimeout(300_000);
+
   const partIds = [
     'answer',
     'who-is-this-for',
@@ -155,6 +241,7 @@ test('records dwell for every part of a guide, not only the one left open at flu
 
   await captureBeacons(page);
   await page.goto('/articles/publish-app-to-stores/');
+  await waitForEntranceAnimations(page);
 
   for (const id of partIds) {
     await page.evaluate((sectionId) => {
@@ -162,10 +249,13 @@ test('records dwell for every part of a guide, not only the one left open at flu
         .querySelector<HTMLElement>(`[data-track-section="${sectionId}"]`)
         ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, id);
-    // Let the smooth-scroll animation actually run before "reading".
-    await page.waitForTimeout(400);
-    // Pause on the part, comfortably over the 500ms dwell floor.
-    await page.waitForTimeout(700);
+    // Don't assume the scroll landed — wait for the browser to actually
+    // report the part as intersecting, under the identical condition
+    // Analytics.astro's own observer uses to start the dwell clock.
+    await waitForPartReached(page, id);
+    // Pause on the part, several multiples of the 500ms dwell floor so
+    // load cannot eat the margin.
+    await page.waitForTimeout(2000);
   }
 
   // Force the flush rather than relying on pagehide/the interval timer.
