@@ -26,6 +26,18 @@
  * they drop out of the list's accessible item count — only the real steps
  * are announced, in document order, exactly as a screen reader reads any
  * other `<ol>`.
+ *
+ * Round 2 (caught in review on the real page, fixed in the specimen first —
+ * local/design-system/components/process-diagram.html): the real article
+ * column is 680px (`.art-wrap`), not the wider frame a diagram demo might
+ * suggest. Six cards in one row at 680px leaves no room for a two-word
+ * actor label, so at 1024px and above this now lays out as a 3-per-row
+ * grid (two rows for six steps) instead of one row of six — see the
+ * `.pd-steps`/`.pd-step-num` rules in article.css for the mechanics (CSS
+ * grid auto-placement, the row-break arrow hidden on
+ * `:nth-child(6n)`). Every card prints its own `01`-style position
+ * (`.pd-step-head`) because the row break removes the one visual cue
+ * (an arrow) that used to carry the order from one card to the next.
  */
 import LucideIcon from "@components/home/LucideIcon.astro";
 
@@ -51,7 +63,10 @@ const diagramLabel = `תהליך בן ${steps.length} שלבים לפי הסדר
     {steps.map((step, index) => (
       <>
         <li class:list={["pd-step", { "is-counterpart": step.actor !== primaryActor }]}>
-          <span class="pd-actor">{step.actor}</span>
+          <div class="pd-step-head">
+            <span class="pd-actor">{step.actor}</span>
+            <span class="pd-step-num">{String(index + 1).padStart(2, "0")}</span>
+          </div>
           <span class="pd-label">{step.label}</span>
           {step.wait && (
             <span class="pd-meta">

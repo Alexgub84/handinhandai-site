@@ -105,6 +105,34 @@ for (const guide of GUIDES) {
     });
   }
 
+  // Issue #185, round 2: the manager caught a real defect in round 1 — at
+  // 1440px, inside the real 680px article column, a two-word actor label
+  // ("מפרסם + בודקים") wrapped into a lopsided 3-line pill next to every
+  // flat single-line chip. Fixed with `white-space: nowrap` plus a
+  // one-step-smaller chip font and a 3-per-row grid (two rows for six
+  // steps) instead of 6-across. Proof: every chip's bounding-box HEIGHT on
+  // the page is identical — a wrapped chip would measurably be 2-3x
+  // taller than a flat one-line chip right next to it. Guide-agnostic (it
+  // doesn't hardcode which chip is the multi-word one), so it still holds
+  // if a future guide's diagram puts a longer actor label on a different
+  // step.
+  test(`${guide.path}: at 1440px, no actor chip wraps (every chip is the same height as a single-line chip)`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(guide.path);
+
+    const chips = page.locator('.pd-diagram .pd-actor');
+    const chipCount = await chips.count();
+    expect(chipCount).toBeGreaterThan(1);
+
+    const heights = await chips.evaluateAll((els) => els.map((el) => el.getBoundingClientRect().height));
+    const singleLineHeight = heights[0];
+    for (const height of heights) {
+      expect(height).toBeCloseTo(singleLineHeight, 1);
+    }
+  });
+
   test(`${guide.path}: keyboard order reaches the hand-off download before the procedure part's own content`, async ({
     page,
   }) => {
