@@ -10,8 +10,20 @@ import { defineConfig, devices } from '@playwright/test';
 // running the suite at the same time get two servers, each reused by (and
 // only by) the worktree that started it. Do not hardcode `npm run dev`'s
 // own fixed port back into this file.
+//
+// Issue #194: 100 slots (4400-4499) collided about 1 run in 100, and with
+// several worktrees active at once that happened the same day — worktree
+// `w178` landed on the same port as `w190-load1`, attached (reuseExistingServer
+// was true) to a server already running main, and produced false results.
+// Widened to 1000 slots (4400-5399) to shrink the collision odds by 10x, and
+// `reuseExistingServer` below is now false: a run must only ever talk to the
+// server IT started, never one left running by another worktree. If the
+// derived port is already taken, Playwright refuses to start and fails the
+// run immediately — on purpose. Do not add a fallback that silently retries
+// on another port; that silent fallback is exactly how a wrong-origin run
+// hides.
 const WORKTREE_ROOT = execSync('git rev-parse --show-toplevel').toString().trim();
-const PORT = 4400 + (createHash('sha256').update(WORKTREE_ROOT).digest().readUInt32BE(0) % 100);
+const PORT = 4400 + (createHash('sha256').update(WORKTREE_ROOT).digest().readUInt32BE(0) % 1000);
 const BASE_URL = `http://localhost:${PORT}`;
 
 export default defineConfig({
@@ -34,7 +46,11 @@ export default defineConfig({
   webServer: {
     command: `npx astro dev --port ${PORT}`,
     url: BASE_URL,
-    reuseExistingServer: true,
+    // Issue #194: never reuse a server another run (another worktree, a
+    // leftover process) left on this port. If the port is busy, fail loudly
+    // before any test runs rather than silently attaching to someone else's
+    // server.
+    reuseExistingServer: false,
     timeout: 120000,
   },
 });
