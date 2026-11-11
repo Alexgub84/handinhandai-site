@@ -27,6 +27,12 @@
  * an unmatched heading rather than failing itself, so this check is the
  * only thing that turns a drifted heading into a build failure.
  *
+ * `handoffAfter` guard (issue #185, Ruling 1): checked regardless of
+ * `draft`, same sync-invariant treatment as `parts` above. Fails when
+ * `handoffAfter` is set but does not equal one of the article's own
+ * `parts[].id`, or when it is set on an article with no `skill` (there is
+ * no hand-off card to place).
+ *
  * Sibling-link guard (issue #120): `ArticleLayout.astro` renders a sibling
  * card for every `relatedArticles` slug that resolves to a real collection
  * entry and silently drops the rest, so a dangling slug used to ship
@@ -109,6 +115,7 @@ function main() {
 
   for (const { fileLabel, data, content } of parsed) {
     const parts = Array.isArray(data.parts) ? data.parts : [];
+    const partIds = new Set();
     if (parts.length > 0) {
       const headingLines = new Set(
         content
@@ -126,11 +133,29 @@ function main() {
           violations.push(`${fileLabel}: "parts" has two entries sharing id "${part.id}"`);
         }
         seenPartIds.add(part.id);
+        partIds.add(part.id);
         if (!headingLines.has(part.heading.trim())) {
           violations.push(
             `${fileLabel}: "parts" entry "${part.id}" declares heading "${part.heading}", which is not an H2 in the body`
           );
         }
+      }
+    }
+
+    // handoffAfter (issue #185, Ruling 1): the hinge for the mid-body
+    // skill hand-off card. A structural sync invariant like the parts
+    // check above — checked regardless of draft status, not gated by the
+    // publish-readiness checks below.
+    if (typeof data.handoffAfter === 'string' && data.handoffAfter.length > 0) {
+      if (!data.skill) {
+        violations.push(
+          `${fileLabel}: "handoffAfter" is set to "${data.handoffAfter}", but the article has no "skill" (nothing to place)`
+        );
+      }
+      if (!partIds.has(data.handoffAfter)) {
+        violations.push(
+          `${fileLabel}: "handoffAfter" is set to "${data.handoffAfter}", which is not one of this article's "parts[].id"`
+        );
       }
     }
 

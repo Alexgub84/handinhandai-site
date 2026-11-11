@@ -61,6 +61,53 @@ const articles = defineCollection({
     secondaryQueries: z.array(z.string()).default([]),
     /** The verbatim Hebrew questions the article answers (from "אנשים שאלו גם" + autocomplete). */
     answersQuestions: z.array(z.string()).default([]),
+    /**
+     * Moves `<SkillHandoff>` from end-of-body to mid-body (issue #185,
+     * Ruling 1): the id of the `parts[]` entry the card renders right
+     * after. Must equal one of this article's own `parts[].id` and the
+     * article must carry `skill` — both enforced by
+     * `scripts/check-articles.mjs`, which fails the build naming the
+     * article and the bad value rather than silently ignoring it.
+     * `src/lib/rehype-article-devices.mjs`'s `rehypeArticleHandoffMarker`
+     * reads this same frontmatter field to emit the
+     * `<div data-handoff-slot hidden>` marker right after that part's
+     * `</section>`; `ArticleLayout.astro` splits the rendered body HTML at
+     * that marker in true document order (CSS `order` is refused — see the
+     * issue's design ruling). Absent (the default) means the card stays at
+     * the end of the body, exactly as before this field existed.
+     */
+    handoffAfter: z.string().optional(),
+    /**
+     * The per-guide process diagram (issue #185, Ruling 3): an ordered list
+     * of steps rendered by `src/components/ProcessDiagram.astro` as static
+     * HTML, no image, no animation. `actor` is a short label for who does
+     * the step; `wait`/`fee` are optional one-line callouts shown on that
+     * step only when the guide's own text states a wait or a fee for it.
+     * Rendered right after the pillar link and before the body, only when
+     * non-empty — a guide that declares none renders exactly as before this
+     * field existed.
+     */
+    diagramSteps: z
+      .array(
+        z.object({
+          label: z.string(),
+          actor: z.string(),
+          wait: z.string().optional(),
+          fee: z.string().optional(),
+        })
+      )
+      .default([]),
+    /**
+     * A caveat shown under the diagram (issue #185, Ruling 3's "optional
+     * footnote slot") for a figure that is conditional or not stated as a
+     * single fixed number in the guide's own text — e.g. a wait that
+     * depends on account type, or a step that only applies to some
+     * publishers. Added to the schema because both skill guides' diagrams
+     * need exactly this: neither guide's wait/fee figures hold
+     * unconditionally for every reader. Optional; a diagram with nothing
+     * conditional to flag renders with no footnote.
+     */
+    diagramNote: z.string().optional(),
   }),
 });
 
