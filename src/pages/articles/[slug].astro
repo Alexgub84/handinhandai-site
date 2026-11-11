@@ -23,6 +23,6 @@ const { article } = Astro.props;
 const { Content } = await render(article);
 ---
 
-<ArticleLayout article={article.data} noindex={article.data.draft}>
+<ArticleLayout article={article.data} noindex={article.data.draft} renderedHtml={article.rendered?.html}>
   <Content />
 </ArticleLayout>

@@ -11,7 +11,11 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 
-import { rehypeArticleDevices, rehypeArticleParts } from './src/lib/rehype-article-devices.mjs';
+import {
+  rehypeArticleDevices,
+  rehypeArticleParts,
+  rehypeArticleHandoffMarker,
+} from './src/lib/rehype-article-devices.mjs';
 import { isArticlesIndexNoindexed } from './src/lib/articles-index-noindex.mjs';
 
 // A draft article's slug stays out of the sitemap in every build (#101) —
@@ -91,9 +95,12 @@ export default defineConfig({
   // SECOND (issue #174): it wraps each declared `parts[]` entry in
   // `<section data-track-section>`, after the table device has already
   // rewritten a GFM table into its scroll/card pair, so a part's section
-  // wraps that finished markup rather than the raw table.
+  // wraps that finished markup rather than the raw table. rehypeArticleHandoffMarker
+  // runs THIRD (issue #185): it emits the `<div data-handoff-slot hidden>`
+  // marker right after the declared `handoffAfter` part's `</section>`, so
+  // it needs that section to already exist.
   markdown: {
-    rehypePlugins: [rehypeArticleDevices, rehypeArticleParts],
+    rehypePlugins: [rehypeArticleDevices, rehypeArticleParts, rehypeArticleHandoffMarker],
   },
 
   integrations: [

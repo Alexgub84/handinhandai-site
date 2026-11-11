@@ -250,3 +250,48 @@ export function rehypeArticleParts() {
     tree.children = newChildren;
   };
 }
+
+/**
+ * Rehype plugin: emits one empty marker element,
+ * `<div data-handoff-slot hidden></div>`, immediately after the declared
+ * hinge part's closing `</section>` (issue #185, Ruling 1 + Ruling 2). Runs
+ * AFTER `rehypeArticleParts` in `astro.config.mjs`'s `rehypePlugins` list —
+ * it looks for a top-level `<section data-track-section>` node, which only
+ * exists once that plugin has already wrapped the declared parts.
+ *
+ * Reads `handoffAfter` off the same `file.data.astro.frontmatter` object
+ * `rehypeArticleParts` reads `parts` from — Astro's markdown pipeline
+ * attaches the entry's parsed frontmatter there before running the
+ * configured `rehypePlugins`, so every plugin in the list sees the same
+ * object `rehypeArticleParts` already relies on.
+ *
+ * Nothing else in the body changes: no section is renamed, split, grouped,
+ * or reordered. `ArticleLayout.astro` is the only consumer of this marker —
+ * it splits the rendered body HTML string on it in true document order (no
+ * CSS `order`) and mounts `<SkillHandoff>` between the two halves.
+ *
+ * `scripts/check-articles.mjs` is what turns a `handoffAfter` value with no
+ * matching part into a build failure; this plugin stays silent on an
+ * unmatched value, the same convention `rehypeArticleParts` already uses
+ * for an unmatched `parts[].heading`.
+ */
+export function rehypeArticleHandoffMarker() {
+  return (tree, file) => {
+    const handoffAfter = file?.data?.astro?.frontmatter?.handoffAfter;
+    if (typeof handoffAfter !== 'string' || handoffAfter === '') return;
+
+    const children = tree.children;
+    const index = children.findIndex(
+      (node) => isElement(node) && node.tagName === 'section' && node.properties?.dataTrackSection === handoffAfter
+    );
+    if (index === -1) return;
+
+    const marker = {
+      type: 'element',
+      tagName: 'div',
+      properties: { dataHandoffSlot: true, hidden: true },
+      children: [],
+    };
+    tree.children = [...children.slice(0, index + 1), marker, ...children.slice(index + 1)];
+  };
+}
