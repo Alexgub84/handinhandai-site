@@ -124,6 +124,66 @@ test('carries the campaign a visitor arrived on', async ({ page }) => {
   expect(all[0]!.u).toEqual({ s: 'instagram', m: 'bio', c: 'october' });
 });
 
+test('records dwell for every part of a guide, not only the one left open at flush (#176)', async ({
+  page,
+}) => {
+  // Issue #176: a real headed-browser reader scrolled slowly through
+  // /articles/publish-app-to-stores/, pausing 3+ seconds on each of its 10
+  // tracked parts (the 6 declared `parts` plus the 4 fixed sections every
+  // guide carries: answer, skill-handoff, closing, related), then left the
+  // page. Only the 2 sections still open at the moment they left kept their
+  // dwell; the other 8 lost it, because the dwell clock for a section was
+  // being restarted on every IntersectionObserver callback while the
+  // section was still on screen (several ratio thresholds fire repeatedly
+  // during ordinary scrolling), not only on the transition into view. This
+  // test reproduces that scroll — smooth `scrollIntoView` so the browser's
+  // real intersection ratio actually transits through the observer's
+  // thresholds, the way the reader's scroll did — then pauses "reading"
+  // each part well past the 500ms dwell floor before moving to the next.
+  const partIds = [
+    'answer',
+    'who-is-this-for',
+    'comparison',
+    'prepare',
+    'procedure',
+    'review',
+    'field-note',
+    'skill-handoff',
+    'closing',
+    'related',
+  ];
+
+  await captureBeacons(page);
+  await page.goto('/articles/publish-app-to-stores/');
+
+  for (const id of partIds) {
+    await page.evaluate((sectionId) => {
+      document
+        .querySelector<HTMLElement>(`[data-track-section="${sectionId}"]`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, id);
+    // Let the smooth-scroll animation actually run before "reading".
+    await page.waitForTimeout(400);
+    // Pause on the part, comfortably over the 500ms dwell floor.
+    await page.waitForTimeout(700);
+  }
+
+  // Force the flush rather than relying on pagehide/the interval timer.
+  await hide(page);
+
+  const all = await batches(page);
+  const dwellBySection = new Map<string, number>();
+  for (const event of eventsOf(all, 'section')) {
+    if (event.k && typeof event.v === 'number' && event.v > 0) {
+      dwellBySection.set(event.k, (dwellBySection.get(event.k) ?? 0) + event.v);
+    }
+  }
+
+  for (const id of partIds) {
+    expect(dwellBySection.get(id), `dwell recorded for part "${id}"`).toBeGreaterThan(500);
+  }
+});
+
 test('sends nothing when the browser asks not to be tracked', async ({ browser }) => {
   const context = await browser.newContext();
   await context.addInitScript(() => {
