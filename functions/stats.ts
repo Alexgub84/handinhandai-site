@@ -36,18 +36,27 @@ const DAY_OPTIONS = [7, 30, 90, 180] as const;
 // `SkillHandoff.astro` sets once issue 155-2 ships
 // (`skill-handoff-download-<skill-key>`) — so this query needs no change the
 // moment that component replaces the Markdown paragraph.
+// `parts` (issue #174) is a hand-kept echo of each guide's own `parts`
+// frontmatter (`src/content/articles/<slug>.md`) — this edge function has
+// no access to Astro's content collection (same reason `GUIDES` itself is
+// hardcoded, see above), so the dashboard can't discover a guide's declared
+// part ids on its own. Keep this list in the same order as the frontmatter;
+// a guide with no `parts` declared gets an empty array and the "Parts"
+// funnel simply doesn't render for it (the opt-in invariant, issue #174).
 const GUIDES = [
   {
     path: '/articles/publish-app-to-stores',
     title: 'Publish an app to the stores',
     asset: 'store-publishing.zip',
     clickLabels: ['github.com/Alexgub84/claude-skills', 'skill-handoff-download-store-publishing'],
+    parts: ['who-is-this-for', 'comparison', 'prepare', 'procedure', 'review', 'field-note'],
   },
   {
     path: '/articles/get-verified-for-whatsapp-cloud-api',
     title: 'Get verified for the WhatsApp Cloud API',
     asset: 'meta-whatsapp-cloud-api.zip',
     clickLabels: ['github.com/Alexgub84/claude-skills', 'skill-handoff-download-meta-whatsapp-cloud-api'],
+    parts: ['verification-basics', 'app-vs-api', 'limits', 'rejections', 'procedure', 'after-verification'],
   },
 ] as const;
 
@@ -233,6 +242,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       guideReached,
       guideClicked,
       guideSources,
+      guidePartsStats,
       downloadCounts,
     ] = await Promise.all([
       rowsOf(db, `SELECT MAX(ts) AS last_ts FROM events WHERE env = 'live' OR env IS NULL OR ?1 = 1`, previewParam),
@@ -397,6 +407,52 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         since,
         previewParam,
       ),
+      // Per-part funnel (issue #174). One row per (path, section) pair that
+      // actually occurred among the guide paths — reach (distinct sessions
+      // that reached the section) and median dwell in seconds, scoped to
+      // that guide's own path so two guides reusing a part id (e.g.
+      // "procedure" on both skill guides) never merge, unlike the
+      // site-wide "Section reach" table above. A single query grouped by
+      // (path, section), not a UNION ALL per (guide, part) pair — D1's
+      // local emulator (and, per its docs, the hosted service) caps a
+      // compound SELECT at a handful of terms, which the guide×part count
+      // here (12 today) already exceeds; this also naturally covers the
+      // fixed layout ids (answer, closing, related, skill-handoff) on the
+      // same path, which the JS lookup below simply never reads for a
+      // guide that didn't declare them as a body part. Median is computed
+      // with a window function over just the dwell-qualifying rows
+      // (value > 500ms) — confirmed to work against this D1 instance,
+      // unlike the ORDER BY/LIMIT/OFFSET trick the top-referrer query above
+      // uses for an unrelated reason (avoiding a window function there was
+      // a style choice, not a compatibility requirement found while
+      // building this).
+      rowsOf(
+        db,
+        `WITH reach_scoped AS (
+           SELECT path, section AS part, session
+             FROM events
+            WHERE type = 'section' AND path IN (${GUIDES.map((guide) => sqlStr(guide.path)).join(', ')})
+              AND day >= date('now', ?1) AND ${ENV_CLAUSE}
+            GROUP BY path, section, session
+         ),
+         dwell_ranked AS (
+           SELECT path, section AS part, MAX(value) AS ms,
+                  ROW_NUMBER() OVER (PARTITION BY path, section ORDER BY MAX(value)) AS rn,
+                  COUNT(*) OVER (PARTITION BY path, section) AS cnt
+             FROM events
+            WHERE type = 'section' AND path IN (${GUIDES.map((guide) => sqlStr(guide.path)).join(', ')})
+              AND value > 0 AND day >= date('now', ?1) AND ${ENV_CLAUSE}
+            GROUP BY path, section, session
+         )
+         SELECT r.path AS path, r.part AS part, COUNT(*) AS reach,
+                (SELECT ROUND(AVG(d.ms) / 1000.0, 1) FROM dwell_ranked d
+                  WHERE d.path = r.path AND d.part = r.part
+                    AND d.rn IN ((d.cnt + 1) / 2, (d.cnt + 2) / 2)) AS median_seconds
+           FROM reach_scoped r
+          GROUP BY r.path, r.part`,
+        since,
+        previewParam,
+      ),
       downloadCountsByAsset(),
     ]);
 
@@ -415,6 +471,21 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       const guideArrivedCount = guideCount(guideArrived, guide.path);
       const guideShare = (value: number): string =>
         guideArrivedCount ? `${Math.round((value / guideArrivedCount) * 100)}%` : '-';
+      // Issue #174: this guide's own declared parts, reach descending — a
+      // funnel reads in roughly document order that way without the
+      // dashboard needing the parts list in any particular order itself.
+      const parts = guide.parts
+        .map((id) => {
+          const row = guidePartsStats.find((r) => r.path === guide.path && r.part === id);
+          const reach = num(row?.reach ?? 0);
+          return {
+            id,
+            reach,
+            share: guideShare(reach),
+            medianSeconds: row?.median_seconds == null ? null : num(row.median_seconds),
+          };
+        })
+        .sort((a, b) => b.reach - a.reach);
       return {
         guide,
         arrived: guideArrivedCount,
@@ -423,6 +494,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         share: guideShare,
         topSource: guideTopSource(guide.path),
         downloads: downloadCounts ? downloadCounts[guide.asset] ?? null : null,
+        parts,
       };
     });
 
@@ -614,6 +686,21 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       </div>
       <p class="empty">Top referrer: ${stat.topSource ? escape(stat.topSource) : 'no sessions yet'}</p>
       <p class="downloads">${escape(stat.guide.asset)} — ${escape(formatDownloadCount(stat.downloads))} downloads from GitHub</p>
+      ${
+        stat.parts.length
+          ? `<div class="scroll"><table>
+        <tr><td class="label"><b>Part</b></td><td class="num"><b>Reach</b></td><td class="num"><b>% of arrived</b></td><td class="num"><b>Median s</b></td></tr>
+        ${stat.parts
+          .map(
+            (part) =>
+              `<tr><td class="label">${escape(part.id)}</td><td class="num">${part.reach}</td><td class="num">${
+                part.share
+              }</td><td class="num">${part.medianSeconds == null ? '-' : part.medianSeconds}</td></tr>`,
+          )
+          .join('')}
+      </table></div>`
+          : ''
+      }
     </section>`,
       )
       .join('')}

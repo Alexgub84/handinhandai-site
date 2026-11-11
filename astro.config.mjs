@@ -11,7 +11,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 
-import { rehypeArticleDevices } from './src/lib/rehype-article-devices.mjs';
+import { rehypeArticleDevices, rehypeArticleParts } from './src/lib/rehype-article-devices.mjs';
 import { isArticlesIndexNoindexed } from './src/lib/articles-index-noindex.mjs';
 
 // A draft article's slug stays out of the sitemap in every build (#101) —
@@ -87,9 +87,13 @@ export default defineConfig({
 
   // Applies the article design's three devices (term chip, aside,
   // table + card fallback) to ordinary Markdown written by an author — see
-  // src/lib/rehype-article-devices.mjs (issue #111).
+  // src/lib/rehype-article-devices.mjs (issue #111). rehypeArticleParts runs
+  // SECOND (issue #174): it wraps each declared `parts[]` entry in
+  // `<section data-track-section>`, after the table device has already
+  // rewritten a GFM table into its scroll/card pair, so a part's section
+  // wraps that finished markup rather than the raw table.
   markdown: {
-    rehypePlugins: [rehypeArticleDevices],
+    rehypePlugins: [rehypeArticleDevices, rehypeArticleParts],
   },
 
   integrations: [

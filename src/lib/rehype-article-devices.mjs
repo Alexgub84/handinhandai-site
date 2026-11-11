@@ -62,6 +62,16 @@ function filterElements(children) {
   return (children || []).filter(isElement);
 }
 
+/** Concatenates every text node under `node`, ignoring markup — used to match
+ * a declared `parts[].heading` (plain text) against a rendered H2's content
+ * regardless of any inline device inside it (a term chip, bold, a link). */
+function textContent(node) {
+  if (!node) return '';
+  if (node.type === 'text') return node.value ?? '';
+  if (Array.isArray(node.children)) return node.children.map(textContent).join('');
+  return '';
+}
+
 /**
  * Builds the `.art-table-scroll` wrapper (always) and the `.art-cards`
  * fallback (when the table has a header/body split with at least one data
@@ -177,5 +187,66 @@ export function rehypeArticleDevices() {
       const { tableWrap, cardsWrap } = buildTableReplacement(node);
       parent.children.splice(index, 1, ...(cardsWrap ? [tableWrap, cardsWrap] : [tableWrap]));
     }
+  };
+}
+
+/**
+ * Rehype plugin: wraps each declared `parts[]` entry's content in
+ * `<section data-track-section="<id>">` (issue #174). Runs AFTER
+ * `rehypeArticleDevices` in `astro.config.mjs`'s `rehypePlugins` list, so a
+ * part that contains a GFM table wraps the table's already-rewritten
+ * `.art-table-scroll` / `.art-cards` pair, not the raw `<table>` — that
+ * ordering was verified against both skill guides (see the issue's
+ * acceptance run) to leave the table transform untouched.
+ *
+ * A part's range runs from its own H2 up to the next DECLARED H2 (or the
+ * end of the body) — an undeclared H2 in between stays inside the
+ * preceding declared part's section, exactly as the design ruling asks.
+ * Matching is done on each H2's rendered text content (so an inline device
+ * inside the heading — a term chip, bold — doesn't break the match)
+ * against the frontmatter's exact `heading` string, trimmed.
+ *
+ * Enforcement that every declared heading actually exists, and that no two
+ * parts share an id, is NOT this plugin's job — that is
+ * `scripts/check-articles.mjs`, which fails the build with a readable
+ * message. This plugin only wraps what it can match; an unmatched part is
+ * silently skipped here (the build-level check is what turns that into a
+ * failure, not a silent fallback the reader would never notice).
+ */
+export function rehypeArticleParts() {
+  return (tree, file) => {
+    const parts = file?.data?.astro?.frontmatter?.parts;
+    if (!Array.isArray(parts) || parts.length === 0) return;
+
+    const children = tree.children;
+    const boundaries = [];
+    for (const part of parts) {
+      if (!part || typeof part.id !== 'string' || typeof part.heading !== 'string') continue;
+      const wantedText = part.heading.trim();
+      const index = children.findIndex(
+        (node) => isElement(node) && node.tagName === 'h2' && textContent(node).trim() === wantedText
+      );
+      if (index === -1) continue;
+      boundaries.push({ index, id: part.id });
+    }
+    if (boundaries.length === 0) return;
+    boundaries.sort((a, b) => a.index - b.index);
+
+    const newChildren = [];
+    let cursor = 0;
+    for (let i = 0; i < boundaries.length; i += 1) {
+      const { index, id } = boundaries[i];
+      if (index > cursor) newChildren.push(...children.slice(cursor, index));
+      const end = i + 1 < boundaries.length ? boundaries[i + 1].index : children.length;
+      newChildren.push({
+        type: 'element',
+        tagName: 'section',
+        properties: { dataTrackSection: id },
+        children: children.slice(index, end),
+      });
+      cursor = end;
+    }
+    if (cursor < children.length) newChildren.push(...children.slice(cursor));
+    tree.children = newChildren;
   };
 }

@@ -34,6 +34,19 @@ const articles = defineCollection({
      */
     skill: z.enum(Object.keys(SKILLS) as [SkillKey, ...SkillKey[]]).optional(),
     /**
+     * Per-guide engagement tracking (issue #174). An ordered list of
+     * `{ id, heading }`: `id` is a short ASCII slug (`who-is-this-for`,
+     * `comparison`, `procedure`, `field-note`) tracked as
+     * `data-track-section="<id>"` on `/stats`'s "Per guide" card; `heading`
+     * is the EXACT source text of the H2 that starts that part — never
+     * derived from the Hebrew text, so a rewording of the heading can't
+     * silently desync the series. `scripts/check-articles.mjs` fails the
+     * build when a declared `heading` is not found as an H2 in the body, or
+     * when two parts share an `id`. Optional and empty by default: a guide
+     * with no `parts` renders and tracks exactly as it did before #174.
+     */
+    parts: z.array(z.object({ id: z.string(), heading: z.string() })).default([]),
+    /**
      * The keyword brief (issue #108, rule 2) — audit material only, read off
      * the real Google results page before drafting (rule 3). Never rendered
      * on the page and never emitted as a meta keywords tag.

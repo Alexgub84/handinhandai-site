@@ -14,6 +14,19 @@
  *   - `secondaryQueries` has fewer than 2 entries (issue #108, rule 2)
  *   - the title, description or body contains a forbidden token (see below)
  *
+ * `parts` sync guard (issue #174): every article's `parts` (optional,
+ * `{ id, heading }[]`) is checked regardless of `draft` — this is a
+ * structural sync invariant between frontmatter and body, not a
+ * publish-readiness gate like the ones above. Fails when a declared
+ * `heading` is not found as an H2 in the raw Markdown body (the same
+ * `content` this script already scans, not the rendered HTML — a part's
+ * heading in frontmatter must match the H2's source line exactly, inline
+ * markdown syntax included), or when two parts in the same article share
+ * an `id`. This is also what `src/lib/rehype-article-devices.mjs`'s
+ * `rehypeArticleParts` relies on at build time: that plugin silently skips
+ * an unmatched heading rather than failing itself, so this check is the
+ * only thing that turns a drifted heading into a build failure.
+ *
  * Sibling-link guard (issue #120): `ArticleLayout.astro` renders a sibling
  * card for every `relatedArticles` slug that resolves to a real collection
  * entry and silently drops the rest, so a dangling slug used to ship
@@ -95,6 +108,32 @@ function main() {
   );
 
   for (const { fileLabel, data, content } of parsed) {
+    const parts = Array.isArray(data.parts) ? data.parts : [];
+    if (parts.length > 0) {
+      const headingLines = new Set(
+        content
+          .split('\n')
+          .filter((line) => /^##\s+/.test(line))
+          .map((line) => line.replace(/^##\s+/, '').trim())
+      );
+      const seenPartIds = new Set();
+      for (const part of parts) {
+        if (!part || typeof part.id !== 'string' || typeof part.heading !== 'string') {
+          violations.push(`${fileLabel}: "parts" has an entry that is not a { id, heading } string pair`);
+          continue;
+        }
+        if (seenPartIds.has(part.id)) {
+          violations.push(`${fileLabel}: "parts" has two entries sharing id "${part.id}"`);
+        }
+        seenPartIds.add(part.id);
+        if (!headingLines.has(part.heading.trim())) {
+          violations.push(
+            `${fileLabel}: "parts" entry "${part.id}" declares heading "${part.heading}", which is not an H2 in the body`
+          );
+        }
+      }
+    }
+
     const relatedArticles = Array.isArray(data.relatedArticles) ? data.relatedArticles : [];
     for (const relatedSlug of relatedArticles) {
       if (resolvableSlugs.has(relatedSlug)) {

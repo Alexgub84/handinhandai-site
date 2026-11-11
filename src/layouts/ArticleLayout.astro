@@ -173,7 +173,7 @@ const waHeaderMessage = `היי אלכס, קראתי את "${article.title}" ו�
             </div>
 
             <span class="art-answer-eyebrow">בקצרה</span>
-            <div class="art-answer">
+            <div class="art-answer" data-track-section="answer">
               <p>{article.description}</p>
             </div>
 
@@ -196,7 +196,7 @@ const waHeaderMessage = `היי אלכס, קראתי את "${article.title}" ו�
             <slot name="first-hand-note" />
           </div>
 
-          <div class="art-cta">
+          <div class="art-cta" data-track-section="closing">
             <a href={waLink()} target="_blank" rel="noopener noreferrer" class="ah-btn ah-btn-primary" data-track="article-closing-whatsapp">
               <WhatsAppIcon />
               <span>בואו נדבר על זה</span>
@@ -205,7 +205,7 @@ const waHeaderMessage = `היי אלכס, קראתי את "${article.title}" ו�
           </div>
 
           {siblingCards.length > 0 ? (
-            <nav aria-label="מדריכים קשורים">
+            <nav aria-label="מדריכים קשורים" data-track-section="related">
               <p class="art-siblings-label">מדריכים נוספים</p>
               <div class="art-sibling-grid">
                 {siblingCards.map((entry) => (
