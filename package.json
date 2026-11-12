@@ -11,7 +11,8 @@
     "test": "playwright test --pass-with-no-tests",
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
-    "generate:og": "node scripts/generate-og-images.js"
+    "generate:og": "node scripts/generate-og-images.js",
+    "usage:report": "node scripts/usage/run.mjs"
   },
   "dependencies": {
     "@astrojs/react": "5.0.4",

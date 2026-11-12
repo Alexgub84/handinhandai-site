@@ -1,0 +1,10 @@
+-- Traffic sources (utm_source, else referrer host, else "direct"). Mirrors
+-- functions/stats.ts's `sources` query.
+--
+-- Params substituted by run.mjs:
+--   ?1 = since interval string, e.g. '-7 days'.
+--   ?2 = 1 to include preview rows too, else 0.
+SELECT COALESCE(NULLIF(utm_source, ''), NULLIF(ref_host, ''), 'direct') AS source,
+       COUNT(DISTINCT session) AS sessions
+  FROM events WHERE type = 'view' AND day >= date('now', ?1) AND (env = 'live' OR env IS NULL OR ?2 = 1)
+ GROUP BY source ORDER BY sessions DESC LIMIT 15;
