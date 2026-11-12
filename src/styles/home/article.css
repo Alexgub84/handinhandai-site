@@ -686,11 +686,6 @@ body {
   gap: 14px;
   margin: 0 0 18px;
 }
-.skill-handoff-install-link {
-  font-size: 0.92rem;
-  color: hsl(var(--primary-text));
-  text-decoration: underline;
-}
 .skill-handoff-dev-label {
   font-size: 0.85rem;
   color: hsl(var(--muted-foreground));
@@ -702,9 +697,141 @@ body {
   border-radius: 8px;
   padding: 10px 14px;
   margin: 0 0 8px;
+  /* v2 (issue #208): the two dev lines became copy rows, the command and
+     its button on opposite ends of the row. */
+  justify-content: space-between;
 }
 .skill-handoff-dev .skill-cmd-row:last-child {
   margin-bottom: 0;
+}
+.skill-handoff-dev .skill-cmd {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------------------
+   v2 additions (issue #208) — ported verbatim from the approved specimen,
+   `local/design/skill-handoff-v2/components/skill-handoff.html`'s "הצעה"
+   card. Same tokens, same radius family (8 / 14 / 16px) already in use
+   above; nothing invented here. --------------------------------------- */
+
+/* The reassurance sentence directly under the download button. */
+.skill-handoff-after {
+  font-size: 0.92rem;
+  color: hsl(var(--foreground) / 0.85);
+  line-height: 1.55;
+  margin: -6px 0 18px;
+}
+
+/* The 3-step install list, replacing the old single text link.
+
+   Deliberately NOT a flex container mixing raw text with an inline
+   .art-term span: flexbox wraps each contiguous run of inline content into
+   its OWN anonymous flex item, so a chip sitting between two bits of prose
+   gets torn out as a separate column instead of flowing with the sentence
+   (the specimen found exactly this break on its first 390px screenshot
+   pass — every word stacked on its own line). The fix is to keep the <li>
+   itself flex (for the numeral + text columns) but put ALL of the
+   sentence — text and chip together — inside one <span class="txt">, so it
+   stays a single flex item and wraps as ordinary inline content. */
+.skill-handoff-steps {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.skill-handoff-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: hsl(var(--foreground) / 0.9);
+}
+.skill-handoff-steps .num {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 999px;
+  background: hsl(var(--primary) / 0.12);
+  color: hsl(var(--primary-text));
+  font-size: 11px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+.skill-handoff-steps .txt {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.skill-handoff-details-line {
+  font-size: 0.82rem;
+  color: hsl(var(--muted-foreground));
+  margin: 0 0 22px;
+}
+.skill-handoff-details-line a {
+  color: hsl(var(--primary-text));
+  text-decoration: underline;
+}
+
+/* The WhatsApp alternative: one sentence, the secondary button, the
+   mandatory AI-answers-first disclosure right under it. */
+.skill-handoff-wa {
+  border-top: 1px solid hsl(var(--border));
+  padding-top: 18px;
+  margin: 0 0 18px;
+}
+.skill-handoff-wa-line {
+  font-size: 0.92rem;
+  color: hsl(var(--foreground) / 0.9);
+  margin: 0 0 12px;
+}
+.skill-handoff-wa-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+.skill-handoff-wa-note {
+  margin: 0;
+}
+
+/* The two developer command lines become copy rows. */
+.skill-cmd-copy {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+  color: hsl(var(--muted-foreground));
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-family: Heebo, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  direction: rtl;
+  unicode-bidi: isolate;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.skill-cmd-copy svg {
+  width: 13px;
+  height: 13px;
+  flex: none;
+}
+.skill-cmd-copy:hover {
+  border-color: hsl(var(--primary) / 0.5);
+  color: hsl(var(--primary-text));
+}
+.skill-cmd-copy.is-copied {
+  border-color: hsl(var(--primary) / 0.6);
+  background: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary-text));
 }
 
 /* Comparison table — desktop table is .ap-table* verbatim, phone cards are

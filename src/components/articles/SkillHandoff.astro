@@ -1,13 +1,18 @@
 ---
 /**
- * The guide's hand-off card (issue #155, second half). A quiet card, not a
- * paragraph: a download button is the primary action, a text link beside
- * it points to `/install-skill` (the one dated page that teaches the three
- * browser clicks), and the developer command line sits underneath as the
- * secondary route. Everything derived (name, description, the asset URL)
- * comes from `src/data/skills.ts` — this component hand-types nothing but
- * the two developer command strings, which are not derived from the
- * version and never change with it.
+ * The guide's hand-off card (issue #155, second half; v2 ported from the
+ * approved specimen in issue #208 —
+ * `local/design/skill-handoff-v2/components/skill-handoff.html`, the
+ * "הצעה" block, screenshots reviewed at `local/design/skill-handoff-v2/shots/`).
+ * A quiet card, not a paragraph: a download button is the primary action,
+ * a reassurance line and a compact 3-step install list sit under it (with
+ * a link to `/install-skill` for anyone who wants screenshots), a WhatsApp
+ * route follows for anyone who'd rather Alex install it, and the developer
+ * command lines close the card as copy rows. Everything derived (name,
+ * description, the asset URL) comes from `src/data/skills.ts` — this
+ * component hand-types nothing but the two developer command strings
+ * (which are not derived from the version and never change with it) and
+ * the fixed WhatsApp greeting below.
  *
  * `data-track-section="skill-handoff"` on the root element is what lets the
  * analytics dashboard say a reader *reached* the card (not just clicked the
@@ -15,7 +20,10 @@
  * from `section[id]` or `data-track-section`.
  */
 import LucideIcon from "@components/home/LucideIcon.astro";
+import WhatsAppIcon from "@components/home/WhatsAppIcon.astro";
+import AiAnswersNote from "@components/home/AiAnswersNote.astro";
 import { SKILLS, skillAssetUrl, type SkillKey } from "@/data/skills";
+import { waLink } from "@/data/site-contact";
 
 interface Props {
   skillKey: SkillKey;
@@ -27,6 +35,16 @@ const assetUrl = skillAssetUrl(skillKey);
 // Computed, never hand-typed per guide — a future third skill gets this for
 // free. See CLAUDE.md's Articles section for the convention.
 const downloadTrack = `skill-handoff-download-${skillKey}`;
+const whatsappTrack = `skill-handoff-whatsapp-${skillKey}`;
+const copyPluginTrack = `skill-handoff-copy-plugin-${skillKey}`;
+const copyNpxTrack = `skill-handoff-copy-npx-${skillKey}`;
+
+// Fixed, generic greeting — names the guide in general terms ("the guide"),
+// not any one guide's title, same pattern as home-profile.ts's single fixed
+// waGreeting constant. Identical across both skill-carrying guides, as
+// approved in the specimen.
+const waGreeting = "היי אלכס, קראתי את המדריך ואשמח שתעשה לי את ההתקנה של הסקיל בעצמך.";
+const whatsappHref = waLink(waGreeting);
 ---
 
 <div class="skill-handoff" data-track-section="skill-handoff">
@@ -38,16 +56,111 @@ const downloadTrack = `skill-handoff-download-${skillKey}`;
       <LucideIcon name="download" />
       <span>הורדת הסקיל (ZIP)</span>
     </a>
-    <a href="/install-skill/" class="skill-handoff-install-link">איך מתקינים בלי טרמינל?</a>
+  </div>
+
+  <p class="skill-handoff-after">
+    בתוך קובץ ה־ZIP תיקיית סקיל אחת. ההתקנה בדפדפן היא שלוש לחיצות, בערך דקה, בלי טרמינל.
+  </p>
+
+  <ol class="skill-handoff-steps">
+    <li><span class="num">1</span><span class="txt">בהגדרות (<span class="art-term">Settings → Capabilities</span>) מדליקים את הרצת הקוד.</span></li>
+    <li><span class="num">2</span><span class="txt">ב<span class="art-term">Customize → Skills</span> לוחצים על כפתור ה־+, ואז על <span class="art-term">Create skill</span>{"⁠"}.</span></li>
+    <li><span class="num">3</span><span class="txt">בוחרים <span class="art-term">Upload a skill</span> ומעלים את קובץ ה־ZIP כמו שהוא.</span></li>
+  </ol>
+  <p class="skill-handoff-details-line">
+    כל הצעדים, עם תמונות מהמסך, ב<a href="/install-skill/">עמוד ההתקנה</a>.
+  </p>
+
+  <div class="skill-handoff-wa">
+    <p class="skill-handoff-wa-line">מי שמעדיף שאלכס יתקין בעצמו — אפשר גם בוואטסאפ.</p>
+    <div class="skill-handoff-wa-actions">
+      <a
+        href={whatsappHref}
+        class="ah-btn ah-btn-ghost"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-track={whatsappTrack}
+      >
+        <WhatsAppIcon />
+        <span>דברו עם אלכס בוואטסאפ</span>
+      </a>
+    </div>
+    <AiAnswersNote class="skill-handoff-wa-note" />
   </div>
 
   <div class="skill-handoff-dev">
     <p class="skill-handoff-dev-label">למי שעובד מהטרמינל:</p>
     <div class="skill-cmd-row">
       <span class="skill-cmd">/plugin marketplace add Alexgub84/claude-skills</span>
+      <button type="button" class="skill-cmd-copy" data-track={copyPluginTrack}>
+        <LucideIcon name="copy" size={13} />
+        <span class="copy-label">העתקה</span>
+      </button>
     </div>
     <div class="skill-cmd-row">
       <span class="skill-cmd">npx skills add Alexgub84/claude-skills</span>
+      <button type="button" class="skill-cmd-copy" data-track={copyNpxTrack}>
+        <LucideIcon name="copy" size={13} />
+        <span class="copy-label">העתקה</span>
+      </button>
     </div>
   </div>
 </div>
+
+<script>
+  // Copies the exact command text from a `.skill-cmd-row`'s `.skill-cmd`
+  // sibling. Never throws: `copyText` resolves or rejects a promise, and
+  // the click handler always lands on one of the two label flips. A denied
+  // or failing copy flips the label to "לא הועתק" instead of silently
+  // claiming success.
+  function copyText(text: string): Promise<void> {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text);
+      }
+    } catch {
+      // fall through to the execCommand fallback below
+    }
+    return new Promise((resolve, reject) => {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      let ok = false;
+      try {
+        ok = document.execCommand("copy");
+      } catch {
+        ok = false;
+      }
+      document.body.removeChild(ta);
+      if (ok) resolve();
+      else reject(new Error("copy command failed"));
+    });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".skill-cmd-copy").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const row = btn.closest(".skill-cmd-row");
+      const cmdEl = row ? row.querySelector(".skill-cmd") : null;
+      const text = cmdEl ? (cmdEl.textContent ?? "").trim() : "";
+      const label = btn.querySelector<HTMLSpanElement>(".copy-label");
+
+      const flip = (message: string): void => {
+        if (label) label.textContent = message;
+        btn.classList.add("is-copied");
+        setTimeout(() => {
+          if (label) label.textContent = "העתקה";
+          btn.classList.remove("is-copied");
+        }, 2000);
+      };
+
+      copyText(text).then(
+        () => flip("הועתק"),
+        () => flip("לא הועתק"),
+      );
+    });
+  });
+</script>

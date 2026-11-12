@@ -102,7 +102,17 @@
   color: hsl(var(--muted-foreground));
 }
 .ai-note > svg { width: 15px; height: 15px; flex: none; margin-top: 2px; color: hsl(var(--primary-text)); }
-.ai-note > span:not(.ai-note__ic) { flex: 1 1 auto; min-width: 0; }
+/* `flex: 1 1 0%`, not `1 1 auto` (issue #208 nit): a flex item's wrapping
+   decision uses its content-sized hypothetical main size, not its
+   post-shrink size, so an `auto`-basis text span whose one-line width
+   doesn't fit next to the icon gets pushed onto its OWN line in full —
+   the icon ends up alone on line 1, the whole sentence alone on line 2.
+   Found at 390px inside the skill hand-off card's narrower WhatsApp
+   section (the icon floated alone there; it didn't elsewhere, where the
+   container was wide enough to hide the same bug). A zero flex-basis
+   keeps the span's hypothetical size at 0, so it always shares the first
+   line with the icon and only then grows and wraps internally. */
+.ai-note > span:not(.ai-note__ic) { flex: 1 1 0%; min-width: 0; }
 .ai-note--panel {
   display: flex;
   flex-wrap: nowrap;
@@ -430,3 +440,19 @@
   .gd-card, .cs-link .cs-i { transition: none; }
   .gd-card:hover { transform: none; }
 }
+
+/* `.ah-btn`/`.ah-btn-ghost` live in app.css (frozen — never redefined here,
+   see the file header). The homepage always has tailwind.css's preflight
+   loaded first (`a { color: inherit }`), so an unstyled `<a class="ah-btn
+   ah-btn-ghost">` there has always inherited the surrounding text colour.
+   Article pages never load tailwind.css (ArticleLayout.astro imports only
+   app.css + overrides.css + article.css), so the same markup fell back to
+   the UA default blue underlined link there — found on the skill
+   hand-off card's WhatsApp button screenshot (issue #208), not assumed.
+   Scoped to `.ah-btn-ghost` specifically, not bare `.ah-btn`: app.css
+   already declares `.ah-btn-primary { color: ... }` after `.ah-btn` in
+   the same file, and a same-specificity `.ah-btn { color: inherit }` here
+   (a later-loaded file) would win the cascade over it and wash out the
+   primary button's white text. `.ah-btn-ghost` never sets its own color,
+   so this is the only button variant missing one. */
+.ah-btn-ghost { color: inherit; }

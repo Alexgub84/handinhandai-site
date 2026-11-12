@@ -56,3 +56,39 @@ test('the hand-off card renders on both skill-carrying guides, with the computed
   const metaCard = page.locator('[data-track="skill-handoff-download-meta-whatsapp-cloud-api"]');
   await expect(metaCard).toBeVisible();
 });
+
+// Issue #208 — the v2 card adds 3 data-track labels beside the existing
+// download one, every one computed from skillKey (never hand-typed per
+// guide). Checked on both skill-carrying guides so a future third skill
+// is covered by the same loop with no new test.
+const SKILL_GUIDES: { path: string; skillKey: string }[] = [
+  { path: '/articles/publish-app-to-stores/', skillKey: 'store-publishing' },
+  { path: '/articles/get-verified-for-whatsapp-cloud-api/', skillKey: 'meta-whatsapp-cloud-api' },
+];
+
+for (const { path, skillKey } of SKILL_GUIDES) {
+  test(`${path} hand-off card carries all 4 computed data-track labels`, async ({ page }) => {
+    await page.goto(path);
+
+    for (const label of [
+      `skill-handoff-download-${skillKey}`,
+      `skill-handoff-whatsapp-${skillKey}`,
+      `skill-handoff-copy-plugin-${skillKey}`,
+      `skill-handoff-copy-npx-${skillKey}`,
+    ]) {
+      await expect(page.locator(`[data-track="${label}"]`)).toBeVisible();
+    }
+  });
+
+  test(`${path} hand-off card's copy buttons exist and its WhatsApp button points at wa.me with the site number`, async ({
+    page,
+  }) => {
+    await page.goto(path);
+
+    const copyButtons = page.locator('.skill-handoff-dev .skill-cmd-copy');
+    await expect(copyButtons).toHaveCount(2);
+
+    const waButton = page.locator(`[data-track="skill-handoff-whatsapp-${skillKey}"]`);
+    await expect(waButton).toHaveAttribute('href', /^https:\/\/wa\.me\/972545053620\?text=/);
+  });
+}
