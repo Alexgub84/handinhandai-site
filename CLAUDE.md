@@ -253,6 +253,20 @@ pushes the page past the viewport at 390px) — use the
 `.skill-cmd-row`/`.skill-cmd` (and `.skill-repo-row`/`.skill-repo`)
 primitives in `src/styles/home/article.css` instead.
 
+**Skill hand-off card v2 (issue #208).** Ported verbatim from the approved
+specimen at `local/design/skill-handoff-v2/components/skill-handoff.html`
+(the "הצעה" block). Under the download button, the card now carries a
+reassurance line, the 3 install steps as a numbered list (the old single
+text link is gone), the `/install-skill` detail link, a WhatsApp route
+(button + the reused `AiAnswersNote` disclosure — never re-typed, always
+imported), and the two developer command lines as copy rows with their own
+copy button. Three new `data-track` labels join the existing download
+one, all computed from `skillKey`, never hand-typed per guide:
+`skill-handoff-whatsapp-${skillKey}`, `skill-handoff-copy-plugin-${skillKey}`,
+`skill-handoff-copy-npx-${skillKey}`. The copy script never throws — a
+denied or failing clipboard write flips the button's label to "לא הועתק"
+instead of silently claiming success.
+
 ## Routes
 
 | Path | File | Notes |
