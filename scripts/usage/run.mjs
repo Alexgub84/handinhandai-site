@@ -322,6 +322,10 @@ async function main() {
     ? runQuery('per-article-funnel', { ...common, '/*ARTICLE_PATHS*/': pathsInList(allPaths) })
     : { rows: [], meta: null };
 
+  const crossPage = allPaths.length
+    ? runQuery('cross-page', { ...common, '/*ARTICLE_PATHS*/': pathsInList(allPaths) })
+    : { rows: [], meta: null };
+
   const perPart = partsArticles.length
     ? runQuery('per-part-funnel', {
         ...common,
@@ -360,6 +364,7 @@ async function main() {
     ['contact-funnel', contactFunnel],
     ['clicks-by-label', clicksByLabel],
     ['per-article-funnel', perArticle],
+    ['cross-page', crossPage],
     ['per-part-funnel', perPart],
     ['handoff-funnel', handoff],
   ];
@@ -448,6 +453,24 @@ async function main() {
   const perArticleRows = published.map((a) => {
     const row = perArticle.rows.find((r) => r.path === a.path);
     return [a.path, String(row ? num(row.arrived) : 0), row ? `${num(row.avg_depth)}%` : '-', row ? `${num(row.avg_seconds)}s` : '-'];
+  });
+
+  // Cross-page: "Of N sessions, K visited another page: <path> K1, ..." per
+  // published article. N is that article's own `arrived` from the
+  // per-article funnel above; K is the cross-page query's own
+  // '(any other page)' denominator row — never derived by summing the
+  // per-other-page rows, which double-count a session that visited more
+  // than one other page.
+  const crossPageLines = published.map((a) => {
+    const arrived = arrivedByPath.get(a.path) ?? 0;
+    const otherRows = crossPage.rows.filter((r) => r.article_path === a.path && r.other_path !== '(any other page)');
+    const anyOtherRow = crossPage.rows.find((r) => r.article_path === a.path && r.other_path === '(any other page)');
+    const visitedAnother = anyOtherRow ? num(anyOtherRow.sessions) : 0;
+    const breakdown = otherRows.map((r) => `${r.other_path} ${num(r.sessions)}`).join(', ');
+    const line = visitedAnother === 0
+      ? `Of ${arrived} sessions, none visited another page.`
+      : `Of ${arrived} sessions, ${visitedAnother} visited another page: ${breakdown}.`;
+    return `- **${a.path}**: ${line}`;
   });
 
   const perPartSections = partsArticles
@@ -544,6 +567,10 @@ ${table(['Bucket', 'Sessions'], scrollDepth.rows.map((r) => [String(r.bucket), S
 ### Per-article funnel (every published article)
 
 ${table(['Article', 'Arrived', 'Avg depth', 'Avg engaged'], perArticleRows)}
+
+### Cross-page (did readers visit another page in the same session)
+
+${crossPageLines.length ? crossPageLines.join('\n') : '_No published article to check._'}
 
 ### Per-part funnel (articles that declare \`parts\`)
 
