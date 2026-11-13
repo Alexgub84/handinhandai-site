@@ -185,9 +185,15 @@ organisation Play account).
   origin itself serves (`.well-known/assetlinks.json`). A product change
   reaches every installed phone the moment the web app deploys — no new
   store upload, no review, no reinstall.
-- A new store upload is needed for exactly three reasons: the origin
-  changes, the package name changes, or the Android version code changes.
-  Nothing else.
+- A new store upload is needed for exactly three reasons the developer
+  controls directly: the origin changes, the package name changes, or the
+  Android version code changes. On top of those three, Google Play's own
+  target-API-level policy can additionally force a rebuild and a new upload
+  on its own schedule, with no origin, package-name or version-code change
+  on the developer's side — "existing apps must target Android 15 (API
+  level 35) or higher to remain available to new users on devices running
+  Android OS higher than your app's target API level" ([Meet Google Play's
+  target API level requirement](https://support.google.com/googleplay/android-developer/answer/11926878) — Play Console Help, read 2026-11-13).
 - **The fingerprint two-step that catches everyone once**: Google Play App
   Signing re-signs every uploaded bundle with its own certificate, which is
   what the phone's Chrome actually checks against `assetlinks.json` — not
@@ -195,16 +201,37 @@ organisation Play account).
   certificate is copied into the asset-links file and deployed a second
   time, the installed app still technically works but loses its "trusted"
   address-bar-free appearance (cosmetic, not functional).
-- **Internal app sharing does not work for an unreviewed app.** Play
-  explicitly refuses it ("needs to be published") even after accepting the
-  Play Console Terms of Service — the only route onto a tester's phone for
-  an app that has never been reviewed is adding their exact Google account
-  address to the internal-testing tester list, with no workaround.
+- **Internal app sharing was refused for Koma, tried and proved on
+  2026-10-27** — Play's exact console message: "The app
+  'com.handinhandai.koma' needs to be published before you can use internal
+  app sharing." That is a dated first-hand observation for this app, not
+  Google's general rule: Google's own wording conditions the failure on
+  testing-track access, not on review status — "An app isn't published to
+  production, or it's only published to a testing track that a user doesn't
+  have access to" ([About internal app sharing](https://support.google.com/googleplay/android-developer/answer/9303479?hl=en) — Play Console Help, read
+  2026-11-13). An app on any testing track a tester already has access to is
+  not blocked by this wording; what Koma actually hit was the second clause
+  (no track access), and the only route onto a tester's phone for an app
+  that has never been reviewed is adding their exact Google account address
+  to the internal-testing tester list, with no workaround.
 - Invitation codes to the real product (as opposed to the store listing
   itself) are generated server-side and delivered **out of band from the
   Play opt-in link, on purpose** — two separate channels meeting on the same
   phone, by design, and the phone number used to generate one is piped in on
   stdin specifically so it never reaches shell history.
+- **Apple has no Trusted Web Activity equivalent.** A Home Screen web app
+  added from Safari's share sheet looks similar (full screen, no browser
+  chrome — "there is no browser URL text field at the top of the screen or
+  button bar at the bottom of the screen") but is never distributed through
+  the App Store: it is installed from Safari, never reviewed, and not
+  store-discoverable ([Configuring Web Applications](https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html) — Apple
+  Developer, read 2026-11-13). App Store Review Guideline 4.2 (Minimum
+  Functionality) is the clause that governs a wrapped website on iOS: "Your
+  app should include features, content, and UI that elevate it beyond a
+  repackaged website. If your app is not particularly useful, unique, or
+  'app-like,' it doesn't belong on the App Store" ([App Review
+  Guidelines](https://developer.apple.com/app-store/review/guidelines/) —
+  Apple Developer, read 2026-11-13).
 **Hebrew/universal:** universal technique (TWA via Bubblewrap), applied here
 to an Israeli building-management product.
 
