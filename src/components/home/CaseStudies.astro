@@ -12,7 +12,7 @@ const wa = siteContact.whatsappCta;
 const subtitle =
   caseStudies.length === 1
     ? "דוגמה אחת מהשטח — מה היה, מה בנינו, ומה השתנה."
-    : "כמה מהעסקים והמיזמים שכבר עשו את הקפיצה — מה היה, מה בנינו, ומה השתנה.";
+    : "כמה מהעסקים והמיזמים שכבר עשו את הצעד — מה היה, מה בנינו, ומה השתנה.";
 /* value = optional prefix (₪, +, …) + a number that may carry thousands
    separators and a decimal part + optional suffix ("%", "+"). */
 const NUM = /^([^\d]*)(\d[\d,]*(?:\.\d+)?)(.*)$/;
@@ -49,7 +49,7 @@ const initialValue = (v: string): string => {
                 <div class="cs-blocks">
                   <div class="cs-block">
                     <span class="cs-block-ic bad"><LucideIcon name="circle-alert" class="cs-i" /></span>
-                    <div><h4>האתגר</h4><p>{c.challenge}</p></div>
+                    <div><h4>מה היה החסם</h4><p>{c.challenge}</p></div>
                   </div>
                   <div class="cs-block">
                     <span class="cs-block-ic ok"><LucideIcon name="sparkles" class="cs-i" /></span>
@@ -58,7 +58,7 @@ const initialValue = (v: string): string => {
                 </div>
                 <div class="cs-stackchips">{c.stack.map((s) => <span>{s}</span>)}</div>
                 {c.href && (
-                  <a class="cs-link" href={c.href}>לסיפור המלא <LucideIcon name="arrow-left" class="cs-i" /></a>
+                  <a class="cs-link" href={c.href}>לפרטים המלאים <LucideIcon name="arrow-left" class="cs-i" /></a>
                 )}
               </div>
 
