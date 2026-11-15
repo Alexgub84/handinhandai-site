@@ -7,7 +7,7 @@ lastVerified: 2026-11-13
 pillar: "/#services"
 cluster: "publishing"
 relatedArticles: ["publish-app-to-stores", "app-or-website"]
-draft: true
+draft: false
 skill: "store-publishing"
 handoffAfter: "iphone-honest"
 parts:
