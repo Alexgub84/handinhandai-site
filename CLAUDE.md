@@ -473,6 +473,13 @@ Nothing on the page talks to anyone but this domain. The chain is
   second, throwaway `[[d1_databases]]` block for a local run; if `wrangler
   pages dev` ever needs a block distinct from the real binding (e.g. to point
   at a separate local-only database), delete it before committing.
+- **Where traffic was asked for: `docs/analytics/campaigns.md`.** Every
+  announcement Alex publishes off-site (Facebook groups today) is recorded
+  there with its date, its surface and the tagged link that was handed out, so
+  a spike in the numbers has an explanation sitting next to the numbers.
+  Update it in the same change as any new campaign. The target research behind
+  it — which groups, their link tolerance — deliberately stays off this public
+  repo, on his Mac at `~/.claude/fb-group-posts/`.
 - The privacy page (`src/pages/privacy-sasha.astro`, section 13, both languages)
   describes exactly what is collected. **Keep it in sync** with any change here.
 
