@@ -43,6 +43,17 @@ const DAY_OPTIONS = [7, 30, 90, 180] as const;
 // part ids on its own. Keep this list in the same order as the frontmatter;
 // a guide with no `parts` declared gets an empty array and the "Parts"
 // funnel simply doesn't render for it (the opt-in invariant, issue #174).
+//
+// `asset` is the skill's release ZIP name, not a per-guide identifier: when
+// two guides share a skill (today, publish-app-to-stores and
+// web-app-to-store-shell both declare `skill: "store-publishing"` and so
+// both carry `asset: "store-publishing.zip"`), they resolve to the exact
+// same `downloadCountsByAsset()` lookup and the exact same computed
+// `data-track` labels (`skill-handoff-download-<skill-key>`, etc. — see
+// `SkillHandoff.astro`). GitHub's count carries no referrer, so there is no
+// way to split it back out per guide. The "downloads from GitHub" line
+// rendered per guide card must say so plainly — naming the skill and every
+// guide that shares it — rather than reading as that one guide's own count.
 const GUIDES = [
   {
     path: '/articles/publish-app-to-stores',
@@ -57,6 +68,18 @@ const GUIDES = [
     asset: 'meta-whatsapp-cloud-api.zip',
     clickLabels: ['github.com/Alexgub84/claude-skills', 'skill-handoff-download-meta-whatsapp-cloud-api'],
     parts: ['verification-basics', 'app-vs-api', 'limits', 'rejections', 'procedure', 'after-verification'],
+  },
+  {
+    path: '/articles/web-app-to-store-shell',
+    title: 'Turn a website into a store app',
+    // Same asset as publish-app-to-stores — both guides declare
+    // `skill: "store-publishing"` in frontmatter, so they resolve to the
+    // identical GitHub release asset and the identical `data-track` labels.
+    // See the "downloads from GitHub" comment block above `GUIDES` for what
+    // that means for the per-guide downloads line.
+    asset: 'store-publishing.zip',
+    clickLabels: ['github.com/Alexgub84/claude-skills', 'skill-handoff-download-store-publishing'],
+    parts: ['who-is-this-for', 'android-shell', 'signing-step', 'iphone-honest', 'testers', 'costs'],
   },
 ] as const;
 
@@ -494,6 +517,9 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         share: guideShare,
         topSource: guideTopSource(guide.path),
         downloads: downloadCounts ? downloadCounts[guide.asset] ?? null : null,
+        // Every guide (including this one) whose `asset` matches — see the
+        // comment above `GUIDES` for why this can be more than one.
+        sharedWith: GUIDES.filter((other) => other.asset === guide.asset).map((other) => other.title),
         parts,
       };
     });
@@ -685,7 +711,17 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         }%"></div><span>${stat.share(stat.clicked)}</span></div>
       </div>
       <p class="empty">Top referrer: ${stat.topSource ? escape(stat.topSource) : 'no sessions yet'}</p>
-      <p class="downloads">${escape(stat.guide.asset)} — ${escape(formatDownloadCount(stat.downloads))} downloads from GitHub</p>
+      <p class="downloads">${
+        stat.sharedWith.length > 1
+          ? `${escape(stat.guide.asset)} — ${escape(
+              formatDownloadCount(stat.downloads),
+            )} downloads from GitHub, shared across every guide that teaches this skill (${stat.sharedWith
+              .map(escape)
+              .join(', ')}) — not a per-guide count`
+          : `${escape(stat.guide.asset)} — ${escape(
+              formatDownloadCount(stat.downloads),
+            )} downloads from GitHub, this guide's own count (no other guide teaches this skill)`
+      }</p>
       ${
         stat.parts.length
           ? `<div class="scroll"><table>
