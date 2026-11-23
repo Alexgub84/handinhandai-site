@@ -8,6 +8,7 @@ pillar: "/#services"
 cluster: "publishing"
 relatedArticles: ["publish-app-to-stores", "app-or-website"]
 draft: false
+offerService: true
 skill: "store-publishing"
 handoffAfter: "iphone-honest"
 parts:

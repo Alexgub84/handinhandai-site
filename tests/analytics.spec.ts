@@ -199,11 +199,11 @@ test('records dwell for every part of a guide, not only the one left open at flu
   page,
 }) => {
   // Issue #176: a real headed-browser reader scrolled slowly through
-  // /articles/publish-app-to-stores/, pausing 3+ seconds on each of its 10
-  // tracked parts (the 6 declared `parts` plus the 4 fixed sections every
-  // guide carries: answer, skill-handoff, closing, related), then left the
-  // page. Only the 2 sections still open at the moment they left kept their
-  // dwell; the other 8 lost it, because the dwell clock for a section was
+  // /articles/publish-app-to-stores/, pausing 3+ seconds on each of its 11
+  // tracked parts (the 6 declared `parts` plus the 5 fixed sections every
+  // guide carries: answer, skill-handoff, closing, about-alex, related),
+  // then left the page. Only the 2 sections still open at the moment they
+  // left kept their dwell; the other 9 lost it, because the dwell clock for a section was
   // being restarted on every IntersectionObserver callback while the
   // section was still on screen (several ratio thresholds fire repeatedly
   // during ordinary scrolling), not only on the transition into view. This
@@ -236,6 +236,7 @@ test('records dwell for every part of a guide, not only the one left open at flu
     'field-note',
     'skill-handoff',
     'closing',
+    'about-alex',
     'related',
   ];
 

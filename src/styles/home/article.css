@@ -1066,3 +1066,83 @@ body {
     transition: none !important;
   }
 }
+
+/* =====================================================================
+   Guide service-offer + sign-off blocks (work order
+   `guide-service-and-route`, manager ruling 2026-11-23). Ported verbatim
+   from the approved specimen,
+   `local/design/guide-blocks-v1/components/guide-blocks.html` — every
+   rule below is the same literal as that file's, not reinvented. ===== */
+
+/* Isolation for a bare Latin run inside a Hebrew sentence (e.g. "CTO" in
+   the sign-off block's own-voice paragraph) — structural only, no new
+   color/border/radius/font, it only changes how bidi reorders the run
+   against the Hebrew around it. Not `.art-term`'s code-chip treatment —
+   this is a plain word inside a running sentence. */
+.lat {
+  unicode-bidi: isolate;
+  direction: ltr;
+}
+
+/* Block A, "art-offer" — the quiet-aside top block for the two
+   store-publishing guides. Shape is the existing `.art-aside` blockquote
+   rule (plain border-inline-start, muted text, no card background, no
+   shadow) — not `.skill-handoff`'s bordered card: this block is neither a
+   tool nor the point of the page. */
+.art-offer {
+  margin: 28px 0 40px;
+  padding-inline-start: 18px;
+  border-inline-start: 3px solid hsl(var(--border));
+}
+.art-offer-text {
+  margin: 0 0 14px;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: hsl(var(--muted-foreground));
+}
+.art-offer-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 0 0 12px;
+}
+.art-offer-note {
+  margin: 0;
+}
+
+/* Block B, "art-about" — the sign-off at the end of every guide. Shape is
+   the hand-off card's own shell (`.skill-handoff`: bordered card, 16px
+   radius, 20/22px padding) — this one is meant to read as a real,
+   standalone thing. Declared fresh (not reusing the `.skill-handoff`
+   classname) because the two live as separate components, but every
+   value below is the same literal as `.skill-handoff`'s. */
+.art-about {
+  width: 100%;
+  margin: 28px 0;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+  padding: 20px 22px;
+}
+.art-about-text {
+  font-size: 0.98rem;
+  color: hsl(var(--foreground) / 0.9);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+.art-about-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 0 0 14px;
+}
+.art-about-link {
+  font-size: 0.92rem;
+  color: hsl(var(--primary-text));
+  text-decoration: underline;
+}
+.art-about-note {
+  margin: 0;
+}

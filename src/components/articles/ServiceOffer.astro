@@ -1,0 +1,52 @@
+---
+/**
+ * The top-of-guide service-offer block (work order
+ * `guide-service-and-route`, manager ruling 2026-11-23, Fork 1 + copy
+ * ruling). Mounted only when the article's frontmatter sets
+ * `offerService: true` — today that is `publish-app-to-stores` and
+ * `web-app-to-store-shell`, the two store-publishing guides. A quiet
+ * aside, not a card: ported verbatim from the approved specimen
+ * `local/design/guide-blocks-v1/components/guide-blocks.html`'s "Block A"
+ * (`.art-offer`), copy variant A2 from
+ * `local/design/guide-blocks-copy-2026-11-23.md`, word for word.
+ *
+ * `AiAnswersNote` is imported, never re-typed as prose, per the ruling.
+ * The WhatsApp button's `data-track` is computed from the slug, never
+ * hand-typed per guide: `guide-offer-whatsapp-${slug}`.
+ */
+import WhatsAppIcon from "@components/home/WhatsAppIcon.astro";
+import AiAnswersNote from "@components/home/AiAnswersNote.astro";
+import { waLink } from "@/data/site-contact";
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+
+const whatsappTrack = `guide-offer-whatsapp-${slug}`;
+// Fixed greeting for this block, specific to store-publishing — matches
+// the specimen's own wa.me link, not the generic site-wide waGreeting.
+const whatsappHref = waLink("היי אלכס, יש לי שאלה על ההעלאה לחנויות");
+---
+
+<div class="art-offer">
+  <p class="art-offer-text">
+    מי שרוצה לעשות את זה בעצמו — כל השלבים כתובים כאן. ומי שלא, זה בדיוק מה
+    שאנשים שואלים אותי הכי הרבה: העלאת אפליקציה לחנויות היא עבודה שאני עושה
+    בשביל לקוחות.
+  </p>
+  <div class="art-offer-actions">
+    <a
+      href={whatsappHref}
+      class="ah-btn ah-btn-ghost"
+      target="_blank"
+      rel="noopener noreferrer"
+      data-track={whatsappTrack}
+    >
+      <WhatsAppIcon />
+      <span>לדבר איתי בוואטסאפ</span>
+    </a>
+  </div>
+  <AiAnswersNote class="art-offer-note" />
+</div>
