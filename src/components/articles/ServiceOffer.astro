@@ -16,6 +16,14 @@
  * `AiAnswersNote` is imported, never re-typed as prose, per the ruling.
  * The WhatsApp button's `data-track` is computed from the slug, never
  * hand-typed per guide: `guide-offer-whatsapp-${slug}`.
+ *
+ * Button loudness (Alex, 2026-11-23: "the call to action is very pale").
+ * The button is `.ah-btn-primary` — the site's existing solid green
+ * treatment, same class the homepage hero's "בואו נדבר" uses, same size
+ * (no larger variant exists on this button scale) — not a new style.
+ * `GuideHandoffClosing.astro`'s sign-off button stays `.ah-btn-ghost`
+ * unchanged, so the page keeps one loud ask near the top and one quiet
+ * one at the end.
  */
 import WhatsAppIcon from "@components/home/WhatsAppIcon.astro";
 import AiAnswersNote from "@components/home/AiAnswersNote.astro";
@@ -43,7 +51,7 @@ const whatsappHref = waLink("היי אלכס, יש לי שאלה על ההעלא
   <div class="art-offer-actions">
     <a
       href={whatsappHref}
-      class="ah-btn ah-btn-ghost"
+      class="ah-btn ah-btn-primary"
       target="_blank"
       rel="noopener noreferrer"
       data-track={whatsappTrack}
