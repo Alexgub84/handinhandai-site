@@ -1146,3 +1146,27 @@ body {
 .art-about-note {
   margin: 0;
 }
+
+/* Block B (Ruling 2, 2026-11-23), "art-promise" — the promise line.
+   Deliberately NOT a card: no border, no background, no shadow, so it
+   never competes with the title or the short-answer box above it. Shape
+   borrowed as a LAYOUT PATTERN (not the classname) from `.ai-note`'s own
+   "small icon + one muted sentence, no box" treatment further down this
+   file — content and meaning differ, so it is its own class, same literal
+   values. */
+.art-promise {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 0 28px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: hsl(var(--foreground) / 0.82);
+}
+.art-promise svg {
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  flex: none;
+  color: hsl(var(--primary-text));
+}

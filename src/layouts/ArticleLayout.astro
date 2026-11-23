@@ -21,6 +21,7 @@ import WhatsAppIcon from '@components/home/WhatsAppIcon.astro';
 import LucideIcon from '@components/home/LucideIcon.astro';
 import AiAnswersNote from '@components/home/AiAnswersNote.astro';
 import SkillHandoff from '@components/articles/SkillHandoff.astro';
+import SkillPromise from '@components/articles/SkillPromise.astro';
 import ServiceOffer from '@components/articles/ServiceOffer.astro';
 import GuideHandoffClosing from '@components/articles/GuideHandoffClosing.astro';
 import ProcessDiagram from '@components/ProcessDiagram.astro';
@@ -233,6 +234,8 @@ const waHeaderMessage = `היי אלכס, קראתי את "${article.title}" ו�
             <div class="art-answer" data-track-section="answer">
               <p>{article.description}</p>
             </div>
+
+            {article.skill && <SkillPromise />}
 
             <p class="art-pillar-link">
               המדריך הזה חלק מהשירותים שאני מציע — <a href={article.pillar} class="art-author">לפרטים נוספים</a>.

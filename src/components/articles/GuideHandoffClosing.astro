@@ -1,13 +1,15 @@
 ---
 /**
  * The end-of-guide sign-off block (work order `guide-service-and-route`,
- * manager ruling 2026-11-23, Fork 2 + copy ruling). Mounted unconditionally
- * on every non-draft article, right after the existing `.art-cta` WhatsApp
- * block and before the sibling-articles nav — introduces Alex in his own
- * voice and points at `/#example`. Ported verbatim from the approved
- * specimen `local/design/guide-blocks-v1/components/guide-blocks.html`'s
- * "Block B" (`.art-about`), copy variant B2 from
- * `local/design/guide-blocks-copy-2026-11-23.md`, word for word.
+ * manager Ruling 2, 2026-11-23). Mounted unconditionally on every non-draft
+ * article, right after the existing `.art-cta` WhatsApp block and before
+ * the sibling-articles nav — introduces Alex in his own voice and points at
+ * `/#example`. Ported verbatim from the approved specimen
+ * `local/design/guide-blocks-v1/components/guide-blocks.html`'s "Block C"
+ * (`.art-about`), copy variant C2 from
+ * `local/design/guide-blocks-copy-v2-2026-11-23.md`, word for word — gives
+ * a reason to look at the examples (verify the claim) and a reason to
+ * write (the reader's own problem sounds like this one).
  *
  * Two states, driven by whether the article carries a `skill` (the
  * hand-off card), never by a new frontmatter field:
@@ -43,8 +45,9 @@ const whatsappHref = waLink();
   <span class="skill-handoff-eyebrow"><span class="dot"></span>מי בנה את זה</span>
   <p class="art-about-text">
     אני אלכס. בניתי את מה שכתוב כאן מתוך עבודה אמיתית — מערכות לעסקים,
-    ו-<span class="lat">CTO</span> לסטארטאפ. מי שרוצה לראות את זה ולא רק
-    לקרוא עליו, הדוגמאות נמצאות בעמוד הבית.
+    ו־<span class="lat">CTO</span> לסטארטאפ — לא מתוך תיאוריה. בעמוד הבית
+    יש דוגמאות אמיתיות לאיך זה נראה כשזה עובד; מי שרוצה לראות את זה ולא רק
+    לקרוא עליו, זה המקום. ואם הבעיה שלכם נשמעת דומה למה שכתוב כאן, כתבו לי.
   </p>
   <div class="art-about-actions">
     <a href="/#example" class="art-about-link" data-track={examplesTrack}>לראות מה בניתי</a>
