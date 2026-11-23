@@ -21,6 +21,9 @@ import WhatsAppIcon from '@components/home/WhatsAppIcon.astro';
 import LucideIcon from '@components/home/LucideIcon.astro';
 import AiAnswersNote from '@components/home/AiAnswersNote.astro';
 import SkillHandoff from '@components/articles/SkillHandoff.astro';
+import SkillPromise from '@components/articles/SkillPromise.astro';
+import ServiceOffer from '@components/articles/ServiceOffer.astro';
+import GuideHandoffClosing from '@components/articles/GuideHandoffClosing.astro';
 import ProcessDiagram from '@components/ProcessDiagram.astro';
 import { defaultLang } from '@i18n/ui';
 import { waLink } from '@/data/site-contact';
@@ -52,6 +55,8 @@ interface ArticleData {
   draft: boolean;
   /** Mounts the hand-off card (download + install link + dev command) right after the body, unless `handoffAfter` moves it mid-body. */
   skill?: SkillKey;
+  /** Mounts `<ServiceOffer>` right after the pillar link, before the process diagram. Defaults to false. */
+  offerService?: boolean;
   /** The `parts[].id` the hand-off card renders right after (issue #185, Ruling 1). Absent keeps the card at the end of the body. */
   handoffAfter?: string;
   /** The per-guide process diagram's steps (issue #185, Ruling 3). Empty renders nothing. */
@@ -230,12 +235,16 @@ const waHeaderMessage = `היי אלכס, קראתי את "${article.title}" ו�
               <p>{article.description}</p>
             </div>
 
+            {article.skill && <SkillPromise />}
+
             <p class="art-pillar-link">
               המדריך הזה חלק מהשירותים שאני מציע — <a href={article.pillar} class="art-author">לפרטים נוספים</a>.
             </p>
           </div>
 
-          {article.diagramSteps && article.diagramSteps.length > 0 && (
+          {article.offerService && (
+            <ServiceOffer slug={article.slug} />
+          )}{article.diagramSteps && article.diagramSteps.length > 0 && (
             <ProcessDiagram steps={article.diagramSteps} note={article.diagramNote} />
           )}{article.handoffAfter ? (
             <>
@@ -266,7 +275,9 @@ const waHeaderMessage = `היי אלכס, קראתי את "${article.title}" ו�
             <AiAnswersNote />
           </div>
 
-          {siblingCards.length > 0 ? (
+          {!article.draft && (
+            <GuideHandoffClosing slug={article.slug} compact={Boolean(article.skill)} />
+          )}{siblingCards.length > 0 ? (
             <nav aria-label="מדריכים קשורים" data-track-section="related">
               <p class="art-siblings-label">מדריכים נוספים</p>
               <div class="art-sibling-grid">

@@ -1,0 +1,64 @@
+---
+/**
+ * The top-of-guide service-offer block (work order
+ * `guide-service-and-route`, manager Ruling 2, 2026-11-23, after Alex saw
+ * the first copy on his machine and rejected it as "very blank, like a
+ * pain"). Mounted only when the article's frontmatter sets
+ * `offerService: true` — today that is `publish-app-to-stores` and
+ * `web-app-to-store-shell`, the two store-publishing guides. A quiet
+ * aside, not a card: ported verbatim from the approved specimen
+ * `local/design/guide-blocks-v1/components/guide-blocks.html`'s "Block A"
+ * (`.art-offer`), copy variant A2 from
+ * `local/design/guide-blocks-copy-v2-2026-11-23.md`, word for word — this
+ * is the version that names the exact pain and advertises the service,
+ * replacing the earlier draft that read as an apology.
+ *
+ * `AiAnswersNote` is imported, never re-typed as prose, per the ruling.
+ * The WhatsApp button's `data-track` is computed from the slug, never
+ * hand-typed per guide: `guide-offer-whatsapp-${slug}`.
+ *
+ * Button loudness (Alex, 2026-11-23: "the call to action is very pale").
+ * The button is `.ah-btn-primary` — the site's existing solid green
+ * treatment, same class the homepage hero's "בואו נדבר" uses, same size
+ * (no larger variant exists on this button scale) — not a new style.
+ * `GuideHandoffClosing.astro`'s sign-off button stays `.ah-btn-ghost`
+ * unchanged, so the page keeps one loud ask near the top and one quiet
+ * one at the end.
+ */
+import WhatsAppIcon from "@components/home/WhatsAppIcon.astro";
+import AiAnswersNote from "@components/home/AiAnswersNote.astro";
+import { waLink } from "@/data/site-contact";
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+
+const whatsappTrack = `guide-offer-whatsapp-${slug}`;
+// Fixed greeting for this block, specific to store-publishing — matches
+// the specimen's own wa.me link, not the generic site-wide waGreeting.
+const whatsappHref = waLink("היי אלכס, יש לי שאלה על ההעלאה לחנויות");
+---
+
+<div class="art-offer">
+  <p class="art-offer-text">
+    מי שמעלה אפליקציה לחנויות בפעם הראשונה נתקע כמעט תמיד באותם מקומות —
+    טופס שמתמלא לא נכון, חשבון שמחכה לאימות, חבילה שנדחית על סיבה שלא כתובה
+    בשום מקום. זו בדיוק העבודה שאני עושה בשביל לקוחות. מי שלא רוצה להתמודד
+    עם זה לבד — כותב לי, ואני עושה את זה בשבילכם.
+  </p>
+  <div class="art-offer-actions">
+    <a
+      href={whatsappHref}
+      class="ah-btn ah-btn-primary"
+      target="_blank"
+      rel="noopener noreferrer"
+      data-track={whatsappTrack}
+    >
+      <WhatsAppIcon />
+      <span>לדבר איתי על ההעלאה</span>
+    </a>
+  </div>
+  <AiAnswersNote class="art-offer-note" />
+</div>

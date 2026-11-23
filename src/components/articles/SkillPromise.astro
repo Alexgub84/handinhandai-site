@@ -1,0 +1,30 @@
+---
+/**
+ * The promise line (work order `guide-service-and-route`, manager Ruling 2,
+ * 2026-11-23). One line of plain text, not a card — directly under the
+ * short answer and above the pillar link, rendered only when the article
+ * declares `skill`. Its job is that a reader who skims for 20 seconds knows
+ * a ready skill is coming, before deciding whether to keep reading. Ported
+ * verbatim from the approved specimen
+ * `local/design/guide-blocks-v1/components/guide-blocks.html`'s "Block B"
+ * (`.art-promise`), copy variant B2 from
+ * `local/design/guide-blocks-copy-v2-2026-11-23.md`, word for word.
+ *
+ * No link, no button, no `data-track` and no `data-track-section`: it
+ * carries no click target, so the ruling is explicit that its analytics
+ * label is nothing — inventing one here would also silently break
+ * `tests/article-hinge-and-diagram.spec.ts`'s `[data-track-section]` order
+ * assertion, which does not expect a section between `answer` and
+ * `process-diagram`/the pillar link.
+ */
+---
+
+<p class="art-promise">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line>
+  </svg>
+  <span>
+    המדריך מלווה בסקיל מוכן להורדה, שעושה חלק מהצעדים האלה בשבילכם בלי לכתוב
+    שורת קוד — ובסופו תדעו גם לעשות את שאר הדרך בעצמכם.
+  </span>
+</p>

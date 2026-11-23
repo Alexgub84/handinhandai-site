@@ -25,6 +25,18 @@ const articles = defineCollection({
     relatedArticles: z.array(z.string()),
     draft: z.boolean().default(false),
     /**
+     * Mounts `<ServiceOffer slug={article.slug} />` in `ArticleLayout`
+     * (guide-service-and-route work order, manager ruling 2026-11-23,
+     * Fork 1) right after the pillar link and before the process diagram.
+     * A plain boolean, not a per-article text object — Alex asked for one
+     * fixed sentence and said per-guide wording is a cost with no buyer
+     * today, so the component owns the copy and this flag only decides
+     * whether it renders. `true` on `publish-app-to-stores` and
+     * `web-app-to-store-shell` only; every other article defaults to
+     * `false` and renders unchanged.
+     */
+    offerService: z.boolean().default(false),
+    /**
      * Mounts `<SkillHandoff skillKey={article.skill} />` in `ArticleLayout`
      * (issue #155, second half). Only a key — never the asset URL or the
      * repo — so the registry in `src/data/skills.ts` stays the one place

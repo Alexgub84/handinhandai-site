@@ -8,6 +8,7 @@ pillar: "/#services"
 cluster: "publishing"
 relatedArticles: ["app-or-website", "freelancer-or-agency"]
 draft: false
+offerService: true
 skill: "store-publishing"
 handoffAfter: "apple-procedure"
 primaryQuery: "איך מעלים אפליקציה לחנויות"
