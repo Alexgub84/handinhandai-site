@@ -7,7 +7,7 @@ lastVerified: 2026-11-25
 pillar: "/#services"
 cluster: "publishing"
 relatedArticles: ["publish-app-to-stores", "web-app-to-store-shell"]
-draft: true
+draft: false
 offerService: true
 skill: "store-publishing"
 handoffAfter: "routes"
