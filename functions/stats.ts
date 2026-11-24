@@ -756,10 +756,25 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       <h2>${escape(stat.guide.title)}</h2>
       <div class="funnel">
         <div class="step"><span>Arrived</span><div class="bar" style="width:100%"></div><span>${stat.arrived}</span></div>
-        <div class="step"><span>Reached hand-off</span><div class="bar" style="width:${
-          stat.arrived ? (stat.reached / stat.arrived) * 100 : 0
-        }%"></div><span>${stat.share(stat.reached)}</span></div>
-        <div class="step"><span>Clicked GitHub</span><div class="bar" style="width:${
+        ${
+          // "Reached hand-off" counts `data-track-section="skill-handoff"`,
+          // a section only `SkillHandoff.astro` emits. A guide with no skill
+          // has no such card, so this step could only ever read 0 — a row
+          // that always reads 0 is worse than no row, so it is omitted for
+          // that guide rather than printed as a false zero.
+          stat.guide.asset === undefined
+            ? ''
+            : `<div class="step"><span>Reached hand-off</span><div class="bar" style="width:${
+                stat.arrived ? (stat.reached / stat.arrived) * 100 : 0
+              }%"></div><span>${stat.share(stat.reached)}</span></div>`
+        }
+        <div class="step"><span>${
+          // The label must name what this guide's own `clickLabels` actually
+          // match. On a skill guide that is the GitHub download; on a guide
+          // with no skill it is the WhatsApp hire route from
+          // `GuideHandoffClosing.astro`, which is not GitHub at all.
+          stat.guide.asset === undefined ? 'Clicked WhatsApp (hire route)' : 'Clicked GitHub'
+        }</span><div class="bar" style="width:${
           stat.arrived ? (stat.clicked / stat.arrived) * 100 : 0
         }%"></div><span>${stat.share(stat.clicked)}</span></div>
       </div>
