@@ -185,15 +185,20 @@ store-submission record. Not vendor-confirmed and not presented as such.
   cloud build service, which created the distribution certificate and the
   provisioning profile **on its own servers** from an App Store Connect API
   key. No local Xcode build was involved in producing that binary.
-- Two failures, both on **2026-10-05**:
-  - An app-specific password did not authenticate the developer portal.
-    Apple answered `Invalid username and password combination`. Those
-    passwords authenticate a build *upload*; the portal wants the real
+- Two failures, both recorded with their date and the verbatim error text in
+  that project's own **private** store-submission record (outside this
+  repository). **Deliberately not restated here, and not in the article**
+  — manager ruling, 2026-11-25: a disclosure about Alex's own product's
+  release timing and pipeline output does not go live in a public repo
+  before he has seen it. Both are in the PR discussion for his decision;
+  putting them back is a one-line follow-up if he says yes. The two
+  lessons, which is all the guide needs, are generic:
+  - An app-specific password does not authenticate the developer portal.
+    Those passwords authenticate a build *upload*; the portal wants the real
     password with two-factor, or an API key.
-  - The non-interactive run refused to create the first certificate:
-    `Distribution Certificate is not validated for non-interactive builds`.
-    The one-time credential setup has to be run by a person answering
-    prompts — on any operating system, but not unattended.
+  - A run configured to proceed without prompts refused to create the first
+    certificate. The one-time credential setup has to be run by a person
+    answering prompts — on any operating system, but not unattended.
 - The uploads on that project in the end went through a **Mac** tool
   (`xcrun altool`), and the reason was not that the cloud upload was
   impossible: the cloud submit wanted the API-key path written inside the

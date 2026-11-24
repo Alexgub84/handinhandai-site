@@ -90,11 +90,13 @@ Three things the forum answers and the AI overview all leave out:
    threads are 1 year old and predate that.
 3. **A first-hand record of the cloud route actually working, and of what
    broke.** A signed iOS build really was produced with no local Xcode
-   build, and two specific failures were hit on 2026-10-05 (an
-   app-specific password refused by the developer portal; the
-   non-interactive run refusing to create a first certificate). That
-   record is in `docs/seo/capability-ledger.md` and the project's own
-   store notes, and no competitor can bluff it.
+   build, and two specific failures were hit along the way (an
+   app-specific password refused by the developer portal; a run configured
+   to proceed without prompts refusing to create a first certificate). The
+   dates and the verbatim error text stay in the project's own private
+   store notes, per the manager ruling of 2026-11-25 recorded in
+   `docs/seo/fact-check-do-you-need-a-mac.md` §9. The lessons are generic
+   and no competitor can bluff them.
 
 ## Risks
 
