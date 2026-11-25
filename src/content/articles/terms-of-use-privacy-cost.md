@@ -7,7 +7,7 @@ lastVerified: 2026-11-25
 pillar: "/#services"
 cluster: "decision"
 relatedArticles: ["sell-an-ai-built-app", "publish-app-to-stores"]
-draft: true
+draft: false
 parts:
   - id: "who-is-this-for"
     heading: "למי המדריך הזה, ולמי לא"
