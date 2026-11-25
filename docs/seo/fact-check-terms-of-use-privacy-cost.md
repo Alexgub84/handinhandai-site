@@ -61,7 +61,10 @@ and how a user can revoke consent and/or request deletion.
   disabling, or 'freezing' the app account does not qualify as account
   deletion."*
 - Apple, guideline **5.1.1(v)**: *"If your app supports account creation, you
-  must also offer account deletion within the app."*
+  must also offer account deletion within the app."* **That sub-clause's own
+  heading is `Account Sign-In`, not anything about deletion** — a reader sent
+  to "5.1.1(v)" who scans Apple's page for a deletion heading will not find
+  one. The guide names the heading for exactly that reason.
 
 ### 1.4 Apple publishes a standard EULA that applies by default
 
@@ -205,6 +208,16 @@ The work order's file map asks this document to *"verify the lawyer fee (≈₪1
 3. **No Israeli lawyer's published hourly or fixed rate for drafting or reviewing terms of use and a privacy policy for a small product was found at all.** Searches in Hebrew returned law-firm content pages about the documents, two online document services with fixed prices, and no rate card.
 
 The guide therefore says, in its own words, that it looked and found no published number, that it will not invent one, and that the only thing it can say about that price is what controls it — the hours — which is the whole reason the "what to have ready" section exists. A guide about legal documents that invents a legal fee is worse than a guide that says it does not know.
+
+### 2.1b "You may write it yourself" is an inference, and is labelled as one on the page
+
+The guide's free route rests on a reading of section 11: the section speaks to
+what the notice must contain, not to who drafts it. **No source says a
+self-drafted document is acceptable, and none was found.** That sentence was
+rewritten before publish so it reads as this desk's reading of the section
+rather than as a settled permission, and it sends a reader who wants certainty
+on the point to a lawyer. It is the one sentence on the page that edges from
+orientation toward advice, and it is marked.
 
 ### 2.2 Any claim that the two documents are, or are not, legally required by name
 
