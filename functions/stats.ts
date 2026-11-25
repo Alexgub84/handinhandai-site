@@ -54,7 +54,26 @@ const DAY_OPTIONS = [7, 30, 90, 180] as const;
 // way to split it back out per guide. The "downloads from GitHub" line
 // rendered per guide card must say so plainly — naming the skill and every
 // guide that shares it — rather than reading as that one guide's own count.
-const GUIDES = [
+//
+// `asset` is OPTIONAL (group-guides batch 1, Alex's order 2026-11-24): a
+// guide that carries no skill has no release asset, no GitHub download
+// count, and no download `data-track` label. Three things follow, and all
+// three are guarded below rather than left to coincidence:
+// `downloadCountsByAsset()` skips it, the `sharedWith` filter requires
+// `asset !== undefined` on BOTH sides before matching (two skill-less
+// guides must never bucket together merely because both are `undefined`),
+// and the per-guide downloads line says plainly that there is no skill
+// instead of printing `undefined — 0 downloads`.
+interface GuideEntry {
+  readonly path: string;
+  readonly title: string;
+  /** The skill's release ZIP name. Absent on a guide that carries no skill. */
+  readonly asset?: string;
+  readonly clickLabels: readonly string[];
+  readonly parts: readonly string[];
+}
+
+const GUIDES: readonly GuideEntry[] = [
   {
     path: '/articles/publish-app-to-stores',
     title: 'Publish an app to the stores',
@@ -81,7 +100,27 @@ const GUIDES = [
     clickLabels: ['github.com/Alexgub84/claude-skills', 'skill-handoff-download-store-publishing'],
     parts: ['who-is-this-for', 'android-shell', 'signing-step', 'iphone-honest', 'testers', 'costs'],
   },
-] as const;
+  {
+    path: '/articles/app-got-tangled',
+    title: 'The app built with AI got tangled',
+    // No `asset`: this guide carries no skill (group-guides batch 1 — the
+    // tangled-app triage workflow would be the only subject of that batch
+    // the strategy allows a skill on, and it ships, if at all, as its own
+    // later order with its own release). The tracked click is therefore the
+    // hire route every guide already has via `GuideHandoffClosing.astro`'s
+    // full-state WhatsApp button, whose `data-track` is computed from the
+    // slug — not a GitHub download label, since there is no download.
+    clickLabels: ['guide-about-whatsapp-app-got-tangled'],
+    parts: [
+      'who-is-this-for',
+      'what-tangled',
+      'rewrite-or-not',
+      'triage',
+      'what-makes-it-worse',
+      'field-note',
+    ],
+  },
+];
 
 // `SkillHandoff.astro` (155-2) carries `data-track-section="skill-handoff"`
 // on its root element — the manager's ruling on this order amended 155-2 to
@@ -127,7 +166,11 @@ const downloadCountsByAsset = async (): Promise<Record<string, number | null> | 
     }
     const result: Record<string, number | null> = {};
     for (const guide of GUIDES) {
-      result[guide.asset] = sumDownloads(releases as GithubRelease[], guide.asset);
+      // A guide with no skill has no asset to look up — skip it rather than
+      // writing an `undefined` key into the lookup.
+      if (guide.asset !== undefined) {
+        result[guide.asset] = sumDownloads(releases as GithubRelease[], guide.asset);
+      }
     }
     return result;
   } catch (error) {
@@ -516,10 +559,20 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         clicked: guideCount(guideClicked, guide.path),
         share: guideShare,
         topSource: guideTopSource(guide.path),
-        downloads: downloadCounts ? downloadCounts[guide.asset] ?? null : null,
+        downloads:
+          guide.asset !== undefined && downloadCounts ? downloadCounts[guide.asset] ?? null : null,
         // Every guide (including this one) whose `asset` matches — see the
-        // comment above `GUIDES` for why this can be more than one.
-        sharedWith: GUIDES.filter((other) => other.asset === guide.asset).map((other) => other.title),
+        // comment above `GUIDES` for why this can be more than one. The
+        // `!== undefined` test on BOTH sides is load-bearing, not
+        // defensive: without it, every skill-less guide would match every
+        // other skill-less guide on `undefined === undefined` and they
+        // would all report each other as sharing a skill none of them has.
+        sharedWith:
+          guide.asset === undefined
+            ? []
+            : GUIDES.filter((other) => other.asset !== undefined && other.asset === guide.asset).map(
+                (other) => other.title,
+              ),
         parts,
       };
     });
@@ -703,16 +756,33 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       <h2>${escape(stat.guide.title)}</h2>
       <div class="funnel">
         <div class="step"><span>Arrived</span><div class="bar" style="width:100%"></div><span>${stat.arrived}</span></div>
-        <div class="step"><span>Reached hand-off</span><div class="bar" style="width:${
-          stat.arrived ? (stat.reached / stat.arrived) * 100 : 0
-        }%"></div><span>${stat.share(stat.reached)}</span></div>
-        <div class="step"><span>Clicked GitHub</span><div class="bar" style="width:${
+        ${
+          // "Reached hand-off" counts `data-track-section="skill-handoff"`,
+          // a section only `SkillHandoff.astro` emits. A guide with no skill
+          // has no such card, so this step could only ever read 0 — a row
+          // that always reads 0 is worse than no row, so it is omitted for
+          // that guide rather than printed as a false zero.
+          stat.guide.asset === undefined
+            ? ''
+            : `<div class="step"><span>Reached hand-off</span><div class="bar" style="width:${
+                stat.arrived ? (stat.reached / stat.arrived) * 100 : 0
+              }%"></div><span>${stat.share(stat.reached)}</span></div>`
+        }
+        <div class="step"><span>${
+          // The label must name what this guide's own `clickLabels` actually
+          // match. On a skill guide that is the GitHub download; on a guide
+          // with no skill it is the WhatsApp hire route from
+          // `GuideHandoffClosing.astro`, which is not GitHub at all.
+          stat.guide.asset === undefined ? 'Clicked WhatsApp (hire route)' : 'Clicked GitHub'
+        }</span><div class="bar" style="width:${
           stat.arrived ? (stat.clicked / stat.arrived) * 100 : 0
         }%"></div><span>${stat.share(stat.clicked)}</span></div>
       </div>
       <p class="empty">Top referrer: ${stat.topSource ? escape(stat.topSource) : 'no sessions yet'}</p>
       <p class="downloads">${
-        stat.sharedWith.length > 1
+        stat.guide.asset === undefined
+          ? 'No skill attached to this guide — nothing to download, so there is no GitHub count to read'
+          : stat.sharedWith.length > 1
           ? `${escape(stat.guide.asset)} — ${escape(
               formatDownloadCount(stat.downloads),
             )} downloads from GitHub, shared across every guide that teaches this skill (${stat.sharedWith
