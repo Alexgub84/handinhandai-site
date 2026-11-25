@@ -140,6 +140,25 @@ const GUIDES: readonly GuideEntry[] = [
       'field-note',
     ],
   },
+  {
+    path: '/articles/terms-of-use-privacy-cost',
+    title: 'What terms of use and a privacy policy cost',
+    // No `asset`: no skill here either (group-guides batch 1 — this guide's
+    // honest answer is "go to a lawyer", which is a decision a reader makes
+    // and not a procedure a reader runs, so a skill on it is the theatre the
+    // settled strategy forbids). Same tracked click as the two guides above
+    // it: the hire route `GuideHandoffClosing.astro` already emits on every
+    // guide, computed from the slug.
+    clickLabels: ['guide-about-whatsapp-terms-of-use-privacy-cost'],
+    parts: [
+      'who-is-this-for',
+      'three-demands',
+      'what-it-costs',
+      'when-a-lawyer',
+      'before-you-call',
+      'field-note',
+    ],
+  },
 ];
 
 // `SkillHandoff.astro` (155-2) carries `data-track-section="skill-handoff"`
