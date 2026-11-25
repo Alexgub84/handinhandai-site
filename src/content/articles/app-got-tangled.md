@@ -7,7 +7,7 @@ lastVerified: 2026-11-25
 pillar: "/#services"
 cluster: "decision"
 relatedArticles: ["off-the-ai-builder", "freelancer-or-agency"]
-draft: true
+draft: false
 parts:
   - id: "who-is-this-for"
     heading: "למי המדריך הזה, ולמי לא"
