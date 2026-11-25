@@ -120,6 +120,26 @@ const GUIDES: readonly GuideEntry[] = [
       'field-note',
     ],
   },
+  {
+    path: '/articles/sell-an-ai-built-app',
+    title: 'Make money from an AI-built app',
+    // No `asset`: this guide carries no skill either (group-guides batch 1 —
+    // the settled strategy forbids a skill on a guide whose body is a
+    // decision a reader makes rather than a procedure a reader runs, and
+    // this guide is a decision about whether and how to monetise). Same
+    // tracked click as the guide above it: the hire route every guide
+    // already has via `GuideHandoffClosing.astro`'s full-state WhatsApp
+    // button, whose `data-track` is computed from the slug.
+    clickLabels: ['guide-about-whatsapp-sell-an-ai-built-app'],
+    parts: [
+      'who-is-this-for',
+      'two-businesses',
+      'four-routes',
+      'can-you-hand-it-over',
+      'who-takes-a-cut',
+      'field-note',
+    ],
+  },
 ];
 
 // `SkillHandoff.astro` (155-2) carries `data-track-section="skill-handoff"`
