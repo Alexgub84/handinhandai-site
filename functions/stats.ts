@@ -178,6 +178,29 @@ const GUIDES: readonly GuideEntry[] = [
       'field-note',
     ],
   },
+  {
+    path: '/articles/test-an-ai-built-app',
+    title: 'Put tests on an app built with AI',
+    // Group guide 5, Alex's direct order 2026-11-26. The first guide to
+    // carry the third public skill, so this `asset` is the only entry that
+    // is NOT shared with another guide — `sharedWith` therefore resolves
+    // empty for it and the per-guide downloads line reads as this guide's
+    // own count, which is the one case where that is actually true today.
+    asset: 'test-an-ai-built-app.zip',
+    clickLabels: [
+      'github.com/Alexgub84/claude-skills',
+      'skill-handoff-download-test-an-ai-built-app',
+    ],
+    parts: [
+      'who-and-why',
+      'what-goes-in',
+      'one-seam',
+      'fake-the-model',
+      'how-it-runs',
+      'phone',
+      'field-note',
+    ],
+  },
 ];
 
 // `SkillHandoff.astro` (155-2) carries `data-track-section="skill-handoff"`

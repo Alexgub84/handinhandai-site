@@ -41,7 +41,7 @@ const article = {
 
 <ArticleLayout article={article}>
   <p>
-    שני המדריכים באתר הזה מלמדים תהליך, ומוסרים אותו גם כקובץ — סקיל שמורידים
+    חלק מהמדריכים באתר הזה מלמדים תהליך, ומוסרים אותו גם כקובץ — סקיל שמורידים
     ומעלים ל־<span class="art-term">Claude</span>. העמוד הזה מסביר את ההתקנה פעם
     אחת, כך שכל שינוי בתפריט של <span class="art-term">Claude</span> מתוקן כאן
     בלבד, ולא בכל מדריך מחדש.
@@ -75,7 +75,7 @@ const article = {
   </p>
 
   <h2>הורדת הקבצים</h2>
-  <p>שני הסקילים זמינים כקובץ, אחד לכל מדריך:</p>
+  <p>הסקילים זמינים כקובץ, אחד לכל נושא:</p>
 
   {skillKeys.map((key) => (
     <div class="skill-handoff" data-track-section="skill-handoff">
@@ -96,7 +96,7 @@ const article = {
   ))}
 
   <h2>למי שעובד מהטרמינל</h2>
-  <p>אותם שני הסקילים מותקנים גם בלי הורדה, כתוסף (plugin) ל־Claude Code:</p>
+  <p>אותם סקילים מותקנים גם בלי הורדה, כתוסף (plugin) ל־Claude Code:</p>
   <div class="skill-cmd-row">
     <span class="skill-cmd">/plugin marketplace add Alexgub84/claude-skills</span>
   </div>
