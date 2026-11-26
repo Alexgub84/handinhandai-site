@@ -159,6 +159,25 @@ const GUIDES: readonly GuideEntry[] = [
       'field-note',
     ],
   },
+  {
+    path: '/articles/does-my-app-have-holes',
+    title: 'Does the app built for me have holes',
+    // No `asset`: no skill here either (group guide 4, Alex's order
+    // 2026-11-26 — this is a decision guide for a non-technical owner, and
+    // the programme's test admits a skill only for a runnable procedure).
+    // Same tracked click as the three guides above it: the hire route
+    // `GuideHandoffClosing.astro` already emits on every guide, computed
+    // from the slug.
+    clickLabels: ['guide-about-whatsapp-does-my-app-have-holes'],
+    parts: [
+      'who-is-this-for',
+      'what-a-hole-is',
+      'check-yourself',
+      'questions',
+      'whose-problem',
+      'field-note',
+    ],
+  },
 ];
 
 // `SkillHandoff.astro` (155-2) carries `data-track-section="skill-handoff"`
