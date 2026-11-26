@@ -7,7 +7,7 @@ lastVerified: 2026-11-26
 pillar: "/#services"
 cluster: "decision"
 relatedArticles: ["app-got-tangled", "does-my-app-have-holes"]
-draft: true
+draft: false
 skill: "test-an-ai-built-app"
 handoffAfter: "what-goes-in"
 parts:
