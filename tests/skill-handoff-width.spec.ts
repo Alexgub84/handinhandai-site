@@ -3,10 +3,13 @@ import { test, expect, type Page } from '@playwright/test';
 // Issue #155, second half — regression guard. The old narrated "install as
 // a plugin" paragraph hand-wrote its developer command inside `.art-term`
 // (no `overflow-x`, no `direction` on its own container), which overflowed
-// the viewport at 390px once already. The hand-off card and the install
-// page both route their command lines through `.skill-cmd-row`/`.skill-cmd`
-// instead (`src/styles/home/article.css`) — this test proves that fix
-// holds at the same width that caught the original bug.
+// the viewport at 390px once already. The install page still routes its
+// command lines through `.skill-cmd-row`/`.skill-cmd` instead
+// (`src/styles/home/article.css`) — this test proves that fix holds at the
+// same width that caught the original bug. The hand-off card itself no
+// longer carries any command line (work order `guide-funnel-fix`, 2026-11-27
+// — the card dropped from 5 controls to 2), so it's covered here only for
+// general overflow, not for that specific regression.
 
 const PAGES = [
   '/articles/publish-app-to-stores/',
@@ -57,36 +60,35 @@ test('the hand-off card renders on both skill-carrying guides, with the computed
   await expect(metaCard).toBeVisible();
 });
 
-// Issue #208 — the v2 card adds 3 data-track labels beside the existing
-// download one, every one computed from skillKey (never hand-typed per
-// guide). Checked on both skill-carrying guides so a future third skill
-// is covered by the same loop with no new test.
+// Issue #208 introduced 2 extra data-track labels (copy-plugin, copy-npx)
+// beside the download/whatsapp pair. Work order `guide-funnel-fix`
+// (2026-11-27) removed both controls — never pressed on any guide, per the
+// stored analytics — along with the separate install-page text link, so
+// the card is down to its original 2 computed labels, both still derived
+// from skillKey (never hand-typed per guide). Checked on both
+// skill-carrying guides so a future third skill is covered by the same
+// loop with no new test.
 const SKILL_GUIDES: { path: string; skillKey: string }[] = [
   { path: '/articles/publish-app-to-stores/', skillKey: 'store-publishing' },
   { path: '/articles/get-verified-for-whatsapp-cloud-api/', skillKey: 'meta-whatsapp-cloud-api' },
 ];
 
 for (const { path, skillKey } of SKILL_GUIDES) {
-  test(`${path} hand-off card carries all 4 computed data-track labels`, async ({ page }) => {
+  test(`${path} hand-off card carries both computed data-track labels`, async ({ page }) => {
     await page.goto(path);
 
-    for (const label of [
-      `skill-handoff-download-${skillKey}`,
-      `skill-handoff-whatsapp-${skillKey}`,
-      `skill-handoff-copy-plugin-${skillKey}`,
-      `skill-handoff-copy-npx-${skillKey}`,
-    ]) {
+    for (const label of [`skill-handoff-download-${skillKey}`, `skill-handoff-whatsapp-${skillKey}`]) {
       await expect(page.locator(`[data-track="${label}"]`)).toBeVisible();
     }
   });
 
-  test(`${path} hand-off card's copy buttons exist and its WhatsApp button points at wa.me with the site number`, async ({
+  test(`${path} hand-off card carries no command-copy row and its WhatsApp button points at wa.me with the site number`, async ({
     page,
   }) => {
     await page.goto(path);
 
     const copyButtons = page.locator('.skill-handoff-dev .skill-cmd-copy');
-    await expect(copyButtons).toHaveCount(2);
+    await expect(copyButtons).toHaveCount(0);
 
     const waButton = page.locator(`[data-track="skill-handoff-whatsapp-${skillKey}"]`);
     await expect(waButton).toHaveAttribute('href', /^https:\/\/wa\.me\/972545053620\?text=/);

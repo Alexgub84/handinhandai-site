@@ -19,11 +19,19 @@
  * - full (no hand-off card above it, so this is the only place left to
  *   write to Alex from): adds the WhatsApp button and the disclosure.
  *
- * `AiAnswersNote` is imported, never re-typed as prose. Both `data-track`
+ * `AiAnswersNote` is imported, never re-typed as prose. All `data-track`
  * labels are computed from the slug, never hand-typed per guide:
- * `guide-about-examples-${slug}`, `guide-about-whatsapp-${slug}`. The root
- * element carries `data-track-section="about-alex"` so reach can be told
- * from clicks, the same contract `SkillHandoff.astro` already follows.
+ * `guide-about-examples-${slug}`, `guide-about-whatsapp-${slug}`,
+ * `guide-about-home-${slug}`. The root element carries
+ * `data-track-section="about-alex"` so reach can be told from clicks, the
+ * same contract `SkillHandoff.astro` already follows.
+ *
+ * Work order `guide-funnel-fix` (Alex, 2026-11-27, no issue): a plain link
+ * to the home page itself (`/`, not `/#example`) sits next to the existing
+ * examples link. Only 4 of 181 visits that begin on a guide ever reach the
+ * home page, where almost every contact click happens — this adds a second,
+ * plainer way there for a reader not drawn to "לראות מה בניתי". Reuses
+ * `.art-about-link` verbatim — no new class, no new component.
  */
 import WhatsAppIcon from "@components/home/WhatsAppIcon.astro";
 import AiAnswersNote from "@components/home/AiAnswersNote.astro";
@@ -38,6 +46,7 @@ const { slug, compact } = Astro.props;
 
 const examplesTrack = `guide-about-examples-${slug}`;
 const whatsappTrack = `guide-about-whatsapp-${slug}`;
+const homeTrack = `guide-about-home-${slug}`;
 const whatsappHref = waLink();
 ---
 
@@ -51,6 +60,7 @@ const whatsappHref = waLink();
   </p>
   <div class="art-about-actions">
     <a href="/#example" class="art-about-link" data-track={examplesTrack}>לראות מה בניתי</a>
+    <a href="/" class="art-about-link" data-track={homeTrack}>לדף הבית</a>
     {!compact && (
       <a
         href={whatsappHref}

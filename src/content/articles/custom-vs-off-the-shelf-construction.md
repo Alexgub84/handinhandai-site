@@ -6,7 +6,7 @@ publishedAt: 2026-11-05
 lastVerified: 2026-11-05
 pillar: "/#services"
 cluster: "construction"
-relatedArticles: ["off-the-ai-builder", "app-or-website"]
+relatedArticles: ["off-the-ai-builder", "app-or-website", "site-app-without-signal"]
 draft: false
 primaryQuery: "מערכת ניהול לחברת בנייה"
 secondaryQueries:

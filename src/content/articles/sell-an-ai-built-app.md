@@ -6,7 +6,7 @@ publishedAt: 2026-11-25
 lastVerified: 2026-11-25
 pillar: "/#services"
 cluster: "decision"
-relatedArticles: ["app-got-tangled", "off-the-ai-builder"]
+relatedArticles: ["app-got-tangled", "off-the-ai-builder", "terms-of-use-privacy-cost"]
 draft: false
 parts:
   - id: "who-is-this-for"

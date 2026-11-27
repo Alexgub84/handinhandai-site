@@ -6,7 +6,7 @@ publishedAt: 2026-11-13
 lastVerified: 2026-11-18
 pillar: "/#services"
 cluster: "publishing"
-relatedArticles: ["publish-app-to-stores", "app-or-website"]
+relatedArticles: ["publish-app-to-stores", "app-or-website", "do-you-need-a-mac"]
 draft: false
 offerService: true
 skill: "store-publishing"

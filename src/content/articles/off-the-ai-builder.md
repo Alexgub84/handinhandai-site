@@ -6,7 +6,7 @@ publishedAt: 2026-11-04
 lastVerified: 2026-11-05
 pillar: "/#services"
 cluster: "decision"
-relatedArticles: ["app-or-website", "freelancer-or-agency"]
+relatedArticles: ["app-or-website", "freelancer-or-agency", "app-got-tangled", "custom-vs-off-the-shelf-construction", "sell-an-ai-built-app"]
 draft: false
 primaryQuery: "לצאת מלאבבל"
 secondaryQueries:

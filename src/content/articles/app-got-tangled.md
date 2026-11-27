@@ -6,7 +6,7 @@ publishedAt: 2026-11-25
 lastVerified: 2026-11-25
 pillar: "/#services"
 cluster: "decision"
-relatedArticles: ["off-the-ai-builder", "freelancer-or-agency"]
+relatedArticles: ["off-the-ai-builder", "freelancer-or-agency", "does-my-app-have-holes", "sell-an-ai-built-app", "test-an-ai-built-app"]
 draft: false
 parts:
   - id: "who-is-this-for"
