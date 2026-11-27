@@ -6,7 +6,7 @@ publishedAt: 2026-11-04
 lastVerified: 2026-11-11
 pillar: "/#services"
 cluster: "decision"
-relatedArticles: ["freelancer-or-agency", "off-the-ai-builder"]
+relatedArticles: ["freelancer-or-agency", "off-the-ai-builder", "custom-vs-off-the-shelf-construction", "publish-app-to-stores", "site-app-without-signal", "web-app-to-store-shell"]
 draft: false
 primaryQuery: "אפליקציה או אתר"
 secondaryQueries:

@@ -6,7 +6,7 @@ publishedAt: 2026-11-25
 lastVerified: 2026-11-25
 pillar: "/#services"
 cluster: "decision"
-relatedArticles: ["sell-an-ai-built-app", "publish-app-to-stores"]
+relatedArticles: ["sell-an-ai-built-app", "publish-app-to-stores", "does-my-app-have-holes"]
 draft: false
 parts:
   - id: "who-is-this-for"
